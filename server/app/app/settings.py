@@ -135,6 +135,9 @@ LANGUAGE_CODE = "en-us"
 LANGUAGES= [('en', _('English')), ('ru', _("Russian"))]
 LOCALE_PATHS = [ BASE_DIR / 'locale']
 
+from main.utils.get_translation_version import get_translation_version
+TRANSLATION_VERSION = get_translation_version()
+
 
 TIME_ZONE = "UTC"
 
@@ -155,9 +158,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # CORS headers
 CORS_ORIGIN_ALLOW_ALL = True
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:5173",
-# ]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
 CORS_ALLOW_CREDENTIALS = True
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"

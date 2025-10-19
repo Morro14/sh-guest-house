@@ -19,7 +19,8 @@ class Command(BaseCommand):
 				self.stdout.write(f'Created {frontend_strins_path} file with {len(keys)} keys')
 		else:
 				self.stdout.write('No translation key file found')
-
 		self.stdout.write("Running makemessages...")
-		call_command('makemessages', all=True)
+		for lang_code, _ in settings.LANGUAGES:
+			self.stdout.write(f"Generating messages for {lang_code}...")
+			call_command('makemessages', locale=[lang_code])
 			

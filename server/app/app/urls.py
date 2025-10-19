@@ -17,11 +17,11 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
 
-
+print("Loaded translation version:", settings.TRANSLATION_VERSION)
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # path("test/", test_oauth_view),
-    path("api-v1/catalog/", include("main.urls")),
-    path("auth/", include("auth_app.urls")),
+    path("api/", include("main.urls")),
+    path("api-auth/", include("auth_app.urls")),
 ]

@@ -4,7 +4,7 @@
 @source "inline:bg-tag-pink bg-tag-blue";
 
 body {
-	@apply m-0 flex justify-center font-serif bg-white;
+	@apply m-0 flex justify-center font-serif bg-bg;
 }
 #root {
 	width: 100%;
@@ -15,25 +15,19 @@ body {
 }
 
 @theme {
-	--text-title: 34px;
 	--color-red-error: #ff2c2c;
-	--color-gray-line: rgb(164, 164, 164, 0.34);
+	--color-text-main: #4c3b33;
+	--color-bg: #fffbfb;
+	--color-line: #4c3b3350;
+	--color-accent: #764c38;
+	--color-olive: #d1d8b8;
+	--color-olive-light: #f0f3e5;
+	--color-olive-dark: #8ca47c;
+	--color-peach-light: #fdd2a9;
+	--color-peach: #efa76a;
 
-	--color-gray-1: #a4a4a4;
-	--color-gray-2: #5f5f5f;
-	--color-gray-3: #dbdbdb;
-	--color-gray-4: #ededed;
-	--color-green-dark: #009071;
-	--color-green-medium: rgb(51, 165, 140, 0.59);
-	--color-green-light: rgb(51, 165, 140, 0.12);
-	--width-container-index: 800px;
-	--color-dark-green: #009071;
 	--font-sans: "Source Sans 3", sans-serif;
 	--font-serif: "Lora", serif;
-	--color-tag-pink: #ffcbfd;
-	--color-tag-blue: #cce4ff;
-	--color-tag-orange: #ffe7cc;
-	--color-tag-green: #ccffce;
 }
 
 h1 {
@@ -59,22 +53,6 @@ h3 {
 	);
 }
 
-.gr-gray-line {
-	background: #ffffff;
-	background: linear-gradient(
-		90deg,
-		rgba(255, 255, 255, 1) 0%,
-		rgba(164, 164, 164, 0.34) 5%
-	);
-}
-.gr-gray-line-v {
-	background: #ffffff;
-	background: linear-gradient(
-		180deg,
-		rgba(255, 255, 255, 1) 0%,
-		rgba(164, 164, 164, 0.34) 5%
-	);
-}
 .input-login {
 	@apply border border-[var(--color-gray-1)] rounded-sm font-sans text-lg w-[240px] h-[36px] px-3 text-[var(--color-gray-1)];
 }

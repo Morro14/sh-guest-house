@@ -22,7 +22,7 @@ export default function Authorized({ username, auth, setAuth }: any) {
 					to="/catalog"
 					className="button-login text-center"
 				>
-					Open catalog
+					Open *protected page*
 				</Link>
 				<div
 					className="font-light underline text-center cursor-pointer"
