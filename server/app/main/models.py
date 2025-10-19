@@ -14,6 +14,7 @@ class Reservation(models.Model):
 	check_out = models.DateField()
 	rooms = models.ManyToManyField(to="Room")
 
+	# add rooms to check for overlapping reservations before saving
 	def __init__(self, *args, rooms=None,**kwargs):
 		super().__init__(*args,  **kwargs)
 		self._unsaved_rooms = rooms or []
