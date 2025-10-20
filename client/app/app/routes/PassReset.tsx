@@ -1,5 +1,5 @@
 import { useState } from "react";
-import serverURL from "~/main";
+import serverURL from "~/root";
 import axios from "axios";
 import { Form } from "react-router";
 

@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { axiosInstance } from "~/main.tsx";
+import { axiosInstance } from "~/root.tsx";
 const LOGOUT_URL = "auth/logout";
 export default function Authorized({ username, auth, setAuth }: any) {
 	const handleLogout = async () => {

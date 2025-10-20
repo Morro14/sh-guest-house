@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { axiosInstance } from "~/main";
+import { axiosInstance } from "~/root";
 
 export function useFetchV3(url: string, valid = true, timeout = 0) {
 	const [loading, setLoading] = useState(true);

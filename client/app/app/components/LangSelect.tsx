@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { Form } from "react-router";
 
 export default function LangSelect() {
 	const { t, i18n } = useTranslation();
@@ -6,24 +7,27 @@ export default function LangSelect() {
 		{ code: "en", label: "English" },
 		{ code: "ru", label: "Русский" },
 	];
-	const handleChange = (e: any) => {
-		const lang = e.target.value;
-		i18n.changeLanguage(lang);
-	};
+
 	return (
 		<div>
-			<select onChange={handleChange}>
-				{languages.map((lang) => {
-					return (
-						<option
-							key={"opt-lang-" + lang.code}
-							value={lang.code}
-						>
-							{lang.label}
-						</option>
-					);
-				})}
-			</select>
+			<Form>
+				<select
+					name="lang-select"
+					defaultValue={i18n.language}
+					onChange={(e) => i18n.changeLanguage(e.target.value)}
+				>
+					{languages.map((lang) => {
+						return (
+							<option
+								key={"opt-lang-" + lang.code}
+								value={lang.code}
+							>
+								{lang.label}
+							</option>
+						);
+					})}
+				</select>
+			</Form>
 		</div>
 	);
 }

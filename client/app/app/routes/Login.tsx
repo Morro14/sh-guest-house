@@ -1,7 +1,7 @@
 import { Form } from "react-router";
 import v from "~/utils/validators";
 import axios from "axios";
-import { serverURL } from "~/main";
+import { serverURL } from "~/root";
 import { useState, type ChangeEvent } from "react";
 import { useNavigate } from "react-router";
 import startGoogleAuthFlow from "~/utils/google/authflow";

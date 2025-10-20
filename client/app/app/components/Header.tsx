@@ -1,10 +1,11 @@
-import { axiosInstance } from "~/main.tsx";
+import { axiosInstance } from "~/root.tsx";
 const LOGOUT_URL = "auth/logout";
 import { useState } from "react";
 import { Link } from "react-router";
 import langArrow from "root/src/assets/lang_arrow 1.svg";
 import BookingPannel from "./Booking";
 import { useTranslation } from "react-i18next";
+import LangSelect from "./LangSelect";
 
 export default function Header() {
 	// const handleAuth = async () => {
@@ -19,6 +20,7 @@ export default function Header() {
 	const { t, i18n } = useTranslation();
 	// const testString = t("test");
 	// console.log(testString);
+
 	return (
 		<header className="flex flex-col items-center h-[97px] w-screen bg-olive-light">
 			<div className="flex justify-between items-center w-screen px-7 h-12">
@@ -45,11 +47,7 @@ export default function Header() {
 				</div>
 				<div className="flex items-center text-base font-sans gap-7">
 					<div className="flex justify-center">
-						<img
-							src={langArrow}
-							alt="lang-arrow-img"
-						/>
-						<div>EN</div>
+						<LangSelect></LangSelect>
 					</div>
 					<button
 						// onClick={}
