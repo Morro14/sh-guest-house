@@ -17,8 +17,11 @@ class Command(BaseCommand):
 				for key in keys:
 					f.write(f"_('{key}')\n")
 				self.stdout.write(f'Created {frontend_strins_path} file with {len(keys)} keys')
+				f.close()
 		else:
 				self.stdout.write('No translation key file found')
+				
+		# TODO Not picking up new strings for some reason
 		self.stdout.write("Running makemessages...")
 		for lang_code, _ in settings.LANGUAGES:
 			self.stdout.write(f"Generating messages for {lang_code}...")

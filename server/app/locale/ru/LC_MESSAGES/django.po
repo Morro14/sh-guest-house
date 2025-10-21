@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-19 16:38+0000\n"
+"POT-Creation-Date: 2025-10-21 18:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,13 +29,35 @@ msgid "Russian"
 msgstr "Русский"
 
 #: main/utils/frontend_tr_strings.py:3
-msgid "test"
-msgstr "тест"
+msgid "adultsWithCount_one"
+msgstr ""
 
 #: main/utils/frontend_tr_strings.py:4
+msgid "adultsWithCount_other"
+msgstr ""
+
+#: main/utils/frontend_tr_strings.py:5
+msgid "childrenWithCount_one"
+msgstr ""
+
+#: main/utils/frontend_tr_strings.py:6
+msgid "childrenWithCount_other"
+msgstr ""
+
+#: main/utils/frontend_tr_strings.py:7
 msgid "CONTACTS"
 msgstr "КОНТАКТЫ"
 
-#: main/utils/frontend_tr_strings.py:5
-msgid "welcome"
-msgstr "Добро пожаловать!"
+#: main/utils/frontend_tr_strings.py:8
+msgid "day_one"
+msgstr ""
+
+#: main/utils/frontend_tr_strings.py:9
+msgid "day_other"
+msgstr ""
+
+#~ msgid "welcome"
+#~ msgstr "Добро пожаловать!"
+
+#~ msgid "test"
+#~ msgstr "тест"
