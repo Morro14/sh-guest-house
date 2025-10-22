@@ -1,5 +1,21 @@
 {
+  "adults_other": "",
+  "adultsWithCount_one": "",
+  "adultsWithCount_few": "",
+  "adultsWithCount_many": "",
+  "adultsWithCount_other": "",
+  "availableDateTime": "",
+  "childrenWithCount_one": "",
+  "childrenWithCount_few": "",
+  "childrenWithCount_many": "",
+  "childrenWithCount_other": "",
   "CONTACTS": "",
-  "test": "",
+  "day_one": "",
+  "day_few": "",
+  "day_many": "",
+  "day_other": "",
+  "There must be at least 1 guest": {
+    "": ""
+  },
   "welcome": ""
 }

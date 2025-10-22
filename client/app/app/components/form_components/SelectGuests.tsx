@@ -28,7 +28,7 @@ export default function SelectGuests() {
 				id="select-adults"
 				defaultValue={2}
 				className="guest-input border-accent border-1 rounded-sm px-2 bg-bg opacity-0 transition-all duration-200"
-				name="num-adults"
+				name="adults"
 				onChange={(e) =>
 					context.setSelect({
 						...context.select,
@@ -41,7 +41,7 @@ export default function SelectGuests() {
 			<select
 				id="select-children"
 				className="guest-input border-accent border-1 rounded-sm px-2 bg-bg opacity-0 transition-all duration-200"
-				name="num-children"
+				name="children"
 				onChange={(e) =>
 					context.setSelect({
 						...context.select,

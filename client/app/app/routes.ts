@@ -5,4 +5,7 @@ import {
 	index,
 } from "@react-router/dev/routes";
 
-export default [index("routes/Main.tsx")] satisfies RouteConfig;
+export default [
+	index("routes/Main.tsx"),
+	route("/booking", "routes/Booking.tsx"),
+] satisfies RouteConfig;
