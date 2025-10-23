@@ -9,7 +9,7 @@ User = get_user_model()
 
 
 class Reservation(models.Model):
-	user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+	user = models.ForeignKey(to=User, blank=True, default=None, null=True, on_delete=models.CASCADE)
 	check_in = models.DateField()
 	check_out = models.DateField()
 	rooms = models.ManyToManyField(to="Room")

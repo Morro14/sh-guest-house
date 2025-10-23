@@ -6,6 +6,7 @@ from .models import Reservation
 User = get_user_model()
 from datetime import date
 from .models import Room
+from django.db.models import OuterRef, Exists, Q
 
 
 class CurrentTest(TestCaseDj):
@@ -23,4 +24,18 @@ class CurrentTest(TestCaseDj):
 
         r2 = Reservation(user=user, check_in="2025-10-27", check_out="2025-10-26", rooms=[room1])
         r2.save() 
+
+    def test_get_available_rooms(self):
+        check_in = date.fromisoformat('2025-10-25')
+        check_out = date.fromisoformat('2025-10-26')
+
+        room1 = Room.objects.create(name="Room 1", adults_num=2, children_num=0)
+        room2 = Room.objects.create(name="Room 2", adults_num=3, children_num=1)
+        r1 = Reservation.objects.create(check_in="2025-10-25", check_out="2025-10-26", rooms=[room1])
+        # r2 = Reservation.objects.create(check_in="2025-10-25", check_out="2025-10-27", rooms=[room1])
+        overlapping_res = Reservation.objects.filter(rooms=OuterRef('pk'),check_in__lt=check_out, check_out__gt=check_in)
+        available_rooms = Room.objects.annotate(is_reserved=Exists(overlapping_res)).filter(is_reserved=False)
+
+        # print('overlapping_res',overlapping_res) 
+        print('available rooms',available_rooms)
 

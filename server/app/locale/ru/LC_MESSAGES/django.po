@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-21 18:05+0000\n"
+"POT-Creation-Date: 2025-10-23 06:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,6 +54,14 @@ msgstr ""
 
 #: main/utils/frontend_tr_strings.py:9
 msgid "day_other"
+msgstr ""
+
+#: main/utils/frontend_tr_strings.py:10
+msgid "There must be at least 1 guest"
+msgstr ""
+
+#: main/utils/frontend_tr_strings.py:11
+msgid "availableDate"
 msgstr ""
 
 #~ msgid "welcome"

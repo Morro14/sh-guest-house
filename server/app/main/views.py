@@ -6,16 +6,27 @@ from django.utils import translation
 from django.conf import settings
 import os, json
 from django.utils.translation import gettext as _
-from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_headers
 from django.utils.decorators import method_decorator
 from django.core.cache import cache
-
+from .queries import get_available_rooms
+from .serializers import RoomSerializer
 
 load_dotenv()
 
 User = get_user_model()
 
+
+class BookingView(APIView):
+    permission_classes = []
+    authentication_classes = []
+    def post(self, request):
+        data = request.POST
+        print('booking view request data:',data)
+        available_rooms = get_available_rooms(data.get('date'), data.get('days'))
+        serializer= RoomSerializer(available_rooms, many=True)
+        return Response({"rooms":serializer.data})
+        
 
 
 class TranslationView(APIView):

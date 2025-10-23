@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import TranslationView
+from .views import TranslationView, BookingView
 
 urlpatterns = [
-	path('translation', TranslationView.as_view())
+	path('translation', TranslationView.as_view()),
+	path('booking', BookingView.as_view()),
 
 ]
