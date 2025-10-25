@@ -6,14 +6,15 @@ import {
 	Outlet,
 	type LoaderFunctionArgs,
 } from "react-router";
-export const serverURL = "http://127.0.0.1:8000/";
+
 import axios from "axios";
 import "root/src/i18n/i18n.ts";
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+console.log("server url", SERVER_URL);
 
 axios.defaults.withCredentials = true;
 export const axiosInstance = axios.create({
-	baseURL: serverURL,
+	baseURL: SERVER_URL + "/api/",
 	// timeout: 10000,
 });
 

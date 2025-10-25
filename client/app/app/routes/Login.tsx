@@ -1,12 +1,12 @@
 import { Form } from "react-router";
 import v from "~/utils/validators";
 import axios from "axios";
-import { serverURL } from "~/root";
+
 import { useState, type ChangeEvent } from "react";
 import { useNavigate } from "react-router";
 import startGoogleAuthFlow from "~/utils/google/authflow";
-
-const loginURL = serverURL + "/auth/login";
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+const loginURL = SERVER_URL + "/auth/login";
 
 export default function Login() {
 	const nav = useNavigate();

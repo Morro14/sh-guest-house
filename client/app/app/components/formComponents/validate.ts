@@ -9,8 +9,9 @@ export function validate(formData: any) {
 		formData.get("adults"),
 		formData.get("children")
 	);
-	console.log(isDateValid, isGuestsValid);
-	return [isDateValid, isGuestsValid];
+	const isDaysValid = validateDays(formData.get("days"));
+	console.log(isDateValid, isGuestsValid, isDaysValid);
+	return [isDateValid, isGuestsValid, isDaysValid];
 }
 
 function validateDate(date: string) {
@@ -36,16 +37,27 @@ function validateDate(date: string) {
 	}
 	const isValid =
 		Temporal.PlainDateTime.compare(selectDatePlusDay, boundary) === 1;
+	// const today = Temporal.Now.instant().toString();
+	// console.log("today", today);
+	const todayDate = new Date();
 	if (!isValid) {
 		return {
 			valid: false,
-			message: i18n.t("availableDateTime", {
-				val: now.toLocaleString(),
+			message: i18n.t("availableDate", {
+				val: new Date(
+					Date.UTC(
+						todayDate.getFullYear(),
+						todayDate.getMonth(),
+						todayDate.getDate()
+					)
+				),
 				formatParams: {
-					weekday: "long",
-					year: "numeric",
-					month: "long",
-					day: "numeric",
+					val: {
+						weekday: "long",
+						year: "numeric",
+						month: "long",
+						day: "numeric",
+					},
 				},
 			}),
 		};
@@ -60,6 +72,14 @@ function validateGuests(adultsStr: string, childrenStr: string) {
 			valid: false,
 			message: i18n.t("There must be at least 1 guest."),
 		};
+	}
+	return { valid: true };
+}
+
+function validateDays(days: string) {
+	const isDigit = days.trim().match(/\d/);
+	if (!isDigit) {
+		return { valid: false, message: i18n.t("Days must be a number.") };
 	}
 	return { valid: true };
 }

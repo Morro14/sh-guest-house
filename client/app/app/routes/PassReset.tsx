@@ -1,12 +1,10 @@
 import { useState } from "react";
-import serverURL from "~/root";
-import axios from "axios";
 import { Form } from "react-router";
 
 export default function PassReset() {
 	const [loading, setLoading] = useState(true);
 	const [email, setEmail] = useState("");
-	const url = serverURL + "auth/get-token";
+
 	// Form
 
 	return (

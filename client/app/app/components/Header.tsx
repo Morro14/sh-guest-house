@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import BookingPannel from "./BookingPannel";
+import BookingPanel from "./BookingPanel";
 import { useTranslation } from "react-i18next";
 import LangSelect from "./LangSelect";
 
@@ -45,7 +45,7 @@ export default function Header() {
 					</button>
 				</div>
 			</div>
-			<BookingPannel></BookingPannel>
+			<BookingPanel></BookingPanel>
 		</header>
 	);
 }

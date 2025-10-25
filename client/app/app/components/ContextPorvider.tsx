@@ -8,7 +8,7 @@ export default function ContextProvider({ children, params }) {
 	const [displaySelect, setDisplaySelect] = useState(false);
 	const [daysCount, setDaysCount] = useState(1);
 	const errors = params.errors;
-	// const [errors, setErrors] = useState();
+	const [errorState, setErrorState] = useState<null | Array<Object>>();
 	return (
 		<BookingContext
 			value={{
@@ -19,6 +19,8 @@ export default function ContextProvider({ children, params }) {
 				daysCount,
 				setDaysCount,
 				errors,
+				errorState,
+				setErrorState,
 			}}
 		>
 			{children}

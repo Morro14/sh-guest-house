@@ -9,13 +9,14 @@
 		"start": "react-router-serve ./build/server/index.js",
 		"lint": "eslint .",
 		"preview": "vite preview",
-		"extract-translations": "i18next --config i18next-parser.config.cjs"
+		"makemessages": "i18next --config i18next-parser.config.cjs"
 	},
 	"dependencies": {
 		"@js-temporal/polyfill": "^0.5.1",
 		"@react-router/node": "^7.9.1",
 		"@react-router/serve": "^7.9.1",
 		"axios": "^1.11.0",
+		"embla-carousel-react": "^8.6.0",
 		"i18next": "^25.6.0",
 		"i18next-browser-languagedetector": "^8.2.0",
 		"i18next-http-backend": "^3.0.2",
