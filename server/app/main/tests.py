@@ -2,7 +2,7 @@ from django.test import TestCase as TestCaseDj
 from django.contrib.auth import get_user_model
 from auth_app.utils.jwt_ import CustomJWTTest
 from django.core.management import call_command
-from .models import Reservation
+from .models import Reservation, ContentPage
 User = get_user_model()
 from datetime import date
 from .models import Room
@@ -11,8 +11,10 @@ from django.db.models import OuterRef, Exists, Q
 
 class CurrentTest(TestCaseDj):
     def setUp(self):
-
-        pass
+        ContentPage.objects.create(slug='content_1', title='Content 1', body='Body Content 1')
+        ContentPage.objects.create(slug='content_2', title='Content 2', body='Body Content 2')
+        ContentPage.objects.create(slug='content_3', title='Content 3', body='Body Content 3')
+        
     
     def test_res_overlap(self):
         user = User.objects.create_user(email="test@email.com", password="password123")
@@ -38,4 +40,9 @@ class CurrentTest(TestCaseDj):
 
         # print('overlapping_res',overlapping_res) 
         print('available rooms',available_rooms)
+    def test_get_content(self):
+        existing_translations = {'str':'str_tr'}
+        content_instances = ContentPage.objects.all()
+        content_formatted = {c.slug: {'title':c.title, 'body':c.body} for c in content_instances}
+        existing_translations.update(content_formatted)
 

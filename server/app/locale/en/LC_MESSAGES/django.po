@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-23 06:02+0000\n"
+"POT-Creation-Date: 2025-10-24 15:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,13 +18,73 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app/settings.py:135
+#: app/settings.py:136
 msgid "English"
 msgstr ""
 
-#: app/settings.py:135
+#: app/settings.py:136
 msgid "Russian"
 msgstr ""
+
+#: main/models.py:52
+msgid "Room_slug"
+msgstr "slug"
+
+#: main/models.py:52
+msgid "Room_slug_helptext"
+msgstr "Identifier. Only for development."
+
+#: main/models.py:53
+msgid "Room_name"
+msgstr "Name"
+
+#: main/models.py:54
+msgid "Room_adults_num"
+msgstr "Number of adults"
+
+#: main/models.py:55
+msgid "Room_children_num"
+msgstr "Number of children"
+
+#: main/models.py:58
+msgid "Room"
+msgstr ""
+
+#: main/models.py:59
+msgid "Rooms"
+msgstr ""
+
+#: main/models.py:64
+#, fuzzy
+#| msgid "Content_page"
+msgid "Content_slug"
+msgstr "Page content"
+
+#: main/models.py:64
+#, fuzzy
+#| msgid "Content_page_title"
+msgid "Content_slug_helptext"
+msgstr "Title"
+
+#: main/models.py:65
+msgid "Content_page_title"
+msgstr "Title"
+
+#: main/models.py:66
+msgid "Write the content in Markdown fromat."
+msgstr ""
+
+#: main/models.py:66
+msgid "Content_page_body"
+msgstr "Body"
+
+#: main/models.py:70
+msgid "Content_page"
+msgstr "Page content"
+
+#: main/models.py:71
+msgid "Content_pages"
+msgstr "Pages content"
 
 #: main/utils/frontend_tr_strings.py:3
 msgid "adultsWithCount_one"

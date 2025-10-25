@@ -1,5 +1,5 @@
 from datetime import date, timedelta
-from main.models import Reservation, Room
+from .models import Reservation, Room, ContentPage
 from django.db.models import OuterRef, Exists
 
 def get_available_rooms(check_in_str, days):

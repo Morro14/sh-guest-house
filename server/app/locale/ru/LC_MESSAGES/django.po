@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-23 06:02+0000\n"
+"POT-Creation-Date: 2025-10-24 15:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,13 +20,69 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: app/settings.py:135
+#: app/settings.py:136
 msgid "English"
 msgstr ""
 
-#: app/settings.py:135
+#: app/settings.py:136
 msgid "Russian"
 msgstr "Русский"
+
+#: main/models.py:52
+msgid "Room_slug"
+msgstr "уникальное имя"
+
+#: main/models.py:52
+msgid "Room_slug_helptext"
+msgstr "Идентификатор. Только для разработчика."
+
+#: main/models.py:53
+msgid "Room_name"
+msgstr "имя комнаты"
+
+#: main/models.py:54
+msgid "Room_adults_num"
+msgstr "кол-во взрослых"
+
+#: main/models.py:55
+msgid "Room_children_num"
+msgstr "кол-во детей"
+
+#: main/models.py:58
+msgid "Room"
+msgstr "комната"
+
+#: main/models.py:59
+msgid "Rooms"
+msgstr "комнаты"
+
+#: main/models.py:64
+msgid "Content_slug"
+msgstr "уникальное имя"
+
+#: main/models.py:64
+msgid "Content_slug_helptext"
+msgstr "Идентификатор. Только для разработчика."
+
+#: main/models.py:65
+msgid "Content_page_title"
+msgstr "заголовок"
+
+#: main/models.py:66
+msgid "Write the content in Markdown fromat."
+msgstr "Добавьте текст в формате markdown."
+
+#: main/models.py:66
+msgid "Content_page_body"
+msgstr "Содержание"
+
+#: main/models.py:70
+msgid "Content_page"
+msgstr "Содержание страницы"
+
+#: main/models.py:71
+msgid "Content_pages"
+msgstr "Содержание страниц"
 
 #: main/utils/frontend_tr_strings.py:3
 msgid "adultsWithCount_one"

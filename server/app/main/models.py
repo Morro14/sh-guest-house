@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 from datetime import timedelta
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 
 User = get_user_model()
@@ -48,9 +49,41 @@ class Reservation(models.Model):
 	
 
 class Room(models.Model):
-	name = models.CharField(max_length=255)
-	adults_num = models.IntegerField()
-	children_num = models.IntegerField()
+	slug = models.SlugField(unique=True, verbose_name=_('Room_slug'), help_text=_('Room_slug_helptext'))
+	name = models.CharField(max_length=255, verbose_name=_('Room_name'))
+	adults_num = models.IntegerField(verbose_name=_("Room_adults_num"))
+	children_num = models.IntegerField(verbose_name=_("Room_children_num"))
+
+	class Meta:
+		verbose_name = _("Room")
+		verbose_name_plural = _("Rooms")
 
 
 
+class ContentPage(models.Model):
+	slug = models.SlugField(unique=True,verbose_name=_('Content_slug'), help_text=_('Content_slug_helptext'))
+	title = models.CharField(max_length=255, verbose_name=_('Content_page_title'))
+	body = models.TextField(help_text=_("Write the content in Markdown fromat."), verbose_name=_('Content_page_body'))
+	updated_at = models.DateTimeField(auto_now=True)
+	
+	class Meta:
+		verbose_name = _("Content_page")
+		verbose_name_plural = _("Content_pages")
+
+	def __str__(self):
+		return self.title
+	
+class Image(models.Model):
+	image = models.ImageField(upload_to='static/img/')
+	alt_text = models.CharField(max_length=255, blank=True)
+	order = models.PositiveBigIntegerField(default=0)
+	
+	class Meta:
+		ordering = ["order"]
+	def __str__(self):
+		return self.image.name
+	
+class RoomImage(Image):
+	room = models.ForeignKey(to=Room, on_delete=models.CASCADE, related_name='image', related_query_name='images')
+	def __str__(self):
+		return f"{self.room.name} #{self.order}"

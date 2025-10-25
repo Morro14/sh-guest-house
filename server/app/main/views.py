@@ -11,6 +11,8 @@ from django.utils.decorators import method_decorator
 from django.core.cache import cache
 from .queries import get_available_rooms
 from .serializers import RoomSerializer
+from .models import ContentPage, Room
+
 
 load_dotenv()
 
@@ -28,6 +30,14 @@ class BookingView(APIView):
         return Response({"rooms":serializer.data})
         
 
+class RoomsView(APIView):
+    permission_classes = []
+    authentication_classes = []
+    def get(self, request):
+        rooms = Room.objects.all()
+        seriallizer = RoomSerializer(rooms, many=True)
+        return Response({"rooms": seriallizer.data})
+    
 
 class TranslationView(APIView):
     permission_classes = []
@@ -48,6 +58,16 @@ class TranslationView(APIView):
         translation.activate(lang)
 
         translations = {key: _(key) for key in keys}
+        # add model translations
+        content_instances = ContentPage.objects.all()
+        content_formatted = {c.slug: {'title':c.title, 'body':c.body, 'slug': c.slug} for c in content_instances}
+        translations.update(content_formatted)
+        room_instances = Room.objects.all()
+        # print('room images',room_instances[0].images)
+        room_instances_dict = {r.slug: {'name':r.name, 'adults_num': r.adults_num, 'children_num': r.children_num} for r in room_instances}
+        translations.update(room_instances_dict)
+
+
         print('translations:',translations)
         response = Response(translations)
         print("setting cache")
