@@ -2,7 +2,7 @@ import { Form } from "react-router";
 import SelectGuests from "./formComponents/SelectGuests";
 import { useContextProvider } from "./ContextPorvider";
 import { useTranslation } from "react-i18next";
-import ErrorPannel from "./formComponents/ErrorPanel";
+import ErrorPanel from "./formComponents/ErrorPanel";
 
 export default function BookingPannel() {
 	const { t } = useTranslation();
@@ -30,7 +30,6 @@ export default function BookingPannel() {
 								name="date"
 								type="date"
 								placeholder="Date"
-								className=""
 							/>
 						</div>
 					</label>
@@ -65,7 +64,7 @@ export default function BookingPannel() {
 					<div className="w-[1px] bg-line-light h-8"></div>
 				</Form>
 			</div>
-			<ErrorPannel></ErrorPannel>
+			<ErrorPanel></ErrorPanel>
 		</div>
 	);
 }

@@ -1,1 +1,2 @@
-1. Error handling for authorization
+1. Static text upload
+2. 

@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "main",
     "auth_app",
+    "easy_thumbnails",
+    "image_cropping",
     "rest_framework",
     "django_rest_passwordreset",
     "corsheaders",
@@ -149,11 +151,20 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
-
+MEDIA_URL = '/media/'
 STATIC_URL = "static/"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+STATIC_ROOT = "staticfiles"
+
+IMAGE_CROPPING_BACKEND = 'image_cropping.backends.easy_thumbs.EasyThumbnailsBackend'
+IMAGE_CROPPING_BACKEND_PARAMS = {}
+
+THUMBNAIL_BASEDIR = 'thumbnails'
+THUMBNAIL_MEDIA_ROOT = BASE_DIR/'thumbnails'
+THUMBNAIL_MEDIA_URL = '/thumbnails/'
+
 
 
 # Default primary key field type

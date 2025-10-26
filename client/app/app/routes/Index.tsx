@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { EmblaCarousel } from "~/components/index/Carousel";
+import { CarouselMain } from "~/components/index/Carousel";
 import Line from "~/components/index/Line";
 import Paragraph from "~/components/index/Paragraph";
 import RoomsPreview from "~/components/index/Rooms";
@@ -12,7 +12,7 @@ export default function Index() {
 
 			<div className="flex flex-col gap-6 mb-2">
 				<Line></Line>
-				<EmblaCarousel></EmblaCarousel>
+				<CarouselMain></CarouselMain>
 				<Line></Line>
 			</div>
 

@@ -2,7 +2,7 @@ import { useContextProvider } from "../ContextPorvider";
 import { useRef, useEffect } from "react";
 import { useNavigation, useActionData } from "react-router";
 
-export default function ErrorPannel() {
+export default function ErrorPanel() {
 	const pannelRef = useRef<HTMLDivElement>(null);
 	const context = useContextProvider();
 	useEffect(() => {

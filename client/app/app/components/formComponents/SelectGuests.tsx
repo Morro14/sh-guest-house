@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useContextProvider } from "../ContextPorvider";
 import { useRef } from "react";
-import { useCloseOnClick } from "../utils/components";
+import { useCloseOnClick } from "./utils";
 
 export default function SelectGuests() {
 	const context = useContextProvider();

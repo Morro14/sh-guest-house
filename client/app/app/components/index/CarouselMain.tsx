@@ -1,7 +1,7 @@
 import useEmblaCarousel from "embla-carousel-react";
 import { useEffect } from "react";
 
-export function EmblaCarousel() {
+export function CarouselMain() {
 	const [emblaRef, emblaApi] = useEmblaCarousel({
 		startIndex: 1,
 

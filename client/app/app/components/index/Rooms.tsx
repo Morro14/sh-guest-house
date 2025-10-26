@@ -5,7 +5,7 @@ export default function RoomsPreview({ params }: any) {
 	const { fetchedData, loading } = useFetchV3("rooms");
 	const [room, setRoom] = useState();
 	if (!loading) {
-		console.log(fetchedData);
+		console.log("rooms", fetchedData);
 	}
 	return (
 		<div className="flex justify-between">
