@@ -88,13 +88,13 @@ class Image(models.Model):
     
 
     
-    def get_variant_url(self, size, box=None, quality=80, blur=False, sub_dir=''):
+    def get_variant_url(self, size, box=None, quality=80, blur=False):
         options = {
             "size": size,
             "crop": True,
             "detail": True,
             "quality": quality,
-            "subdir": sub_dir,
+
         }
         if box:
             options["box"] = box
@@ -108,11 +108,10 @@ class Image(models.Model):
     @property
     def variants(self):
         results = {
-            "blur": self.get_variant_url(self.blur_res, self.cropping_blur, blur=True, sub_dir='blur'),
-            "small": self.get_variant_url(self.small_res, self.cropping_small, sub_dir='small'),
-            "main": self.get_variant_url(self.main_res, self.cropping_main, quality=90, sub_dir='main')
+            "blur": self.get_variant_url(self.blur_res, self.cropping_blur, blur=True),
+            "small": self.get_variant_url(self.small_res, self.cropping_small),
+            "main": self.get_variant_url(self.main_res, self.cropping_main)
                 }
-        print(results)
         return results
 
     class Meta:
@@ -123,12 +122,10 @@ class Image(models.Model):
     
 
 class RoomImage(Image):
-    small_res = (688, 388)
+    small_res = (700, 0)
     blur_res = (20, 12)
 
     room = models.ForeignKey(to=Room, on_delete=models.CASCADE, related_name='image', related_query_name='images')
-    def save(self, *args, **kwargs):
-        self.image_full.name = f'{self.alt_text}-{self.order}'
-        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.room.name} #{self.order}"

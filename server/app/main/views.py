@@ -11,7 +11,7 @@ from django.utils.decorators import method_decorator
 from django.core.cache import cache
 from .queries import get_available_rooms
 from .serializers import RoomSerializer
-from .models import ContentPage, Room
+from .models import ContentPage, Room, RoomImage
 
 
 load_dotenv()
@@ -34,9 +34,9 @@ class RoomSetView(APIView):
     permission_classes = []
     authentication_classes = []
     def get(self, request):
-        rooms = Room.objects.all()
-        seriallizer = RoomSerializer(rooms, many=True)
-        return Response({"rooms": seriallizer.data})
+        rooms = Room.objects.prefetch_related('image').all()
+        rooms_serial = RoomSerializer(rooms, many=True)
+        return Response({"data": rooms_serial.data})
 
 
 class TranslationView(APIView):
