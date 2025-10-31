@@ -13,8 +13,6 @@ export function useFetchV3(url: string, valid = true, timeout = 0) {
 		if (!loading) {
 			return;
 		}
-		// console.log("hook url", url);
-		// console.log("sending request");
 
 		axiosInstance
 			.get(url, { timeout: timeout })

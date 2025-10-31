@@ -12,7 +12,7 @@ i18n
 	.init({
 		fallbackLng: "en",
 		supportedLngs: ["en", "ru"], // add your available languages
-		debug: import.meta.env.DEV, // optional, logs detection
+		// debug: import.meta.env.DEV, // optional, logs detection
 
 		detection: {
 			order: [
