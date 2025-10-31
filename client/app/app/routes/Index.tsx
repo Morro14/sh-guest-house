@@ -30,6 +30,7 @@ export default function Index() {
         <RoomsContextProvider>
           <RoomsPreview></RoomsPreview>
         </RoomsContextProvider>
+        <div className="h-40"></div>
       </div>
     </div>
   );

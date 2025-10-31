@@ -12,7 +12,7 @@ export default function NavLinkRoom({ room, index }) {
           context.setRoomSelected(index)
           context.setLastSelected({ current: index, prev: context.lastSelected.current })
         }}
-        className="bg-transparent h-[77px] peer-checked:bg-peach-light"
+        className="bg-transparent hover:bg-peach-superlight hover:transition-colors h-[77px]"
       >
         <div className="text-xl font-serif">{room.name}</div>
         <div className="flex gap-2" key={`${room.slug}-select-room-info`}>

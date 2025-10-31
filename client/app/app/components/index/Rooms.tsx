@@ -40,9 +40,9 @@ export default function RoomsPreview({ params }: any) {
     </div>
     :
     <div>
-      <div className=" overflow-hidden 2xl:h-[388px] flex justify-between">
+      <div className="flex justify-between">
         {currentRoomCarousel}
         <Nav rooms={data}></Nav>{" "}
-      </div>;
+      </div>
     </div>
 }
