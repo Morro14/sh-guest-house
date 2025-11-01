@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useFetchV3 } from "~/utils/fetchHook";
 import { CarouselRoom } from "./CarouselRooms";
-import Nav from "./Nav";
+import Nav from "../nav/Nav";
 import RoomsContextProvider from "./RoomsContextProvider";
 import { useRoomContextProvider } from "./RoomsContextProvider";
 export interface Image {

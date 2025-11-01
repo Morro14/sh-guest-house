@@ -30,8 +30,14 @@ export default function Index() {
         <RoomsContextProvider>
           <RoomsPreview></RoomsPreview>
         </RoomsContextProvider>
-        <div className="h-40"></div>
+        <div className="h-40">
+          <div className="mt-6 relative flex">
+            <div className="h-6 w-6 bg-olive-dark"></div>
+            <div className="absolute left-3 h-6 w-6 bg-peach"></div>
+          </div>
+        </div>
       </div>
+
     </div>
   );
 }

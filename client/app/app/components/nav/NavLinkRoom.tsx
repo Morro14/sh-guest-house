@@ -1,4 +1,4 @@
-import { useRoomContextProvider } from "./RoomsContextProvider";
+import { useRoomContextProvider } from "~/components/index/RoomsContextProvider";
 
 export default function NavLinkRoom({ room, index }) {
   const context = useRoomContextProvider();

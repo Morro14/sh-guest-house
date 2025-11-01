@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import NavLinkRoom from "./NavLinkRoom.tsx";
-import type { Room } from "./Rooms.tsx";
-import { useRoomContextProvider } from "./RoomsContextProvider.tsx";
+import type { Room } from "~/components/index/Rooms.tsx";
+import { useRoomContextProvider } from "~/components/index/RoomsContextProvider.tsx";
 import useFloatingSelector from "../FloatingSelector.ts";
 
 export default function Nav({ rooms }: { rooms: Array<Room> }) {
