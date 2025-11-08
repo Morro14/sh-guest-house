@@ -1,13 +1,11 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useFetchV3 } from "~/utils/fetchHook";
 import { CarouselRoom } from "./CarouselRooms";
 import Nav from "../nav/Nav";
-import RoomsContextProvider from "./RoomsContextProvider";
-import { useRoomContextProvider } from "./RoomsContextProvider";
-export interface Image {
-  order: number;
-  variants: { blur: string; small: string; main: string };
-}
+import { useNavContextProvider } from "../nav/NavContextProvider";
+import type { Image } from "~/types/nav";
+
+
 export interface Room {
   slug: string;
   name: string;
@@ -16,13 +14,11 @@ export interface Room {
   images: Array<Image>;
 }
 
-export default function RoomsPreview({ params }: any) {
+export default function RoomsPreview() {
   const { fetchedData, loading } = useFetchV3("rooms");
   const data = fetchedData?.data.data as Array<Room>
-  if (!loading) {
-    console.log("rooms", fetchedData);
-  }
-  const context = useRoomContextProvider();
+  console.log("rooms data:", data)
+  const context = useNavContextProvider();
   const roomCarousels = !loading ? (() => data.map((room) => {
     return (
       <CarouselRoom
@@ -33,16 +29,27 @@ export default function RoomsPreview({ params }: any) {
     );
   })) : () => []
   const cachedRoomCarousels = useMemo(roomCarousels, [data])
-  const currentRoomCarousel = cachedRoomCarousels[context.roomSelected]
+  const currentRoomCarousel = cachedRoomCarousels[context.itemSelected]
+
   return loading ?
-    <div className="flex justify-center items-center w-[688px] h-[388[x] bg-olive-light text-gray-500 font-serif">
+    <div className="flex justify-center items-center w-[688px] h-[388px] bg-olive-light text-gray-500 font-serif">
       Loading...
     </div>
     :
-    <div>
-      <div className="flex justify-between">
-        {currentRoomCarousel}
-        <Nav rooms={data}></Nav>{" "}
-      </div>
+    <div className="flex justify-between">
+      {currentRoomCarousel}
+      <Nav items={data} slug="rooms" contextProvider={useNavContextProvider} template={NavLinkTemplate}></Nav>{" "}
     </div>
 }
+
+function NavLinkTemplate({ item }) {
+  return <div>
+
+    <div className="text-xl font-serif">{item.name}</div>
+    <div className="flex gap-2" key={`${item.slug}-select-room-info`}>
+      <div className="font-sans">{`${item.adults_num} Adults ${item.children_num} children`}</div>
+      <div>|</div>
+      <div className="font-sans" >Beds description</div>
+    </div>
+  </div>
+} 

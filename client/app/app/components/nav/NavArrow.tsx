@@ -2,7 +2,6 @@ export default function NavArrow({ direction, numElements, index, func }: { dire
   const styleConditions = { right: direction === 'right' && index < numElements - 1, left: direction === 'left' && index > 0 }
   const styles = { active: "fill-peach-light group-hover:fill-peach cursor-pointer", inactive: "fill-gray-warm" }
   const active = styleConditions[direction]
-  console.log(styleConditions, active)
   const svgStyle = () => {
     return styles[active ? "active" : "inactive"]
   }

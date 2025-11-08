@@ -14,7 +14,6 @@ export function CarouselRoom({
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "center",
   });
-
   return (
     <div className="flex flex-col gap-[21px]">
       <div className="embla overflow-hidden 2xl:h-[388px]" ref={emblaRef}>

@@ -1,0 +1,29 @@
+import { createContext, useContext, useState } from "react";
+
+export const NavContext = createContext<any>({});
+
+export default function NavContextProvider({ children }) {
+  const [data, setData] = useState();
+  const [itemSelected, setItemSelected] = useState(0);
+  // const [selectorPos, setSelectorPos] = useState(0);
+  const [lastSelected, setLastSelected] = useState({ current: 0, prev: 0 })
+  const preStateChangeCallback = () => { }
+  const values = {
+    itemSelected,
+    setItemSelected,
+    // selectorPos,
+    // setSelectorPos,
+    lastSelected,
+    setLastSelected,
+    data,
+    setData,
+    preStateChangeCallback
+  };
+
+  return <NavContext value={values}>{children}</NavContext>;
+}
+
+export const useNavContextProvider = () => {
+  return useContext(NavContext);
+};
+

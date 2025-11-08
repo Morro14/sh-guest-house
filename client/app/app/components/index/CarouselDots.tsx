@@ -18,7 +18,6 @@ export default function CarouselDots({ emblaRef, emblaApi }: { emblaRef: EmblaVi
   if (selectorRef.current) {
     selectorRef.current.style.left = String(selectedIndex * 35 + 'px')
   }
-  console.log('carousel dots: ', selectedIndex, scrollSnaps)
   return <div className={"flex grow gap-[41px] justify-center"}>
     <NavArrow key={'rooms-arrow-left'} direction="left" numElements={scrollSnaps.length} index={selectedIndex} func={() => selectedIndex > 0 ? emblaApi?.scrollTo(selectedIndex - 1) : undefined} />
     <div className="flex relative gap-[21px]">
