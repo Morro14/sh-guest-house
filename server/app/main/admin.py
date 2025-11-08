@@ -1,9 +1,17 @@
 from django.contrib import admin
-from .models import ContentPage, Room, RoomImage
+from .models import ContentPage, Room, RoomImage, Place, PlaceImage
 from modeltranslation.admin import TabbedTranslationAdmin
 from django.utils.html import format_html
-from image_cropping import ImageCroppingMixin
 
+
+@admin.register(PlaceImage)
+class PlaceImageAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Place)
+class PlaceAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(ContentPage)
@@ -11,13 +19,9 @@ class ContentPageAdmin(TabbedTranslationAdmin):
     pass
 
 
-
-
-
-
 @admin.register(Room)
 class RoomAdmin(TabbedTranslationAdmin):
-    list_display = ('name', 'adults_num' )
+    list_display = ('name', 'adults_num')
     # inlines = [RoomImageInline]
 
     def thumbnail(self, obj):
@@ -33,7 +37,7 @@ class RoomAdmin(TabbedTranslationAdmin):
 
 
 @admin.register(RoomImage)
-class RoomImageAdmin( admin.ModelAdmin):
+class RoomImageAdmin(admin.ModelAdmin):
     list_display = ("room", "order", "alt_text", "preview")
     fields = ["image_full", "room",  "order", "alt_text"]
     readonly_fields = ("preview",)
@@ -48,12 +52,14 @@ class RoomImageAdmin( admin.ModelAdmin):
         return "-"
     preview.short_description = "Preview"
 
+
 class RoomImageInline(admin.TabularInline):
     model = RoomImage
     extra = 1
     fields = ('image_full', 'alt_text', 'order')
     ordering = ['order']
     readonly_fields = ['preview']
+
     def preview(self, obj):
         if obj.image_full:
             return f'<img id="test" src="{obj.image_full.url}" style="max-height: 100px; border-radius: 6px;" /><div>{obj.image_full.name}</div>'
