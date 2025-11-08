@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-24 15:16+0000\n"
+"POT-Creation-Date: 2025-10-27 10:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,71 +18,79 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app/settings.py:136
+#: app/settings.py:138
 msgid "English"
 msgstr ""
 
-#: app/settings.py:136
+#: app/settings.py:138
 msgid "Russian"
 msgstr ""
 
-#: main/models.py:52
+#: main/management/commands/seed.py:23
+
+msgid "Content_about_title"
+msgstr "About the house"
+
+#: main/management/commands/seed.py:23
+
+msgid "Content_about_body"
+msgstr "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut at scelerisque ante. Morbi efficitur porta lacus eget commodo. Suspendisse facilisis et neque eget feugiat. Vestibulum et tincidunt ex, nec posuere justo. Phasellus mollis libero sed arcu malesuada, vel lobortis lorem aliquam. Phasellus ut nisl ut dui aliquam hendrerit eu pretium massa. Nunc a malesuada tortor. Vestibulum sit amet lectus nibh. Praesent sit amet lorem ac mi maximus vulputate. Sed ac pharetra lorem. Fusce convallis leo lacus, in vulputate nibh aliquam porttitor."
+
+#: main/models.py:53
 msgid "Room_slug"
 msgstr "slug"
 
-#: main/models.py:52
+#: main/models.py:53
 msgid "Room_slug_helptext"
 msgstr "Identifier. Only for development."
 
-#: main/models.py:53
+#: main/models.py:54
 msgid "Room_name"
 msgstr "Name"
 
-#: main/models.py:54
+#: main/models.py:55
 msgid "Room_adults_num"
 msgstr "Number of adults"
 
-#: main/models.py:55
+#: main/models.py:56
 msgid "Room_children_num"
 msgstr "Number of children"
 
-#: main/models.py:58
+#: main/models.py:59
 msgid "Room"
 msgstr ""
 
-#: main/models.py:59
+#: main/models.py:60
 msgid "Rooms"
 msgstr ""
 
-#: main/models.py:64
-#, fuzzy
-#| msgid "Content_page"
+#: main/models.py:65
 msgid "Content_slug"
 msgstr "Page content"
 
-#: main/models.py:64
+#: main/models.py:65
 #, fuzzy
 #| msgid "Content_page_title"
 msgid "Content_slug_helptext"
 msgstr "Title"
 
-#: main/models.py:65
+#: main/models.py:66
 msgid "Content_page_title"
 msgstr "Title"
 
-#: main/models.py:66
+#: main/models.py:67
 msgid "Write the content in Markdown fromat."
 msgstr ""
 
-#: main/models.py:66
+#: main/models.py:67
 msgid "Content_page_body"
 msgstr "Body"
 
-#: main/models.py:70
+#: main/models.py:71
 msgid "Content_page"
 msgstr "Page content"
 
-#: main/models.py:71
+#: main/models.py:72
 msgid "Content_pages"
 msgstr "Pages content"
 
