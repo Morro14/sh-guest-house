@@ -55,7 +55,7 @@ class Room(models.Model):
     name = models.CharField(max_length=255, verbose_name=_('Room_name'))
     adults_num = models.IntegerField(verbose_name=_("Room_adults_num"))
     children_num = models.IntegerField(verbose_name=_("Room_children_num"))
-
+    beds = models.TextField(max_length=63, default='')
     class Meta:
         verbose_name = _("Room")
         verbose_name_plural = _("Rooms")
@@ -132,7 +132,6 @@ class RoomImage(Image):
 
     room = models.ForeignKey(to=Room, on_delete=models.CASCADE,
                              related_name='image', related_query_name='images')
-    beds = models.TextField(max_length=63, default='')
 
     def __str__(self):
         return f"{self.room.name} #{self.order}"

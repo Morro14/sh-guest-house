@@ -6,12 +6,15 @@ import Paragraph from "~/components/index/Paragraph";
 import RoomsPreview from "~/components/index/Rooms";
 import NavContextProvider from "~/components/nav/NavContextProvider";
 import Places from "~/components/index/Places";
-
+import Footer from "~/components/Footer";
+import MediaFullView from "~/components/MediaFullView";
+import { CarouselRoom } from "~/components/index/CarouselRooms";
 
 export default function Index() {
   const { t, i18n } = useTranslation();
   return (
     <div className="flex grow flex-col items-stretch text-text-main bg-bg gap-8 min-h-screen">
+
       <div className="flex flex-col items-center">
         <h1 className="mt-[42px] mb-3">Shushan guest house</h1>
         <div className="flex flex-col gap-6 mt-10">
@@ -48,7 +51,7 @@ export default function Index() {
         <Line></Line>
       </div>
       <div className="flex flex-col items-center">
-        <div className="flex flex-col gap-9 2xl:w-[1000px] mt-2">
+        <div className="flex flex-col grow gap-9 2xl:w-[1000px] mt-2">
           <Paragraph content="places" titleSize="h2"></Paragraph>
           <NavContextProvider>
             <Places></Places>
@@ -56,6 +59,7 @@ export default function Index() {
         </div>
 
       </div>
+      <Footer></Footer>
     </div>
   );
 }

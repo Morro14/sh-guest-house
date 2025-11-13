@@ -4,6 +4,7 @@ export const NavContext = createContext<any>({});
 
 export default function NavContextProvider({ children }) {
   const [data, setData] = useState();
+  const [fullImageView, setFullImageView] = useState(false);
   const [itemSelected, setItemSelected] = useState(0);
   // const [selectorPos, setSelectorPos] = useState(0);
   const [lastSelected, setLastSelected] = useState({ current: 0, prev: 0 })
@@ -11,8 +12,8 @@ export default function NavContextProvider({ children }) {
   const values = {
     itemSelected,
     setItemSelected,
-    // selectorPos,
-    // setSelectorPos,
+    fullImageView,
+    setFullImageView,
     lastSelected,
     setLastSelected,
     data,

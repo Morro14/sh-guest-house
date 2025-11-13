@@ -13,7 +13,7 @@ class RoomSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Room
-        fields = ['slug', 'name', 'adults_num', 'children_num', 'images']
+        fields = ['slug', 'name', 'adults_num', 'children_num', 'images', 'beds']
 
 
 class PlaceImageSerializer(serializers.ModelSerializer):

@@ -4,6 +4,8 @@ import { CarouselRoom } from "./CarouselRooms";
 import Nav from "../nav/Nav";
 import { useNavContextProvider } from "../nav/NavContextProvider";
 import type { Image } from "~/types/nav";
+import MediaFullView from "../MediaFullView";
+import { Carousel } from "../carousel/Carousel";
 
 
 export interface Room {
@@ -21,11 +23,21 @@ export default function RoomsPreview() {
   const context = useNavContextProvider();
   const roomCarousels = !loading ? (() => data.map((room) => {
     return (
-      <CarouselRoom
-        slug={room.slug}
-        key={`room-carousel-${room.slug}`}
-        images={room.images}
-      ></CarouselRoom>
+      <div>
+
+        <Carousel
+          name="rooms"
+          slug={room.slug}
+          key={`room-carousel-${room.slug}`}
+          images={room.images}
+
+        ></Carousel>
+
+        <MediaFullView images={room.images} slug={room.slug} key={`room-carousel-full-${room.slug}`}>
+
+        </MediaFullView>
+      </div>
+
     );
   })) : () => []
   const cachedRoomCarousels = useMemo(roomCarousels, [data])

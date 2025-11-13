@@ -33,7 +33,10 @@ body {
 	--color-peach: #efa76a;
 	--color-line-light: #c59f8d;
 	--color-gray-warm: #E3DDDD;
-
+	--color-gray-warm-mid: #73706F;
+	--color-green-warm: #699A57;
+	--color-black-transparent: #000000BF;
+  
 	--font-sans: "Source Sans 3", sans-serif;
 	--font-serif: "Lora", serif; 
 }
@@ -56,6 +59,12 @@ h3 {
 }
 .image-frame-small-responsive {
   @apply 2xl:w-[688px] 2xl:h-[388px] overflow-hidden
+}
+.image-full {
+  @apply 2xl:w-[1284px]
+}
+.image-small {
+  @apply 2xl:h-[388px] 2xl:w-[688px]
 }
 .gr-green-medium {
 	background: RGBA(51, 165, 140, 1);
