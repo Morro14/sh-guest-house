@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { useFetchV3 } from "~/utils/fetchHook";
-import { CarouselRoom } from "./CarouselRooms";
 import Nav from "../nav/Nav";
 import { useNavContextProvider } from "../nav/NavContextProvider";
 import type { Image } from "~/types/nav";
@@ -19,7 +18,6 @@ export interface Room {
 export default function RoomsPreview() {
   const { fetchedData, loading } = useFetchV3("rooms");
   const data = fetchedData?.data.data as Array<Room>
-  console.log("rooms data:", data)
   const context = useNavContextProvider();
   const roomCarousels = !loading ? (() => data.map((room) => {
     return (
@@ -30,11 +28,17 @@ export default function RoomsPreview() {
           slug={room.slug}
           key={`room-carousel-${room.slug}`}
           images={room.images}
-
+          imageSize="small"
         ></Carousel>
 
-        <MediaFullView images={room.images} slug={room.slug} key={`room-carousel-full-${room.slug}`}>
-
+        <MediaFullView images={room.images} slug={room.slug} imageSize="main" key={`room-carousel-full-${room.slug}`}>
+          <Carousel
+            name="rooms"
+            slug={room.slug}
+            key={`room-carousel-${room.slug}`}
+            images={room.images}
+            imageSize="main"
+          ></Carousel>
         </MediaFullView>
       </div>
 

@@ -14,7 +14,7 @@ export function Carousel({
   name: string;
   slug: string;
   images: Array<Image>;
-  imageSize: "small" | "blur" | "main"
+  imageSize: "small" | "blur" | "main" | "full"
 
 }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({

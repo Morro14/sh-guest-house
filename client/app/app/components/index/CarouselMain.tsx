@@ -1,21 +1,17 @@
 import useEmblaCarousel from "embla-carousel-react";
-import { useEffect } from "react";
+import { useNavContextProvider } from "../nav/NavContextProvider";
+import type { Image } from "~/types/nav";
 
-export function CarouselMain() {
+
+const SERVER_URL = import.meta.env.VITE_SERVER_URL
+
+export function CarouselMain({ images, imageSize, name }: { images: Array<Image>, imageSize: "small" | "main", name: string }) {
+  const context = useNavContextProvider()
   const [emblaRef, emblaApi] = useEmblaCarousel({
     startIndex: 1,
-
     align: "center",
     loop: true,
   });
-  const images = [
-    "/public/img/landscape-1.png",
-    "/public/img/landscape-2.png",
-    "/public/img/landscape-3.png",
-    "/public/img/landscape-1.png",
-    "/public/img/landscape-2.png",
-    "/public/img/landscape-3.png",
-  ];
   return (
     <div
       className="embla"
@@ -25,14 +21,13 @@ export function CarouselMain() {
         {images.map((img, i) => (
           <div
             key={`img-frame-1i${i}`}
-            className="embla__slide mr-2 shrink-0"
+            className="embla__slide shrink-0 mr-3 basis-[1052px]"
           >
             <img
-              className="w-auto h-full object-cover "
-              // className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-              src={img}
+              className="object-cover"
+              src={SERVER_URL + img.variants[imageSize]}
               alt={"landscape-1" + "-" + i}
-              key={"landscape-1" + "-" + i}
+              onClick={() => { context.setFullImageView(true); context.setItemSelected(i % 3) }}
             />
           </div>
         ))}

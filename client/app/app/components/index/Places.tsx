@@ -5,6 +5,7 @@ import type { Image } from "~/types/nav.ts";
 import { useMemo, useRef, useState } from "react";
 import Paragraph from "./Paragraph.tsx";
 import NoData from "../except/NoData.tsx";
+import MediaFullView from "../MediaFullView.tsx";
 
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL
@@ -29,10 +30,6 @@ export default function Places() {
   const imagesCached = useMemo(images, [data])
   const currentImage = imagesCached[context.itemSelected]
   const currentPlace = data ? data[context.itemSelected] : undefined
-  // const imageRef = useRef(null)
-  // const textRef = useRef(null)
-  // const titleRef = useRef(null)
-  // const callbackRefs = [titleRef, textRef, imageRef]
   const [opacity, setOpacity] = useState(100)
   context.preStateChangeCallback = (callback: () => void) => {
     setOpacity(0)
@@ -51,6 +48,9 @@ export default function Places() {
       <div className=""><NoData message={"No information found. Come back to check later!"} /></div> :
 
       <div className=" mb-10">
+        <MediaFullView>
+          <img src={BASE_URL + data[context.itemSelected]["variants"]["full"]} />
+        </MediaFullView>
         <h3 className={"transition-opacity duration-300" + ` opacity-${opacity}`}>{currentPlace ? currentPlace.name : ""}</h3>
         <div className="flex justify-between">
           <div className={"image-frame-small-responsive transition-opacity duration-300" + ` opacity-${opacity}`}>
@@ -67,6 +67,6 @@ export default function Places() {
 function NavLinkTemplate({ item }) {
   return <div className="flex flex-col px-2">
     <div className="text-xl font-serif">{item.name}</div>
-    <div className="font-serif">{item.distance + " km" + (item.distance_comment !== "" ? ` (${item.distance_comment})` : "")}</div>
+    <div className="font-sans">{item.distance + " km" + (item.distance_comment !== "" ? ` (${item.distance_comment})` : "")}</div>
   </div>
 }

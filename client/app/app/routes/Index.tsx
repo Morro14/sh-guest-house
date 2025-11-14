@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { CarouselMain } from "~/components/index/CarouselMain";
 import Line from "~/components/index/Line";
 import LocationMain from "~/components/index/location/LocationMain";
 import Paragraph from "~/components/index/Paragraph";
@@ -7,11 +6,9 @@ import RoomsPreview from "~/components/index/Rooms";
 import NavContextProvider from "~/components/nav/NavContextProvider";
 import Places from "~/components/index/Places";
 import Footer from "~/components/Footer";
-import MediaFullView from "~/components/MediaFullView";
-import { CarouselRoom } from "~/components/index/CarouselRooms";
+import CarouselWide from "~/components/index/CarouselWide";
 
 export default function Index() {
-  const { t, i18n } = useTranslation();
   return (
     <div className="flex grow flex-col items-stretch text-text-main bg-bg gap-8 min-h-screen">
 
@@ -19,7 +16,10 @@ export default function Index() {
         <h1 className="mt-[42px] mb-3">Shushan guest house</h1>
         <div className="flex flex-col gap-6 mt-10">
           <Line></Line>
-          <CarouselMain></CarouselMain>
+          <NavContextProvider>
+            <CarouselWide></CarouselWide>
+          </NavContextProvider>
+
           <Line></Line>
         </div>
 
