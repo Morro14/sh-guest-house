@@ -1,31 +1,44 @@
 from rest_framework import serializers
-from .models import Room, RoomImage, Place, PlaceImage
+from .models import Room, Image, Place, WideImage
 
 
-class RoomImageSerializer(serializers.ModelSerializer):
+class ImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = RoomImage
-        fields = ['order', 'variants']
+        model = Image
+        fields = ["order", "variants"]
+
+
+class ImageWideSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WideImage
+        fields = ["order", "variants"]
 
 
 class RoomSerializer(serializers.ModelSerializer):
-    images = RoomImageSerializer(source='image', many=True, read_only=True)
+    images = ImageSerializer(source="image", many=True, read_only=True)
 
     class Meta:
         model = Room
-        fields = ['slug', 'name', 'adults_num', 'children_num', 'images', 'beds']
-
-
-class PlaceImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PlaceImage
-        fields = ['order', 'variants']
+        fields = [
+            "slug",
+            "name",
+            "adults_num",
+            "children_num",
+            "images",
+            "beds",
+        ]
 
 
 class PlaceSerializer(serializers.ModelSerializer):
-    images = PlaceImageSerializer(source='image', many=True, read_only=True)
+    images = ImageSerializer(source="image", many=True, read_only=True)
 
     class Meta:
         model = Place
-        fields = ['slug', 'name', 'description',
-                  'distance', 'distance_comment', 'images']
+        fields = [
+            "slug",
+            "name",
+            "description",
+            "distance",
+            "distance_comment",
+            "images",
+        ]

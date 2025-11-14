@@ -11,8 +11,13 @@ from django.views.decorators.vary import vary_on_headers
 from django.utils.decorators import method_decorator
 from django.core.cache import cache
 from .queries import get_available_rooms
-from .serializers import RoomSerializer, PlaceSerializer
-from .models import ContentPage, Room, Place
+from .serializers import (
+    RoomSerializer,
+    PlaceSerializer,
+    ImageSerializer,
+    ImageWideSerializer,
+)
+from .models import ContentPage, Room, Place, WideImage
 
 
 load_dotenv()
@@ -26,9 +31,10 @@ class BookingView(APIView):
 
     def post(self, request):
         data = request.POST
-        print('booking view request data:', data)
+        print("booking view request data:", data)
         available_rooms = get_available_rooms(
-            data.get('date'), data.get('days'))
+            data.get("date"), data.get("days")
+        )
         serializer = RoomSerializer(available_rooms, many=True)
         return Response({"rooms": serializer.data})
 
@@ -38,7 +44,7 @@ class RoomSetView(APIView):
     authentication_classes = []
 
     def get(self, request):
-        rooms = Room.objects.prefetch_related('image').all()
+        rooms = Room.objects.prefetch_related("image").all()
         rooms_serial = RoomSerializer(rooms, many=True)
         return Response({"data": rooms_serial.data})
 
@@ -48,9 +54,21 @@ class PlaceSetView(APIView):
     authentication_classes = []
 
     def get(self, request):
-        places = Place.objects.prefetch_related('image').all()
+        places = Place.objects.prefetch_related("image").all()
         place_serial = PlaceSerializer(places, many=True)
         return Response({"data": place_serial.data})
+
+
+class WideImageSet(APIView):
+    permission_classes = []
+    authentication_classes = []
+
+    def get(self, request):
+        images = WideImage.objects.all()
+        serializer = ImageWideSerializer(images, many=True)
+        data = serializer.data
+        print("wide image view", data)
+        return Response({"data": data})
 
 
 class TranslationView(APIView):
@@ -75,28 +93,30 @@ class TranslationView(APIView):
 
         # add model translations
         content_instances = ContentPage.objects.all()
-        content_formatted = {c.slug: {
-            'title': c.title, 'body': c.body, 'slug': c.slug} for c in content_instances}
+        content_formatted = {
+            c.slug: {"title": c.title, "body": c.body, "slug": c.slug}
+            for c in content_instances
+        }
         translations.update(content_formatted)
 
-        print('translations:', translations)
+        print("translations:", translations)
         response = Response(translations)
         print("setting cache")
-        cache.set(cache_key, translations, timeout=60*60*24)
+        cache.set(cache_key, translations, timeout=60 * 60 * 24)
         return response
 
     def _get_language_from_request(self, request):
         # Explicit ?lang= parameter takes priority
-        if lang := request.GET.get('lang'):
+        if lang := request.GET.get("lang"):
             return lang
 
         # Then check the Accept-Language header
-        header = request.META.get('HTTP_ACCEPT_LANGUAGE', '')
+        header = request.META.get("HTTP_ACCEPT_LANGUAGE", "")
         if header:
             # Example header: "ru,en;q=0.8,hy;q=0.5"
-            langs = [h.split(';')[0].strip() for h in header.split(',')]
+            langs = [h.split(";")[0].strip() for h in header.split(",")]
             for lang in langs:
-                short = lang.split('-')[0]
+                short = lang.split("-")[0]
                 if short in dict(settings.LANGUAGES):
                     return short
 

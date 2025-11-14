@@ -1,7 +1,25 @@
 from django.contrib import admin
-from .models import ContentPage, Room, RoomImage, Place, PlaceImage
+from .models import (
+    ContentPage,
+    Room,
+    RoomImage,
+    Place,
+    PlaceImage,
+    WideImage,
+)
 from modeltranslation.admin import TabbedTranslationAdmin
 from django.utils.html import format_html
+
+
+@admin.register(WideImage)
+class WideImageAmin(admin.ModelAdmin):
+    pass
+
+
+# @admin.register(OriginalImage)
+# class OriginalImageAdmin(admin.ModelAdmin):
+#     # fields = ["wide_image"]
+#     pass
 
 
 @admin.register(PlaceImage)
@@ -21,7 +39,7 @@ class ContentPageAdmin(TabbedTranslationAdmin):
 
 @admin.register(Room)
 class RoomAdmin(TabbedTranslationAdmin):
-    list_display = ('name', 'adults_num')
+    list_display = ("name", "adults_num")
     # inlines = [RoomImageInline]
 
     def thumbnail(self, obj):
@@ -29,17 +47,17 @@ class RoomAdmin(TabbedTranslationAdmin):
         if first_img and first_img.image_full:
             return format_html(
                 '<img src="{}" style="max-height: 60px; border-radius: 4px; display: inline-block" /><div>{}</div>',
-                first_img.image_full.url
-
+                first_img.image_full.url,
             )
         return "-"
+
     thumbnail.short_description = "Preview"
 
 
 @admin.register(RoomImage)
 class RoomImageAdmin(admin.ModelAdmin):
     list_display = ("room", "order", "alt_text", "preview")
-    fields = ["image_full", "room",  "order", "alt_text"]
+    fields = ["image_full", "room", "order", "alt_text"]
     readonly_fields = ("preview",)
     ordering = ("room", "order")
 
@@ -50,19 +68,21 @@ class RoomImageAdmin(admin.ModelAdmin):
                 obj.image_full.url,
             )
         return "-"
+
     preview.short_description = "Preview"
 
 
 class RoomImageInline(admin.TabularInline):
     model = RoomImage
     extra = 1
-    fields = ('image_full', 'alt_text', 'order')
-    ordering = ['order']
-    readonly_fields = ['preview']
+    fields = ("image_full", "alt_text", "order")
+    ordering = ["order"]
+    readonly_fields = ["preview"]
 
     def preview(self, obj):
         if obj.image_full:
             return f'<img id="test" src="{obj.image_full.url}" style="max-height: 100px; border-radius: 6px;" /><div>{obj.image_full.name}</div>'
         return ""
+
     preview.allow_tags = True
     preview.short_description = "Preview"

@@ -12,14 +12,15 @@ User = get_user_model()
 
 class Reservation(models.Model):
     user = models.ForeignKey(
-        to=User, blank=True, default=None, null=True, on_delete=models.CASCADE)
+        to=User, blank=True, default=None, null=True, on_delete=models.CASCADE
+    )
     check_in = models.DateField()
     check_out = models.DateField()
     rooms = models.ManyToManyField(to="Room")
 
     # add rooms to check for overlapping reservations before saving
     def __init__(self, *args, rooms=None, **kwargs):
-        super().__init__(*args,  **kwargs)
+        super().__init__(*args, **kwargs)
         self._unsaved_rooms = rooms or []
 
     def get_stay_days(self):
@@ -31,13 +32,18 @@ class Reservation(models.Model):
         print(getattr(self, "_unsaved_rooms", []))
         if self.check_in >= self.check_out:
             raise ValidationError(
-                "Check-out date must be after check-in date.")
+                "Check-out date must be after check-in date."
+            )
         for room in getattr(self, "_unsaved_rooms", []):
-            overlap = Reservation.objects.filter(
-                rooms=room,
-                check_in__lt=self.check_out,
-                check_out__gt=self.check_in,
-            ).exclude(pk=self.pk).exists()
+            overlap = (
+                Reservation.objects.filter(
+                    rooms=room,
+                    check_in__lt=self.check_out,
+                    check_out__gt=self.check_in,
+                )
+                .exclude(pk=self.pk)
+                .exists()
+            )
             if overlap:
                 raise ValidationError(f"Room '{room.name}' is already booked.")
 
@@ -50,24 +56,30 @@ class Reservation(models.Model):
 
 
 class Room(models.Model):
-    slug = models.SlugField(unique=True, verbose_name=_(
-        'slug'), help_text=_('slug_helptext'))
-    name = models.CharField(max_length=255, verbose_name=_('Room_name'))
+    slug = models.SlugField(
+        unique=True, verbose_name=_("slug"), help_text=_("slug_helptext")
+    )
+    name = models.CharField(max_length=255, verbose_name=_("Room_name"))
     adults_num = models.IntegerField(verbose_name=_("Room_adults_num"))
     children_num = models.IntegerField(verbose_name=_("Room_children_num"))
-    beds = models.TextField(max_length=63, default='')
+    beds = models.TextField(max_length=63, default="")
+
     class Meta:
         verbose_name = _("Room")
         verbose_name_plural = _("Rooms")
 
 
 class ContentPage(models.Model):
-    slug = models.SlugField(unique=True, verbose_name=_(
-        'slug'), help_text=_('slug_helptext'))
+    slug = models.SlugField(
+        unique=True, verbose_name=_("slug"), help_text=_("slug_helptext")
+    )
     title = models.CharField(
-        max_length=255, verbose_name=_('Content_page_title'))
-    body = models.TextField(help_text=_(
-        "Write the content in Markdown fromat."), verbose_name=_('Content_page_body'))
+        max_length=255, verbose_name=_("Content_page_title")
+    )
+    body = models.TextField(
+        help_text=_("Write the content in Markdown fromat."),
+        verbose_name=_("Content_page_body"),
+    )
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -85,13 +97,10 @@ class Image(models.Model):
 
     alt_text = models.CharField(max_length=255, blank=True)
     order = models.PositiveBigIntegerField(default=0)
-    image_full = models.ImageField(upload_to='static/img/full')
-    cropping_main = ImageRatioField(
-        'image', size_to_str(main_res))  # main full image
-    cropping_small = ImageRatioField(
-        'image', size_to_str(small_res))  # small preview
-    cropping_blur = ImageRatioField('image', size_to_str(
-        blur_res))     # tiny blurred placeholder
+    image_full = models.ImageField(upload_to="static/img/full")
+    cropping_main = ImageRatioField("image", size_to_str(main_res))
+    cropping_small = ImageRatioField("image", size_to_str(small_res))
+    cropping_blur = ImageRatioField("image", size_to_str(blur_res))
 
     def get_variant_url(self, size, box=None, quality=80, blur=False):
         options = {
@@ -99,7 +108,6 @@ class Image(models.Model):
             "crop": True,
             "detail": True,
             "quality": quality,
-
         }
         if box:
             options["box"] = box
@@ -113,39 +121,82 @@ class Image(models.Model):
     @property
     def variants(self):
         results = {
-            "blur": self.get_variant_url(self.blur_res, self.cropping_blur, blur=True),
+            "blur": self.get_variant_url(
+                self.blur_res, self.cropping_blur, blur=True
+            ),
             "small": self.get_variant_url(self.small_res, self.cropping_small),
-            "main": self.get_variant_url(self.main_res, self.cropping_main)
+            "main": self.get_variant_url(self.main_res, self.cropping_main),
+            "original": self.image_full.url,
         }
         return results
 
     class Meta:
         ordering = ["order"]
+        verbose_name = "image"
+        verbose_name_plural = "images"
 
     def __str__(self):
         return self.image_full.name
+
+
+# class OriginalImage(Image):
+#     class Meta:
+#         verbose_name = _("original image")
+#         verbose_name_plural = _("original images")
+
+
+class WideImage(Image):
+    main_res = (2054, 736)
+    small_res = (1052, 368)
+    original = models.ImageField(upload_to="static/img/full")
+
+    @property
+    def variants(self):
+        results = {}
+        results.update(super().variants)
+        results["full"] = self.original.url
+        print("wide variants", results)
+        return results
+
+    class Meta:
+        verbose_name = _("wide photo")
+        verbose_name_plural = _("wide photos")
 
 
 class RoomImage(Image):
     small_res = (700, 0)
     blur_res = (20, 12)
 
-    room = models.ForeignKey(to=Room, on_delete=models.CASCADE,
-                             related_name='image', related_query_name='images')
+    class Meta:
+        verbose_name = _("room image")
+        verbose_name_plural = _("room images")
+
+    room = models.ForeignKey(
+        to=Room,
+        on_delete=models.CASCADE,
+        related_name="image",
+        related_query_name="images",
+    )
 
     def __str__(self):
         return f"{self.room.name} #{self.order}"
 
 
 class Place(models.Model):
-    name = models.CharField(unique=True, max_length=63,
-                            verbose_name=_("name"))
-    slug = models.CharField(unique=True, max_length=63, verbose_name=_(
-        "slug"), help_text=_("slug_helptext"))
-    distance = models.FloatField(
-        help_text=_("distance"))
+    name = models.CharField(unique=True, max_length=63, verbose_name=_("name"))
+    slug = models.CharField(
+        unique=True,
+        max_length=63,
+        verbose_name=_("slug"),
+        help_text=_("slug_helptext"),
+    )
+    distance = models.FloatField(help_text=_("distance"))
     distance_comment = models.TextField(
-        max_length=63, default='', blank=True, verbose_name=_("distance_comment"))
+        max_length=63,
+        default="",
+        blank=True,
+        verbose_name=_("distance_comment"),
+    )
     description = models.TextField(verbose_name=_("description"))
 
     class Meta:
@@ -158,8 +209,13 @@ class Place(models.Model):
 
 class PlaceImage(Image):
     small_res = (700, 400)
-    place = models.ForeignKey(to=Place, on_delete=models.CASCADE,
-                              related_name='image', related_query_name='images', verbose_name=_("place"))
+    place = models.ForeignKey(
+        to=Place,
+        on_delete=models.CASCADE,
+        related_name="image",
+        related_query_name="images",
+        verbose_name=_("place"),
+    )
 
     class Meta:
         verbose_name = _("place image")
