@@ -6,6 +6,7 @@ export default function NavContextProvider({ children }) {
   const [data, setData] = useState();
   const [fullImageView, setFullImageView] = useState(false);
   const [itemSelected, setItemSelected] = useState(0);
+  const [dots, setDots] = useState([]);
   // const [selectorPos, setSelectorPos] = useState(0);
   const [lastSelected, setLastSelected] = useState({ current: 0, prev: 0 })
   const preStateChangeCallback = () => { }
@@ -18,7 +19,8 @@ export default function NavContextProvider({ children }) {
     setLastSelected,
     data,
     setData,
-    preStateChangeCallback
+    preStateChangeCallback,
+    dots, setDots
   };
 
   return <NavContext value={values}>{children}</NavContext>;

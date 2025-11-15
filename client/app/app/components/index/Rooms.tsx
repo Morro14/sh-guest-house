@@ -19,7 +19,7 @@ export default function RoomsPreview() {
   const { fetchedData, loading } = useFetchV3("rooms");
   const data = fetchedData?.data.data as Array<Room>
   const context = useNavContextProvider();
-  const roomCarousels = !loading ? (() => data.map((room) => {
+  const roomCarousels = !loading ? (data.map((room) => {
     return (
       <div>
 
@@ -43,9 +43,19 @@ export default function RoomsPreview() {
       </div>
 
     );
-  })) : () => []
-  const cachedRoomCarousels = useMemo(roomCarousels, [data])
-  const currentRoomCarousel = cachedRoomCarousels[context.itemSelected]
+  })) : []
+  // const cachedRoomCarousels = useMemo(roomCarousels, [data])
+  const currentRoomCarousel = roomCarousels[context.itemSelected]
+  console.log("rooms data:", data)
+  console.log("room:", context.itemSelected)
+  context.preStateChangeCallback = (callback: () => void) => { callback() }
+  // setOpacity(0)
+  // setTimeout(() => {
+  //   setOpacity(100)
+  //   callback()
+  // },
+  //   300
+
 
   return loading ?
     <div className="flex justify-center items-center w-[688px] h-[388px] bg-olive-light text-gray-500 font-serif">
@@ -65,7 +75,7 @@ function NavLinkTemplate({ item }) {
     <div className="flex gap-2" key={`${item.slug}-select-room-info`}>
       <div className="font-sans">{`${item.adults_num} Adults ${item.children_num} children`}</div>
       <div>|</div>
-      <div className="font-sans" >Beds description</div>
+      <div className="font-sans">Beds description</div>
     </div>
   </div>
 } 
