@@ -6,7 +6,7 @@ import { Carousel } from "./carousel/Carousel"
 import type { Image } from "~/types/nav"
 
 
-export default function MediaFullView({ images = [], slug = "", imageSize = "main", children }: { images: Array<Image>, slug: string, imageSize: "main" | "full", children: ReactNode }) {
+export default function MediaFullView({ images = [], slug = "", imageSize = "main", children }: { images?: Array<Image>, slug?: string, imageSize: "main" | "full", children: ReactNode }) {
   const context = useNavContextProvider()
   const ref = useRef(undefined)
   const [opacity, setOpacity] = useState(0)

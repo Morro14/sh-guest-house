@@ -25,7 +25,7 @@ export default function Places() {
   console.log("places data:", data)
   const context = useNavContextProvider()
   const images = !loading ? () => data.map((place) => {
-    return <img src={BASE_URL + place.images[0].variants.small} />
+    return <img src={BASE_URL + place.images[0].variants.small} onClick={() => { context.setFullImageView(true) }} />
   }) : () => []
   const imagesCached = useMemo(images, [data])
   const currentImage = imagesCached[context.itemSelected]
@@ -48,8 +48,8 @@ export default function Places() {
       <div className=""><NoData message={"No information found. Come back to check later!"} /></div> :
 
       <div className=" mb-10">
-        <MediaFullView>
-          <img src={BASE_URL + data[context.itemSelected]["variants"]["full"]} />
+        <MediaFullView imageSize="full">
+          <img src={BASE_URL + data[context.itemSelected]["images"][0]["variants"]["original"]} />
         </MediaFullView>
         <h3 className={"transition-opacity duration-300" + ` opacity-${opacity}`}>{currentPlace ? currentPlace.name : ""}</h3>
         <div className="flex justify-between">
