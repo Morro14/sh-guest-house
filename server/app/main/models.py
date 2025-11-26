@@ -63,6 +63,7 @@ class Room(models.Model):
     adults_num = models.IntegerField(verbose_name=_("Room_adults_num"))
     children_num = models.IntegerField(verbose_name=_("Room_children_num"))
     beds = models.TextField(max_length=63, default="")
+    price = models.IntegerField(default=5000)
 
     class Meta:
         verbose_name = _("Room")
@@ -71,7 +72,16 @@ class Room(models.Model):
 
 class ContentPage(models.Model):
     slug = models.SlugField(
-        unique=True, verbose_name=_("slug"), help_text=_("slug_helptext")
+        choices={
+            "about": "About",
+            "service": "Service",
+            "location": "Location",
+            "places": "Places of interest",
+            "room-preview": "Rooms",
+        },
+        unique=True,
+        verbose_name=_("slug"),
+        help_text=_("slug_helptext"),
     )
     title = models.CharField(
         max_length=255, verbose_name=_("Content_page_title")
@@ -97,6 +107,7 @@ class Image(models.Model):
 
     alt_text = models.CharField(max_length=255, blank=True)
     order = models.PositiveBigIntegerField(default=0)
+    # TDOD change image_full name to image_original
     image_full = models.ImageField(upload_to="static/img/full")
     cropping_main = ImageRatioField("image", size_to_str(main_res))
     cropping_small = ImageRatioField("image", size_to_str(small_res))
@@ -139,24 +150,9 @@ class Image(models.Model):
         return self.image_full.name
 
 
-# class OriginalImage(Image):
-#     class Meta:
-#         verbose_name = _("original image")
-#         verbose_name_plural = _("original images")
-
-
 class WideImage(Image):
     main_res = (2054, 736)
     small_res = (1052, 368)
-    original = models.ImageField(upload_to="static/img/full")
-
-    @property
-    def variants(self):
-        results = {}
-        results.update(super().variants)
-        results["full"] = self.original.url
-        print("wide variants", results)
-        return results
 
     class Meta:
         verbose_name = _("wide photo")

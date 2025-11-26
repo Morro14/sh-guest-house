@@ -1,43 +1,27 @@
 import type { EmblaViewportRefType } from "embla-carousel-react"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useNavContextProvider } from "../nav/NavContextProvider"
-import NavArrow from "../nav/NavArrow"
+import NavArrow from "app/components/nav/NavArrow"
 
 
-export default function CarouselDots({ emblaRef, emblaApi }: { emblaRef: EmblaViewportRefType, emblaApi: any }) {
+
+export default function CarouselDotsFullView({ emblaRef, emblaApi }: { emblaRef: EmblaViewportRefType, emblaApi: any }) {
   const [selectedIndex, setSelectedIndex] = useState(0)
-  // const [scrollSnaps, setScrollSnaps] = useState<number[]>([])
   const scrollSnaps = emblaApi?.scrollSnapList() || []
   const context = useNavContextProvider()
   const selectorRef = useRef(undefined)
   if (selectorRef.current) {
     selectorRef.current.style.left = String(selectedIndex * 35 + 'px')
   }
-  // const dotsInit = scrollSnaps.map((slide, i) => {
-  //   return <div key={`room-dot-${slide}`} onClick={() => emblaApi?.scrollTo(i)} className="w-3.5 h-3.5 rounded-[7px] cursor-pointer hover:bg-peach-light bg-gray-warm"></div>
-  // })
-
+  console.log("scrollSnaps", scrollSnaps)
   useEffect(() => {
     if (!emblaApi) {
       return
     }
     const snapsLength = emblaApi.scrollSnapList().length
-    const dotsLength = context.dots.length
     const genMoreDots = (newDotsNum: number, currentDotsNum: number) => Array.from({ length: newDotsNum }, (_, i) => {
       return <div key={`room-dot-${currentDotsNum + i}`} onClick={() => emblaApi?.scrollTo(currentDotsNum + i)} className="w-3.5 h-3.5 rounded-[7px] cursor-pointer hover:bg-peach-light bg-gray-warm"></div>
     })
-    if (dotsLength === 0) {
-      const moreDots = genMoreDots(snapsLength, 0)
-      context.setDots(moreDots)
-
-    }
-    if (dotsLength > snapsLength) {
-      context.setDots(context.dots.slice(0, snapsLength))
-    }
-    if (dotsLength < snapsLength) {
-      const moreDots = genMoreDots(snapsLength - dotsLength, dotsLength)
-      context.setDots(context.dots.concat(moreDots))
-    }
     emblaApi.on("select", () => {
       setSelectedIndex(emblaApi.selectedScrollSnap())
     })
@@ -52,5 +36,4 @@ export default function CarouselDots({ emblaRef, emblaApi }: { emblaRef: EmblaVi
     <NavArrow key={'rooms-arrow-right'} direction="right" index={selectedIndex} func={() => selectedIndex < scrollSnaps.length - 1 ? emblaApi?.scrollTo(selectedIndex + 1) : undefined} numElements={scrollSnaps.length} />
   </div>
 }
-
 

@@ -26,8 +26,8 @@ export default function Nav<T>({ slug, items, contextProvider, template: NavLink
   if (selectorRef.current) { selectorRef.current.style.top = String(context.lastSelected.current * selectorRef.current.clientHeight) + 'px' }
   if (scrollRef.current) { scrollRef.current.scrollTop = scrollPos }
   return (
-    <div ref={scrollRef} className="scroll-smooth relative flex flex-col 2xl:w-[296px] overflow-hidden 2xl:h-[388px]">
-      <div className={`absolute 2xl:w-[296px] h-[77px] bg-peach-superlight transition-all ease-out`} ref={selectorRef}></div>
+    <div ref={scrollRef} className="scroll-smooth relative flex flex-col 2xl:w-[296px] overflow-hidden 2xl:h-[380px]">
+      <div className={`absolute 2xl:w-[296px] h-[77px] bg-peach-light transition-all ease-out`} ref={selectorRef}></div>
       {items.map((item, i) => {
         return (
           <NavLink

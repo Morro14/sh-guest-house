@@ -1,8 +1,7 @@
 import { flushSync } from "react-dom";
-import { useTransition } from "react";
+
 
 export default function NavLink({ index, context, children }) {
-  const [isPending, startTransition] = useTransition()
   return (
     <div className="cursor-pointer z-10 flex flex-col h-[77px]">
       <div
@@ -17,7 +16,7 @@ export default function NavLink({ index, context, children }) {
             context.setItemSelected(index)
           })
         }}
-        className="bg-transparent hover:bg-peach-superlight hover:transition-colors h-[77px]"
+        className="bg-transparent hover:pl-5 transition-all p-3 ease-out h-[76px]"
       >
         {children}
       </div>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-27 10:18+0000\n"
+"POT-Creation-Date: 2025-11-26 16:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,109 +28,208 @@ msgstr ""
 msgid "Russian"
 msgstr "Русский"
 
-#: main/management/commands/seed.py:23
+#: main/models.py:60 main/models.py:83 main/models.py:186
 #, fuzzy
-#| msgid "Content_page_title"
-msgid "Content_about_title"
-msgstr "заголовок"
-
-#: main/management/commands/seed.py:23
-#, fuzzy
-#| msgid "Content_page_body"
-msgid "Content_about_body"
-msgstr "Содержание"
-
-#: main/models.py:53
-msgid "Room_slug"
+#| msgid "Room_slug"
+msgid "slug"
 msgstr "уникальное имя"
 
-#: main/models.py:53
-msgid "Room_slug_helptext"
+#: main/models.py:60 main/models.py:84 main/models.py:187
+#, fuzzy
+#| msgid "Room_slug_helptext"
+msgid "slug_helptext"
 msgstr "Идентификатор. Только для разработчика."
 
-#: main/models.py:54
+#: main/models.py:62
 msgid "Room_name"
 msgstr "имя комнаты"
 
-#: main/models.py:55
+#: main/models.py:63
 msgid "Room_adults_num"
 msgstr "кол-во взрослых"
 
-#: main/models.py:56
+#: main/models.py:64
 msgid "Room_children_num"
 msgstr "кол-во детей"
 
-#: main/models.py:59
+#: main/models.py:69
 msgid "Room"
 msgstr "комната"
 
-#: main/models.py:60
+#: main/models.py:70
 msgid "Rooms"
 msgstr "комнаты"
 
-#: main/models.py:65
-msgid "Content_slug"
-msgstr "уникальное имя"
-
-#: main/models.py:65
-msgid "Content_slug_helptext"
-msgstr "Идентификатор. Только для разработчика."
-
-#: main/models.py:66
+#: main/models.py:87
 msgid "Content_page_title"
 msgstr "заголовок"
 
-#: main/models.py:67
+#: main/models.py:90
 msgid "Write the content in Markdown fromat."
 msgstr "Добавьте текст в формате markdown."
 
-#: main/models.py:67
+#: main/models.py:91
 msgid "Content_page_body"
 msgstr "Содержание"
 
-#: main/models.py:71
+#: main/models.py:96
 msgid "Content_page"
 msgstr "Содержание страницы"
 
-#: main/models.py:72
+#: main/models.py:97
 msgid "Content_pages"
 msgstr "Содержание страниц"
 
+#: main/models.py:158
+msgid "wide photo"
+msgstr ""
+
+#: main/models.py:159
+msgid "wide photos"
+msgstr ""
+
+#: main/models.py:167
+msgid "room image"
+msgstr ""
+
+#: main/models.py:168
+msgid "room images"
+msgstr ""
+
+#: main/models.py:182
+#, fuzzy
+#| msgid "Room_name"
+msgid "name"
+msgstr "имя комнаты"
+
+#: main/models.py:189
+msgid "distance"
+msgstr ""
+
+#: main/models.py:194
+msgid "distance_comment"
+msgstr ""
+
+#: main/models.py:196
+msgid "description"
+msgstr ""
+
+#: main/models.py:199 main/models.py:213
+msgid "place"
+msgstr ""
+
+#: main/models.py:200
+msgid "places"
+msgstr ""
+
+#: main/models.py:217
+msgid "place image"
+msgstr ""
+
+#: main/models.py:218
+msgid "place images"
+msgstr ""
+
 #: main/utils/frontend_tr_strings.py:3
-msgid "adultsWithCount_one"
-msgstr ""
-
-#: main/utils/frontend_tr_strings.py:4
-msgid "adultsWithCount_other"
-msgstr ""
-
-#: main/utils/frontend_tr_strings.py:5
-msgid "childrenWithCount_one"
-msgstr ""
-
-#: main/utils/frontend_tr_strings.py:6
-msgid "childrenWithCount_other"
-msgstr ""
-
-#: main/utils/frontend_tr_strings.py:7
-msgid "CONTACTS"
-msgstr "КОНТАКТЫ"
-
-#: main/utils/frontend_tr_strings.py:8
 msgid "day_one"
 msgstr ""
 
-#: main/utils/frontend_tr_strings.py:9
+#: main/utils/frontend_tr_strings.py:4
 msgid "day_other"
 msgstr ""
 
+#: main/utils/frontend_tr_strings.py:5
+msgid "api-error-message"
+msgstr ""
+
+#: main/utils/frontend_tr_strings.py:6
+msgid "adultsWithCount_one"
+msgstr ""
+
+#: main/utils/frontend_tr_strings.py:7
+msgid "adultsWithCount_other"
+msgstr ""
+
+#: main/utils/frontend_tr_strings.py:8
+msgid "childrenWithCount_one"
+msgstr ""
+
+#: main/utils/frontend_tr_strings.py:9
+msgid "childrenWithCount_other"
+msgstr ""
+
 #: main/utils/frontend_tr_strings.py:10
-msgid "There must be at least 1 guest"
+msgid "adults_other"
 msgstr ""
 
 #: main/utils/frontend_tr_strings.py:11
+msgid "Please, enter the arival date."
+msgstr ""
+
+#: main/utils/frontend_tr_strings.py:12
 msgid "availableDate"
 msgstr ""
+
+#: main/utils/frontend_tr_strings.py:13
+msgid "There must be at least 1 guest."
+msgstr ""
+
+#: main/utils/frontend_tr_strings.py:14
+msgid "Days must be a number."
+msgstr ""
+
+#: main/utils/frontend_tr_strings.py:15
+msgid "CONTACTS"
+msgstr "КОНТАКТЫ"
+
+#: main/utils/frontend_tr_strings.py:16
+msgid "locationSideText.one"
+msgstr ""
+
+#: main/utils/frontend_tr_strings.py:17
+msgid "locationSideText.two"
+msgstr ""
+
+#: main/utils/frontend_tr_strings.py:18
+msgid "Your booking request"
+msgstr ""
+
+#: main/utils/frontend_tr_strings.py:19
+msgid "Available rooms"
+msgstr ""
+
+#: main/utils/frontend_tr_strings.py:20
+msgid ""
+"No available rooms for these dates. Check the next available dates for "
+"booking below."
+msgstr ""
+
+#: main/utils/frontend_tr_strings.py:21
+msgid "index-title"
+msgstr ""
+
+#: main/utils/frontend_tr_strings.py:22
+msgid "Vayots Dzor"
+msgstr "Вайоц Дзор"
+
+#~ msgid "Shushan guest house"
+#~ msgstr "Гостевой дом \"Шушан\""
+
+#, fuzzy
+#~| msgid "Content_page_title"
+#~ msgid "Content_about_title"
+#~ msgstr "заголовок"
+
+#, fuzzy
+#~| msgid "Content_page_body"
+#~ msgid "Content_about_body"
+#~ msgstr "Содержание"
+
+#~ msgid "Content_slug"
+#~ msgstr "уникальное имя"
+
+#~ msgid "Content_slug_helptext"
+#~ msgstr "Идентификатор. Только для разработчика."
 
 #~ msgid "welcome"
 #~ msgstr "Добро пожаловать!"

@@ -50,7 +50,12 @@ h2 {
 h3 {
 	@apply text-2xl font-medium mb-5;
 }
-
+h4 {
+  @apply text-xl
+}
+.index-container-1 {
+  @apply 2xl:w-[1000px]
+}
 .container-width-responsive {
 	@apply lg:max-w-[1284px];
 }
@@ -61,8 +66,18 @@ h3 {
   @apply 2xl:w-[688px] 2xl:h-[388px] overflow-hidden
 }
 .image-full {
-  @apply 2xl:w-[1284px]
+  @apply 2xl:w-[1284px] 2xl:h-3/5
 }
+/* .image-original { */
+/* } */
+.media-full-view {
+  @apply 2xl:w-[1284px] 2xl:h-9/10
+}
+
+.carousel-small {
+@apply 2xl:w-[688px] 2xl:h-[380px]
+}
+
 .image-small {
   @apply 2xl:h-[388px] 2xl:w-[688px]
 }

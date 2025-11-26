@@ -26,6 +26,7 @@ class RoomSerializer(serializers.ModelSerializer):
             "children_num",
             "images",
             "beds",
+            "price",
         ]
 
 

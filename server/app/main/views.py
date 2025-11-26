@@ -25,12 +25,17 @@ load_dotenv()
 User = get_user_model()
 
 
+class BookingConfirmView(APIView):
+    def get(self):
+        return Response
+
+
 class BookingView(APIView):
     permission_classes = []
     authentication_classes = []
 
-    def post(self, request):
-        data = request.POST
+    def get(self, request):
+        data = request.GET
         print("booking view request data:", data)
         available_rooms = get_available_rooms(
             data.get("date"), data.get("days")

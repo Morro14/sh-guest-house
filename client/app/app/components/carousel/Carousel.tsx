@@ -2,58 +2,88 @@ import useEmblaCarousel from "embla-carousel-react";
 import type { Image } from "~/types/nav";
 import CarouselDots from "./CarouselDots";
 import { useNavContextProvider } from "../nav/NavContextProvider";
+import CarouselDotsFullView from "./CarouselDotsFullView";
+
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
 export function Carousel({
   name,
-  slug,
   images,
-  imageSize = "small"
+  imageSize = "small",
+  imageRes,
+  fullView = false,
+  border = false,
 }: {
   name: string;
-  slug: string;
   images: Array<Image>;
-  imageSize: "small" | "blur" | "main" | "full"
+  imageSize: "small" | "main" | "full"
+  imageRes: "small" | "blur" | "main" | "original"
+  fullView?: boolean
+  border?: boolean
 
 }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: "center",
+    align: "end",
   });
   const context = useNavContextProvider()
   const imageOnClick = () => {
-    if (imageSize !== 'main') {
+    if (!fullView) {
       context.setFullImageView(true)
     } else {
       return
     }
   }
-  return (
-    <div className="flex flex-col gap-[21px]">
-      <div className={"embla overflow-hidden "} ref={emblaRef}>
-        <div className={"embla__container " + (imageSize === 'main' ? "image-full" : "image-small")}>
+  console.log('carousel full?', fullView, 'imageSize', imageSize)
+  return fullView ? (
+    <div className="relative flex flex-col gap-5 items-center justify-end">
+      <div className={`"embla overflow-hidden bg-black-transparent border-2 border-peach`} ref={emblaRef}>
+        <div className={`embla__container `}>
           {images.map((img, i) => (
             <div
               key={`${name}-slide-${i}`}
-              className="embla__slide shrink-0 basis-full"
+              className="embla__slide shrink-0 basis-full 2xl:h-[1000px]"
             >
-              <div className="absolute grow 2xl:h-[388px] bg-olive-dark"></div>
               <img
-                className="w-full h-full object-cover"
-                src={BASE_URL + img.variants[imageSize]}
-                alt={`${name}-${slug}-${i}`}
+                className={`size-full object-cover `}
+                src={BASE_URL + img.variants[imageRes]}
+                alt={`${name}--${i}`}
                 loading="lazy"
                 onClick={() => imageOnClick()}
-              // onClick={() => context.preStateChangeCallback(() => imageOnClick())}
               />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="sticky">
+        {/* <CarouselDots emblaRef={emblaRef} emblaApi={emblaApi}></CarouselDots> */}
+        <CarouselDotsFullView emblaRef={emblaRef} emblaApi={emblaApi}></CarouselDotsFullView>
+      </div>
+    </div >
+
+  ) :
+    <div className={`flex flex-col gap-5 `}>
+      <div className={`"embla overflow-hidden carousel-small ${border ? "border-2 border-peach" : ""}`} ref={emblaRef}>
+        <div className={`embla__container`}>
+          {images.map((img, i) => (
+            <div
+              key={`${name}-slide-${i}`}
+              className="embla__slide shrink-0 basis-full ">
+              <div className={`flex justify-center carousel-small `}>
+                <img
+                  className={` object-cover w-full`}
+                  src={BASE_URL + img.variants[imageRes]}
+                  alt={`${name}-${i}`}
+                  loading="lazy"
+                  onClick={() => imageOnClick()}
+                />
+              </div>
             </div>
           ))}
         </div>
       </div>
       <CarouselDots emblaRef={emblaRef} emblaApi={emblaApi}></CarouselDots>
 
-    </div>
-
-  );
+    </div >
 }
 

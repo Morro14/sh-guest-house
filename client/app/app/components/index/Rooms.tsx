@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { useFetchV3 } from "~/utils/fetchHook";
 import Nav from "../nav/Nav";
 import { useNavContextProvider } from "../nav/NavContextProvider";
@@ -25,29 +24,32 @@ export default function RoomsPreview() {
 
         <Carousel
           name="rooms"
-          slug={room.slug}
           key={`room-carousel-${room.slug}`}
           images={room.images}
           imageSize="small"
+          imageRes="main"
+          border={true}
         ></Carousel>
 
-        <MediaFullView images={room.images} slug={room.slug} imageSize="main" key={`room-carousel-full-${room.slug}`}>
-          <Carousel
-            name="rooms"
-            slug={room.slug}
-            key={`room-carousel-${room.slug}`}
-            images={room.images}
-            imageSize="main"
-          ></Carousel>
-        </MediaFullView>
+        {context.fullImageView ?
+          <MediaFullView>
+            <Carousel
+              name="rooms"
+              key={`room-carousel-${room.slug}`}
+              images={room.images}
+              imageSize="full"
+              imageRes="original"
+              fullView={true}
+            ></Carousel>
+          </MediaFullView>
+          : ""
+        }
       </div>
 
     );
   })) : []
   // const cachedRoomCarousels = useMemo(roomCarousels, [data])
   const currentRoomCarousel = roomCarousels[context.itemSelected]
-  console.log("rooms data:", data)
-  console.log("room:", context.itemSelected)
   context.preStateChangeCallback = (callback: () => void) => { callback() }
   // setOpacity(0)
   // setTimeout(() => {

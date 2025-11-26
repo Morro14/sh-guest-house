@@ -48,10 +48,14 @@ export default function Places() {
       <div className=""><NoData message={"No information found. Come back to check later!"} /></div> :
 
       <div className=" mb-10">
-        <MediaFullView imageSize="full">
-          <img src={BASE_URL + data[context.itemSelected]["images"][0]["variants"]["original"]} />
-        </MediaFullView>
-        <h3 className={"transition-opacity duration-300" + ` opacity-${opacity}`}>{currentPlace ? currentPlace.name : ""}</h3>
+        {context.fullImageView ?
+
+          <MediaFullView>
+            <img src={BASE_URL + data[context.itemSelected]["images"][0]["variants"]["original"]} />
+          </MediaFullView>
+          : ""
+        }
+        <h3 className={"transition-opacity duration-300 capitalize" + ` opacity-${opacity}`}>{currentPlace ? currentPlace.name : ""}</h3>
         <div className="flex justify-between">
           <div className={"image-frame-small-responsive transition-opacity duration-300" + ` opacity-${opacity}`}>
             {currentImage}

@@ -8,12 +8,14 @@ import Places from "~/components/index/Places";
 import Footer from "~/components/Footer";
 import CarouselWide from "~/components/index/CarouselWide";
 
+
 export default function Index() {
+  const { t } = useTranslation()
   return (
     <div className="flex grow flex-col items-stretch text-text-main bg-bg gap-8 min-h-screen">
 
       <div className="flex flex-col items-center">
-        <h1 className="mt-[42px] mb-3">Shushan guest house</h1>
+        <h1 className="mt-[42px] mb-3">{t("index-title")}</h1>
         <div className="flex flex-col gap-6 mt-10">
           <Line></Line>
           <NavContextProvider>
@@ -23,10 +25,11 @@ export default function Index() {
           <Line></Line>
         </div>
 
-        <div className="index-container-1 flex flex-col gap-9 2xl:w-[1000px] mt-10">
+        <div className="index-container-1 flex flex-col gap-9 mt-10">
           <Paragraph
             content="about"
             titleSize="h2"
+            centered={true}
           />
 
           <Paragraph
@@ -52,7 +55,8 @@ export default function Index() {
       </div>
       <div className="flex flex-col items-center">
         <div className="flex flex-col grow gap-9 2xl:w-[1000px] mt-2">
-          <Paragraph content="places" titleSize="h2"></Paragraph>
+          <h2 className="text-center">{t("Vayots Dzor")}</h2>
+          <Paragraph content="places" titleSize="h3" centered={true}></Paragraph>
           <NavContextProvider>
             <Places></Places>
           </NavContextProvider>

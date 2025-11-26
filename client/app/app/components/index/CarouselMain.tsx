@@ -20,7 +20,7 @@ export function CarouselMain({ images, imageSize, name }: { images: Array<Image>
       <div className="embla__container">
         {images.map((img, i) => (
           <div
-            key={`img-frame-1i${i}`}
+            key={`img-wide-${i}`}
             className="embla__slide shrink-0 mr-3 basis-[1052px]"
           >
             <img

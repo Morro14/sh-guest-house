@@ -7,7 +7,6 @@ from main.models import (
     WideImage,
 )
 import random
-from django.utils.translation import gettext_lazy as _
 from django.db.utils import IntegrityError
 from faker import Faker
 
@@ -25,6 +24,21 @@ content_data = [
         "slug": "rooms-preview",
         "title": "Rooms",
         "body": "Maecenas dui purus, tempus et tristique a, imperdiet eu quam. Mauris vitae elit sem. Integer tincidunt, nunc sit amet sodales molestie, elit metus laoreet augue, sit amet tristique risus risus nec magna.",
+    },
+    {
+        "slug": "places",
+        "title": "Points of interest in the province",
+        "body": "Cras tortor tellus, volutpat et odio ac, congue dignissim felis. In  tempor odio vel ligula vehicula, a elementum orci dictum. Sed leo nulla, volutpat nec dapibus a, vulputate eu eros. Suspendisse semper ipsum id  ipsum euismod porttitor. Curabitur mollis vel arcu vitae porta.",
+    },
+    {
+        "slug": "services",
+        "title": "Services",
+        "body": "Cras tortor tellus, volutpat et odio ac, congue dignissim felis. In  tempor odio vel ligula vehicula, a elementum orci dictum. Sed leo nulla, volutpat nec dapibus a, vulputate eu eros. Suspendisse semper ipsum id  ipsum euismod porttitor. Curabitur mollis vel arcu vitae porta.",
+    },
+    {
+        "slug": "location",
+        "title": "How to get to us",
+        "body": "Cras tincidunt nisl id velit bibendum  tincidunt. Vivamus semper ex nibh, sit amet blandit est posuere vel.  Morbi condimentum malesuada ex sed convallis. Maecenas felis urna,  faucibus nec nulla pellentesque, tristique blandit ex. Mauris quis  tempus velit. Etiam ut est ligula. Fusce sagittis sodales enim vel  consectetur.",
     },
 ]
 
@@ -74,18 +88,6 @@ class Command(BaseCommand):
                             room=rooms[i],
                             image_full="static/img/full/test_image.jpg",
                             order=j,
-                        )
-                    except IntegrityError:
-                        continue
-
-        def add_content():
-            if options["content"]:
-                for c in content_data:
-                    try:
-                        ContentPage.objects.create(
-                            slug=c["slug"],
-                            title_en=c["title"],
-                            body_en=c["body"],
                         )
                     except IntegrityError:
                         continue
