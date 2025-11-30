@@ -9,7 +9,7 @@ export default function SelectGuests() {
   const [adults, children] = [context.select.adults, context.select.children];
   const wrapperRef = useRef<HTMLDivElement>(null);
   const checkboxRef = useRef<HTMLInputElement>(null);
-  useCloseOnClick(wrapperRef, checkboxRef);
+  useCloseOnClick(wrapperRef, checkboxRef, null, []);
   const genGuestOptions = (num: number, guestType: "adults" | "children") => {
     const guestNum = guestType === "children" ? num + 1 : num;
     return Array.from({ length: guestNum }, (_, i) => {
@@ -62,6 +62,7 @@ export default function SelectGuests() {
       <label
         className="text-center flex items-center justify-center w-full h-10 peer-checked:bg-peach-superlight"
         htmlFor="guests-checkbox"
+        onClick={context.setBlockClick(true)}
       >
         {getGuestSelectLabelText(adults, children)}
       </label>

@@ -9,6 +9,7 @@ export default function ContextProvider({ children, params }) {
   const errors = params.errors;
   const [errorState, setErrorState] = useState<null | Array<Object>>();
   const [formChange, setFormChange] = useState(false)
+  const [blockClick, setBlockClick] = useState(false)
   return (
     <BookingContext
       value={{
@@ -22,7 +23,10 @@ export default function ContextProvider({ children, params }) {
         errorState,
         setErrorState,
         formChange,
-        setFormChange
+        setFormChange,
+        blockClick,
+        setBlockClick
+
       }}
     >
       {children}

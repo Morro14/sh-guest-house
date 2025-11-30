@@ -14,6 +14,7 @@ import type { Room } from '~/types/booking';
 import RequestInfo from '~/components/booking/RequestInfo';
 import { useState } from 'react';
 import NavContextProvider from '~/components/nav/NavContextProvider';
+import Header from '~/components/Header';
 
 
 export async function clientLoader({ request }) {
@@ -61,7 +62,8 @@ export default function Booking({ actionData, loaderData }: Route.ComponentProps
   const [formChange, setFormChange] = useState(false)
   return <div className='bg-bg text-text-main'>
     <ContextProvider params={{ errors: errors }}>
-      <HeaderBooking></HeaderBooking>
+      {/* <HeaderBooking></HeaderBooking> */}
+      <Header bookingPannelEnabled={false}></Header>
       <div className='flex flex-col items-center mt-[42px]'>
         <h1 className='mb-12'>{t("Your booking request")}</h1>
         <Line />

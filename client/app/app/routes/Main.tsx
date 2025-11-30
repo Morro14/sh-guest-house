@@ -5,6 +5,7 @@ import { validate } from "~/components/formComponents/validate";
 import { axiosInstance } from "~/root";
 import { redirect } from "react-router";
 import Index from "./Index";
+import BookingPannel from "~/components/BookingPanel";
 
 const BOOKING_URL = "booking";
 
@@ -32,7 +33,8 @@ export default function Main({ actionData }: Route.ComponentProps) {
   return (
     <div className="flex flex-col min-h-screen min-w-screen text-text-main">
       <ContextProvider params={{ errors: errors }}>
-        <Header></Header>
+        <Header bookingPannelEnabled={false}></Header>
+        <BookingPannel></BookingPannel>
         <Index></Index>
       </ContextProvider>
     </div>

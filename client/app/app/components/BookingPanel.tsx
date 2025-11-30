@@ -9,7 +9,7 @@ export default function BookingPannel() {
   const context = useContextProvider();
 
   return (
-    <div className="relative inline-block w-full">
+    <div className="sticky top-0 z-30 inline-block w-full drop-shadow-md">
       <div className="flex justify-center items-center bg-peach-light w-full font-sans">
         <Form
           method="post"

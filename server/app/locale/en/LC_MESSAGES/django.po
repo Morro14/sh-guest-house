@@ -208,7 +208,7 @@ msgstr ""
 
 #: main/utils/frontend_tr_strings.py:21
 msgid "index-title"
-msgstr ""
+msgstr "Shushan guest house"
 
 #: main/utils/frontend_tr_strings.py:22
 msgid "Vayots Dzor"
