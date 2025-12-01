@@ -71,7 +71,7 @@ h4 {
 /* .image-original { */
 /* } */
 .media-full-view {
-  @apply 2xl:w-[1284px] 2xl:h-9/10
+  @apply 2xl:w-[1284px] 2xl:h-[90vh]
 }
 
 .carousel-small {

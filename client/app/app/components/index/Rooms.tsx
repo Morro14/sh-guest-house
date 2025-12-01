@@ -16,9 +16,9 @@ export interface Room {
 
 export default function RoomsPreview() {
   const { fetchedData, loading } = useFetchV3("rooms");
-  const data = fetchedData?.data.data as Array<Room>
+  const rooms = fetchedData?.data.data as Array<Room>
   const context = useNavContextProvider();
-  const roomCarousels = !loading ? (data.map((room) => {
+  const roomCarousels = !loading ? (rooms.map((room) => {
     return (
       <div>
 
@@ -31,19 +31,6 @@ export default function RoomsPreview() {
           border={true}
         ></Carousel>
 
-        {context.fullImageView ?
-          <MediaFullView>
-            <Carousel
-              name="rooms"
-              key={`room-carousel-${room.slug}`}
-              images={room.images}
-              imageSize="full"
-              imageRes="original"
-              fullView={true}
-            ></Carousel>
-          </MediaFullView>
-          : ""
-        }
       </div>
 
     );
@@ -66,7 +53,21 @@ export default function RoomsPreview() {
     :
     <div className="flex justify-between">
       {currentRoomCarousel}
-      <Nav items={data} slug="rooms" contextProvider={useNavContextProvider} template={NavLinkTemplate}></Nav>{" "}
+      {context.fullImageView ?
+        <MediaFullView>
+          <Carousel
+            name="rooms"
+            key={`room-carousel-${rooms[context.itemSelected].slug}`}
+            images={rooms[context.itemSelected].images}
+            imageSize="full"
+            imageRes="original"
+            fullView={true}
+          ></Carousel>
+        </MediaFullView>
+        : ""
+      }
+
+      <Nav items={rooms} slug="rooms" contextProvider={useNavContextProvider} template={NavLinkTemplate}></Nav>{" "}
     </div>
 }
 

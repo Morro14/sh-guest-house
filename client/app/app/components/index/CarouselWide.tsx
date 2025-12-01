@@ -16,7 +16,7 @@ export default function CarouselWide() {
       <CarouselMain images={images.concat(images)} imageSize="main" name="wide-1"></CarouselMain>
       {context.fullImageView ?
         <MediaFullView>
-          <img className="h-full object-contain" src={MEDIA_BASE_URL + images[context.itemSelected]["variants"]["original"]} />
+          <img className="h-full object-cover" src={MEDIA_BASE_URL + images[context.itemSelected]["variants"]["original"]} />
 
         </MediaFullView>
         : ""

@@ -12,6 +12,8 @@ export default function CarouselDotsFullView({ emblaRef, emblaApi }: { emblaRef:
   if (selectorRef.current) {
     selectorRef.current.style.left = String(selectedIndex * 35 + 'px')
   }
+  const [dots, setDots] = useState<any>([])
+  console.log("full view dots", dots)
   useEffect(() => {
     if (!emblaApi) {
       return
@@ -23,8 +25,8 @@ export default function CarouselDotsFullView({ emblaRef, emblaApi }: { emblaRef:
       const genMoreDots = (newDotsNum: number, currentDotsNum: number) => Array.from({ length: newDotsNum }, (_, i) => {
         return <div key={`room-dot-${currentDotsNum + i}`} onClick={() => emblaApi?.scrollTo(currentDotsNum + i)} className="w-3.5 h-3.5 rounded-[7px] cursor-pointer hover:bg-peach-light bg-gray-warm"></div>
       })
-      const dots = genMoreDots(snapsLength, 0)
-      context.setDots(dots)
+      const genDots = genMoreDots(snapsLength, 0)
+      setDots(genDots)
     }
     emblaApi.on("select", () => {
       setSelectedIndex(emblaApi.selectedScrollSnap())
@@ -32,12 +34,13 @@ export default function CarouselDotsFullView({ emblaRef, emblaApi }: { emblaRef:
   }, [emblaApi])
 
   return <div className={"flex grow gap-[41px] justify-center items-center transtion-all duration-300"}>
-    <NavArrow key={'rooms-arrow-left'} direction="left" numElements={context.dots.length} index={selectedIndex} func={() => selectedIndex > 0 ? emblaApi?.scrollTo(selectedIndex - 1) : undefined} />
+    <NavArrow key={'rooms-arrow-left'} direction="left" numElements={dots.length} index={selectedIndex} func={() => selectedIndex > 0 ? emblaApi?.scrollTo(selectedIndex - 1) : undefined} />
     <div className="flex relative gap-[21px]">
       <div ref={selectorRef} className="absolute w-3.5 h-3.5 rounded-[7px] bg-peach transition-all duration-500 ease-out pointer-event-none"></div>
-      {context.dots ? context.dots : ""}
+      {dots ? dots : ""}
     </div>
-    <NavArrow key={'rooms-arrow-right'} direction="right" index={selectedIndex} func={() => selectedIndex < context.dots.length - 1 ? emblaApi?.scrollTo(selectedIndex + 1) : undefined} numElements={context.dots.length} />
+    <NavArrow key={'rooms-arrow-right'} direction="right" index={selectedIndex} func={() => selectedIndex < dots.length - 1 ? emblaApi?.scrollTo(selectedIndex + 1) : undefined} numElements={dots.length} />
+
   </div>
 }
 

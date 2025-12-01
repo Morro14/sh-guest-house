@@ -24,7 +24,7 @@ export function Carousel({
 
 }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: "end",
+
   });
   const context = useNavContextProvider()
   const imageOnClick = () => {
@@ -34,18 +34,17 @@ export function Carousel({
       return
     }
   }
-  console.log('carousel full?', fullView, 'imageSize', imageSize)
   return fullView ? (
-    <div className="relative flex flex-col gap-5 items-center justify-end">
-      <div className={`"embla overflow-hidden bg-black-transparent border-2 border-peach`} ref={emblaRef}>
-        <div className={`embla__container `}>
+    <div className="relative flex flex-col gap-5 items-center justify-end shrink ">
+      <div className={`"embla overflow-hidden bg-black-transparent border-2 border-peach h-full`} ref={emblaRef}>
+        <div className={`embla__container h-full`}>
           {images.map((img, i) => (
             <div
               key={`${name}-slide-${i}`}
-              className="embla__slide shrink-0 basis-full 2xl:h-[1000px]"
+              className="embla__slide shrink-0 basis-full h-full flex justify-center"
             >
               <img
-                className={`size-full object-cover `}
+                className={`h-full object-cover`}
                 src={BASE_URL + img.variants[imageRes]}
                 alt={`${name}--${i}`}
                 loading="lazy"

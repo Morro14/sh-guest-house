@@ -5,7 +5,6 @@ export default function useFloatingSelector(prevPos: number, loaded = false, pos
 
   const selectorHeight = loaded ? selectorElement.current.clientHeight : undefined
   const [scrollPos, setScrollPos] = useState(0)
-  console.log("floating selector: loaded:", loaded, "position:", position)
   useEffect(() => {
     if (!loaded) return
     // if selector is at 2nd to bottom position of visible part
