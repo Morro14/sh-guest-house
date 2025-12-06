@@ -51,7 +51,7 @@ export default function RoomsPreview() {
       Loading...
     </div>
     :
-    <div className="flex justify-between">
+    <div className="flex justify-between pt-9">
       {currentRoomCarousel}
       {context.fullImageView ?
         <MediaFullView>
@@ -73,10 +73,9 @@ export default function RoomsPreview() {
 
 function NavLinkTemplate({ item }) {
   return <div>
-
-    <div className="text-xl font-serif">{item.name}</div>
-    <div className="flex gap-2" key={`${item.slug}-select-room-info`}>
-      <div className="font-sans">{`${item.adults_num} Adults ${item.children_num} children`}</div>
+    <div className="text-xl font-sans">{item.name}</div>
+    <div className="flex gap-2">
+      <div className="font-sans text-base">{`${item.adults_num} Adults ${item.children_num} children`}</div>
       <div>|</div>
       <div className="font-sans">Beds description</div>
     </div>

@@ -3,6 +3,7 @@ import type { Image } from "~/types/nav";
 import CarouselDots from "./CarouselDots";
 import { useNavContextProvider } from "../nav/NavContextProvider";
 import CarouselDotsFullView from "./CarouselDotsFullView";
+import { useEffect, useState } from "react";
 
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
@@ -23,21 +24,28 @@ export function Carousel({
   border?: boolean
 
 }) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-
-  });
   const context = useNavContextProvider()
-  const imageOnClick = () => {
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    startIndex: fullView ? context.imageSelected : 0
+  });
+  const imageOnClick = (imageIndex: number) => {
     if (!fullView) {
       context.setFullImageView(true)
+      context.setImageSelected(imageIndex)
     } else {
       return
     }
   }
+  useEffect(() => {
+    if (emblaApi && fullView) {
+      // requestAnimationFrame(() => emblaApi.reInit())
+      console.log("embla init", emblaRef)
+    }
+  }, [emblaApi, fullView])
   return fullView ? (
-    <div className="relative flex flex-col gap-5 items-center justify-end shrink ">
-      <div className={`"embla overflow-hidden bg-black-transparent border-2 border-peach h-full`} ref={emblaRef}>
-        <div className={`embla__container h-full`}>
+    <div className="flex flex-col gap-5 items-center justify-end shrink">
+      <div className={`"embla overflow-hidden bg-black-transparent border-2 border-peach size-full`} ref={emblaRef}>
+        <div className={`embla__container h-full min-w-0 w-[1280px]`}>
           {images.map((img, i) => (
             <div
               key={`${name}-slide-${i}`}
@@ -46,9 +54,9 @@ export function Carousel({
               <img
                 className={`h-full object-cover`}
                 src={BASE_URL + img.variants[imageRes]}
-                alt={`${name}--${i}`}
+                alt={`${name}-${i}`}
                 loading="lazy"
-                onClick={() => imageOnClick()}
+                onClick={() => imageOnClick(i)}
               />
             </div>
           ))}
@@ -56,7 +64,7 @@ export function Carousel({
       </div>
       <div className="sticky">
         {/* <CarouselDots emblaRef={emblaRef} emblaApi={emblaApi}></CarouselDots> */}
-        <CarouselDotsFullView emblaRef={emblaRef} emblaApi={emblaApi}></CarouselDotsFullView>
+        <CarouselDotsFullView emblaRef={emblaRef} emblaApi={emblaApi} snapListLen={images.length}></CarouselDotsFullView>
       </div>
     </div >
 
@@ -74,7 +82,7 @@ export function Carousel({
                   src={BASE_URL + img.variants[imageRes]}
                   alt={`${name}-${i}`}
                   loading="lazy"
-                  onClick={() => imageOnClick()}
+                  onClick={() => imageOnClick(i)}
                 />
               </div>
             </div>

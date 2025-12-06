@@ -1,16 +1,40 @@
 import { Form } from "react-router"
-import { useContextProvider } from "./ContextProvider"
-import SelectGuests from "./formComponents/SelectGuests"
+import { useContextProvider } from "../components/ContextProvider"
+import SelectGuests from "../components/formComponents/SelectGuests"
 import { useTranslation } from "react-i18next"
+import { validate } from "~/components/formComponents/validate"
+import { redirect } from "react-router"
+import type { Route } from "./+types/BookingForm"
+import { getUrlSearchParams } from "~/utils/general"
 
-export default function BookingForm({ date, adults, children, days, setFormChange }) {
+export async function clientAction({ request }: Route.ClientActionArgs) {
+  const formData = await request.formData();
+  const validations = validate(formData);
+  const errors = validations.filter((v) => !v.valid);
+  if (errors.length > 0) {
+    return { status: "vaildationError", errors };
+  }
+  let formDataObj = {}
+  for (const [k, v] of formData.entries()) {
+    formDataObj[k] = (v.toString())
+  }
+  const params = new URLSearchParams(
+    formDataObj
+  )
+  return redirect(`/booking?${params}`)
+}
+
+
+export default function BookingForm() {
   const context = useContextProvider()
   const { t } = useTranslation()
+  const { date, adults, children, days } = getUrlSearchParams(['date', 'adults', 'children', 'days'])
+  console.log('default date', date)
   return <Form
     method="post"
     className="flex flex-col gap-3 items-center w-full"
   >
-    <div className="flex justify-between w-full h-10 items-center overflow-visible">
+    <div className="flex justify-between w-full h-[80px] items-center overflow-visible">
       <div className="h-[25px] border-b w-[132px] border-b-line-light">
         <input
           defaultValue={date}
@@ -38,11 +62,10 @@ export default function BookingForm({ date, adults, children, days, setFormChang
       </div>
 
     </div>
-    <div className="flex justify-between items-center py-4 w-[250px]">
+    <div className="flex justify-between items-center pb-4 w-[250px]">
       <div>{arrow}</div>
       <button
         type="submit"
-        onClick={() => setFormChange(false)}
         className="font-medium italic pb-[1px] underline cursor-pointer"
       >
         Show available rooms

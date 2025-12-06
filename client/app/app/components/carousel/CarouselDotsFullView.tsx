@@ -5,7 +5,7 @@ import NavArrow from "app/components/nav/NavArrow"
 
 
 
-export default function CarouselDotsFullView({ emblaRef, emblaApi }: { emblaRef: EmblaViewportRefType, emblaApi: any }) {
+export default function CarouselDotsFullView({ emblaRef, emblaApi, snapListLen }: { emblaRef: EmblaViewportRefType, emblaApi: any, snapListLen: number }) {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const context = useNavContextProvider()
   const selectorRef = useRef(undefined)
@@ -13,14 +13,13 @@ export default function CarouselDotsFullView({ emblaRef, emblaApi }: { emblaRef:
     selectorRef.current.style.left = String(selectedIndex * 35 + 'px')
   }
   const [dots, setDots] = useState<any>([])
-  console.log("full view dots", dots)
+  // console.log("full view dots", dots)
   useEffect(() => {
     if (!emblaApi) {
       return
     }
     if (emblaApi) {
-
-      const snapsLength = emblaApi.scrollSnapList().length
+      const snapsLength = snapListLen
       console.log('snapsLength', snapsLength)
       const genMoreDots = (newDotsNum: number, currentDotsNum: number) => Array.from({ length: newDotsNum }, (_, i) => {
         return <div key={`room-dot-${currentDotsNum + i}`} onClick={() => emblaApi?.scrollTo(currentDotsNum + i)} className="w-3.5 h-3.5 rounded-[7px] cursor-pointer hover:bg-peach-light bg-gray-warm"></div>
@@ -32,6 +31,7 @@ export default function CarouselDotsFullView({ emblaRef, emblaApi }: { emblaRef:
       setSelectedIndex(emblaApi.selectedScrollSnap())
     })
   }, [emblaApi])
+  console.log('dots', emblaApi?.selectedScrollSnap())
 
   return <div className={"flex grow gap-[41px] justify-center items-center transtion-all duration-300"}>
     <NavArrow key={'rooms-arrow-left'} direction="left" numElements={dots.length} index={selectedIndex} func={() => selectedIndex > 0 ? emblaApi?.scrollTo(selectedIndex - 1) : undefined} />

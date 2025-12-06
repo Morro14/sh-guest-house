@@ -10,9 +10,7 @@ export default function useFloatingSelector(prevPos: number, loaded = false, pos
     // if selector is at 2nd to bottom position of visible part
     let newPos = 0
     if ((prevPos < position) && (selectorHeight * position - scrollElement.current.scrollTop) >= 4 * selectorHeight) {
-      console.log('cond 1')
       if (scrollElement.current.scrollTopMax - scrollElement.current.scrollTop <= selectorHeight) {
-        console.log('cond 1 1')
         newPos = scrollElement.current.scrollTopMax
       } else {
         newPos = scrollElement.current.scrollTop + selectorHeight
@@ -20,9 +18,7 @@ export default function useFloatingSelector(prevPos: number, loaded = false, pos
     } else
       // if selector is at 2nd position of visible part
       if ((prevPos > position) && (selectorHeight * position - scrollElement.current.scrollTop <= selectorHeight)) {
-        console.log('cond 2')
         if (scrollElement.current.scrollTop !== 0 && scrollElement.current.scrollTop <= selectorHeight) {
-          console.log('cond 2 1')
           newPos = 0
         } else {
           newPos = scrollElement.current.scrollTop - selectorHeight

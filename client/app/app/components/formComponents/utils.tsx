@@ -6,9 +6,8 @@ export function useCloseOnClick<T extends any[]>(
   callback: (...args: any) => any | null = null,
   callBackArgs: T | [] = [],
 ) {
-  const [elOpen, setElOpen] = useState(false)
   const handleClickOutside = (e: MouseEvent) => {
-    if (!switcherRef.current.checked) return
+    if (!switcherRef.current?.checked) return
     const target = e.target as Node;
     if (wrapperRef.current && !wrapperRef.current.contains(target)) {
       e.stopPropagation()
@@ -20,6 +19,8 @@ export function useCloseOnClick<T extends any[]>(
   }
 
   useEffect(() => {
+    if (!switcherRef.current) return
+
     document.addEventListener("click", handleClickOutside, true)
 
   }, []);
@@ -44,5 +45,25 @@ export function useCloseOnClickV2<T extends any[]>(
     return () => document.removeEventListener("mousedown", handleClickOutside);
 
   }, [nonClickableRef]);
+}
+
+export function isInsideSubtractArea(outerNode: Element, innerNode: Element, e: MouseEvent) {
+  // checks if coords are in outer node area but not inside inner node area
+
+  if (!outerNode && !innerNode) {
+    return false
+  }
+
+  const { clientX: x, clientY: y } = e
+  const outerRect = outerNode.getBoundingClientRect()
+  const innderRect = innerNode.getBoundingClientRect()
+
+  const inOuterRect = x >= outerRect.left && x <= outerRect.right && y <= outerRect.bottom && y >= outerRect.top
+  const inInnerRect = x >= innderRect.left && x <= innderRect.right && y <= innderRect.bottom && y >= innderRect.top
+
+  if (inOuterRect && !inInnerRect) {
+    return true
+  }
+  return false
 }
 

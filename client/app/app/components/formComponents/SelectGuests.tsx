@@ -62,7 +62,6 @@ export default function SelectGuests() {
       <label
         className="text-center flex items-center justify-center w-full h-10 peer-checked:bg-peach-superlight"
         htmlFor="guests-checkbox"
-        onClick={context.setBlockClick(true)}
       >
         {getGuestSelectLabelText(adults, children)}
       </label>
