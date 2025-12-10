@@ -26,6 +26,7 @@ body {
 	--color-olive-dark: #8ca47c;
 	--color-red-bg-error: #ff9991;
 	--color-red-bg-error-light: #fec0bb;
+	--color-red-error: #E44D48;
 	--color-peach-light: #fdd2a9;
 	--color-peach-lighter: #ffdbbd;
 	--color-peach-accent: #fbbb84;
@@ -35,20 +36,20 @@ body {
 	--color-gray-warm: #E3DDDD;
 	--color-gray-warm-mid: #73706F;
 	--color-green-warm: #699A57;
-	--color-black-transparent: #000000BF;
-  
+	--color-black-transparent: #000000BF; 
 	--font-sans: "Source Sans 3", sans-serif;
 	--font-serif: "Lora", serif; 
+  --gradient-olive: linear-gradient(90deg,rgba(255, 251, 251, 1) 0%, rgba(209, 216, 184, 0.24) 50%, rgba(255, 251, 251, 1) 100%);
 }
 
 h1 {
 	@apply text-4xl font-medium;
 }
 h2 {
-	@apply text-3xl font-medium mb-7;
+	@apply text-3xl mb-9 font-medium;
 }
 h3 {
-	@apply text-2xl font-medium mb-5;
+	@apply text-2xl mb-7 font-medium;
 }
 h4 {
   @apply text-xl

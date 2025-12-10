@@ -10,3 +10,6 @@ export interface Room {
   price: number;
   beds: string;
 }
+
+
+export type Currency = "AMD" | "USD" | "EUR" | "RUB"

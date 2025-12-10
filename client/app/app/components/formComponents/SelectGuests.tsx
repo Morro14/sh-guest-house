@@ -3,6 +3,7 @@ import { useContextProvider } from "../ContextProvider";
 import { useRef } from "react";
 import { useCloseOnClick } from "./utils";
 
+
 export default function SelectGuests() {
   const context = useContextProvider();
   const { t } = useTranslation();
@@ -115,7 +116,7 @@ export default function SelectGuests() {
             </button>
             <button
               className="underline in-checked:"
-              onClick={(e) => e.preventDefault()}
+              onClick={(e) => { e.preventDefault(); checkboxRef.current.checked = false }}
             >
               continue
             </button>

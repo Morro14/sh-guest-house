@@ -6,8 +6,10 @@ import { validate } from "~/components/formComponents/validate"
 import { redirect } from "react-router"
 import type { Route } from "./+types/BookingForm"
 import { getUrlSearchParams } from "~/utils/general"
+import { useEffect } from "react"
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
+  console.log('form action')
   const formData = await request.formData();
   const validations = validate(formData);
   const errors = validations.filter((v) => !v.valid);
@@ -25,11 +27,16 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 }
 
 
-export default function BookingForm() {
+export default function BookingForm({ actionData }: Route.ComponentProps) {
+
   const context = useContextProvider()
   const { t } = useTranslation()
-  const { date, adults, children, days } = getUrlSearchParams(['date', 'adults', 'children', 'days'])
-  console.log('default date', date)
+  const { date, days } = getUrlSearchParams(['date', 'adults', 'children', 'days'])
+  useEffect(() => {
+    if (actionData && actionData.errors.length > 0) {
+      context.setErrorState(actionData.errors)
+    }
+  }, [actionData])
   return <Form
     method="post"
     className="flex flex-col gap-3 items-center w-full"

@@ -1,4 +1,5 @@
 import { useEffect, useState, type RefObject } from "react";
+import type { Room } from "~/types/booking";
 
 export function useCloseOnClick<T extends any[]>(
   wrapperRef: RefObject<HTMLElement>,
@@ -67,3 +68,17 @@ export function isInsideSubtractArea(outerNode: Element, innerNode: Element, e: 
   return false
 }
 
+export function getSelectedRooms(form: HTMLFormElement) {
+  const children = Array.from(form.getElementsByTagName("input")) as HTMLInputElement[]
+  const selectedRooms = children.filter((el) => el.checked === true)
+  return selectedRooms
+}
+
+export function requireMoreRooms(rooms: Room[], guests: number) {
+  const roomsAccommodate = rooms.reduce((acc, r) => r.adults_num + r.children_num + acc, 0)
+  console.log('reduce', roomsAccommodate)
+  if (roomsAccommodate - guests < 0) {
+    return roomsAccommodate - guests
+  }
+  return false
+}

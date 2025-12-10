@@ -3,6 +3,7 @@ import {
   route,
   layout,
   index,
+  prefix,
 } from "@react-router/dev/routes";
 
 export default [
@@ -11,4 +12,7 @@ export default [
     index("routes/RequestInfo.tsx"),
     route("form", "routes/BookingForm.tsx"),
   ]),
+  ...prefix('booking', [
+    route("confirm", "routes/BookingConfirm.tsx"),
+  ])
 ] satisfies RouteConfig;

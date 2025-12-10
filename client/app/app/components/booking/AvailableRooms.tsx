@@ -3,12 +3,21 @@ import AvailableRoom from "./AvailableRoom"
 import type { Room } from "~/types/booking"
 import { Carousel } from "../carousel/Carousel"
 import { useNavContextProvider } from "../nav/NavContextProvider"
-import { useState } from "react"
+import { Form } from "react-router"
+import FloatingPannel from "./FloatingPanel"
+import { useEffect, useRef } from "react"
+import { useTranslation } from "react-i18next"
+import { useBookingRoomSelectContextProvider } from "./BookingRoomSelectContext"
 
 
 export default function AvailableRooms({ rooms }) {
   const context = useNavContextProvider()
-  return <div className="flex justify-center">
+  const { t } = useTranslation()
+  const formRef = useRef(null)
+  const formContext = useBookingRoomSelectContextProvider()
+  useEffect(() => formContext.setForm(formRef.current), [formRef])
+  return <div className="flex flex-col items-center ">
+    <h3 className='text-center text-nowrap my-7'>{rooms.length > 0 ? t('Available rooms') : t("No available rooms for these dates. Check the next available dates for booking below.")}</h3>
     {
       context.fullImageView ? <MediaFullView>
         <Carousel
@@ -21,11 +30,12 @@ export default function AvailableRooms({ rooms }) {
         </Carousel>
       </MediaFullView> : ""
     }
-    <div className="grid grid-cols-2 2xl:w-[1000px] gap-x-10 gap-y-14">
+    <Form ref={formRef} id="room-select-form" className="grid grid-cols-2 2xl:w-[1000px] gap-x-10 gap-y-14">
       {rooms.map((room: Room, index: number) => {
-        return <AvailableRoom key={room.name} room={room} index={index}></AvailableRoom>
+        return <AvailableRoom formRef={formRef} key={room.name} room={room} index={index}></AvailableRoom>
       })
       }
-    </div>
+      <button type="submit">Book</button>
+    </Form>
   </div>
 }
