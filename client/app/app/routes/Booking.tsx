@@ -1,6 +1,6 @@
 import { axiosInstance } from '~/root';
 import type { Route } from './+types/Booking'
-import { Outlet, useSearchParams } from 'react-router';
+import { Outlet, useLocation, useResolvedPath, useSearchParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { redirect } from 'react-router';
 import Line from '~/components/index/Line';
@@ -10,7 +10,7 @@ import type { Room } from '~/types/booking';
 import NavContextProvider from '~/components/nav/NavContextProvider';
 import Header from '~/components/Header';
 import ContextProvider from '~/components/ContextProvider';
-import FloatingPannel from '~/components/booking/FloatingPanel';
+import FloatingPanel from '~/components/booking/FloatingPanel';
 import BookingRoomSelectContext from '~/components/booking/BookingRoomSelectContext';
 
 
@@ -31,10 +31,12 @@ export default function Booking({ loaderData }: Route.ComponentProps) {
   //handle loaderData
   const rooms = loaderData.status === 200 ? loaderData.data.rooms as Room[] : []
   const { t } = useTranslation()
+  const location = useLocation()
+  console.log('location pathanme', location.pathname)
   return <div className='bg-bg text-text-main'>
     <ContextProvider params={{ errors: [] }}>
       <Header bookingPannelEnabled={false}></Header>
-      <div className='flex flex-col items-center mt-[42px]'>
+      <div id="request-info-block" className='flex flex-col items-center mt-[42px]'>
         <h2 className='mb-10 -mt-2'>{t("Your booking request")}</h2>
 
         <Line />
@@ -44,13 +46,15 @@ export default function Booking({ loaderData }: Route.ComponentProps) {
             <h4 className='w-50'>Number of guests</h4>
             <h4 className='w-[132px]'>Nights</h4>
           </div>
-          <Outlet></Outlet>
+          <div className={`${location.pathname === '/booking' ? 'h-[68px]' : 'h-[80px]'} w-full transition-all duration-200`}>
+            <Outlet></Outlet>
+          </div>
         </div>
         <Line />
       </div>
-      <div>
+      <div className='relative pt-10'>
         <BookingRoomSelectContext>
-          <FloatingPannel rooms={rooms}></FloatingPannel>
+          <FloatingPanel rooms={rooms}></FloatingPanel>
           {
             loaderData.status === 200 ?
               <NavContextProvider>

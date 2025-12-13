@@ -16,7 +16,7 @@ export default function AvailableRooms({ rooms }) {
   const formRef = useRef(null)
   const formContext = useBookingRoomSelectContextProvider()
   useEffect(() => formContext.setForm(formRef.current), [formRef])
-  return <div className="flex flex-col items-center ">
+  return <div id="available-rooms" className="flex flex-col items-center ">
     <h3 className='text-center text-nowrap my-7'>{rooms.length > 0 ? t('Available rooms') : t("No available rooms for these dates. Check the next available dates for booking below.")}</h3>
     {
       context.fullImageView ? <MediaFullView>

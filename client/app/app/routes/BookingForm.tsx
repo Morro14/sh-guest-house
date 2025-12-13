@@ -39,9 +39,9 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
   }, [actionData])
   return <Form
     method="post"
-    className="flex flex-col gap-3 items-center w-full"
+    className="flex flex-col gap-3 items-center size-full"
   >
-    <div className="flex justify-between w-full h-[80px] items-center overflow-visible">
+    <div className="flex justify-between w-full items-center overflow-visible">
       <div className="h-[25px] border-b w-[132px] border-b-line-light">
         <input
           defaultValue={date}
@@ -69,16 +69,16 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
       </div>
 
     </div>
-    <div className="flex justify-between items-center pb-4 w-[250px]">
-      <div>{arrow}</div>
-      <button
-        type="submit"
-        className="font-medium italic pb-[1px] underline cursor-pointer"
-      >
-        Show available rooms
-      </button>
-      <div className="rotate-180">{arrow}</div>
-    </div>
+    {/* <div className="flex justify-between items-center"> */}
+    {/* <div>{arrow}</div> */}
+    <button
+      type="submit"
+      className="font-medium italic underline cursor-pointer"
+    >
+      Show available rooms
+    </button>
+    {/* <div className="rotate-180">{arrow}</div> */}
+    {/* </div> */}
   </Form>
 }
 

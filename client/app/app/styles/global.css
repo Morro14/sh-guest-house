@@ -34,6 +34,7 @@ body {
 	--color-peach: #efa76a;
 	--color-line-light: #c59f8d;
 	--color-gray-warm: #E3DDDD;
+	--color-gray-warm-inactive: #C5C4C3;
 	--color-gray-warm-mid: #73706F;
 	--color-green-warm: #699A57;
 	--color-black-transparent: #000000BF; 
@@ -106,4 +107,12 @@ h4 {
 .embla__slide {
 	/* flex: 0 0 100%; */ 
   min-width: 0;
+}
+
+.float-visible {
+  display: flex
+}
+
+.float-hidden {
+  display: none;
 }

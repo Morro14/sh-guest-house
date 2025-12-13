@@ -67,7 +67,7 @@ export default function SelectGuests() {
         {getGuestSelectLabelText(adults, children)}
       </label>
 
-      <div className="absolute z-10 h-0 overflow-hidden peer-checked:h-[150px] peer-checked:[&_.guest-input]:opacity-100 w-full transition-all duration-200">
+      <div className="absolute z-50 h-0 overflow-hidden peer-checked:h-[150px] peer-checked:[&_.guest-input]:opacity-100 w-full transition-all duration-200">
         <div className="flex flex-col p-4 bg-peach-superlight gap-4">
           <select
             id="select-adults"

@@ -74,8 +74,11 @@ export function getSelectedRooms(form: HTMLFormElement) {
   return selectedRooms
 }
 
-export function requireMoreRooms(rooms: Room[], guests: number) {
-  const roomsAccommodate = rooms.reduce((acc, r) => r.adults_num + r.children_num + acc, 0)
+export function requireMoreRooms(selectedRoomInputs: HTMLCollectionOf<HTMLInputElement>, rooms: Room[], guests: number) {
+  console.log('rooms selected', selectedRoomInputs)
+  console.log('rooms', rooms)
+  const selectedRooms = rooms.filter((r) => Array.from(selectedRoomInputs).find((r_) => r_.value === r.slug))
+  const roomsAccommodate = selectedRooms.reduce((acc, r) => r.adults_num + r.children_num + acc, 0)
   console.log('reduce', roomsAccommodate)
   if (roomsAccommodate - guests < 0) {
     return roomsAccommodate - guests
