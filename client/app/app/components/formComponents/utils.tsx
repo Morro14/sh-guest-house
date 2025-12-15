@@ -75,13 +75,14 @@ export function getSelectedRooms(form: HTMLFormElement) {
 }
 
 export function requireMoreRooms(selectedRoomInputs: HTMLCollectionOf<HTMLInputElement>, rooms: Room[], guests: number) {
-  console.log('rooms selected', selectedRoomInputs)
-  console.log('rooms', rooms)
   const selectedRooms = rooms.filter((r) => Array.from(selectedRoomInputs).find((r_) => r_.value === r.slug))
   const roomsAccommodate = selectedRooms.reduce((acc, r) => r.adults_num + r.children_num + acc, 0)
-  console.log('reduce', roomsAccommodate)
   if (roomsAccommodate - guests < 0) {
     return roomsAccommodate - guests
   }
   return false
+}
+
+export function getTotalPrice(selectedRoomInputs: HTMLCollectionOf<HTMLInputElement>, rooms: Room[], adults: number, children: number, days: number) {
+  const selectedRooms = rooms.filter((r) => Array.from(selectedRoomInputs).find((r_) => r_.value === r.slug))
 }

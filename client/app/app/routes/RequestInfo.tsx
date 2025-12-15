@@ -8,15 +8,14 @@ export default function RequestInfo() {
   const { date: defaultDate, adults: defaultAdults, children: defaultChildren, days: defaultDays } = getDefaultSearchParams()
   const [date, adults, children, days] = [dateParam || defaultDate, adultsParam || defaultAdults, childrenParam || defaultChildren, daysParam || defaultDays]
   const [URLSearchParams] = useSearchParams()
-  const formUrl = "/booking/form?" + URLSearchParams.toString()
+  const formUrl = "/booking/change-request-info?" + URLSearchParams.toString()
   const { i18n } = useTranslation()
   const blockWidth = "w-[132px] pt-2"
   const guests = Number(adults) + Number(children)
   const lang = i18n.language
   const dateObj = new Date(date)
-  const dateUTC = Date.UTC(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate())
   const dateF = new Intl.DateTimeFormat([lang, "en"], { dateStyle: "medium" })
-  const dateString = dateF.format(dateUTC)
+  const dateString = dateF.format(dateObj)
   return <div className="flex flex-col items-center w-full gap-3">
     <div className="text-center flex justify-between items-center w-full">
       <p className={`${blockWidth}`}>{dateString}</p>

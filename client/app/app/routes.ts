@@ -10,7 +10,8 @@ export default [
   index("routes/Main.tsx"),
   route("booking", "routes/Booking.tsx", [
     index("routes/RequestInfo.tsx"),
-    route("form", "routes/BookingForm.tsx"),
+    route("change-request-info", "routes/BookingForm.tsx"),
+    // route("select-rooms", "routes/SelectRooms.tsx"),
   ]),
   ...prefix('booking', [
     route("confirm", "routes/BookingConfirm.tsx"),
