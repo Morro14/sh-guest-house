@@ -4,10 +4,11 @@ import type { Room } from "~/types/booking"
 import { Carousel } from "../carousel/Carousel"
 import { useNavContextProvider } from "../nav/NavContextProvider"
 import { Form } from "react-router"
-import FloatingPannel from "./FloatingPanel"
 import { useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
 import { useBookingRoomSelectContextProvider } from "./BookingRoomSelectContext"
+import { getUrlSearchParams } from "~/utils/general"
+import { getTotalPrice } from "../formComponents/utils"
 
 
 export default function AvailableRooms({ rooms }) {
@@ -15,7 +16,13 @@ export default function AvailableRooms({ rooms }) {
   const { t } = useTranslation()
   const formRef = useRef(null)
   const formContext = useBookingRoomSelectContextProvider()
-  useEffect(() => formContext.setForm(formRef.current), [formRef])
+  const params = getUrlSearchParams(['adults', 'children', 'days'])
+  useEffect(() => {
+    formContext.setForm(formRef.current)
+  }, [formRef])
+  // const updateTotalPrice = () => {
+  //   formContext.setTotalPrice(getTotalPrice(formContext.selectedRooms, rooms, Number(params.adults), Number(params.children), Number(params.days)))
+  // }
   return <div id="available-rooms" className="flex flex-col items-center pt-12">
     <h3 className='text-center text-nowrap my-7'>{rooms.length > 0 ? t('Available rooms') : t("No available rooms for these dates. Check the next available dates for booking below.")}</h3>
     {

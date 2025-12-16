@@ -74,15 +74,35 @@ export function getSelectedRooms(form: HTMLFormElement) {
   return selectedRooms
 }
 
-export function requireMoreRooms(selectedRoomInputs: HTMLCollectionOf<HTMLInputElement>, rooms: Room[], guests: number) {
+export function requireMoreRooms(selectedRoomInputs: HTMLCollectionOf<HTMLInputElement>, rooms: Room[], adults: number, children: number) {
   const selectedRooms = rooms.filter((r) => Array.from(selectedRoomInputs).find((r_) => r_.value === r.slug))
-  const roomsAccommodate = selectedRooms.reduce((acc, r) => r.adults_num + r.children_num + acc, 0)
-  if (roomsAccommodate - guests < 0) {
-    return roomsAccommodate - guests
+  const adultsCanAccommodate = selectedRooms.reduce((p, c) => c.adults_num + p, 0)
+  const onlyChildrenCanAccommodate = selectedRooms.reduce((p, c) => c.children_num + p, 0)
+  if (adultsCanAccommodate - adults < 0) {
+    return adultsCanAccommodate - adults
+  } else if (adultsCanAccommodate - adults < children - onlyChildrenCanAccommodate) {
+    return children - onlyChildrenCanAccommodate - (adultsCanAccommodate - adults)
   }
   return false
 }
 
-export function getTotalPrice(selectedRoomInputs: HTMLCollectionOf<HTMLInputElement>, rooms: Room[], adults: number, children: number, days: number) {
-  const selectedRooms = rooms.filter((r) => Array.from(selectedRoomInputs).find((r_) => r_.value === r.slug))
+export function selectedRoomsToObjects(selectedRooms: HTMLInputElement[], rooms: Room[]) {
+  const selectedSlugs = new Set(selectedRooms.map((r) => r.value))
+  const roomsObj = rooms.filter((r) => selectedSlugs.has(r.slug))
+  return roomsObj
+}
+
+export function getTotalPrice(rooms: Room[], adults: number, children: number, days: number) {
+  // example price calculation
+  //
+  // sort rooms by price
+  const roomsSorted = rooms.sort((a, b) => a.price - b.price)
+  console.log('rooms sorted', roomsSorted)
+  const middlePricedRoomsIndex = Math.floor((rooms.length - adults) / 2) + 1
+  console.log('middle price', middlePricedRoomsIndex)
+
+  // total price for one adult per room (if there are less adults than rooms less extreme priced rooms are chosen)
+  const baseRoomPrice = 0
+
+  return
 }

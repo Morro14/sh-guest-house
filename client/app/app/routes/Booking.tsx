@@ -66,7 +66,7 @@ export default function Booking({ loaderData }: Route.ComponentProps) {
         <Line />
       </div>
       <div className={`relative transition-all ${location.pathname === '/booking/change-request-info' ? 'grayscale opacity-50 pointer-events-none' : ""}`}>
-        <BookingRoomSelectContext>
+        <BookingRoomSelectContext rooms={rooms}>
           <FloatingPanel rooms={rooms}></FloatingPanel>
           {
             loaderData.status === 200 ?
