@@ -91,7 +91,11 @@ export function selectedRoomsToObjects(selectedRooms: HTMLInputElement[], rooms:
   const roomsObj = rooms.filter((r) => selectedSlugs.has(r.slug))
   return roomsObj
 }
-
+export default function getRoomPools(rooms: Room[]) {
+  const roomPools = Object.fromEntries(rooms.map(r => [r.slug, { adults: r.adults_num, children: r.children_num }]))
+  console.log('roomPools', roomPools)
+  return roomPools
+}
 export function getTotalPrice(rooms: Room[], adults: number, children: number, days: number) {
   // example price calculation
   //

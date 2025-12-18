@@ -20,9 +20,6 @@ export default function AvailableRooms({ rooms }) {
   useEffect(() => {
     formContext.setForm(formRef.current)
   }, [formRef])
-  // const updateTotalPrice = () => {
-  //   formContext.setTotalPrice(getTotalPrice(formContext.selectedRooms, rooms, Number(params.adults), Number(params.children), Number(params.days)))
-  // }
   return <div id="available-rooms" className="flex flex-col items-center pt-12">
     <h3 className='text-center text-nowrap my-7'>{rooms.length > 0 ? t('Available rooms') : t("No available rooms for these dates. Check the next available dates for booking below.")}</h3>
     {
