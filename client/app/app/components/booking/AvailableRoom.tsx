@@ -27,48 +27,47 @@ export default function AvailableRoom({ room, index, formRef }: { room: Room, in
   const genSelectOptions = (type: 'adults' | 'children') => {
     let options = []
     const guestsLeftToAccommodate = Math.min(formContext.guestPool[type], roomGuestsAvailable[type])
-    if (index === 0) {
-      console.log('currentGuestSelect', currentGuestSelect, 'left to accommodate', type, guestsLeftToAccommodate)
-    }
     for (let i = 0; i < roomGuestsAvailable[type] + 1; i++) {
       options.push(<option key={`opt-${room.slug}-${type}-${i}`} disabled={i > (currentGuestSelect[type] + guestsLeftToAccommodate) ? true : false} value={i}>{i}</option>)
     }
     return options
   }
-  if (index === 0) {
-    console.log('guestPool before change', formContext.guestPool)
-  }
 
   const handleChange = (e) => {
-    const value = e.target.value
-    if (e.target.name === 'adults-select') {
-      setCurrentGuestSelect({ ...currentGuestSelect, adults: Number(value) })
+    const value = Number(e.target.value)
+    if (e.target.name === `[${room.slug}][adults]`) {
+      setCurrentGuestSelect({ ...currentGuestSelect, adults: value })
       formContext.setGuestPool({ ...formContext.guestPool, adults: formContext.guestPool.adults + (currentGuestSelect.adults - value) })
-    } else if (e.target.name === 'children-select') {
-      setCurrentGuestSelect({ ...currentGuestSelect, children: Number(value) })
+    } else if (e.target.name === `[${room.slug}][children]`) {
+      setCurrentGuestSelect({ ...currentGuestSelect, children: value })
       formContext.setGuestPool({ ...formContext.guestPool, children: formContext.guestPool.children + (currentGuestSelect.children - value) })
     }
   }
-  return <div key={room.name}>
+  const roomSelected = currentGuestSelect.adults !== 0 || currentGuestSelect.children !== 0 ? true : false
+  if (index === 0) {
+
+  }
+  return <fieldset key={room.name} className={`bg-bg drop-shadow-sm`}>
+    <legend className="sr-only">{room.name}</legend>
     <img className="border-2 border-peach object-cover w-[482px] h-[272px]" src={`${SERVER_URL}/${room.images[0].variants.small}`} onClick={() => { navContext.setFullImageView(true); navContext.setItemSelected(index) }} />
-    <div className="flex flex-col gap-2 mt-2">
+    <div className="flex flex-col gap-2 mt-2 px-2">
       <h4>{room.name}</h4>
       <div className="font-sans grid grid-cols-10 text-base">
         <span className="flex font-[350] col-span-4 ">{t('Maximum guests')}</span>
         <span className="pl-2 col-span-6">{getGuestsString()}</span>
-        <span className="flex col-span-4 font-[350]">{t('Select number of guests')}</span>
+        <span className="flex col-span-4 font-[500]">{t('Select number of guests')}</span>
         <div className="pl-2 col-span-6 grid grid-cols-6">
-          <div className="col-span-2 flex gap-2">
-            <label>{t('adults')}</label>
-            <select name="adults-select" onChange={handleChange}>
+          <div className="col-span-3 flex items-center gap-2">
+            <label className="font-[500]">{t('adults')}</label>
+            <select name={`[${room.slug}][adults]`} onChange={handleChange} className={`${currentGuestSelect.adults > 0 ? "text-peach-dark" : "text-accent"} h-6 border-1 rounded-sm px-1`}>
               {
                 genSelectOptions('adults')
               }
             </select>
           </div>
-          <div className="col-span-2 flex gap-2">
-            <label>{t('children')}</label>
-            <select name="children-select" onChange={handleChange}>
+          <div className="col-span-3 flex gap-2">
+            <label className="font-[500]">{t('children')}</label>
+            <select name={`[${room.slug}][children]`} onChange={handleChange} className={`${currentGuestSelect.children > 0 ? "text-peach-dark" : "text-accent"} h-6 border-1 rounded-sm px-1`}>
               {
                 genSelectOptions('children')
               }
@@ -94,9 +93,9 @@ export default function AvailableRoom({ room, index, formRef }: { room: Room, in
       </div>
     </div>
     <div className="flex justify-center items-center mt-4 border-y-1 border-gray-warm h-11">
-      <input name={`room-${index}`} value={room.slug} onChange={() => formContext.setSelectedRooms(getSelectedRooms(formRef?.current))} id={`room-checkbox-${index}`} className="absolute opacity-0 pointer-events-none peer" type="checkbox"></input>
-      <label htmlFor={`room-checkbox-${index}`} className="size-full flex items-center justify-center text-xl text-center italic peer-checked:bg-peach-light hover:cursor-pointer hover:peer-not-checked:underline">{t('Select')}</label>
+      {/* <input name={`room-${index}`} value={room.slug} onChange={() => formContext.setSelectedRooms(getSelectedRooms(formRef?.current))} id={`room-checkbox-${index}`} className="absolute opacity-0 pointer-events-none peer" type="checkbox"></input> */}
+      <span className={`size-full flex items-center justify-center text-xl text-center italic transition-all duration-200 ${roomSelected ? "" : "text-gray-warm-inactive"}`}>{!roomSelected ? t('Select guests') : t('Room selected')}</span>
     </div>
-  </div>
+  </fieldset>
 
 }

@@ -13,3 +13,5 @@ export interface Room {
 
 
 export type Currency = "AMD" | "USD" | "EUR" | "RUB"
+
+

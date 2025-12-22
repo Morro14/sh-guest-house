@@ -1,15 +1,16 @@
 import { useTranslation } from "react-i18next";
 import { useContextProvider } from "../ContextProvider";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useCloseOnClick } from "./utils";
-
+import { useSearchParams } from "react-router";
 
 export default function SelectGuests() {
   const context = useContextProvider();
   const { t } = useTranslation();
-  const [adults, children] = [context.select.adults, context.select.children];
+  const [adults, children] = [context.guestsSelect.adults, context.guestsSelect.children];
   const wrapperRef = useRef<HTMLDivElement>(null);
   const checkboxRef = useRef<HTMLInputElement>(null);
+  const [searchParams] = useSearchParams()
   useCloseOnClick(wrapperRef, checkboxRef, null, []);
   const genGuestOptions = (num: number, guestType: "adults" | "children") => {
     const guestNum = guestType === "children" ? num + 1 : num;
@@ -30,16 +31,15 @@ export default function SelectGuests() {
   };
   const getGuestSelectLabelText = (adults: number, children: number) => {
     const cases = {
-      adultsSelect: t("adultsWithCount", { count: context.select.adults }),
+      adultsSelect: t("adultsWithCount", { count: adults }),
       childrenAndAdultsSelect:
-        t("adultsWithCount", { count: context.select.adults }) +
+        t("adultsWithCount", { count: adults }) +
         " " +
-        t("childrenWithCount", { count: context.select.children }),
+        t("childrenWithCount", { count: children }),
       childrenSelect:
-        "? " +
-        t("adults_other") +
+        t("adultsWithCount", { count: adults }) +
         " " +
-        t("childrenWithCount", { count: context.select.children }),
+        t("childrenWithCount", { count: children }),
     };
 
     const value =
@@ -61,7 +61,7 @@ export default function SelectGuests() {
         ref={checkboxRef}
       ></input>
       <label
-        className="text-center flex items-center justify-center w-full h-10 peer-checked:bg-peach-superlight"
+        className="text-center flex items-center cursor-pointer justify-center w-full h-10 peer-checked:bg-peach-superlight"
         htmlFor="guests-checkbox"
       >
         {getGuestSelectLabelText(adults, children)}
@@ -71,12 +71,12 @@ export default function SelectGuests() {
         <div className="flex flex-col p-4 bg-peach-superlight gap-4">
           <select
             id="select-adults"
-            defaultValue={2}
+            defaultValue={Number(searchParams.get('adults'))}
             className="guest-input border-accent border-1 rounded-sm px-2 bg-bg opacity-0 transition-all duration-200"
             name="adults"
             onChange={(e) =>
-              context.setSelect({
-                ...context.select,
+              context.setGuestsSelect({
+                ...context.guestsSelect,
                 adults: Number(e.target.value),
               })
             }
@@ -85,11 +85,12 @@ export default function SelectGuests() {
           </select>
           <select
             id="select-children"
+            defaultValue={Number(searchParams.get('children'))}
             className="guest-input border-accent border-1 rounded-sm px-2 bg-bg opacity-0 transition-all duration-200"
             name="children"
             onChange={(e) =>
-              context.setSelect({
-                ...context.select,
+              context.setGuestsSelect({
+                ...context.setGuestsSelect,
                 children: Number(e.target.value),
               })
             }
@@ -109,13 +110,13 @@ export default function SelectGuests() {
                   "select-children"
                 ) as HTMLSelectElement;
                 selectChildren.value = "0";
-                context.setSelect({ adults: 2 });
+                context.setGuestsSelect({ adults: 2 });
               }}
             >
               reset
             </button>
             <button
-              className="underline in-checked:"
+              className="underline cursor-pointer"
               onClick={(e) => { e.preventDefault(); checkboxRef.current.checked = false }}
             >
               continue

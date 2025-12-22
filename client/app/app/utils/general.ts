@@ -23,7 +23,15 @@ export function getUrlSearchParams<const K extends readonly string[]>(keys: K) {
   const [params] = useSearchParams()
   const defaultParams = getDefaultSearchParams()
   const paramsObj = {} as { [P in K[number]]: string | null }
-  keys.forEach((k) => paramsObj[k] = (params.get(k)) || defaultParams[k])
+
+  keys.forEach((k) => {
+    if (params.get(k)) {
+      paramsObj[k] = isDigit(params.get(k)) ? Number(params.get(k)) : params.get(k)
+    } else {
+      paramsObj[k] = defaultParams[k]
+    }
+  })
+
   return paramsObj
 }
 

@@ -57,7 +57,7 @@ export default function BookingPannel() {
           <div className="w-[1px] bg-line-light h-8"></div>
           <button
             type="submit"
-            className="font-medium underline mx-8"
+            className="font-medium underline mx-8 cursor-pointer"
           >
             CHECK
           </button>

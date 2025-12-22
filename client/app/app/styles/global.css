@@ -16,8 +16,9 @@ body {
 
 @theme {
 	--color-red-error: #ff2c2c;
+	--color-red-error-full: #FF615C;
 	--color-text-main: #4c3b33;
-	--color-bg: #fffbfb;
+	--color-bg: #FEFDFC;
 	--color-line: #4c3b3350;
 	--color-accent: #764c38;
 	--color-olive: #d1d8b8;
@@ -32,11 +33,14 @@ body {
 	--color-peach-accent: #fbbb84;
 	--color-peach-superlight: #ffe6d2;
 	--color-peach: #efa76a;
+	--color-peach-dark: #CE6F1E;
 	--color-line-light: #c59f8d;
 	--color-gray-warm: #E3DDDD;
+	--color-gray-warm-light: #F4F2F1;
 	--color-gray-warm-inactive: #C5C4C3;
 	--color-gray-warm-mid: #73706F;
 	--color-green-warm: #699A57;
+	--color-green-warm-light: #A6CD98;
 	--color-black-transparent: #000000BF; 
 	--font-sans: "Source Sans 3", sans-serif;
 	--font-serif: "Lora", serif; 

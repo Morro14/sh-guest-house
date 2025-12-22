@@ -3,24 +3,27 @@ import AvailableRoom from "./AvailableRoom"
 import type { Room } from "~/types/booking"
 import { Carousel } from "../carousel/Carousel"
 import { useNavContextProvider } from "../nav/NavContextProvider"
-import { Form } from "react-router"
+import { Form, useLocation, useSearchParams } from "react-router"
 import { useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
 import { useBookingRoomSelectContextProvider } from "./BookingRoomSelectContext"
-import { getUrlSearchParams } from "~/utils/general"
-import { getTotalPrice } from "../formComponents/utils"
-
 
 export default function AvailableRooms({ rooms }) {
   const context = useNavContextProvider()
   const { t } = useTranslation()
   const formRef = useRef(null)
   const formContext = useBookingRoomSelectContextProvider()
-  const params = getUrlSearchParams(['adults', 'children', 'days'])
+  const [URLSearchParams] = useSearchParams()
+  const location = useLocation()
+  useEffect(() => {
+    // reset form context states if new search params
+    formContext.setGuestPool({ adults: Number(URLSearchParams.get('adults')), children: Number(URLSearchParams.get('children')) })
+  }, [URLSearchParams])
   useEffect(() => {
     formContext.setForm(formRef.current)
   }, [formRef])
-  return <div id="available-rooms" className="flex flex-col items-center pt-12">
+  console.log('location', location.pathname)
+  return <div id="available-rooms" className="flex flex-col items-center pt-14">
     <h3 className='text-center text-nowrap my-7'>{rooms.length > 0 ? t('Available rooms') : t("No available rooms for these dates. Check the next available dates for booking below.")}</h3>
     {
       context.fullImageView ? <MediaFullView>
@@ -34,7 +37,7 @@ export default function AvailableRooms({ rooms }) {
         </Carousel>
       </MediaFullView> : ""
     }
-    <Form ref={formRef} id="room-select-form" className="grid grid-cols-2 2xl:w-[1000px] gap-x-10 gap-y-14">
+    <Form method="post" ref={formRef} key={URLSearchParams.toString()} id="room-select-form" className="grid grid-cols-2 2xl:w-[1000px] gap-x-10 gap-y-14">
       {rooms.map((room: Room, index: number) => {
         return <AvailableRoom formRef={formRef} key={room.name} room={room} index={index}></AvailableRoom>
       })

@@ -8,8 +8,10 @@ import type { Route } from "./+types/BookingForm"
 import { getUrlSearchParams } from "~/utils/general"
 import { useEffect } from "react"
 
+
+
+
 export async function clientAction({ request }: Route.ClientActionArgs) {
-  console.log('form action')
   const formData = await request.formData();
   const validations = validate(formData);
   const errors = validations.filter((v) => !v.valid);

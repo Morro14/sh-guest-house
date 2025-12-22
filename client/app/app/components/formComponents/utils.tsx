@@ -74,28 +74,13 @@ export function getSelectedRooms(form: HTMLFormElement) {
   return selectedRooms
 }
 
-export function requireMoreRooms(selectedRoomInputs: HTMLCollectionOf<HTMLInputElement>, rooms: Room[], adults: number, children: number) {
-  const selectedRooms = rooms.filter((r) => Array.from(selectedRoomInputs).find((r_) => r_.value === r.slug))
-  const adultsCanAccommodate = selectedRooms.reduce((p, c) => c.adults_num + p, 0)
-  const onlyChildrenCanAccommodate = selectedRooms.reduce((p, c) => c.children_num + p, 0)
-  if (adultsCanAccommodate - adults < 0) {
-    return adultsCanAccommodate - adults
-  } else if (adultsCanAccommodate - adults < children - onlyChildrenCanAccommodate) {
-    return children - onlyChildrenCanAccommodate - (adultsCanAccommodate - adults)
-  }
-  return false
-}
-
 export function selectedRoomsToObjects(selectedRooms: HTMLInputElement[], rooms: Room[]) {
   const selectedSlugs = new Set(selectedRooms.map((r) => r.value))
   const roomsObj = rooms.filter((r) => selectedSlugs.has(r.slug))
   return roomsObj
 }
-export default function getRoomPools(rooms: Room[]) {
-  const roomPools = Object.fromEntries(rooms.map(r => [r.slug, { adults: r.adults_num, children: r.children_num }]))
-  console.log('roomPools', roomPools)
-  return roomPools
-}
+
+// TODO
 export function getTotalPrice(rooms: Room[], adults: number, children: number, days: number) {
   // example price calculation
   //

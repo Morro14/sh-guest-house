@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from django.utils import translation
 from django.conf import settings
 import os
+import re
 import json
 from django.utils.translation import gettext as _
 from django.views.decorators.vary import vary_on_headers
@@ -17,7 +18,9 @@ from .serializers import (
     ImageSerializer,
     ImageWideSerializer,
 )
-from .models import ContentPage, Room, Place, WideImage
+from .models import Reservation, ContentPage, Room, Place, WideImage
+from collections import defaultdict
+from auth_app.utils.jwt_ import CustomJWT
 
 
 load_dotenv()
@@ -26,22 +29,58 @@ User = get_user_model()
 
 
 class BookingConfirmView(APIView):
-    def get(self):
-        return Response
+    permission_classes = []
+    authentication_classes = []
+
+    def post(self, request):
+        print("jwt cookie", request.COOKIES["jwt_booking_request"])
+        data = list(request.POST.items())
+        rooms = defaultdict(dict)
+
+        for key, value in data:
+            match = re.match(r"\[(.+)\]\[(.+)\]", key)
+            if match and value.isdigit():
+                room_slug, guest_type = match.groups()
+                rooms[room_slug][guest_type] = int(value)
+
+        rooms_selected = []
+        for key in rooms.keys():
+            if rooms[key]["adults"] != 0 or rooms[key]["children"] != 0:
+                rooms_selected.append({key: rooms[key]})
+        for room in rooms_selected:
+            pass
+        return Response({"message": "test"})
 
 
-class BookingView(APIView):
+class BookingRoomsRequestView(APIView):
     permission_classes = []
     authentication_classes = []
 
     def get(self, request):
         data = request.GET
-        print("booking view request data:", data)
         available_rooms = get_available_rooms(
             data.get("date"), data.get("days")
         )
         serializer = RoomSerializer(available_rooms, many=True)
-        return Response({"rooms": serializer.data})
+        key = CustomJWT(
+            content={
+                "date": data.get("date"),
+                "days": data.get("days"),
+                "adults": data.get("adults"),
+                "children": data.get("children"),
+            },
+            expires_in=60 * 15,
+        ).get_token()
+        response = Response()
+        response.set_cookie(
+            key="jwt_booking_request",
+            value=key,
+            httponly=True,
+            samesite="None",
+            secure=True,
+        )
+        response.data = {"rooms": serializer.data}
+        return response
 
 
 class RoomSetView(APIView):
@@ -72,7 +111,6 @@ class WideImageSet(APIView):
         images = WideImage.objects.all()
         serializer = ImageWideSerializer(images, many=True)
         data = serializer.data
-        print("wide image view", data)
         return Response({"data": data})
 
 
@@ -104,7 +142,6 @@ class TranslationView(APIView):
         }
         translations.update(content_formatted)
 
-        print("translations:", translations)
         response = Response(translations)
         print("setting cache")
         cache.set(cache_key, translations, timeout=60 * 60 * 24)

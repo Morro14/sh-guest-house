@@ -1,18 +1,18 @@
 import { getUrlSearchParams } from "~/utils/general"
 import { useBookingRoomSelectContextProvider } from "./BookingRoomSelectContext"
 import type { Room } from "~/types/booking"
-import { requireMoreRooms, selectedRoomsToObjects } from "../formComponents/utils"
-import { useEffect, useState } from "react"
+import { useEffect, useState, type SyntheticEvent } from "react"
 import { useTranslation } from "react-i18next"
 import { getTotalPrice } from "../formComponents/utils"
+import { useSubmit } from "react-router"
 
 export default function FloatingPanel({ rooms }: { rooms: Room[] }) {
   const params = getUrlSearchParams(["date", "adults", "children", "days"])
   const guests = Number(params.adults) + Number(params.children)
   const formContext = useBookingRoomSelectContextProvider()
-  const moreRoomsRequired = requireMoreRooms(formContext.selectedRooms, rooms, Number(params.adults), Number(params.children))
+  const moreRoomsRequired = formContext.guestPool.adults !== 0 || formContext.guestPool.children !== 0
   const [panelOffScreen, setPanelOffScreen] = useState(false)
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
   const lang = i18n.language
   const context = useBookingRoomSelectContextProvider()
   useEffect(() => {
@@ -27,22 +27,23 @@ export default function FloatingPanel({ rooms }: { rooms: Room[] }) {
     intersectionObserver.observe(document.getElementById("request-info-block"))
   }, [])
 
+  const submit = useSubmit()
   const date = new Date(params.date)
   const dateF = new Intl.DateTimeFormat([lang, "en"], { dateStyle: "medium" })
   const dateString = dateF.format(date)
 
-  useEffect(() => {
-    const selectedRoomsObj = selectedRoomsToObjects(formContext.selectedRooms, rooms)
-
-    const totalPrice = getTotalPrice(selectedRoomsObj, Number(params.adults), Number(params.children), Number(params.days))
-    formContext.setTotalPrice(totalPrice)
-    console.log('effect')
-  }, [formContext.selectedRooms])
+  const handleBookClick = (e: SyntheticEvent) => {
+    e.preventDefault()
+    if (!formContext.form) {
+      return
+    }
+    submit(formContext.form, { method: "post" })
+  }
 
   return <div className={`${panelOffScreen ? "fixed top-4" : "absolute top-4"} z-20 top-0 w-full flex flex-col items-center justify-start`}>
-    <div className={`absolute 2xl:w-[1100px] ${moreRoomsRequired ? "h-14" : "h-8"} transition-all duration-200 bg-bg drop-shadow-sm rounded-sm`}></div>
+    <div className={`absolute 2xl:w-[1100px] ${moreRoomsRequired ? "h-16" : "h-10"} transition-all duration-200 drop-shadow-sm rounded-sm bg-bg`}></div>
     <div className="flex flex-col justify-start">
-      <div className={`z-10 flex justify-between items-center w-[1100px] mt-1`}>
+      <div className={`z-10 flex justify-between items-center w-[1100px] mt-2 h-6`}>
         <div className="w-[112px] px-4"></div>
         <div className={`flex items-center gap-7 font-sans overflow-hidden`}>
           <div>{`Date: ${dateString}`}</div>
@@ -50,11 +51,13 @@ export default function FloatingPanel({ rooms }: { rooms: Room[] }) {
           <div>{`Nights: ${params.days}`}</div>
           <div>{`Price: ${context.totalPrice}`}</div>
         </div>
-        <button onClick={() => formContext.form.submit()} className="w-[112px] cursor-pointer hover:underline">
-          <div className={`flex items-center gap-2 px-4 h-full transition-colors duration-200 font-medium ${moreRoomsRequired ? 'stroke-gray-warm-inactive text-gray-warm-inactive' : 'stroke-peach stroke-1 text-text-main'} `}>
-            <div>Book</div>
-            {bookingArrowSmall}
+        <button onClick={handleBookClick} className="w-[112px] cursor-pointer hover:underline">
+          {/* <div className={`flex items-center gap-2 px-4 h-full transition-colors duration-200 font-medium text-lg ${moreRoomsRequired ? 'stroke-gray-warm-inactive text-gray-warm-inactive' : 'stroke-peach stroke-2 text-text-main'} `}> */}
+          <div className={`${!moreRoomsRequired ? "border-b-2 border-peach " : "text-gray-warm-inactive"} mr-1 font-medium text-lg `}>
+            <div>{t('Book')}</div>
           </div>
+          {/* {bookingArrowSmall} */}
+          {/* </div> */}
         </button>
       </div>
       <div className={`z-10 text-red-error text-center font-sans ${moreRoomsRequired ? "block" : "hidden opacity-0"} transition-discrete transition-all duration-200`}>{`Select more rooms to accommodate ${guests} guests`}</div>

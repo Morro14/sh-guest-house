@@ -16,7 +16,7 @@ class Reservation(models.Model):
     )
     check_in = models.DateField()
     check_out = models.DateField()
-    rooms = models.ManyToManyField(to="Room")
+    rooms = models.ManyToManyField(to="RoomReserved")
 
     # add rooms to check for overlapping reservations before saving
     def __init__(self, *args, rooms=None, **kwargs):
@@ -60,14 +60,31 @@ class Room(models.Model):
         unique=True, verbose_name=_("slug"), help_text=_("slug_helptext")
     )
     name = models.CharField(max_length=255, verbose_name=_("Room_name"))
-    adults_num = models.IntegerField(verbose_name=_("Room_adults_num"))
-    children_num = models.IntegerField(verbose_name=_("Room_children_num"))
+    adults_num = models.IntegerField(
+        verbose_name=_("Room_adults_num"),
+        help_text=_("places in the room for any guest (adult or children)"),
+    )
+    children_num = models.IntegerField(
+        verbose_name=_("Room_children_num"),
+        help_text=_("places in the room only for children"),
+    )
     beds = models.TextField(max_length=63, default="")
     price = models.IntegerField(default=5000)
 
     class Meta:
         verbose_name = _("Room")
         verbose_name_plural = _("Rooms")
+
+
+class RoomReserved(Room):
+    class Meta:
+        verbose_name = _("Reserved room")
+        verbose_name_plural = _("Reserved rooms")
+
+    adults = models.IntegerField(verbose_name=_("adults reserved"), default=0)
+    children = models.IntegerField(
+        verbose_name=_("children_reserved"), default=0
+    )
 
 
 class ContentPage(models.Model):

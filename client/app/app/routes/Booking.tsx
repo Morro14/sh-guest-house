@@ -1,6 +1,6 @@
 import { axiosInstance } from '~/root';
 import type { Route } from './+types/Booking'
-import { Outlet, useLocation, redirect } from 'react-router';
+import { Outlet, useLocation, redirect, data } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import Line from '~/components/index/Line';
 import AvailableRooms from '~/components/booking/AvailableRooms';
@@ -12,6 +12,7 @@ import ContextProvider from '~/components/ContextProvider';
 import FloatingPanel from '~/components/booking/FloatingPanel';
 import BookingRoomSelectContext from '~/components/booking/BookingRoomSelectContext';
 import { getDefaultSearchParams } from '~/utils/general';
+import { useEffect } from 'react';
 
 
 export async function clientLoader({ request }) {
@@ -38,6 +39,7 @@ export async function clientLoader({ request }) {
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
   console.log('select rooms from data', formData)
+  // axiosInstance.post('booking-confirm', formData)
   return redirect(`/booking/confirm?${"123"}`)
 }
 
@@ -45,12 +47,22 @@ export default function Booking({ loaderData }: Route.ComponentProps) {
   const rooms = loaderData.status === 200 ? loaderData.data.rooms as Room[] : []
   const { t } = useTranslation()
   const location = useLocation()
-  console.log('location pathanme', location.pathname)
+
+  // useEffect(() => {
+  //   if (!loaderData.data.key) {
+  //     return
+  //   }
+  //   const key = loaderData.data.key
+  //   const url = new URL(window.location.href)
+  //   url.searchParams.set("rk", key)
+  //   window.history.replaceState(null, "", url)
+  // }, [loaderData])
+
   return <div className='bg-bg text-text-main'>
     <ContextProvider params={{ errors: [] }}>
       <Header bookingPannelEnabled={false}></Header>
-      <div id="request-info-block" className='flex flex-col items-center mt-[42px]'>
-        <h2 className='mb-8 -mt-2'>{t("Your booking request")}</h2>
+      <div id="request-info-block" className='flex flex-col items-center mt-[34px]'>
+        <h2 className='mb-8 '>{t("Your booking request")}</h2>
 
         <Line />
         <div className='flex py-5 flex-col gap-3 items-center text-center 2xl:w-[600px]'>

@@ -5,7 +5,7 @@ export const BookingContext = createContext<any>({});
 
 export default function ContextProvider({ children, params }) {
   const { adults: adultsDefault, children: childrenDedault } = getUrlSearchParams(['date', 'adults', 'children', 'days'])
-  const [select, setSelect] = useState({ adults: Number(adultsDefault) || 2, children: Number(childrenDedault) || 0 });
+  const [guestsSelect, setGuestsSelect] = useState({ adults: Number(adultsDefault) || 2, children: Number(childrenDedault) || 0 });
   const [displaySelect, setDisplaySelect] = useState(false);
   const [daysCount, setDaysCount] = useState(1);
   const errors = params.errors;
@@ -15,8 +15,8 @@ export default function ContextProvider({ children, params }) {
   return (
     <BookingContext
       value={{
-        select,
-        setSelect,
+        guestsSelect,
+        setGuestsSelect,
         displaySelect,
         setDisplaySelect,
         daysCount,
