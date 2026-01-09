@@ -5,23 +5,57 @@ from django.utils.translation import gettext_lazy as _
 from easy_thumbnails.files import get_thumbnailer
 from image_cropping import ImageRatioField
 from .utils.images_util import size_to_str
-
+# from .managers import ConfirmedReservationManager
 
 User = get_user_model()
 
 
 class Reservation(models.Model):
+    class Status(models.TextChoices):
+        REQUESTED = "requested"
+        VALIDATED = "validated"
+        CONFIRMED = "confirmed"
+
+    status = models.CharField(
+        max_length=20, choices=Status.choices, default=Status.REQUESTED
+    )
+
+    class ReservationQuerySet(models.QuerySet):
+        def requested(self):
+            return self.filter(status=Reservation.Status.REQUESTED)
+
+        def validated(self):
+            return self.filter(status=Reservation.Status.VALIDATED)
+
+        def confirmed(self):
+            return self.filter(status=Reservation.Status.CONFIRMED)
+
+    class ConfirmedReservationManager(models.Manager):
+        def get_queryset(self):
+            return (
+                super()
+                .get_queryset()
+                .filter(status=Reservation.Status.CONFIRMED)
+            )
+
+    class ValidatedReservationManager(models.Manager):
+        def get_queryset(self):
+            return (
+                super()
+                .get_queryset()
+                .filter(status=Reservation.Status.VALIDATED)
+            )
+
     user = models.ForeignKey(
         to=User, blank=True, default=None, null=True, on_delete=models.CASCADE
     )
+    email = models.EmailField(unique=False, default=None)
     check_in = models.DateField()
     check_out = models.DateField()
-    rooms = models.ManyToManyField(to="RoomReserved")
 
-    # add rooms to check for overlapping reservations before saving
-    def __init__(self, *args, rooms=None, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._unsaved_rooms = rooms or []
+    objects = ReservationQuerySet.as_manager()
+    confirmed = ConfirmedReservationManager()
+    validated = ValidatedReservationManager()
 
     def get_stay_days(self):
         delta = self.check_out - self.check_in
@@ -29,15 +63,17 @@ class Reservation(models.Model):
         return delta.days
 
     def clean(self):
-        print(getattr(self, "_unsaved_rooms", []))
+        # date validation
         if self.check_in >= self.check_out:
             raise ValidationError(
                 "Check-out date must be after check-in date."
             )
-        for room in getattr(self, "_unsaved_rooms", []):
+
+    def validate_no_overlap(self):
+        for room in self.room_reserved.all():
             overlap = (
-                Reservation.objects.filter(
-                    rooms=room,
+                Reservation.confirmed.filter(
+                    rooms_reserved=room,
                     check_in__lt=self.check_out,
                     check_out__gt=self.check_in,
                 )
@@ -46,23 +82,24 @@ class Reservation(models.Model):
             )
             if overlap:
                 raise ValidationError(f"Room '{room.name}' is already booked.")
+            self.status = self.Status.VALIDATED
+            return True
 
     def save(self, *args, **kwargs):
         self.clean()
         super().save(*args, **kwargs)
-        if hasattr(self, "_unsaved_rooms"):
-            self.rooms.set(self._unsaved_rooms)
-            del self._unsaved_rooms
 
 
 class Room(models.Model):
+    """Represents a room with information about it"""
+
     slug = models.SlugField(
         unique=True, verbose_name=_("slug"), help_text=_("slug_helptext")
     )
     name = models.CharField(max_length=255, verbose_name=_("Room_name"))
     adults_num = models.IntegerField(
         verbose_name=_("Room_adults_num"),
-        help_text=_("places in the room for any guest (adult or children)"),
+        help_text=_("places in the room for any guests (adult or children)"),
     )
     children_num = models.IntegerField(
         verbose_name=_("Room_children_num"),
@@ -76,7 +113,9 @@ class Room(models.Model):
         verbose_name_plural = _("Rooms")
 
 
-class RoomReserved(Room):
+class RoomReserved(models.Model):
+    """Respresents an instance of the room that is used in the reservation (requested or confirmed)"""
+
     class Meta:
         verbose_name = _("Reserved room")
         verbose_name_plural = _("Reserved rooms")
@@ -84,6 +123,13 @@ class RoomReserved(Room):
     adults = models.IntegerField(verbose_name=_("adults reserved"), default=0)
     children = models.IntegerField(
         verbose_name=_("children_reserved"), default=0
+    )
+    room = models.ForeignKey(to=Room, on_delete=models.CASCADE)
+    reservation = models.ForeignKey(
+        to=Reservation,
+        on_delete=models.CASCADE,
+        related_name="rooms_reserved",
+        related_query_name="room_reserved",
     )
 
 

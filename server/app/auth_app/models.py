@@ -3,17 +3,24 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .managers import CustomUserManager
 
 
-
 class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
     email = models.EmailField(unique=True)
     google_access_token = models.TextField(
-        verbose_name="Google API access token", max_length=255, default=None, null=True, blank=True
+        verbose_name="Google API access token",
+        max_length=255,
+        default=None,
+        null=True,
+        blank=True,
     )
     google_refresh_token = models.TextField(
-        verbose_name="Google API refresh token", max_length=255, default=None, null=True, blank=True
+        verbose_name="Google API refresh token",
+        max_length=255,
+        default=None,
+        null=True,
+        blank=True,
     )
 
     is_active = models.BooleanField(default=True)
@@ -21,3 +28,4 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(auto_now_add=True)
     USERNAME_FIELD = "email"
     objects = CustomUserManager()
+

@@ -73,11 +73,19 @@ class Command(BaseCommand):
                         adults_num=random.randint(2, 4),
                         children_num=random.randint(0, 2),
                         beds=fake.text(),
+                        price=random.choice(
+                            [
+                                5000,
+                                5500,
+                                6000,
+                                6500,
+                            ]
+                        ),
                     )
                 except IntegrityError:
                     continue
 
-        # add_rooms()
+        add_rooms()
 
         def add_room_images():
             rooms = Room.objects.all()
@@ -99,7 +107,7 @@ class Command(BaseCommand):
                 image_full="static/img/full/wide-photo-1.png",
             )
 
-        add_wide_images()
+        # add_wide_images()
         add_room_images()
 
         self.stdout.write(

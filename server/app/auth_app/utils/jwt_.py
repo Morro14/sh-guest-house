@@ -29,9 +29,19 @@ class CustomJWT:
 
     def get_token(self):
         payload = self.content
-        payload.update({"exp": self.issued_at + self.expires_in, "iat": self.issued_at})
+        payload.update(
+            {"exp": self.issued_at + self.expires_in, "iat": self.issued_at}
+        )
         token = jwt.encode(payload=payload, key=self.secret, algorithm="HS256")
         return token
+
+    def update_token(self, token, add_data):
+        token_data = jwt.decode(token, os.environ.get("JWT_SECRET"), "HS256")
+        token_data.update(add_data)
+        token_updated = jwt.encode(
+            payload=token_data, key=self.secret, algorithm="HS256"
+        )
+        return token_updated
 
 
 class CustomJWTTest:
@@ -48,7 +58,9 @@ class CustomJWTTest:
 
     def get_token(self):
         payload = self.content.copy()
-        payload.update({"exp": self.issued_at + self.expires_in, "iat": self.issued_at})
+        payload.update(
+            {"exp": self.issued_at + self.expires_in, "iat": self.issued_at}
+        )
         token = jwt.encode(
             payload=payload,
             key="-c8tmt91^3-vt4(39wgy=4ks*oov)(a)-w*xk&#ako@zn2^s_3",

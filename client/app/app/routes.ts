@@ -14,6 +14,7 @@ export default [
     // route("select-rooms", "routes/SelectRooms.tsx"),
   ]),
   ...prefix('booking', [
-    route("confirm", "routes/BookingConfirm.tsx"),
+    route("confirm", "routes/BookingSummary.tsx"),
+    route("response", "routes/BookingConfirmResponse.tsx"),
   ])
 ] satisfies RouteConfig;

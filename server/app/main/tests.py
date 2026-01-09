@@ -1,28 +1,55 @@
 from django.test import TestCase as TestCaseDj
 from django.contrib.auth import get_user_model
-from .models import Reservation, ContentPage, Room, RoomImage
+from .models import Room, RoomReserved
+from .serializers import ReservationSerializer
 from rest_framework.test import APITestCase
 from .serializers import RoomSerializer
+from datetime import date
+from django.core.management import call_command
 
 
 User = get_user_model()
 
 
-class ImageTest(APITestCase):
+class ReservationTest(APITestCase):
     def setUp(self):
-        for i in range(3):
-            Room.objects.create(slug=f'room-{i}', name=f"Room {i}", adults_num=3, children_num=0)
+        call_command("seed")
+
+    def test_create(self):
+        check_in = date(2025, 12, 25)
+        check_out = date(2025, 12, 28)
         rooms = Room.objects.all()
-        
-        for i in range(9):
-            RoomImage.objects.create(alt_text=f'room-{i}', order=i, image_full='static/img/full/20250717_192551.jpg', room=rooms[0] if i in range(0,3) else rooms[1] if i in range(3,6) else rooms[2] )
+        print("room slug", rooms[0].slug)
+        serializer_data = {
+            "check_in": check_in,
+            "check_out": check_out,
+            "email": "test@email.com",
+        }
 
-    def test_get_room_images(self):
-        rooms = Room.objects.prefetch_related('image').all()
-        # print('related set', rooms[0].images_set.all())
-
-        rooms_serial = RoomSerializer(rooms, many=True)
-        print('rooms data',rooms_serial.data)
-
-        
-        
+        rooms_context = {
+            "rooms": [
+                {"slug": rooms[0].slug, "adults": 2, "children": 0},
+                {"slug": rooms[1].slug, "adults": 3, "children": 2},
+            ],
+        }
+        serializer = ReservationSerializer(
+            data=serializer_data, context=rooms_context
+        )
+        serializer.is_valid()
+        print("serializer errors:", serializer.errors)
+        reservation = serializer.save()
+        reservation.validate_no_overlap()
+        # print(
+        #     "rooms reserved _:",
+        #     RoomReserved.objects.all(),
+        # )
+        print(
+            "test reservation:",
+            reservation,
+            "\nrooms reserved: ",
+            reservation.rooms_reserved.all(),
+            "\nstatus:",
+            reservation.status,
+            "\nemail:",
+            reservation.email,
+        )

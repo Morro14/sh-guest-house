@@ -12,7 +12,6 @@ import ContextProvider from '~/components/ContextProvider';
 import FloatingPanel from '~/components/booking/FloatingPanel';
 import BookingRoomSelectContext from '~/components/booking/BookingRoomSelectContext';
 import { getDefaultSearchParams } from '~/utils/general';
-import { useEffect } from 'react';
 
 
 export async function clientLoader({ request }) {
@@ -25,12 +24,12 @@ export async function clientLoader({ request }) {
       Object.entries(defaultParamsObj).map(([k, v]) => [k, String(v)])
     )
     const defaultParams = new URLSearchParams(defaultParamsObjStringValues)
-    const response = await axiosInstance.get(`booking-request?${defaultParams}`)
+    const response = await axiosInstance.get(`booking/request?${defaultParams}`)
     console.log(response)
     return response
   }
 
-  const response = await axiosInstance.get(`booking-request${url.search}`)
+  const response = await axiosInstance.get(`booking/request${url.search}`)
   console.log(response)
   return response
 }
@@ -39,8 +38,9 @@ export async function clientLoader({ request }) {
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
   console.log('select rooms from data', formData)
-  // axiosInstance.post('booking-confirm', formData)
-  return redirect(`/booking/confirm?${"123"}`)
+  const response = await axiosInstance.post('booking/request-summary', formData)
+  console.log("booking confirm response", response)
+  return redirect(`/booking/confirm`)
 }
 
 export default function Booking({ loaderData }: Route.ComponentProps) {

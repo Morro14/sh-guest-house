@@ -74,11 +74,15 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
 ]
 REST_FRAMEWORK = {
-    "DEFAULT_FILTER_BACKEND": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_FILTER_BACKEND": [
+        "django_filters.rest_framework.DjangoFilterBackend"
+    ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "main.authentication.JWTAuthentication",
     ],
-    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated"
+    ],
 }
 ROOT_URLCONF = "app.urls"
 
@@ -134,11 +138,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 from django.utils.translation import gettext_lazy as _
+
 LANGUAGE_CODE = "en-us"
-LANGUAGES= [('en', _('English')), ('ru', _("Russian"))]
-LOCALE_PATHS = [ BASE_DIR / 'locale']
+LANGUAGES = [("en", _("English")), ("ru", _("Russian"))]
+LOCALE_PATHS = [BASE_DIR / "locale"]
 
 from main.utils.get_translation_version import get_translation_version
+
 TRANSLATION_VERSION = get_translation_version()
 
 
@@ -151,20 +157,21 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
-MEDIA_URL = '/media/'
+MEDIA_URL = "/media/"
 STATIC_URL = "static/"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 STATIC_ROOT = "staticfiles"
 
-IMAGE_CROPPING_BACKEND = 'image_cropping.backends.easy_thumbs.EasyThumbnailsBackend'
+IMAGE_CROPPING_BACKEND = (
+    "image_cropping.backends.easy_thumbs.EasyThumbnailsBackend"
+)
 IMAGE_CROPPING_BACKEND_PARAMS = {}
 
-THUMBNAIL_BASEDIR = 'thumbnails'
-THUMBNAIL_MEDIA_ROOT = BASE_DIR/'thumbnails'
-THUMBNAIL_MEDIA_URL = '/thumbnails/'
-
+THUMBNAIL_BASEDIR = "thumbnails"
+THUMBNAIL_MEDIA_ROOT = BASE_DIR / "thumbnails"
+THUMBNAIL_MEDIA_URL = "/thumbnails/"
 
 
 # Default primary key field type
@@ -187,9 +194,8 @@ EMAIL_HOST_USER = os.environ.get("SMTP_USERNAME")
 EMAIL_HOST_PASSWORD = os.environ.get("SMTP_PASSWORD")
 DEFAULT_FROM_EMAIL = os.environ.get("SMTP_USERNAME")
 
-ALLOWED_SERVICES = ['google', 'microsoft']
+ALLOWED_SERVICES = []
 
 # Google Client
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
-

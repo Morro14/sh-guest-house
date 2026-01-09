@@ -7,6 +7,7 @@ from django.conf import settings
 import os
 import re
 import json
+import jwt
 from django.utils.translation import gettext as _
 from django.views.decorators.vary import vary_on_headers
 from django.utils.decorators import method_decorator
@@ -15,41 +16,103 @@ from .queries import get_available_rooms
 from .serializers import (
     RoomSerializer,
     PlaceSerializer,
-    ImageSerializer,
     ImageWideSerializer,
+    ReservationSerializer,
 )
 from .models import Reservation, ContentPage, Room, Place, WideImage
 from collections import defaultdict
 from auth_app.utils.jwt_ import CustomJWT
-
+from datetime import date, timedelta
+from .authentication import SessionAuthentication
 
 load_dotenv()
 
 User = get_user_model()
 
 
-class BookingConfirmView(APIView):
+class BookingRequestValidateView(APIView):
     permission_classes = []
-    authentication_classes = []
+    authentication_classes = [SessionAuthentication]
+
+    def get(self, request):
+        response = Response()
+        return response
 
     def post(self, request):
-        print("jwt cookie", request.COOKIES["jwt_booking_request"])
+        token = request.COOKIES["booking_request_token"]
+        jwt_content = jwt.decode(token, os.environ.get("JWT_SECRET"), "HS256")
+        print("jwt_content", jwt_content)
+
+        check_in_date = date.fromisoformat(jwt_content["date"])
+        days_int = int(jwt_content["days"])
+
+        email = request.POST.get("email")
+        reservation_data = {
+            "check_in": check_in_date,
+            "check_out": check_in_date + timedelta(days=days_int),
+            "email": email,
+        }
+        serializer = ReservationSerializer(
+            data=reservation_data,
+            context={"token_content": jwt_content},
+        )
+        serializer.is_valid()
+        print("serializer errors", serializer.errors)
+        reservation = serializer.save()
+        reservation.validate_no_overlap()
+        response = Response()
+        response.data = {"request_validated": True, "user_email": email}
+        response.delete_cookie(
+            key="booking_request_token", path="/api/booking"
+        )
+        return response
+
+
+class BookingRequestSummaryView(APIView):
+    permission_classes = []
+    authentication_classes = [SessionAuthentication]
+
+    def post(self, request):
+        token = request.COOKIES["booking_request_token"]
         data = list(request.POST.items())
         rooms = defaultdict(dict)
-
+        jwt_content = jwt.decode(token, os.environ.get("JWT_SECRET"), "HS256")
+        rooms_selected = []
+        request_info = {
+            k: v
+            for k, v in jwt_content.items()
+            if k in ["date", "days", "adults", "children"]
+        }
         for key, value in data:
             match = re.match(r"\[(.+)\]\[(.+)\]", key)
             if match and value.isdigit():
                 room_slug, guest_type = match.groups()
                 rooms[room_slug][guest_type] = int(value)
 
-        rooms_selected = []
         for key in rooms.keys():
             if rooms[key]["adults"] != 0 or rooms[key]["children"] != 0:
                 rooms_selected.append({key: rooms[key]})
-        for room in rooms_selected:
-            pass
-        return Response({"message": "test"})
+
+        request_info.update({"rooms_selected": rooms_selected})
+        token_updated = CustomJWT(
+            content=request_info, expires_in=60 * 15
+        ).get_token()
+
+        response = Response()
+        response.set_cookie(
+            key="booking_request_token",
+            value=token_updated,
+            httponly=True,
+            samesite="None",
+            secure=True,
+            path="/api/booking",
+            max_age=60 * 15,
+        )
+        response.data = {
+            "rooms_selected": rooms_selected,
+            "request_info": request_info,
+        }
+        return response
 
 
 class BookingRoomsRequestView(APIView):
@@ -62,24 +125,33 @@ class BookingRoomsRequestView(APIView):
             data.get("date"), data.get("days")
         )
         serializer = RoomSerializer(available_rooms, many=True)
-        key = CustomJWT(
-            content={
-                "date": data.get("date"),
-                "days": data.get("days"),
-                "adults": data.get("adults"),
-                "children": data.get("children"),
-            },
+        token_content = {
+            "date": data.get("date"),
+            "days": data.get("days"),
+            "adults": data.get("adults"),
+            "children": data.get("children"),
+        }
+
+        token = CustomJWT(
+            secret=os.environ.get("JWT_SECRET"),
+            content=token_content,
             expires_in=60 * 15,
         ).get_token()
         response = Response()
+
         response.set_cookie(
-            key="jwt_booking_request",
-            value=key,
+            key="booking_request_token",
+            value=token,
             httponly=True,
             samesite="None",
             secure=True,
+            path="/api/booking",
+            max_age=60 * 15,
         )
-        response.data = {"rooms": serializer.data}
+        response.data = {
+            "rooms": serializer.data,
+            "reserv_request_info": token_content,
+        }
         return response
 
 

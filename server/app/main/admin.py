@@ -6,9 +6,16 @@ from .models import (
     Place,
     PlaceImage,
     WideImage,
+    Reservation,
+    RoomReserved,
 )
 from modeltranslation.admin import TabbedTranslationAdmin
 from django.utils.html import format_html
+
+
+@admin.register(Reservation)
+class ReservationAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(WideImage)
@@ -35,6 +42,11 @@ class PlaceAdmin(admin.ModelAdmin):
 @admin.register(ContentPage)
 class ContentPageAdmin(TabbedTranslationAdmin):
     pass
+
+
+@admin.register(RoomReserved)
+class RoomReservedAdmin(admin.ModelAdmin):
+    list_display = ("room", "adults", "children")
 
 
 @admin.register(Room)
