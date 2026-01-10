@@ -16,7 +16,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   if (errors.length > 0) {
     return errors;
   }
-  let formDataObj = {}
+  const formDataObj = {}
   for (const [k, v] of formData.entries()) {
     formDataObj[k] = (v.toString())
   }

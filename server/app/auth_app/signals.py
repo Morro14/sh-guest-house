@@ -14,7 +14,8 @@ logger = UserLogger("users.log")
 def send_pwd_reset_email(sender, instance, reset_password_token, *args, **kwargs):
     print("signal")
     logger.log(
-        "DEBUG", f"User {reset_password_token.user.email} has requested password reset."
+        "DEBUG", f"User {
+            reset_password_token.user.email} has requested password reset."
     )
     context = {
         "user": reset_password_token.user,
@@ -28,10 +29,12 @@ def send_pwd_reset_email(sender, instance, reset_password_token, *args, **kwargs
     }
 
     email_html_msg = render_to_string(
-        os.path.join(settings.BASE_DIR, "templates/password_reset.html"), context
+        os.path.join(settings.BASE_DIR,
+                     "templates/password_reset.html"), context
     )
     email_text_msg = render_to_string(
-        os.path.join(settings.BASE_DIR, "templates/password_reset.txt"), context
+        os.path.join(settings.BASE_DIR,
+                     "templates/password_reset.txt"), context
     )
     print("sending to:", reset_password_token.user.email)
     msg = EmailMultiAlternatives(

@@ -26,14 +26,13 @@ class ReservationTest(APITestCase):
             "email": "test@email.com",
         }
 
-        rooms_context = {
-            "rooms": [
-                {"slug": rooms[0].slug, "adults": 2, "children": 0},
-                {"slug": rooms[1].slug, "adults": 3, "children": 2},
-            ],
-        }
+        rooms_context = [
+            {"slug": rooms[0].slug, 'guests': {"adults": 2, "children": 0}},
+            {"slug": rooms[1].slug, 'guests': {"adults": 3, "children": 2}},
+        ]
         serializer = ReservationSerializer(
-            data=serializer_data, context=rooms_context
+            data=serializer_data, context={
+                "token_content": {"rooms_selected": rooms_context}}
         )
         serializer.is_valid()
         print("serializer errors:", serializer.errors)

@@ -41,17 +41,19 @@ class ReservationSerializer(serializers.ModelSerializer):
         print("serializer validated data", validated_data)
         print("context", self.context)
         rooms_data = self.context["token_content"]["rooms_selected"]
-        room_slugs = [next(iter(entry)) for entry in rooms_data if entry]
+        print('rooms_data', rooms_data)
+        # room_slugs = [next(iter(entry)) for entry in rooms_data if entry]
+        room_slugs = [room["slug"] for room in rooms_data]
         print("room_slugs", room_slugs)
         reservation = Reservation.objects.create(**validated_data)
         room_instances = [
             RoomReserved(
-                adults=room["adults"],
-                children=room["children"],
+                adults=int(room["guests"]["adults"]),
+                children=int(room["guests"]["children"]),
                 room=Room.objects.get(slug=room["slug"]),
                 reservation=reservation,
             )
-            for room in room_slugs
+            for room in rooms_data
         ]
         RoomReserved.objects.bulk_create(room_instances)
         return reservation

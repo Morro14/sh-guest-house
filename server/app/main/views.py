@@ -34,14 +34,10 @@ class BookingRequestValidateView(APIView):
     permission_classes = []
     authentication_classes = [SessionAuthentication]
 
-    def get(self, request):
-        response = Response()
-        return response
-
     def post(self, request):
         token = request.COOKIES["booking_request_token"]
         jwt_content = jwt.decode(token, os.environ.get("JWT_SECRET"), "HS256")
-        print("jwt_content", jwt_content)
+        # print("jwt_content", jwt_content)
 
         check_in_date = date.fromisoformat(jwt_content["date"])
         days_int = int(jwt_content["days"])
@@ -57,7 +53,7 @@ class BookingRequestValidateView(APIView):
             context={"token_content": jwt_content},
         )
         serializer.is_valid()
-        print("serializer errors", serializer.errors)
+        # print("serializer errors", serializer.errors)
         reservation = serializer.save()
         reservation.validate_no_overlap()
         response = Response()
@@ -72,15 +68,25 @@ class BookingRequestSummaryView(APIView):
     permission_classes = []
     authentication_classes = [SessionAuthentication]
 
+    def get(self, request):
+        request_info = {
+            k: v
+            for k, v in request.auth.items()
+            if k in ["date", "days", "adults", "children", "rooms_selected"]
+        }
+
+        response = Response()
+        response.data = {"request_info": request_info}
+        return response
+
     def post(self, request):
-        token = request.COOKIES["booking_request_token"]
         data = list(request.POST.items())
+        print('data', data)
         rooms = defaultdict(dict)
-        jwt_content = jwt.decode(token, os.environ.get("JWT_SECRET"), "HS256")
         rooms_selected = []
         request_info = {
             k: v
-            for k, v in jwt_content.items()
+            for k, v in request.auth.items()
             if k in ["date", "days", "adults", "children"]
         }
         for key, value in data:
@@ -91,8 +97,9 @@ class BookingRequestSummaryView(APIView):
 
         for key in rooms.keys():
             if rooms[key]["adults"] != 0 or rooms[key]["children"] != 0:
-                rooms_selected.append({key: rooms[key]})
+                rooms_selected.append({"slug": key, "guests": rooms[key]})
 
+        print('rooms_selected', rooms_selected)
         request_info.update({"rooms_selected": rooms_selected})
         token_updated = CustomJWT(
             content=request_info, expires_in=60 * 15

@@ -1,4 +1,5 @@
-import jwt, os
+import jwt
+import os
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework.authentication import BaseAuthentication
@@ -34,9 +35,11 @@ class SessionAuthentication(BaseAuthentication):
         except KeyError:
             raise AuthenticationFailed("Session cookie missing or expired")
         if not token:
+            print('auth no token')
             return None
         try:
             payload = jwt.decode(token, os.environ.get("JWT_SECRET"), "HS256")
+            print('auth token payload', payload)
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed("Session token has expired")
         except jwt.InvalidTokenError:

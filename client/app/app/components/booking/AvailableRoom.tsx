@@ -35,15 +35,23 @@ export default function AvailableRoom({ room, index, formRef }: { room: Room, in
 
   const handleChange = (e) => {
     const value = Number(e.target.value)
+    let priceChange = 0 
+
     if (e.target.name === `[${room.slug}][adults]`) {
+      const guestNumberChange = value - currentGuestSelect.adults
+      priceChange += guestNumberChange * room.price
       setCurrentGuestSelect({ ...currentGuestSelect, adults: value })
+
       formContext.setGuestPool({ ...formContext.guestPool, adults: formContext.guestPool.adults + (currentGuestSelect.adults - value) })
     } else if (e.target.name === `[${room.slug}][children]`) {
+      const guestNumberChange = value - currentGuestSelect.children
+      priceChange += guestNumberChange * room.price
       setCurrentGuestSelect({ ...currentGuestSelect, children: value })
       formContext.setGuestPool({ ...formContext.guestPool, children: formContext.guestPool.children + (currentGuestSelect.children - value) })
     }
+    formContext.setTotalPrice(formContext.totalPrice + priceChange)
   }
-  const roomSelected = currentGuestSelect.adults !== 0 || currentGuestSelect.children !== 0 ? true : false
+  const roomSelected = currentGuestSelect.adults !== 0 || currentGuestSelect.children !== 0
   if (index === 0) {
 
   }

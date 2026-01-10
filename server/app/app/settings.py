@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+from main.utils.get_translation_version import get_translation_version
+from django.utils.translation import gettext_lazy as _
 from pathlib import Path
 import os
 from dotenv import load_dotenv
@@ -137,13 +139,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
-from django.utils.translation import gettext_lazy as _
 
 LANGUAGE_CODE = "en-us"
 LANGUAGES = [("en", _("English")), ("ru", _("Russian"))]
 LOCALE_PATHS = [BASE_DIR / "locale"]
 
-from main.utils.get_translation_version import get_translation_version
 
 TRANSLATION_VERSION = get_translation_version()
 

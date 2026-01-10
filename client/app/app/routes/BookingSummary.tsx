@@ -11,7 +11,13 @@ export async function clientAction({ request }) {
   return redirect('/booking/response')
 
 }
-export default function BookingSummary() {
+export async function clientLoader(){
+  const response = await axiosInstance.get('booking/request-summary')
+  console.log('request-summary get:',response)
+  return response
+}
+export default function BookingSummary({loaderData}) {
+  // const {}
   const { t } = useTranslation()
   return <div className="flex flex-col items-center min-h-screen min-w-screen text-text-main">
     <Header bookingPannelEnabled={false} />

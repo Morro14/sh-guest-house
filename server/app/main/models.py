@@ -70,10 +70,10 @@ class Reservation(models.Model):
             )
 
     def validate_no_overlap(self):
-        for room in self.room_reserved.all():
+        for room in self.rooms_reserved.all():
             overlap = (
                 Reservation.confirmed.filter(
-                    rooms_reserved=room,
+                    room_reserved=room,
                     check_in__lt=self.check_out,
                     check_out__gt=self.check_in,
                 )
