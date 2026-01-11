@@ -18,6 +18,7 @@ from .serializers import (
     PlaceSerializer,
     ImageWideSerializer,
     ReservationSerializer,
+    RoomReserved
 )
 from .models import Reservation, ContentPage, Room, Place, WideImage
 from collections import defaultdict
@@ -72,11 +73,19 @@ class BookingRequestSummaryView(APIView):
         request_info = {
             k: v
             for k, v in request.auth.items()
-            if k in ["date", "days", "adults", "children", "rooms_selected"]
+            if k in ["date", "days", "adults", "children"]
         }
 
         response = Response()
-        response.data = {"request_info": request_info}
+        selected_room_slugs = [room["slug"]
+                               for room in request.auth["rooms_selected"]]
+        rooms = Room.objects.filter(slug__in=selected_room_slugs)
+        serializer = RoomSerializer(data=rooms, many=True)
+        serializer.is_valid()
+        response.data = {"request_info": request_info,
+                         "guests_per_room_selected": request.auth["rooms_selected"],
+                         "rooms": serializer.data
+                         }
         return response
 
     def post(self, request):

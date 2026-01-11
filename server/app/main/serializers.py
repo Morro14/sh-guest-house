@@ -31,6 +31,14 @@ class RoomSerializer(serializers.ModelSerializer):
         ]
 
 
+class RoomReservedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RoomReserved
+        fields = "__all__"
+        depth = 1
+    # room = RoomSerializer()
+
+
 class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
