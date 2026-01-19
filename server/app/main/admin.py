@@ -20,7 +20,7 @@ class ReservationAdmin(admin.ModelAdmin):
 
 @admin.register(WideImage)
 class WideImageAmin(admin.ModelAdmin):
-    pass
+    fields = ['alt_text', 'order', 'image_full']
 
 
 # @admin.register(OriginalImage)
@@ -31,7 +31,7 @@ class WideImageAmin(admin.ModelAdmin):
 
 @admin.register(PlaceImage)
 class PlaceImageAdmin(admin.ModelAdmin):
-    pass
+    fields = ['alt_text', 'order', 'image_full', 'place']
 
 
 @admin.register(Place)

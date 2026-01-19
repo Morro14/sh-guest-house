@@ -83,6 +83,7 @@ class Reservation(models.Model):
             if overlap:
                 raise ValidationError(f"Room '{room.name}' is already booked.")
             self.status = self.Status.VALIDATED
+            self.save()
             return True
 
     def save(self, *args, **kwargs):
@@ -215,7 +216,7 @@ class Image(models.Model):
 
 class WideImage(Image):
     main_res = (2054, 736)
-    small_res = (1052, 368)
+    small_res = (1200, 368)
 
     class Meta:
         verbose_name = _("wide photo")
