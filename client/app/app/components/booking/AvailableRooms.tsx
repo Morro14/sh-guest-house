@@ -19,9 +19,9 @@ export default function AvailableRooms({ rooms }) {
     // reset form context states if new search params
     formContext.setGuestPool({ adults: Number(URLSearchParams.get('adults')), children: Number(URLSearchParams.get('children')) })
   }, [URLSearchParams])
-  useEffect(() => {
-    formContext.setForm(formRef.current)
-  }, [formRef])
+  // useEffect(() => {
+  //   formContext.setForm(formRef.current)
+  // }, [])
   console.log('location', location.pathname)
   return <div id="available-rooms" className="flex flex-col items-center pt-14">
     <h3 className='text-center text-nowrap my-7'>{rooms.length > 0 ? t('Available rooms') : t("No available rooms for these dates. Check the next available dates for booking below.")}</h3>
@@ -37,7 +37,7 @@ export default function AvailableRooms({ rooms }) {
         </Carousel>
       </MediaFullView> : ""
     }
-    <Form method="post" ref={formRef} key={URLSearchParams.toString()} id="room-select-form" className="grid grid-cols-2 2xl:w-[1000px] gap-x-10 gap-y-14">
+    <Form method="post" ref={(node) => {formRef.current=node; formContext.setForm(node)}} key={URLSearchParams.toString()} id="room-select-form" className="grid grid-cols-2 2xl:w-[1000px] gap-x-10 gap-y-14">
       {rooms.map((room: Room, index: number) => {
         return <AvailableRoom formRef={formRef} key={room.name} room={room} index={index}></AvailableRoom>
       })

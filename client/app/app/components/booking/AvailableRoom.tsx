@@ -50,6 +50,7 @@ export default function AvailableRoom({ room, index, formRef }: { room: Room, in
       formContext.setGuestPool({ ...formContext.guestPool, children: formContext.guestPool.children + (currentGuestSelect.children - value) })
     }
     formContext.setTotalPrice(formContext.totalPrice + priceChange)
+    console.log('form ref', formContext.form)
   }
   const roomSelected = currentGuestSelect.adults !== 0 || currentGuestSelect.children !== 0
   if (index === 0) {

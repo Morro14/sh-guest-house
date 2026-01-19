@@ -4,117 +4,112 @@
 @source "inline:bg-tag-pink bg-tag-blue";
 
 body {
-	@apply m-0 flex justify-center font-serif bg-bg;
+  @apply m-0 flex justify-center font-serif bg-bg;
 }
 #root {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 @theme {
-	--color-red-error: #ff2c2c;
-	--color-red-error-full: #FF615C;
-	--color-text-main: #4c3b33;
-	--color-bg: #FEFDFC;
-	--color-line: #4c3b3350;
-	--color-accent: #764c38;
-	--color-olive: #d1d8b8;
-	--color-olive-light: #f0f3e5;
-	--color-olive-light-transparent: #f0f3e580;
-	--color-olive-dark: #8ca47c;
-	--color-red-bg-error: #ff9991;
-	--color-red-bg-error-light: #fec0bb;
-	--color-red-error: #E44D48;
-	--color-peach-light: #fdd2a9;
-	--color-peach-lighter: #ffdbbd;
-	--color-peach-accent: #fbbb84;
-	--color-peach-superlight: #ffe6d2;
-	--color-peach: #efa76a;
-	--color-peach-dark: #CE6F1E;
-	--color-line-light: #c59f8d;
-	--color-gray-warm: #E3DDDD;
-	--color-gray-warm-light: #F4F2F1;
-	--color-gray-warm-inactive: #C5C4C3;
-	--color-gray-warm-mid: #73706F;
-	--color-green-warm: #699A57;
-	--color-green-warm-light: #A6CD98;
-	--color-black-transparent: #000000BF; 
-	--font-sans: "Source Sans 3", sans-serif;
-	--font-serif: "Lora", serif; 
-  --gradient-olive: linear-gradient(90deg,rgba(255, 251, 251, 1) 0%, rgba(209, 216, 184, 0.24) 50%, rgba(255, 251, 251, 1) 100%);
+  --color-red-error: #ff2c2c;
+  --color-red-error-full: #ff615c;
+  --color-text-main: #4c3b33;
+  --color-bg: #fefdfc;
+  --color-line: #4c3b3350;
+  --color-accent: #764c38;
+  --color-olive: #d1d8b8;
+  --color-olive-light: #f0f3e5;
+  --color-olive-light-transparent: #f0f3e580;
+  --color-olive-dark: #8ca47c;
+  --color-red-bg-error: #ff9991;
+  --color-red-bg-error-light: #fec0bb;
+  --color-red-error: #e44d48;
+  --color-peach-light: #f6c18d;
+  --color-peach-lighter: #ffdbbd;
+  --color-peach-accent: #fbbb84;
+  --color-peach-superlight: #ffe6d2;
+  --color-peach: #efa76a;
+  --color-peach-dark: #ce6f1e;
+  --color-line-light: #c59f8d;
+  --color-gray-warm: #e3dddd;
+  --color-gray-warm-light: #f4f2f1;
+  --color-gray-warm-inactive: #c5c4c3;
+  --color-gray-warm-mid: #73706f;
+  --color-green-warm: #699a57;
+  --color-green-warm-light: #a6cd98;
+  --color-black-transparent: #000000bf;
+  --font-sans: "Source Sans 3", sans-serif;
+  --font-serif: "Lora", serif;
+  --gradient-olive: linear-gradient(
+    90deg,
+    rgba(255, 251, 251, 1) 0%,
+    rgba(209, 216, 184, 0.24) 50%,
+    rgba(255, 251, 251, 1) 100%
+  );
 }
 
 h1 {
-	@apply text-4xl font-medium;
+  @apply text-4xl font-medium;
 }
 h2 {
-	@apply text-3xl mb-9 font-medium;
+  @apply text-3xl mb-9 font-medium;
 }
 h3 {
-	@apply text-2xl mb-7 font-medium;
+  @apply text-2xl mb-6 font-medium;
 }
 h4 {
-  @apply text-xl
+  @apply text-xl mb-4 font-medium;
 }
 .index-container-1 {
-  @apply 2xl:w-[1000px]
+  @apply 2xl:w-[1000px];
 }
 .container-width-responsive {
-	@apply lg:max-w-[1284px];
+  @apply lg:max-w-[1284px];
 }
 .container-text-width-responsive {
-	@apply lg:w-[862px];
+  @apply lg:w-[862px];
 }
 .image-frame-small-responsive {
-  @apply 2xl:w-[688px] 2xl:h-[388px] overflow-hidden
+  @apply 2xl:w-[688px] 2xl:h-[388px] overflow-hidden;
 }
 .image-full {
-  @apply 2xl:w-[1284px] 2xl:h-3/5
+  @apply 2xl:w-[1284px] 2xl:h-3/5;
 }
 /* .image-original { */
 /* } */
 .media-full-view {
-  @apply 2xl:w-[1284px] 2xl:h-[90vh]
+  @apply 2xl:h-[95vh];
 }
 
 .carousel-small {
-@apply 2xl:w-[688px] 2xl:h-[380px]
+  @apply 2xl:w-[688px] 2xl:h-[380px];
 }
 
 .image-small {
-  @apply 2xl:h-[388px] 2xl:w-[688px]
-}
-.gr-green-medium {
-	background: RGBA(51, 165, 140, 1);
-	background: linear-gradient(
-		97deg,
-		rgba(51, 165, 140, 0.34) 0%,
-		rgba(51, 165, 140, 0.16) 10%,
-		rgba(51, 165, 140, 0.24) 75%,
-		rgba(51, 165, 140, 0) 100%
-	);
+  @apply 2xl:h-[388px] 2xl:w-[688px];
 }
 
 .input-login {
-	@apply border border-[var(--color-gray-1)] rounded-sm font-sans text-lg w-[240px] h-[36px] px-3 text-[var(--color-gray-1)];
+  @apply border border-[var(--color-gray-1)] rounded-sm font-sans text-lg w-[240px] h-[36px] px-3 text-[var(--color-gray-1)];
 }
 
 .embla {
-	overflow: hidden;
+  overflow: hidden;
 }
 .embla__container {
-	display: flex;
+  display: flex;
 }
 .embla__slide {
-	/* flex: 0 0 100%; */ 
+  /* flex: 0 0 100%; */
   min-width: 0;
 }
 
 .float-visible {
-  display: flex
+  display: flex;
 }
 
 .float-hidden {

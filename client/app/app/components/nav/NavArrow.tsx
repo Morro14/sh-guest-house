@@ -1,12 +1,52 @@
-export default function NavArrow({ direction, numElements, index, func }: { direction: "left" | "right", numElements: number, index: number, func: () => any }) {
-  const styleConditions = { right: direction === 'right' && index < numElements - 1, left: direction === 'left' && index > 0 }
-  const styles = { active: "fill-peach-light group-hover:fill-peach cursor-pointer", inactive: "fill-gray-warm" }
-  const active = styleConditions[direction]
+export default function NavArrow({
+  direction,
+  numElements,
+  index,
+  func,
+}: {
+  direction: "left" | "right";
+  numElements: number;
+  index: number;
+  func: () => any;
+}) {
+  const styleConditions = {
+    right: direction === "right" && index < numElements - 1,
+    left: direction === "left" && index > 0,
+  };
+  const styles = {
+    active: "stroke-peach hover:stroke-peach-light cursor-pointer",
+    inactive: "stroke-gray-warm",
+  };
+  const active = styleConditions[direction];
   const svgStyle = () => {
-    return styles[active ? "active" : "inactive"]
-  }
-  return <svg onClick={func}
-    className={"group " + (direction === 'left' ? "rotate-180 " : "") + (active ? "cursor-pointer" : "")} width="57" height="15" viewBox="0 0 57 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path className={"transition-colors " + svgStyle()} d="M56.716 8.07112C57.1066 7.6806 57.1066 7.04743 56.716 6.65691L50.3521 0.292946C49.9616 -0.0975784 49.3284 -0.0975784 48.9379 0.292946C48.5473 0.68347 48.5473 1.31664 48.9379 1.70716L54.5947 7.36401L48.9379 13.0209C48.5473 13.4114 48.5473 14.0446 48.9379 14.4351C49.3284 14.8256 49.9616 14.8256 50.3521 14.4351L56.716 8.07112ZM0 7.36401V8.36401H56.0089V7.36401V6.36401H0V7.36401Z" />
-  </svg>
+    return styles[active ? "active" : "inactive"];
+  };
+  return (
+    <svg
+      onClick={func}
+      className={
+        "group " +
+        (direction === "left" ? "rotate-180 " : "") +
+        (active ? "cursor-pointer" : "") +
+        " transition-colors " +
+        svgStyle()
+      }
+      width="20"
+      height="24"
+      viewBox="0 0 20 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1.00006 1C7.61231 9.26922 13.4899 11.8355 19.0001 11.8355"
+        stroke-width="2"
+        stroke-linecap="round"
+      />
+      <path
+        d="M1.00006 22.6711C7.61231 14.4019 13.4899 11.8356 19.0001 11.8356"
+        stroke-width="2"
+        stroke-linecap="round"
+      />
+    </svg>
+  );
 }

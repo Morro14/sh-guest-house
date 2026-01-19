@@ -1,6 +1,7 @@
-import type { Image } from "./nav";
-
-
+export interface Image {
+  order: number;
+  variants: { blur: string; small: string; main: string; full?: string };
+}
 export interface Room {
   slug: string;
   name: string;
@@ -11,7 +12,4 @@ export interface Room {
   beds: string;
 }
 
-
-export type Currency = "AMD" | "USD" | "EUR" | "RUB"
-
-
+export type Currency = "AMD" | "USD" | "EUR" | "RUB";
