@@ -8,6 +8,7 @@ from .models import (
     WideImage,
     Reservation,
     RoomReserved,
+    ImageTag
 )
 from modeltranslation.admin import TabbedTranslationAdmin
 from django.utils.html import format_html
@@ -20,7 +21,7 @@ class ReservationAdmin(admin.ModelAdmin):
 
 @admin.register(WideImage)
 class WideImageAmin(admin.ModelAdmin):
-    fields = ['alt_text', 'order', 'image_full']
+    fields = ['alt_text', 'order', 'image_full', 'tag']
 
 
 # @admin.register(OriginalImage)
@@ -39,9 +40,14 @@ class PlaceAdmin(admin.ModelAdmin):
     pass
 
 
+@admin.register(ImageTag)
+class ImageTagAdmin(admin.ModelAdmin):
+    list_display = ("name",)
+
+
 @admin.register(ContentPage)
 class ContentPageAdmin(TabbedTranslationAdmin):
-    pass
+    list_display = ("slug",)
 
 
 @admin.register(RoomReserved)

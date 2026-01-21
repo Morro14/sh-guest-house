@@ -227,8 +227,8 @@ class WideImageSet(APIView):
     permission_classes = []
     authentication_classes = []
 
-    def get(self, request):
-        images = WideImage.objects.all()
+    def get(self, request, tag):
+        images = WideImage.objects.filter(tag__name=tag)
         serializer = ImageWideSerializer(images, many=True)
         data = serializer.data
         return Response({"data": data})
@@ -265,6 +265,7 @@ class TranslationView(APIView):
         response = Response(translations)
         print("setting cache")
         cache.set(cache_key, translations, timeout=60 * 60 * 24)
+        print('translations:', translations)
         return response
 
     def _get_language_from_request(self, request):

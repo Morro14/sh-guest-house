@@ -97,7 +97,7 @@ class Room(models.Model):
     slug = models.SlugField(
         unique=True, verbose_name=_("slug"), help_text=_("slug_helptext")
     )
-    name = models.CharField(max_length=255, verbose_name=_("Room_name"))
+    name = models.CharField(max_length=80, verbose_name=_("Room_name"))
     adults_num = models.IntegerField(
         verbose_name=_("Room_adults_num"),
         help_text=_("places in the room for any guests (adult or children)"),
@@ -106,7 +106,7 @@ class Room(models.Model):
         verbose_name=_("Room_children_num"),
         help_text=_("places in the room only for children"),
     )
-    beds = models.TextField(max_length=63, default="")
+    beds = models.TextField(max_length=255, default="")
     price = models.IntegerField(default=5000)
 
     class Meta:
@@ -141,14 +141,14 @@ class ContentPage(models.Model):
             "service": "Service",
             "location": "Location",
             "places": "Places of interest",
-            "room-preview": "Rooms",
+            "rooms-preview": "Rooms",
         },
         unique=True,
         verbose_name=_("slug"),
         help_text=_("slug_helptext"),
     )
     title = models.CharField(
-        max_length=255, verbose_name=_("Content_page_title")
+        max_length=255, verbose_name=_("Content_page_title"), blank=True
     )
     body = models.TextField(
         help_text=_("Write the content in Markdown fromat."),
@@ -218,9 +218,23 @@ class WideImage(Image):
     main_res = (2054, 736)
     small_res = (1200, 368)
 
+    tag = models.ManyToManyField(
+        to="ImageTag", blank=True)
+
     class Meta:
         verbose_name = _("wide photo")
         verbose_name_plural = _("wide photos")
+
+
+class ImageTag(models.Model):
+    name = models.CharField(max_length=30)
+
+    class Meta:
+        verbose_name = "image tag"
+        verbose_name_plural = "image tags"
+
+    def __str__(self):
+        return self.name
 
 
 class RoomImage(Image):
@@ -246,13 +260,13 @@ class Place(models.Model):
     name = models.CharField(unique=True, max_length=63, verbose_name=_("name"))
     slug = models.CharField(
         unique=True,
-        max_length=63,
+        max_length=30,
         verbose_name=_("slug"),
         help_text=_("slug_helptext"),
     )
     distance = models.FloatField(help_text=_("distance"))
-    distance_comment = models.TextField(
-        max_length=63,
+    distance_comment = models.CharField(
+        max_length=255,
         default="",
         blank=True,
         verbose_name=_("distance_comment"),
