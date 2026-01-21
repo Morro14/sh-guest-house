@@ -26,6 +26,7 @@ export default function Places() {
         data.map((place) => {
           return (
             <img
+              className="z-10 relative"
               src={BASE_URL + place.images[0].variants.small}
               onClick={() => {
                 context.setFullImageView(true);
@@ -43,7 +44,7 @@ export default function Places() {
     setTimeout(() => {
       setOpacity(100);
       callback();
-    }, 300);
+    }, 150);
   };
   return loading ? (
     <div className="flex justify-center items-center w-[688px] h-[388px] bg-olive-light text-gray-500 font-serif">
@@ -75,6 +76,7 @@ export default function Places() {
         {currentPlace ? currentPlace.name : ""}
       </h3>
       <div className="flex justify-between">
+        <div className="image-frame-small-responsive  absolute bg-gray-warm-light"></div>
         <div
           className={
             "image-frame-small-responsive transition-opacity duration-300" +
@@ -104,7 +106,7 @@ export default function Places() {
 
 function NavLinkTemplate({ item }) {
   return (
-    <div className="flex flex-col px-2">
+    <div className="flex flex-col">
       <div className="text-xl font-serif">{item.name}</div>
       <div className="font-sans">
         {item.distance +

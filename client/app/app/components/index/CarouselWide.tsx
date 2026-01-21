@@ -6,9 +6,9 @@ import type { Image } from "~/types/nav";
 
 const MEDIA_BASE_URL = import.meta.env.VITE_SERVER_URL;
 
-export default function CarouselWide() {
+export default function CarouselWide({ tag }: { tag: string }) {
   const context = useNavContextProvider();
-  const { fetchedData, loading } = useFetchV3("wide-images");
+  const { fetchedData, loading } = useFetchV3("wide-images/" + tag);
   const images = fetchedData?.data?.data as Array<Image>;
   return loading ? (
     <WideImagePlaceholder />

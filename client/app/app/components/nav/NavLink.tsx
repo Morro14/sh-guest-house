@@ -1,9 +1,13 @@
+import { flushSync } from "react-dom";
+
 export default function NavLink({ index, context, children }) {
   return (
-    <div className="cursor-pointer z-10 flex flex-col h-[77px]">
+    <div className="cursor-pointer z-10 flex flex-col h-[70px]">
       <div
         onClick={() => {
-          context.setSelectorPos(index);
+          flushSync(() => {
+            context.setSelectorPos(index);
+          });
           context.preStateChangeCallback(() => {
             context.setItemSelected(index);
           });

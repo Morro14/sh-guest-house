@@ -17,7 +17,7 @@ export default function Index() {
         <div className="flex flex-col gap-6 mt-10">
           <Line></Line>
           <NavContextProvider>
-            <CarouselWide></CarouselWide>
+            <CarouselWide tag="main"></CarouselWide>
           </NavContextProvider>
 
           <Line></Line>
@@ -36,10 +36,17 @@ export default function Index() {
       </div>
 
       {/* <CarouselPanorama></CarouselPanorama> */}
-      <div className="flex flex-col gap-6 mt-10">
+      <div className="h-[72px]"></div>
+      <div className="flex flex-col gap-6 mt-[18px]">
+        <div>
+          <h2 className="text-center">{t("Vayots Dzor")}</h2>
+          <h3 className="text-center -mt-6">
+            {t("Points of interest in the province")}
+          </h3>
+        </div>
         <Line></Line>
         <NavContextProvider>
-          <CarouselWide></CarouselWide>
+          <CarouselWide tag="places"></CarouselWide>
         </NavContextProvider>
         {/* <div className="flex justify-center"> */}
         {/*   <img */}
@@ -51,7 +58,6 @@ export default function Index() {
       </div>
       <div className="flex flex-col items-center">
         <div className="flex flex-col grow gap-9 2xl:w-[1000px] mt-2">
-          <h2 className="text-center">{t("Vayots Dzor")}</h2>
           <Paragraph
             content="places"
             titleSize="h4"

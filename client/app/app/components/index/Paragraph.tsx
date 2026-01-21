@@ -12,8 +12,10 @@ export default function Paragraph(params: {
   const TitleTag = params.titleSize;
 
   return (
-    <div className={`${params.centered ? "flex flex-col items-center text-center" : ""}`}>
-      <TitleTag>{title}</TitleTag>
+    <div
+      className={`${params.centered ? "flex flex-col items-center text-center" : ""}`}
+    >
+      {title.length > 0 ? <TitleTag>{title}</TitleTag> : ""}
       {params.subtitle ? <h3>{params.subtitle}</h3> : ""}
       <p className="font-sans 2xl:text-lg">{body}</p>
     </div>
