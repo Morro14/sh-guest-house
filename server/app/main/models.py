@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from easy_thumbnails.files import get_thumbnailer
 from image_cropping import ImageRatioField
 from .utils.images_util import size_to_str
-# from .managers import ConfirmedReservationManager
+from .notifications import send_on_reservation_validated
 
 User = get_user_model()
 
@@ -49,6 +49,7 @@ class Reservation(models.Model):
     user = models.ForeignKey(
         to=User, blank=True, default=None, null=True, on_delete=models.CASCADE
     )
+    guest_name = models.CharField(verbose_name=_('Guest name'))
     email = models.EmailField(unique=False, default=None)
     check_in = models.DateField()
     check_out = models.DateField()
@@ -84,7 +85,15 @@ class Reservation(models.Model):
                 raise ValidationError(f"Room '{room.name}' is already booked.")
             self.status = self.Status.VALIDATED
             self.save()
+            send_on_reservation_validated(self)
             return True
+
+    def confirm(self):
+        if self.status != self.Status.VALIDATED:
+            raise Exception("Reservation is not validated yet")
+        self.status = self.Status.CONFIRMED
+        self.save()
+        # TODO send mail
 
     def save(self, *args, **kwargs):
         self.clean()

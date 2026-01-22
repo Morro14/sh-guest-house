@@ -1,4 +1,4 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from .models import (
     ContentPage,
     Room,
@@ -8,20 +8,70 @@ from .models import (
     WideImage,
     Reservation,
     RoomReserved,
-    ImageTag
+    ImageTag,
 )
 from modeltranslation.admin import TabbedTranslationAdmin
 from django.utils.html import format_html
+from django.urls import path
+from django.shortcuts import get_object_or_404
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import redirect
+from django.db import transaction
+from django.utils.translation import gettext_lazy as _
 
 
 @admin.register(Reservation)
 class ReservationAdmin(admin.ModelAdmin):
-    pass
+    def get_urls(self):
+
+        urls = super().get_urls()
+        custom_urls = [
+            path(
+                "/admin/main/reservation/confirm/<int:object_id>",
+                self.admin_site.admin_view(self.confirm_reservation),
+                name="reservation-confirm",
+            )
+        ]
+        return urls + custom_urls
+
+    def confirm_reservation(self, request, object_id):
+        print("object_id", object_id)
+        reservation = get_object_or_404(Reservation, pk=object_id)
+
+        if not self.has_change_permission(request, reservation):
+            raise PermissionDenied
+
+        if reservation.status == Reservation.Status.CONFIRMED:
+            self.message_user(
+                request,
+                _("Reservation is already confirmed."),
+                level=messages.WARNING,
+            )
+            return redirect("..")
+
+        if reservation.status == Reservation.Status.REQUESTED:
+            self.message_user(
+                request,
+                _("Reservation is not validated yet."),
+                level=messages.WARNING,
+            )
+            return redirect("..")
+
+        with transaction.atomic():
+            reservation.confirm()
+
+        self.message_user(
+            request,
+            _("Reservation confirmed and email notification sent."),
+            level=messages.SUCCESS,
+        )
+
+        return redirect("/admin/main/reservations")
 
 
 @admin.register(WideImage)
 class WideImageAmin(admin.ModelAdmin):
-    fields = ['alt_text', 'order', 'image_full', 'tag']
+    fields = ["alt_text", "order", "image_full", "tag"]
 
 
 # @admin.register(OriginalImage)
@@ -32,7 +82,7 @@ class WideImageAmin(admin.ModelAdmin):
 
 @admin.register(PlaceImage)
 class PlaceImageAdmin(admin.ModelAdmin):
-    fields = ['alt_text', 'order', 'image_full', 'place']
+    fields = ["alt_text", "order", "image_full", "place"]
 
 
 @admin.register(Place)

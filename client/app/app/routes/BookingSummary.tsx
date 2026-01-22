@@ -83,13 +83,27 @@ export default function BookingSummary({ loaderData }) {
             <p className="text-sm text-gray-warm-mid font-sans">
               {t("summary email help-text")}
             </p>
+            <input
+              id="email-input"
+              className="h-7 w-[210px] border-1 focus:border-bg border-gray-warm-inactive p-1 rounded font-sans"
+              placeholder="user@email.com"
+              name="email"
+            ></input>
           </div>
-          <input
-            id="email-input"
-            className="h-7 w-[210px] border-1 focus:border-bg border-gray-warm-inactive p-1 rounded font-sans"
-            placeholder="user@email.com"
-            name="email"
-          ></input>
+          <div>
+            <label htmlFor="guest-name-input" className="font-sans">
+              {t("Guest name")}
+            </label>
+            <p className="text-sm text-gray-warm-mid font-sans">
+              {t("summary guest name help-text")}
+            </p>
+            <input
+              id="guest-name-input"
+              className="h-7 w-[210px] border-1 focus:border-bg border-gray-warm-inactive p-1 rounded font-sans"
+              placeholder="Name Surname"
+              name="guest-name"
+            ></input>
+          </div>
           <button
             type="submit"
             className="w-[100px] text-lg font-medium bg-peach rounded font-sans text-bg mt-2 cursor-pointer hover:bg-peach-accent"

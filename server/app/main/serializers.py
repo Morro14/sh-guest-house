@@ -42,17 +42,17 @@ class RoomReservedSerializer(serializers.ModelSerializer):
 class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
-        fields = ["check_in", "check_out", "email"]
+        fields = ["check_in", "check_out", "email", "guest_name"]
 
     @transaction.atomic
     def create(self, validated_data):
-        print("serializer validated data", validated_data)
-        print("context", self.context)
+        # print("serializer validated data", validated_data)
+        # print("context", self.context)
         rooms_data = self.context["token_content"]["rooms_selected"]
-        print('rooms_data', rooms_data)
+        # print('rooms_data', rooms_data)
         # room_slugs = [next(iter(entry)) for entry in rooms_data if entry]
-        room_slugs = [room["slug"] for room in rooms_data]
-        print("room_slugs", room_slugs)
+        # room_slugs = [room["slug"] for room in rooms_data]
+        # print("room_slugs", room_slugs)
         reservation = Reservation.objects.create(**validated_data)
         room_instances = [
             RoomReserved(

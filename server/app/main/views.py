@@ -10,6 +10,7 @@ import json
 import jwt
 from django.utils.translation import gettext as _
 from django.views.decorators.vary import vary_on_headers
+from django.views.generic.detail import DetailView
 from django.utils.decorators import method_decorator
 from django.core.cache import cache
 from .queries import get_available_rooms
@@ -18,7 +19,7 @@ from .serializers import (
     PlaceSerializer,
     ImageWideSerializer,
     ReservationSerializer,
-    RoomReserved
+    RoomReserved,
 )
 from .models import Reservation, ContentPage, Room, Place, WideImage
 from collections import defaultdict
@@ -36,45 +37,54 @@ class BookingRequestValidateView(APIView):
     authentication_classes = [SessionAuthentication]
 
     def get(self, request):
-        print('validate cookies', request.COOKIES)
-        print('request auth validate', request.auth)
-        is_valid = request.auth['request_validated']
+        # print("validate cookies", request.COOKIES)
+        # print("request auth validate", request.auth)
+        is_valid = request.auth["request_validated"]
         response = Response()
         response.delete_cookie("booking_request_token")
         response.data = {"request_validated": is_valid}
         if is_valid:
-            response.data.update({'user_email': request.auth['user_email']})
+            response.data.update({"user_email": request.auth["user_email"]})
         return response
 
     def post(self, request):
+        print(
+            "post request data:",
+            request.POST.get("guest-name"),
+            request.POST.get("email"),
+        )
         token = request.COOKIES["booking_request_token"]
-        jwt_content = jwt.decode(token, os.environ.get("JWT_SECRET"), "HS256")
+        jwt_content = jwt.decode(
+            token, os.environ.get("JWT_SECRET"), "HS256"
+        )
         # print("jwt_content", jwt_content)
 
         check_in_date = date.fromisoformat(jwt_content["date"])
         days_int = int(jwt_content["days"])
 
         email = request.POST.get("email")
+        guest_name = request.POST.get("guest-name")
         reservation_data = {
             "check_in": check_in_date,
             "check_out": check_in_date + timedelta(days=days_int),
             "email": email,
+            "guest_name": guest_name,
         }
         serializer = ReservationSerializer(
             data=reservation_data,
             context={"token_content": jwt_content},
         )
         serializer.is_valid()
-        # print("serializer errors", serializer.errors)
+        print("serializer errors", serializer.errors)
         reservation = serializer.save()
         reservation.validate_no_overlap()
         token_data = request.auth
         token_data.update({"request_validated": True, "user_email": email})
         token = CustomJWT(content=token_data, expires_in=60 * 2).get_token()
         response = Response()
-        response.delete_cookie('booking_request_token')
+        response.delete_cookie("booking_request_token")
         response.set_cookie(
-            key='booking_request_token',
+            key="booking_request_token",
             value=token,
             httponly=True,
             samesite="None",
@@ -99,27 +109,33 @@ class BookingRequestSummaryView(APIView):
 
         response = Response()
         rooms_guests = request.auth["rooms_selected"]
-        selected_room_slugs = [room["slug"]
-                               for room in request.auth["rooms_selected"]]
+        selected_room_slugs = [
+            room["slug"] for room in request.auth["rooms_selected"]
+        ]
         rooms = Room.objects.filter(slug__in=selected_room_slugs)
         price_day = 0
         for room in rooms:
             room_guests = next(
-                (room_ for room_ in rooms_guests if room_[
-                 "slug"] == room.slug),
-                None
+                (
+                    room_
+                    for room_ in rooms_guests
+                    if room_["slug"] == room.slug
+                ),
+                None,
             )
-            room_price_total = room.price * \
-                (int(room_guests["guests"]["adults"]) +
-                 int(room_guests["guests"]["children"]))
+            room_price_total = room.price * (
+                int(room_guests["guests"]["adults"])
+                + int(room_guests["guests"]["children"])
+            )
             price_day += room_price_total
         serializer = RoomSerializer(data=rooms, many=True)
         serializer.is_valid()
-        response.data = {"request_info": request_info,
-                         "guests_per_room_selected": request.auth["rooms_selected"],
-                         "rooms": serializer.data,
-                         "price_total": price_day * int(request.auth["days"])
-                         }
+        response.data = {
+            "request_info": request_info,
+            "guests_per_room_selected": request.auth["rooms_selected"],
+            "rooms": serializer.data,
+            "price_total": price_day * int(request.auth["days"]),
+        }
         return response
 
     def post(self, request):
@@ -265,7 +281,7 @@ class TranslationView(APIView):
         response = Response(translations)
         print("setting cache")
         cache.set(cache_key, translations, timeout=60 * 60 * 24)
-        print('translations:', translations)
+        print("translations:", translations)
         return response
 
     def _get_language_from_request(self, request):

@@ -1,0 +1,50 @@
+{% extends "emails/base.html" %} {% load i18n %} {% block subject %} {% trans "A
+new reservation is requested" %} {% endblock %} {% block content %}
+<p>
+  {% trans "A reservation has been requested. Please check the reservation
+  parameters and confirm or decline the reservation by following the link to the
+  administrator site." %}
+</p>
+
+<table cellpadding="0" cellspacing="0" style="margin-top: 16px">
+  <tr>
+    <td><strong>{% trans "Guest name" %}:</strong></td>
+    <td>{{ reservation.guest_name }}</td>
+  </tr>
+  <tr>
+    <td><strong>{% trans "Check-in" %}:</strong></td>
+    <td>{{ reservation.check_in|date:"DATE_FORMAT" }}</td>
+  </tr>
+  <tr>
+    <td><strong>{% trans "Check-out" %}:</strong></td>
+    <td>{{ reservation.check_out|date:"DATE_FORMAT" }}</td>
+  </tr>
+  <tr>
+    <td><strong>{% trans "Number of guests" %}:</strong></td>
+    <td>
+      {% trans "adults" %} {{ reservation.adults }} {% trans "children" %} {{
+      reservation.children }}
+    </td>
+  </tr>
+  <tr>
+    <td><strong>{% trans "Days" %}:</strong></td>
+    <td>{{reservation.days }}</td>
+  </tr>
+</table>
+
+<p style="margin-top: 24px">
+  <a
+    href={{ site_url }}{% url 'admin:reservation-confirm' reservation.pk %}
+    style="
+      display: inline-block;
+      padding: 10px 16px;
+      background: #2c3e50;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 4px;
+    "
+  >
+    {% trans "View reservation" %}
+  </a>
+</p>
+{% endblock %}

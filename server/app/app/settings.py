@@ -53,8 +53,8 @@ INSTALLED_APPS = [
     "main",
     "auth_app",
     "django_otp",
-    'django_otp.plugins.otp_static',
-    'django_otp.plugins.otp_totp',
+    "django_otp.plugins.otp_static",
+    "django_otp.plugins.otp_totp",
     "django_otp.plugins.otp_email",
     "two_factor",
     "two_factor.plugins.email",
@@ -69,8 +69,8 @@ INSTALLED_APPS = [
     # "allauth.socialaccount.providers.google",
 ]
 SITE_ID = 1
-LOGIN_URL = 'two_factor:login'
-LOGIN_REDIRECT_URL = 'two_factor:profile'
+LOGIN_URL = "two_factor:login"
+LOGIN_REDIRECT_URL = "two_factor:profile"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -79,7 +79,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    'django_otp.middleware.OTPMiddleware',
+    "django_otp.middleware.OTPMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -206,8 +206,12 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
 
+SERVER_EMAIL = os.environ.get("EMAIL_HOST_USER")
+
 ALLOWED_SERVICES = []
 
 # Google Client
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
+
+ADMINS = [("test_admin", "ivfmn2@gmail.com")]
