@@ -22,12 +22,17 @@ from django.utils.translation import gettext_lazy as _
 
 @admin.register(Reservation)
 class ReservationAdmin(admin.ModelAdmin):
+    exclude = ["user"]
+
+    def get_queryset(self, request):
+        return Reservation.objects.all()
+
     def get_urls(self):
 
         urls = super().get_urls()
         custom_urls = [
             path(
-                "/admin/main/reservation/confirm/<int:object_id>",
+                "admin/main/reservation/confirm/<int:object_id>",
                 self.admin_site.admin_view(self.confirm_reservation),
                 name="reservation-confirm",
             )
@@ -35,7 +40,6 @@ class ReservationAdmin(admin.ModelAdmin):
         return urls + custom_urls
 
     def confirm_reservation(self, request, object_id):
-        print("object_id", object_id)
         reservation = get_object_or_404(Reservation, pk=object_id)
 
         if not self.has_change_permission(request, reservation):

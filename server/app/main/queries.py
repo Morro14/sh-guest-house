@@ -3,10 +3,10 @@ from .models import Reservation, Room, ContentPage
 from django.db.models import OuterRef, Exists
 
 
-def get_available_rooms(check_in_str, days):
+def get_available_rooms(check_in_str, nights):
     print(check_in_str)
     check_in = date.fromisoformat(check_in_str)
-    check_out = check_in + timedelta(days=int(days))
+    check_out = check_in + timedelta(days=int(nights))
     overlapping_res = Reservation.objects.filter(
         room_reserved=OuterRef("pk"),
         check_in__lt=check_out,

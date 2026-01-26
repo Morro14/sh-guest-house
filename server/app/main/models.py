@@ -47,21 +47,37 @@ class Reservation(models.Model):
             )
 
     user = models.ForeignKey(
-        to=User, blank=True, default=None, null=True, on_delete=models.CASCADE
+        to=User,
+        blank=True,
+        default=None,
+        null=True,
+        on_delete=models.CASCADE,
     )
-    guest_name = models.CharField(verbose_name=_('Guest name'))
+    guest_name = models.CharField(verbose_name=_("Guest name"))
     email = models.EmailField(unique=False, default=None)
     check_in = models.DateField()
     check_out = models.DateField()
 
-    objects = ReservationQuerySet.as_manager()
     confirmed = ConfirmedReservationManager()
     validated = ValidatedReservationManager()
+    nights = models.PositiveIntegerField()
+    message = models.TextField(max_length=255, default="")
 
-    def get_stay_days(self):
+    objects = ReservationQuerySet.as_manager()
+
+    def get_stay_nights(self):
         delta = self.check_out - self.check_in
-        print(type(delta), delta.days)
         return delta.days
+
+    def get_guests(self):
+        rooms = self.rooms_reserved.all()
+        guests = {"adults": 0, "children": 0}
+
+        for room in rooms:
+            guests["adults"] += room.adults
+            guests["children"] += room.children
+
+        return guests
 
     def clean(self):
         # date validation
@@ -82,7 +98,9 @@ class Reservation(models.Model):
                 .exists()
             )
             if overlap:
-                raise ValidationError(f"Room '{room.name}' is already booked.")
+                raise ValidationError(
+                    f"Room '{room.name}' is already booked."
+                )
             self.status = self.Status.VALIDATED
             self.save()
             send_on_reservation_validated(self)
@@ -97,6 +115,7 @@ class Reservation(models.Model):
 
     def save(self, *args, **kwargs):
         self.clean()
+        self.nights = self.get_stay_nights()
         super().save(*args, **kwargs)
 
 
@@ -104,15 +123,17 @@ class Room(models.Model):
     """Represents a room with information about it"""
 
     slug = models.SlugField(
-        unique=True, verbose_name=_("slug"), help_text=_("slug_helptext")
+        unique=True,
+        verbose_name=_("slug"),
+        help_text=_("unique name (lower case without spaces)"),
     )
-    name = models.CharField(max_length=80, verbose_name=_("Room_name"))
+    name = models.CharField(max_length=80, verbose_name=_("Room name"))
     adults_num = models.IntegerField(
-        verbose_name=_("Room_adults_num"),
+        verbose_name=_("Adults"),
         help_text=_("places in the room for any guests (adult or children)"),
     )
     children_num = models.IntegerField(
-        verbose_name=_("Room_children_num"),
+        verbose_name=_("Children"),
         help_text=_("places in the room only for children"),
     )
     beds = models.TextField(max_length=255, default="")
@@ -130,9 +151,14 @@ class RoomReserved(models.Model):
         verbose_name = _("Reserved room")
         verbose_name_plural = _("Reserved rooms")
 
-    adults = models.IntegerField(verbose_name=_("adults reserved"), default=0)
+    def __str__(self):
+        return self.room.name
+
+    adults = models.IntegerField(
+        verbose_name=_("adult places reserved"), default=0
+    )
     children = models.IntegerField(
-        verbose_name=_("children_reserved"), default=0
+        verbose_name=_("children places reserved"), default=0
     )
     room = models.ForeignKey(to=Room, on_delete=models.CASCADE)
     reservation = models.ForeignKey(
@@ -154,20 +180,20 @@ class ContentPage(models.Model):
         },
         unique=True,
         verbose_name=_("slug"),
-        help_text=_("slug_helptext"),
+        help_text=_("unique name (lower case without spaces)"),
     )
     title = models.CharField(
-        max_length=255, verbose_name=_("Content_page_title"), blank=True
+        max_length=255, verbose_name=_("Content page title"), blank=True
     )
     body = models.TextField(
         help_text=_("Write the content in Markdown fromat."),
-        verbose_name=_("Content_page_body"),
+        verbose_name=_("Content page body"),
     )
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = _("Content_page")
-        verbose_name_plural = _("Content_pages")
+        verbose_name = _("Content page")
+        verbose_name_plural = _("Content pages")
 
     def __str__(self):
         return self.title
@@ -208,7 +234,9 @@ class Image(models.Model):
             "blur": self.get_variant_url(
                 self.blur_res, self.cropping_blur, blur=True
             ),
-            "small": self.get_variant_url(self.small_res, self.cropping_small),
+            "small": self.get_variant_url(
+                self.small_res, self.cropping_small
+            ),
             "main": self.get_variant_url(self.main_res, self.cropping_main),
             "original": self.image_full.url,
         }
@@ -227,8 +255,7 @@ class WideImage(Image):
     main_res = (2054, 736)
     small_res = (1200, 368)
 
-    tag = models.ManyToManyField(
-        to="ImageTag", blank=True)
+    tag = models.ManyToManyField(to="ImageTag", blank=True)
 
     class Meta:
         verbose_name = _("wide photo")
@@ -236,7 +263,7 @@ class WideImage(Image):
 
 
 class ImageTag(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, unique=True)
 
     class Meta:
         verbose_name = "image tag"
@@ -266,21 +293,34 @@ class RoomImage(Image):
 
 
 class Place(models.Model):
-    name = models.CharField(unique=True, max_length=63, verbose_name=_("name"))
+    name = models.CharField(
+        unique=True, max_length=63, verbose_name=_("name")
+    )
     slug = models.CharField(
         unique=True,
         max_length=30,
         verbose_name=_("slug"),
-        help_text=_("slug_helptext"),
+        help_text=_("unique name (lower case without spaces)"),
     )
     distance = models.FloatField(help_text=_("distance"))
     distance_comment = models.CharField(
         max_length=255,
         default="",
         blank=True,
-        verbose_name=_("distance_comment"),
+        verbose_name=_("distance comment"),
     )
     description = models.TextField(verbose_name=_("description"))
+    geoloc = models.CharField(
+        verbose_name=_("geolocation link"),
+        help_text=_("link to a map provider with the location of the place"),
+    )
+    info_link = models.CharField(
+        verbose_name=_("Information link"),
+        help_text=_(
+            "Link to an external resources with information about the place"
+        ),
+        blank=True,
+    )
 
     class Meta:
         verbose_name = _("place")

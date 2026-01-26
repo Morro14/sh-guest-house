@@ -37,7 +37,7 @@ DEBUG = True
 AUTH_USER_MODEL = "auth_app.User"
 ALLOWED_HOSTS = []
 CLIENT_URL = os.environ.get("CLIENT_URL")
-
+SITE_NAME = _("Shushan guest house")
 
 # Application definition
 

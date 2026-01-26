@@ -1,50 +1,76 @@
-{% extends "emails/base.html" %} {% load i18n %} {% block subject %} {% trans "A
-new reservation is requested" %} {% endblock %} {% block content %}
-<p>
-  {% trans "A reservation has been requested. Please check the reservation
-  parameters and confirm or decline the reservation by following the link to the
-  administrator site." %}
-</p>
+{% extends "emails/base.html" %} 
+{% load i18n %} 
+{% block subject %} 
+  {% translate "A new reservation is requested" %}
+{% endblock %}
+{% block content %}
+  <p>
+  {% blocktranslate %} 
+    A reservation has been requested. Please check the reservation
+    parameters and confirm or decline the reservation by following the link to the
+    administrator site. 
+  {% endblocktranslate %}
+  </p>
 
-<table cellpadding="0" cellspacing="0" style="margin-top: 16px">
-  <tr>
-    <td><strong>{% trans "Guest name" %}:</strong></td>
-    <td>{{ reservation.guest_name }}</td>
-  </tr>
-  <tr>
-    <td><strong>{% trans "Check-in" %}:</strong></td>
-    <td>{{ reservation.check_in|date:"DATE_FORMAT" }}</td>
-  </tr>
-  <tr>
-    <td><strong>{% trans "Check-out" %}:</strong></td>
-    <td>{{ reservation.check_out|date:"DATE_FORMAT" }}</td>
-  </tr>
-  <tr>
-    <td><strong>{% trans "Number of guests" %}:</strong></td>
-    <td>
-      {% trans "adults" %} {{ reservation.adults }} {% trans "children" %} {{
-      reservation.children }}
-    </td>
-  </tr>
-  <tr>
-    <td><strong>{% trans "Days" %}:</strong></td>
-    <td>{{reservation.days }}</td>
-  </tr>
-</table>
+  <table cellpadding="0" cellspacing="0" style="margin-top: 16px; width: 300px">
+    <tr>
+      {% translate "Guest name" as guest_name_str %}
+      <td><strong>{{ guest_name_str|capfirst }}:</strong></td>
+      <td>{{ reservation.guest_name }}</td>
+    </tr>
+    <tr>
+      {% translate "Check-in" as check_in_str %}
+      <td><strong>{{ check_in_str|capfirst }}:</strong></td>
+      <td>{{ reservation.check_in|date:"DATE_FORMAT" }}</td>
+    </tr>
+    <tr>
+      {% translate "Check-out" as check_out_str %}
+      <td><strong>{{ check_out_str|capfirst }}:</strong></td>
+      <td>{{ reservation.check_out|date:"DATE_FORMAT" }}</td>
+    </tr>
+    <tr>
+      {% translate "Guests" as guests_str %}
+      <td><strong>{{ guests_str|capfirst }}:</strong></td>
+      <td>
+        {% translate "adults" %}: {{ guests.adults }} | {% translate "children" %}: {{ guests.children }}
+      </td>
+    </tr>
+    <tr>
+      {% translate "nights" as nights_str %}
+      <td><strong>{{ nights_str|capfirst }}:</strong></td>
+      <td>{{ reservation.nights }}</td>
+    </tr>
+    <tr>
+      {% translate "Rooms" as rooms_str %}
+      <td><strong>{{ rooms_str|capfirst }}:</strong></td>
+      <td>
+        {% for room in rooms %}
+          {{ room|capfirst }}
+        {% endfor %}
+      </td>
+    </tr>
+    <tr>
+      {% translate "Message" as message_str %}
+      <td><strong>{{ message_str|capfirst }}:</strong></td>
+      <td>{{ reservation.message }}</td>
+    </tr>
+  </table>
 
-<p style="margin-top: 24px">
-  <a
-    href={{ site_url }}{% url 'admin:reservation-confirm' reservation.pk %}
-    style="
-      display: inline-block;
-      padding: 10px 16px;
-      background: #2c3e50;
-      color: #ffffff;
-      text-decoration: none;
-      border-radius: 4px;
-    "
-  >
-    {% trans "View reservation" %}
-  </a>
-</p>
+  <p style="margin-top: 24px">
+  <strong>
+    <a
+      href={{ site_url }}{% url 'admin:reservation-confirm' reservation.pk %}
+      style="
+        display: inline-block;
+        padding: 10px 16px;
+        background: #EFA76A;
+        color: #FEFDFC;
+        text-decoration: none;
+        border-radius: 4px;
+        "
+      >
+      {% translate "View reservation" %}
+    </a>
+  </strong>
+  </p>
 {% endblock %}

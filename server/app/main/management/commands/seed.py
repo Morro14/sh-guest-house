@@ -10,7 +10,6 @@ import random
 from django.db.utils import IntegrityError
 from faker import Faker
 
-
 USER = get_user_model()
 fake = Faker()
 
@@ -94,7 +93,7 @@ class Command(BaseCommand):
                     try:
                         RoomImage.objects.create(
                             room=rooms[i],
-                            image_full="static/img/full/test_image.jpg",
+                            image_full=f"static/img/test/rooms/room-{random.randint(1, 10)}-1.webp",
                             order=j,
                         )
                     except IntegrityError:

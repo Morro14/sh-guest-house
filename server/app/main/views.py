@@ -60,15 +60,17 @@ class BookingRequestValidateView(APIView):
         # print("jwt_content", jwt_content)
 
         check_in_date = date.fromisoformat(jwt_content["date"])
-        days_int = int(jwt_content["days"])
+        nights_int = int(jwt_content["nights"])
 
         email = request.POST.get("email")
         guest_name = request.POST.get("guest-name")
+
         reservation_data = {
             "check_in": check_in_date,
-            "check_out": check_in_date + timedelta(days=days_int),
+            "check_out": check_in_date + timedelta(days=nights_int),
             "email": email,
             "guest_name": guest_name,
+            "message": request.POST.get("client-message"),
         }
         serializer = ReservationSerializer(
             data=reservation_data,
@@ -104,7 +106,7 @@ class BookingRequestSummaryView(APIView):
         request_info = {
             k: v
             for k, v in request.auth.items()
-            if k in ["date", "days", "adults", "children"]
+            if k in ["date", "nights", "adults", "children"]
         }
 
         response = Response()
@@ -134,7 +136,7 @@ class BookingRequestSummaryView(APIView):
             "request_info": request_info,
             "guests_per_room_selected": request.auth["rooms_selected"],
             "rooms": serializer.data,
-            "price_total": price_day * int(request.auth["days"]),
+            "price_total": price_day * int(request.auth["nights"]),
         }
         return response
 
@@ -145,7 +147,7 @@ class BookingRequestSummaryView(APIView):
         request_info = {
             k: v
             for k, v in request.auth.items()
-            if k in ["date", "days", "adults", "children"]
+            if k in ["date", "nights", "adults", "children"]
         }
         for key, value in data:
             match = re.match(r"\[(.+)\]\[(.+)\]", key)
@@ -186,12 +188,12 @@ class BookingRoomsRequestView(APIView):
     def get(self, request):
         data = request.GET
         available_rooms = get_available_rooms(
-            data.get("date"), data.get("days")
+            data.get("date"), data.get("nights")
         )
         serializer = RoomSerializer(available_rooms, many=True)
         token_content = {
             "date": data.get("date"),
-            "days": data.get("days"),
+            "nights": data.get("nights"),
             "adults": data.get("adults"),
             "children": data.get("children"),
         }
