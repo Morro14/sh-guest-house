@@ -1,22 +1,16 @@
 import { useContextProvider } from "../ContextProvider";
-import { useRef, useEffect } from "react";
-
+import { useRef } from "react";
+import type { ValidationErrors } from "./validate";
 
 export default function ErrorPanel() {
   const pannelRef = useRef<HTMLDivElement>(null);
   const context = useContextProvider();
-  useEffect(() => {
-    context.setErrorState(context.errors);
-
-    document.addEventListener("mousedown", () => {
-      context.setErrorState(null);
-    });
-  }, [context.errors]);
+  const errors: ValidationErrors = context.errors;
 
   const errorsExist = context.errorState && context.errorState.length > 0;
   const style = errorsExist ? "h-7 flex" : "h-0 overflow-hidden";
   const errorMessage = errorsExist ? context.errorState[0] : "";
-  return (
+  return errors && Object.keys(errors).length > 0 ? (
     <div
       ref={pannelRef}
       className={
@@ -26,5 +20,7 @@ export default function ErrorPanel() {
     >
       {errorMessage.message}
     </div>
+  ) : (
+    ""
   );
 }

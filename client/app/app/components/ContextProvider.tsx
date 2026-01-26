@@ -1,13 +1,14 @@
 import { createContext, useContext, useState } from "react";
+import type { ValidationErrors } from "./formComponents/validate";
 
 const BookingContext = createContext({});
 
 export default function ContextProvider({ children, params }) {
   const [guestsSelect, setGuestsSelect] = useState({ adults: 2, children: 0 });
   const [displaySelect, setDisplaySelect] = useState(false);
-  const [daysCount, setDaysCount] = useState(1);
-  const errors = params.errors;
-  const [errorState, setErrorState] = useState<null | Array<object>>(errors);
+  const [nightsCount, setNightsCount] = useState(1);
+  const errors: ValidationErrors = params.errors;
+  const [errorState, setErrorState] = useState<null | ValidationErrors>(errors);
   const [formChange, setFormChange] = useState(false);
   const [blockClick, setBlockClick] = useState(false);
   return (
@@ -17,8 +18,8 @@ export default function ContextProvider({ children, params }) {
         setGuestsSelect,
         displaySelect,
         setDisplaySelect,
-        daysCount,
-        setDaysCount,
+        nightsCount,
+        setNightsCount,
         errors,
         errorState,
         setErrorState,

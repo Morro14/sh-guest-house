@@ -25,6 +25,6 @@ export function useFetchV3(url: string, valid = true, timeout = 0) {
         setFetchedData({ data: r.data, status: r.status, message: r.message });
         setLoading(false);
       });
-  }, [url]);
+  });
   return { validParams: valid, fetchedData, loading };
 }

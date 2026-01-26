@@ -46,7 +46,7 @@ export default function Index() {
         </div>
         <Line></Line>
         <NavContextProvider>
-          <CarouselWide tag="places"></CarouselWide>
+          <CarouselWide tag="place"></CarouselWide>
         </NavContextProvider>
         {/* <div className="flex justify-center"> */}
         {/*   <img */}

@@ -1,13 +1,13 @@
-import { getUrlSearchParams } from "~/utils/general";
+import { formatPrice, getUrlSearchParams } from "~/utils/general";
 import { useBookingRoomSelectContextProvider } from "./BookingRoomSelectContext";
-import type { Room } from "~/types/booking";
 import { useEffect, useState, type SyntheticEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { getTotalPrice } from "../formComponents/utils";
 import { useSubmit } from "react-router";
 
-export default function FloatingPanel({ rooms }: { rooms: Room[] }) {
-  const params = getUrlSearchParams(["date", "adults", "children", "days"]);
+const CURRENCY = import.meta.env.VITE_CURRENCY;
+
+export default function FloatingPanel() {
+  const params = getUrlSearchParams(["date", "adults", "children", "nights"]);
   const guests = Number(params.adults) + Number(params.children);
   const formContext = useBookingRoomSelectContextProvider();
   const moreRoomsRequired =
@@ -59,8 +59,8 @@ export default function FloatingPanel({ rooms }: { rooms: Room[] }) {
           <div className={`flex items-center gap-7 font-sans overflow-hidden`}>
             <div>{`Date: ${dateString}`}</div>
             <div>{`Guests: ${guests}`}</div>
-            <div>{`Nights: ${params.days}`}</div>
-            <div>{`Price: ${context.totalPrice}`}</div>
+            <div>{`Nights: ${params.nights}`}</div>
+            <div>{`Price: ${formatPrice(context.totalPrice * Number(params.nights), CURRENCY)}`}</div>
           </div>
           <button
             onClick={handleBookClick}

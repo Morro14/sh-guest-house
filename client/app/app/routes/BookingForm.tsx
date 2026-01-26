@@ -7,13 +7,16 @@ import { redirect } from "react-router";
 import type { Route } from "./+types/BookingForm";
 import { getUrlSearchParams } from "~/utils/general";
 import { useEffect } from "react";
+import type { ValidationErrors } from "~/components/formComponents/validate";
+import type { BookingForm } from "./Main";
+import { formDataToObject } from "./Main";
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
-  const validations = validate(formData);
-  const errors = validations.filter((v) => !v.valid);
-  if (errors.length > 0) {
-    return { status: "vaildationError", errors };
+  const formDataObject = formDataToObject(formData);
+  const errors: ValidationErrors = validate(formDataObject);
+  if (Object.keys(errors).length > 0) {
+    return errors;
   }
   const formDataObj = {};
   for (const [k, v] of formData.entries()) {
@@ -26,17 +29,17 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 export default function BookingForm({ actionData }: Route.ComponentProps) {
   const context = useContextProvider();
   const { t } = useTranslation();
-  const { date, days } = getUrlSearchParams([
+  const { date, nights } = getUrlSearchParams([
     "date",
     "adults",
     "children",
-    "days",
+    "nights",
   ]);
   useEffect(() => {
     if (actionData && actionData.errors.length > 0) {
       context.setErrorState(actionData.errors);
     }
-  }, [actionData]);
+  }, [actionData, context]);
   return (
     <Form method="post" className="flex flex-col gap-3 items-center size-full">
       <div className="flex justify-between w-full items-center overflow-visible">
@@ -55,14 +58,14 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
         <div className="flex h-10 w-[132px] justify-center items-center hover:bg-peach-lighter">
           <input
             className="text-center font-medium w-12 placeholder:text-center placeholder:text-[#4c3b3350] placeholder:italic focus:placeholder:text-gray-400 border-b-1 border-line-light"
-            name="days"
-            defaultValue={Number(days)}
+            name="nights"
+            defaultValue={Number(nights)}
             type="text"
             maxLength={2}
-            onChange={(e) => context.setDaysCount(Number(e.target.value))}
+            onChange={(e) => context.setNightsCount(Number(e.target.value))}
           />
           <div className="w-[25px] ml-2">
-            {t("day", { count: context.daysCount })}
+            {t("nights", { count: context.nightsCount })}
           </div>
         </div>
       </div>

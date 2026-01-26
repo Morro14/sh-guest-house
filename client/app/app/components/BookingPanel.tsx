@@ -43,14 +43,14 @@ export default function BookingPannel() {
           <div className="flex h-10 w-[160px] justify-center items-center hover:bg-peach-lighter">
             <input
               className="peer text-center font-medium w-12 ml-[-8px] focus:bg-peach-superlight placeholder:text-center placeholder:text-[#4c3b3350] placeholder:italic focus:placeholder:text-gray-400 border-b-1 border-line-light"
-              name="days"
+              name="nights"
               defaultValue={1}
               type="text"
               maxLength={2}
-              onChange={(e) => context.setDaysCount(Number(e.target.value))}
+              onChange={(e) => context.setNightsCount(Number(e.target.value))}
             />
             <div className="w-[25px] ml-2">
-              {t("day", { count: context.daysCount })}
+              {t("day", { count: context.nightsCount })}
             </div>
           </div>
 

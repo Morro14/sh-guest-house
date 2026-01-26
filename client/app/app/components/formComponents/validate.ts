@@ -1,24 +1,53 @@
 import { Temporal } from "@js-temporal/polyfill";
 import i18n from "root/src/i18n/i18n";
+import type { BookingForm } from "~/routes/Main";
 
-export function validate(formData: any) {
-
-  const isDateValid = validateDate(formData.get("date"));
-  const isGuestsValid = validateGuests(
-    formData.get("adults"),
-    formData.get("children")
-  );
-  const isDaysValid = validateDays(formData.get("days"));
-  return [isDateValid, isGuestsValid, isDaysValid];
+interface Validation {
+  valid: boolean;
+  name?: ValidationErrorNames;
+  message?: string;
 }
 
-function validateDate(date: string) {
+export type ValidationErrorNames = "guests" | "date" | "nights";
+
+export type ValidationErrors = Partial<
+  Record<ValidationErrorNames, { message: string }>
+>;
+
+export function validate(formDataObject: BookingForm) {
+  const errors: ValidationErrors = {};
+  const dateValidation = validateDate(formDataObject.date);
+  const guestsValidation = validateGuests(formDataObject.adults);
+  const nightsValidation = validateNights(formDataObject.nights);
+  const validations = [dateValidation, guestsValidation, nightsValidation];
+  validations.forEach((v: Validation) => {
+    if (!v.valid) {
+      errors[v.name].message = v.message;
+    }
+  });
+  return errors;
+}
+
+function validateDate(date: string): Validation {
   if (date === "") {
-    return { valid: false, message: i18n.t("Please, enter the arival date.") };
+    return {
+      name: "date",
+      valid: false,
+      message: i18n.t("Please enter the arival date."),
+    };
   }
-  const selectDatePlusDay = Temporal.PlainDate.from(date)
-    .add({ days: 1 })
-    .toPlainDateTime({ hour: 0 });
+  let selectDatePlusDay = null;
+  try {
+    selectDatePlusDay = Temporal.PlainDate.from(date)
+      .add({ days: 1 })
+      .toPlainDateTime({ hour: 0 });
+  } catch {
+    return {
+      name: "date",
+      valid: false,
+      message: i18n.t("Please enter correct date."),
+    };
+  }
   const now = Temporal.Now.plainDateTimeISO();
 
   let boundary = Temporal.PlainDateTime.from({
@@ -35,19 +64,18 @@ function validateDate(date: string) {
   }
   const isValid =
     Temporal.PlainDateTime.compare(selectDatePlusDay, boundary) === 1;
-  // const today = Temporal.Now.instant().toString();
-  // console.log("today", today);
   const todayDate = new Date();
   if (!isValid) {
     return {
+      name: "date",
       valid: false,
       message: i18n.t("availableDate", {
         val: new Date(
           Date.UTC(
             todayDate.getFullYear(),
             todayDate.getMonth(),
-            todayDate.getDate()
-          )
+            todayDate.getDate(),
+          ),
         ),
         formatParams: {
           val: {
@@ -63,10 +91,11 @@ function validateDate(date: string) {
   return { valid: true };
 }
 
-function validateGuests(adultsStr: string, childrenStr: string) {
-  const [adults, children] = [Number(adultsStr), Number(adultsStr)];
+function validateGuests(adultsStr: string): Validation {
+  const adults = Number(adultsStr);
   if (!adults) {
     return {
+      name: "guests",
       valid: false,
       message: i18n.t("There must be at least 1 guest."),
     };
@@ -74,10 +103,14 @@ function validateGuests(adultsStr: string, childrenStr: string) {
   return { valid: true };
 }
 
-function validateDays(days: string) {
-  const isDigit = days.trim().match(/\d/);
+function validateNights(nights: string): Validation {
+  const isDigit = nights.trim().match(/\d/);
   if (!isDigit) {
-    return { valid: false, message: i18n.t("Days must be a number.") };
+    return {
+      name: "nights",
+      valid: false,
+      message: i18n.t("Nights must be a number."),
+    };
   }
   return { valid: true };
 }

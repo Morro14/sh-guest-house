@@ -18,7 +18,7 @@ export async function clientLoader({ request }) {
     url.searchParams.get("date") &&
     url.searchParams.get("adults") &&
     url.searchParams.get("children") &&
-    url.searchParams.get("days");
+    url.searchParams.get("nights");
   // default search params
   if (!allParams) {
     const defaultParamsObj = getDefaultSearchParams();

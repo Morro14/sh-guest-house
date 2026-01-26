@@ -16,25 +16,44 @@ export async function clientAction({ request }) {
     `/booking/response?validated=${response.data.request_validated}&email=${response.data.user_email}`,
   );
 }
+interface GuestPerRoomSelected {
+  slug: string;
+  guests: {
+    adults: number;
+    children: number;
+  };
+}
+interface LoaderData {
+  guests_per_room_selected: GuestPerRoomSelected[];
+  price_total: number;
+  rooms: Room[];
+  request_info: {
+    adults: string;
+    children: string;
+    date: string;
+    nights: string;
+  };
+}
 export async function clientLoader() {
   const response = await axiosInstance.get("booking/request-summary");
   console.log("request-summary get:", response);
   return response;
 }
 export default function BookingSummary({ loaderData }) {
+  const loaderDataClean: LoaderData = loaderData.data;
   const { t } = useTranslation();
   const {
     request_info: requestInfo,
     rooms,
     guests_per_room_selected: guestsInfo,
     price_total: price,
-  } = loaderData.data;
+  } = loaderDataClean;
   const dateStart = Temporal.PlainDate.from(requestInfo.date);
-  const days = Number(requestInfo.days);
-  const dateEnd = dateStart.add({ days: days });
+  const nights = Number(requestInfo.nights);
+  const dateEnd = dateStart.add({ days: nights });
 
   const reservationSearchParams = createSearchParams({
-    days: requestInfo.days,
+    nights: requestInfo.nights,
     date: requestInfo.date,
     adults: requestInfo.adults,
     children: requestInfo.children,
@@ -103,6 +122,22 @@ export default function BookingSummary({ loaderData }) {
               placeholder="Name Surname"
               name="guest-name"
             ></input>
+          </div>
+          <div>
+            <label htmlFor="guest-name-input" className="font-sans">
+              {t("Message")}
+            </label>
+            <p className="text-sm text-gray-warm-mid font-sans">
+              {t(
+                "Please let us know the time of your arrival and any additional information related to your stay.",
+              )}
+            </p>
+            <textarea
+              id="client-message-input"
+              className="w-[210px] border-1 focus:border-bg border-gray-warm-inactive p-1 rounded font-sans"
+              rows={3}
+              name="client-message"
+            ></textarea>
           </div>
           <button
             type="submit"

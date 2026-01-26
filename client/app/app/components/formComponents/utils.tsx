@@ -1,4 +1,4 @@
-import { useEffect, useState, type RefObject } from "react";
+import { useEffect, type RefObject } from "react";
 import type { Room } from "~/types/booking";
 
 export function useCloseOnClick<T extends any[]>(
@@ -8,23 +8,22 @@ export function useCloseOnClick<T extends any[]>(
   callBackArgs: T | [] = [],
 ) {
   const handleClickOutside = (e: MouseEvent) => {
-    if (!switcherRef.current?.checked) return
+    if (!switcherRef.current?.checked) return;
     const target = e.target as Node;
     if (wrapperRef.current && !wrapperRef.current.contains(target)) {
-      e.stopPropagation()
+      e.stopPropagation();
       if (switcherRef?.current) switcherRef.current.checked = false;
       if (callback) {
         callback(...callBackArgs);
       }
     }
-  }
+  };
 
   useEffect(() => {
-    if (!switcherRef.current) return
+    if (!switcherRef.current) return;
 
-    document.addEventListener("click", handleClickOutside, true)
-
-  }, []);
+    document.addEventListener("click", handleClickOutside, true);
+  });
 }
 export function useCloseOnClickV2<T extends any[]>(
   nonClickableRef: RefObject<null | HTMLDivElement>,
@@ -32,7 +31,7 @@ export function useCloseOnClickV2<T extends any[]>(
   callBackArgs: T | [] = [],
 ) {
   useEffect(() => {
-    if (!nonClickableRef.current) return
+    if (!nonClickableRef.current) return;
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
       if (!nonClickableRef.current.contains(target)) {
@@ -40,58 +39,58 @@ export function useCloseOnClickV2<T extends any[]>(
           callback(...callBackArgs);
         }
       }
-    }
+    };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-
-  }, [nonClickableRef]);
+  }, [nonClickableRef, callback, callBackArgs]);
 }
 
-export function isInsideSubtractArea(outerNode: Element, innerNode: Element, e: MouseEvent) {
+export function isInsideSubtractArea(
+  outerNode: Element,
+  innerNode: Element,
+  e: MouseEvent,
+) {
   // checks if coords are in outer node area but not inside inner node area
 
   if (!outerNode && !innerNode) {
-    return false
+    return false;
   }
 
-  const { clientX: x, clientY: y } = e
-  const outerRect = outerNode.getBoundingClientRect()
-  const innderRect = innerNode.getBoundingClientRect()
+  const { clientX: x, clientY: y } = e;
+  const outerRect = outerNode.getBoundingClientRect();
+  const innderRect = innerNode.getBoundingClientRect();
 
-  const inOuterRect = x >= outerRect.left && x <= outerRect.right && y <= outerRect.bottom && y >= outerRect.top
-  const inInnerRect = x >= innderRect.left && x <= innderRect.right && y <= innderRect.bottom && y >= innderRect.top
+  const inOuterRect =
+    x >= outerRect.left &&
+    x <= outerRect.right &&
+    y <= outerRect.bottom &&
+    y >= outerRect.top;
+  const inInnerRect =
+    x >= innderRect.left &&
+    x <= innderRect.right &&
+    y <= innderRect.bottom &&
+    y >= innderRect.top;
 
   if (inOuterRect && !inInnerRect) {
-    return true
+    return true;
   }
-  return false
+  return false;
 }
 
 export function getSelectedRooms(form: HTMLFormElement) {
-  const children = Array.from(form.getElementsByTagName("input")) as HTMLInputElement[]
-  const selectedRooms = children.filter((el) => el.checked === true)
-  return selectedRooms
+  const children = Array.from(
+    form.getElementsByTagName("input"),
+  ) as HTMLInputElement[];
+  const selectedRooms = children.filter((el) => el.checked === true);
+  return selectedRooms;
 }
 
-export function selectedRoomsToObjects(selectedRooms: HTMLInputElement[], rooms: Room[]) {
-  const selectedSlugs = new Set(selectedRooms.map((r) => r.value))
-  const roomsObj = rooms.filter((r) => selectedSlugs.has(r.slug))
-  return roomsObj
-}
-
-// TODO
-export function getTotalPrice(rooms: Room[], adults: number, children: number, days: number) {
-  // example price calculation
-  //
-  // sort rooms by price
-  const roomsSorted = rooms.sort((a, b) => a.price - b.price)
-  console.log('rooms sorted', roomsSorted)
-  const middlePricedRoomsIndex = Math.floor((rooms.length - adults) / 2) + 1
-  console.log('middle price', middlePricedRoomsIndex)
-
-  // total price for one adult per room (if there are less adults than rooms less extreme priced rooms are chosen)
-  const baseRoomPrice = 0
-
-  return
+export function selectedRoomsToObjects(
+  selectedRooms: HTMLInputElement[],
+  rooms: Room[],
+) {
+  const selectedSlugs = new Set(selectedRooms.map((r) => r.value));
+  const roomsObj = rooms.filter((r) => selectedSlugs.has(r.slug));
+  return roomsObj;
 }
