@@ -1,5 +1,10 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.decorators import (
+    api_view,
+    authentication_classes,
+    permission_classes,
+)
 from dotenv import load_dotenv
 from django.contrib.auth import get_user_model
 from django.utils import translation
@@ -10,7 +15,6 @@ import json
 import jwt
 from django.utils.translation import gettext as _
 from django.views.decorators.vary import vary_on_headers
-from django.views.generic.detail import DetailView
 from django.utils.decorators import method_decorator
 from django.core.cache import cache
 from .queries import get_available_rooms
@@ -19,13 +23,14 @@ from .serializers import (
     PlaceSerializer,
     ImageWideSerializer,
     ReservationSerializer,
-    RoomReserved,
 )
-from .models import Reservation, ContentPage, Room, Place, WideImage
+from .models import ContentPage, Room, Place, WideImage
 from collections import defaultdict
 from auth_app.utils.jwt_ import CustomJWT
 from datetime import date, timedelta
 from .authentication import SessionAuthentication
+from main.utils.room_price import get_reservation_price_total
+from .utils.data_parse import parse_rooms_selected
 
 load_dotenv()
 
@@ -37,8 +42,6 @@ class BookingRequestValidateView(APIView):
     authentication_classes = [SessionAuthentication]
 
     def get(self, request):
-        # print("validate cookies", request.COOKIES)
-        # print("request auth validate", request.auth)
         is_valid = request.auth["request_validated"]
         response = Response()
         response.delete_cookie("booking_request_token")
@@ -109,59 +112,41 @@ class BookingRequestSummaryView(APIView):
             if k in ["date", "nights", "adults", "children"]
         }
 
-        response = Response()
         rooms_guests = request.auth["rooms_selected"]
         selected_room_slugs = [
             room["slug"] for room in request.auth["rooms_selected"]
         ]
         rooms = Room.objects.filter(slug__in=selected_room_slugs)
-        price_day = 0
-        for room in rooms:
-            room_guests = next(
-                (
-                    room_
-                    for room_ in rooms_guests
-                    if room_["slug"] == room.slug
-                ),
-                None,
-            )
-            room_price_total = room.price * (
-                int(room_guests["guests"]["adults"])
-                + int(room_guests["guests"]["children"])
-            )
-            price_day += room_price_total
+        reservation_price_total = get_reservation_price_total(
+            rooms, rooms_guests, int(request_info["nights"])
+        )
+
         serializer = RoomSerializer(data=rooms, many=True)
         serializer.is_valid()
+
+        response = Response()
         response.data = {
             "request_info": request_info,
             "guests_per_room_selected": request.auth["rooms_selected"],
             "rooms": serializer.data,
-            "price_total": price_day * int(request.auth["nights"]),
+            "price_total": reservation_price_total,
         }
+
         return response
 
     def post(self, request):
-        data = list(request.POST.items())
-        rooms = defaultdict(dict)
-        rooms_selected = []
         request_info = {
             k: v
             for k, v in request.auth.items()
             if k in ["date", "nights", "adults", "children"]
         }
-        for key, value in data:
-            match = re.match(r"\[(.+)\]\[(.+)\]", key)
-            if match and value.isdigit():
-                room_slug, guest_type = match.groups()
-                rooms[room_slug][guest_type] = int(value)
 
-        for key in rooms.keys():
-            if rooms[key]["adults"] != 0 or rooms[key]["children"] != 0:
-                rooms_selected.append({"slug": key, "guests": rooms[key]})
-
+        rooms_selected = parse_rooms_selected(request)
         request_info.update({"rooms_selected": rooms_selected})
         token_updated = CustomJWT(
-            content=request_info, expires_in=60 * 15
+            # TEST
+            content=request_info,
+            expires_in=60 * 15,
         ).get_token()
 
         response = Response()
@@ -239,6 +224,26 @@ class PlaceSetView(APIView):
         places = Place.objects.prefetch_related("image").all()
         place_serial = PlaceSerializer(places, many=True)
         return Response({"data": place_serial.data})
+
+
+@api_view(["POST"])
+@authentication_classes([SessionAuthentication])
+@permission_classes([])
+def reservation_price_view(request):
+    if request.method == "POST":
+        rooms_guests = parse_rooms_selected(request)
+        nights = request.auth["nights"]
+
+        selected_room_slugs = [room["slug"] for room in rooms_guests]
+        rooms = Room.objects.filter(slug__in=selected_room_slugs)
+        reservation_price_total = get_reservation_price_total(
+            rooms, rooms_guests, int(nights)
+        )
+        response = Response(
+            data={"reservation_price": reservation_price_total}
+        )
+
+        return response
 
 
 class WideImageSet(APIView):

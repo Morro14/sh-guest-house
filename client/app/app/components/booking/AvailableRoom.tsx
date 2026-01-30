@@ -63,11 +63,11 @@ export default function AvailableRoom({
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = Number(e.target.value);
-    let priceChange = 0;
+    const priceChange = 0;
 
     if (e.target.name === `[${room.slug}][adults]`) {
       const guestNumberChange = value - currentGuestSelect.adults;
-      priceChange += guestNumberChange * room.price;
+      // priceChange += guestNumberChange * room.price;
       setCurrentGuestSelect({ ...currentGuestSelect, adults: value });
 
       formContext.setGuestPool({
@@ -77,7 +77,7 @@ export default function AvailableRoom({
       });
     } else if (e.target.name === `[${room.slug}][children]`) {
       const guestNumberChange = value - currentGuestSelect.children;
-      priceChange += guestNumberChange * room.price;
+      // priceChange += guestNumberChange * room.price;
       setCurrentGuestSelect({ ...currentGuestSelect, children: value });
       formContext.setGuestPool({
         ...formContext.guestPool,
@@ -86,7 +86,7 @@ export default function AvailableRoom({
           (currentGuestSelect.children - value),
       });
     }
-    formContext.setTotalPrice(formContext.totalPrice + priceChange);
+    // formContext.setTotalPrice(formContext.totalPrice + priceChange);
     console.log("form ref", formContext.form);
   };
   const roomSelected =

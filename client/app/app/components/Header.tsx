@@ -1,25 +1,12 @@
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import LangSelect from "./LangSelect";
-import { useEffect, useState } from "react";
 
-const LOGOUT_URL = "auth/logout";
-
-export default function Header({
-  bookingPannelEnabled,
-}: {
-  bookingPannelEnabled: boolean;
-}) {
-  const { t, i18n } = useTranslation();
-  // const [scrollTopMax, setScrollTopMax] = useState(0);
-  // useEffect(() => {
-  //   document.addEventListener("scroll", (e) =>
-  //     setScrollTopMax(e.target.scrollingElement.scrollTop),
-  //   );
-  // });
+export default function Header() {
+  const { t } = useTranslation();
   return (
     <header
-      className={`flex flex-col items-center transition-all w-screen bg-olive-light h-9`}
+      className={`flex flex-col items-center transition-all w-screen bg-olive-light text-text-main h-9`}
     >
       <div
         className={`flex justify-between items-center w-screen px-7 h-12 transition-all overflow-hidden `}

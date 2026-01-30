@@ -3,6 +3,7 @@ import { useBookingRoomSelectContextProvider } from "./BookingRoomSelectContext"
 import { useEffect, useState, type SyntheticEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useSubmit } from "react-router";
+import { useFetchV3 } from "~/utils/fetchHook";
 
 const CURRENCY = import.meta.env.VITE_CURRENCY;
 
@@ -16,6 +17,7 @@ export default function FloatingPanel() {
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
   const context = useBookingRoomSelectContextProvider();
+
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver(
       (entries) => {
@@ -43,7 +45,8 @@ export default function FloatingPanel() {
     }
     submit(formContext.form, { method: "post" });
   };
-
+  const price = context.priceFetcher.data?.reservation_price || 0;
+  const priceStatus = context.priceFetcher.state;
   return (
     <div
       className={`${panelOffScreen ? "fixed top-4" : "absolute top-4"} z-20 top-0 w-full flex flex-col items-center justify-start`}
@@ -56,11 +59,13 @@ export default function FloatingPanel() {
           className={`z-10 flex justify-between items-center w-[1100px] mt-2 h-6`}
         >
           <div className="w-[112px] px-4"></div>
-          <div className={`flex items-center gap-7 font-sans overflow-hidden`}>
+          <div className={`flex items-center gap-7 font-sans`}>
             <div>{`Date: ${dateString}`}</div>
             <div>{`Guests: ${guests}`}</div>
             <div>{`Nights: ${params.nights}`}</div>
-            <div>{`Price: ${formatPrice(context.totalPrice * Number(params.nights), CURRENCY)}`}</div>
+            <div className="w-16 overflow-visible text-nowrap">
+              {`Price: ${priceStatus === "idle" ? formatPrice(price, CURRENCY) : "..."}`}
+            </div>
           </div>
           <button
             onClick={handleBookClick}

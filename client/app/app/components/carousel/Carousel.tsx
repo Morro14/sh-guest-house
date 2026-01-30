@@ -56,7 +56,7 @@ export function Carousel({
                 className={`h-full object-cover`}
                 src={BASE_URL + img.variants[imageRes]}
                 alt={`${name}-${i}`}
-                loading="lazy"
+                // loading="lazy"
                 onClick={() => imageOnClick(i)}
               />
             </div>

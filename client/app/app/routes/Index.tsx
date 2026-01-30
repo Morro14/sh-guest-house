@@ -5,7 +5,6 @@ import Paragraph from "~/components/index/Paragraph";
 import RoomsPreview from "~/components/index/Rooms";
 import NavContextProvider from "~/components/nav/NavContextProvider";
 import Places from "~/components/index/Places";
-import Footer from "~/components/Footer";
 import CarouselWide from "~/components/index/CarouselWide";
 
 export default function Index() {
@@ -48,12 +47,6 @@ export default function Index() {
         <NavContextProvider>
           <CarouselWide tag="place"></CarouselWide>
         </NavContextProvider>
-        {/* <div className="flex justify-center"> */}
-        {/*   <img */}
-        {/*     src="src/assets/mountains_full_width.png" */}
-        {/*     className="2xl:w-[1282px]" */}
-        {/*   /> */}
-        {/* </div> */}
         <Line></Line>
       </div>
       <div className="flex flex-col items-center">
@@ -68,7 +61,6 @@ export default function Index() {
           </NavContextProvider>
         </div>
       </div>
-      <Footer></Footer>
     </div>
   );
 }

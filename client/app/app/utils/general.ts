@@ -10,9 +10,9 @@ export function isDigit(s: string) {
 export function getDefaultSearchParams() {
   const today = Temporal.Now.plainDateISO();
   const DATE = today.add({ days: 1 }).toString();
-  const ADULTS_NUM = 2;
-  const CHIlDREN_NUM = 0;
-  const NIGHTS = 1;
+  const ADULTS_NUM = "2";
+  const CHIlDREN_NUM = "0";
+  const NIGHTS = "1";
 
   return {
     date: DATE,

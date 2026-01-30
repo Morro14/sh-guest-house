@@ -1,75 +1,116 @@
 import { axiosInstance } from "~/root";
 import type { Route } from "./+types/Booking";
-import { Outlet, useLocation, redirect, data } from "react-router";
+import { Outlet, useLocation, redirect, useFetcher } from "react-router";
 import { useTranslation } from "react-i18next";
 import Line from "~/components/index/Line";
 import AvailableRooms from "~/components/booking/AvailableRooms";
-import type { Room } from "~/types/booking";
+import type { Room } from "~/types/general";
 import NavContextProvider from "~/components/nav/NavContextProvider";
-import Header from "~/components/Header";
 import ContextProvider from "~/components/ContextProvider";
 import FloatingPanel from "~/components/booking/FloatingPanel";
 import BookingRoomSelectContext from "~/components/booking/BookingRoomSelectContext";
 import { getDefaultSearchParams } from "~/utils/general";
+import { isRouteErrorResponse, useRouteError } from "react-router";
+import Fallback from "~/components/Fallback";
+import type { ShouldRevalidateFunctionArgs } from "react-router";
+import { data } from "react-router";
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  // const isRouteErrorResponseValue = isRouteErrorResponse(error);
+  const { t } = useTranslation();
+
+  console.log("error boundary", error);
+  if (isRouteErrorResponse(error)) {
+    const sessionError = error.status === 403;
+    return sessionError ? (
+      <Fallback
+        link={"booking"}
+        linkText={t("back to booking")}
+        message={t("Your session has expired")}
+      ></Fallback>
+    ) : (
+      <div>
+        <h1>
+          {error.status} {error.statusText}
+        </h1>
+        <p>{error.data}</p>
+      </div>
+    );
+  } else if (error instanceof Error) {
+    return (
+      <div>
+        <h1>Error</h1>
+        <p>{error.message}</p>
+        <p>The stack trace is:</p>
+        <pre>{error.stack}</pre>
+      </div>
+    );
+  } else {
+    return <h1>Unknown Error</h1>;
+  }
+}
+
+export function shouldRevalidate({
+  formData,
+  defaultShouldRevalidate,
+}: ShouldRevalidateFunctionArgs) {
+  const intent = formData?.get("_intent");
+
+  if (intent === "price_preview") {
+    return false;
+  }
+  return defaultShouldRevalidate;
+}
 
 export async function clientLoader({ request }) {
   const url = new URL(request.url);
   const allParams =
-    url.searchParams.get("date") &&
-    url.searchParams.get("adults") &&
-    url.searchParams.get("children") &&
-    url.searchParams.get("nights");
-  // default search params
+    url.searchParams.has("date") &&
+    url.searchParams.has("adults") &&
+    url.searchParams.has("children") &&
+    url.searchParams.has("nights");
+
   if (!allParams) {
     const defaultParamsObj = getDefaultSearchParams();
-    const defaultParamsObjStringValues = Object.fromEntries(
-      Object.entries(defaultParamsObj).map(([k, v]) => [k, String(v)]),
-    );
-    const defaultParams = new URLSearchParams(defaultParamsObjStringValues);
-    const response = await axiosInstance.get(
-      `booking/request?${defaultParams}`,
-    );
-    console.log(response);
-    return response;
+    const defaultParams = new URLSearchParams(defaultParamsObj);
+    return redirect(`/booking?${defaultParams}`);
   }
-
   const response = await axiosInstance.get(`booking/request${url.search}`);
   console.log(response);
   return response;
 }
 
-// TODO
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
-  console.log("select rooms from data", formData);
-  const response = await axiosInstance.post(
-    "booking/request-summary",
-    formData,
-  );
-  console.log("booking confirm response", response);
-  return redirect(`/booking/confirm`);
+  if (formData.get("_intent") === "price_preview") {
+    console.log("price_preview");
+    const response = await axiosInstance.post(
+      `booking/reservation-price`,
+      formData,
+    );
+    console.log("response action", response);
+    return response.data;
+  } else {
+    const response = await axiosInstance.post(
+      "booking/request-summary",
+      formData,
+    );
+    console.log("booking confirm response", response);
+    return redirect(`/booking/confirm`);
+  }
 }
 
 export default function Booking({ loaderData }: Route.ComponentProps) {
   const rooms =
     loaderData.status === 200 ? (loaderData.data.rooms as Room[]) : [];
   const { t } = useTranslation();
+  const fetcher = useFetcher({ key: "price_preview" });
+  console.log("price preview action data", fetcher);
   const location = useLocation();
-
-  // useEffect(() => {
-  //   if (!loaderData.data.key) {
-  //     return
-  //   }
-  //   const key = loaderData.data.key
-  //   const url = new URL(window.location.href)
-  //   url.searchParams.set("rk", key)
-  //   window.history.replaceState(null, "", url)
-  // }, [loaderData])
-
   return (
     <div className="bg-bg text-text-main">
       <ContextProvider params={{ errors: [] }}>
-        <Header bookingPannelEnabled={false}></Header>
         <div
           id="request-info-block"
           className="flex flex-col items-center mt-[34px]"
@@ -94,8 +135,8 @@ export default function Booking({ loaderData }: Route.ComponentProps) {
         <div
           className={`relative transition-all ${location.pathname === "/booking/change-request-info" ? "grayscale opacity-50 pointer-events-none" : ""}`}
         >
-          <BookingRoomSelectContext rooms={rooms}>
-            <FloatingPanel rooms={rooms}></FloatingPanel>
+          <BookingRoomSelectContext priceFetcher={fetcher}>
+            <FloatingPanel></FloatingPanel>
             <NavContextProvider>
               <AvailableRooms rooms={rooms}></AvailableRooms>
             </NavContextProvider>

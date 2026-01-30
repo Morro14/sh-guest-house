@@ -5,7 +5,6 @@ from django.contrib.auth import get_user_model
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 
-
 User = get_user_model()
 
 
@@ -15,7 +14,9 @@ class JWTAuthentication(BaseAuthentication):
         if not token:
             return None
         try:
-            payload = jwt.decode(token, os.environ.get("JWT_SECRET"), "HS256")
+            payload = jwt.decode(
+                token, os.environ.get("JWT_SECRET"), "HS256"
+            )
             # print("payload", payload)
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed("Unauthenticated")
@@ -35,11 +36,13 @@ class SessionAuthentication(BaseAuthentication):
         except KeyError:
             raise AuthenticationFailed("Session cookie missing or expired")
         if not token:
-            print('auth no token')
+            print("auth no token")
             raise AuthenticationFailed("Session cookie missing or expired")
         try:
-            payload = jwt.decode(token, os.environ.get("JWT_SECRET"), "HS256")
-            print('auth token payload', payload)
+            payload = jwt.decode(
+                token, os.environ.get("JWT_SECRET"), "HS256"
+            )
+            print("auth token payload", payload)
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed("Session token has expired")
         except jwt.InvalidTokenError:

@@ -1,18 +1,28 @@
 import { useTranslation } from "react-i18next";
 import { useContextProvider } from "../ContextProvider";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useCloseOnClick } from "./utils";
 
-export default function SelectGuests() {
-  const context = useContextProvider();
+const DEFAULT_PARAMS = {
+  adults: "2",
+  children: "0",
+};
+
+export default function SelectGuests({
+  defaultParams = DEFAULT_PARAMS,
+}: {
+  defaultParams?: typeof DEFAULT_PARAMS;
+}) {
   const { t } = useTranslation();
-  const [adults, children] = [
-    context.guestsSelect.adults,
-    context.guestsSelect.children,
-  ];
+  const [selectedValues, setSelectedValues] = useState({
+    adults: Number(defaultParams.adults),
+    children: Number(defaultParams.children),
+  });
   const wrapperRef = useRef<HTMLDivElement>(null);
   const checkboxRef = useRef<HTMLInputElement>(null);
+
   useCloseOnClick(wrapperRef, checkboxRef, null, []);
+
   const genGuestOptions = (num: number, guestType: "adults" | "children") => {
     const guestNum = guestType === "children" ? num + 1 : num;
     return Array.from({ length: guestNum }, (_, i) => {
@@ -27,6 +37,8 @@ export default function SelectGuests() {
       );
     });
   };
+  console.log("default params:", defaultParams);
+  console.log("selected values:", selectedValues);
   const getGuestSelectLabelText = (adults: number, children: number) => {
     const cases = {
       adultsSelect: t("adultsWithCount", { count: adults }),
@@ -65,19 +77,22 @@ export default function SelectGuests() {
         className="text-center flex items-center cursor-pointer justify-center w-full h-10 peer-checked:bg-peach-superlight"
         htmlFor="guests-checkbox"
       >
-        {getGuestSelectLabelText(adults, children)}
+        {getGuestSelectLabelText(
+          selectedValues.adults,
+          selectedValues.children,
+        )}
       </label>
 
       <div className="absolute z-50 h-0 overflow-hidden peer-checked:h-[150px] peer-checked:[&_.guest-input]:opacity-100 w-full transition-all duration-200">
         <div className="flex flex-col p-4 bg-peach-superlight gap-4">
           <select
             id="select-adults"
-            defaultValue="2"
+            defaultValue={selectedValues.adults}
             className="guest-input border-accent border-1 rounded-sm px-2 bg-bg opacity-0 transition-all duration-200"
             name="adults"
             onChange={(e) =>
-              context.setGuestsSelect({
-                ...context.guestsSelect,
+              setSelectedValues({
+                ...selectedValues,
                 adults: Number(e.target.value),
               })
             }
@@ -86,12 +101,12 @@ export default function SelectGuests() {
           </select>
           <select
             id="select-children"
-            defaultValue="0"
+            defaultValue={selectedValues.children}
             className="guest-input border-accent border-1 rounded-sm px-2 bg-bg opacity-0 transition-all duration-200"
             name="children"
             onChange={(e) =>
-              context.setGuestsSelect({
-                ...context.setGuestsSelect,
+              setSelectedValues({
+                ...selectedValues,
                 children: Number(e.target.value),
               })
             }
@@ -111,7 +126,7 @@ export default function SelectGuests() {
                   "select-children",
                 ) as HTMLSelectElement;
                 selectChildren.value = "0";
-                context.setGuestsSelect({ adults: 2 });
+                setSelectedValues({ adults: 2, children: 0 });
               }}
             >
               reset

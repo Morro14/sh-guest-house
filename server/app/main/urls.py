@@ -7,6 +7,7 @@ from .views import (
     WideImageSet,
     BookingRequestSummaryView,
     BookingRequestValidateView,
+    reservation_price_view,
 )
 
 urlpatterns = [
@@ -17,4 +18,5 @@ urlpatterns = [
     path("rooms", RoomSetView.as_view()),
     path("places", PlaceSetView.as_view()),
     path("wide-images/<slug:tag>", WideImageSet.as_view()),
+    path("booking/reservation-price", reservation_price_view),
 ]

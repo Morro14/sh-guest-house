@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import type { ValidationErrors } from "./formComponents/validate";
 
-const BookingContext = createContext({});
+const BookingContext = createContext<any>({});
 
 export default function ContextProvider({ children, params }) {
   const [guestsSelect, setGuestsSelect] = useState({ adults: 2, children: 0 });

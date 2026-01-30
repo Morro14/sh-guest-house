@@ -29,15 +29,15 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 export default function BookingForm({ actionData }: Route.ComponentProps) {
   const context = useContextProvider();
   const { t } = useTranslation();
-  const { date, nights } = getUrlSearchParams([
+  const { date, nights, adults, children } = getUrlSearchParams([
     "date",
     "adults",
     "children",
     "nights",
   ]);
   useEffect(() => {
-    if (actionData && actionData.errors.length > 0) {
-      context.setErrorState(actionData.errors);
+    if (actionData && Object.keys(actionData).length > 0) {
+      context.setErrorState(actionData);
     }
   }, [actionData, context]);
   return (
@@ -53,7 +53,14 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
           />
         </div>
 
-        <SelectGuests />
+        <SelectGuests
+          defaultParams={{
+            date: date,
+            nights: nights,
+            adults: adults,
+            children,
+          }}
+        />
 
         <div className="flex h-10 w-[132px] justify-center items-center hover:bg-peach-lighter">
           <input
