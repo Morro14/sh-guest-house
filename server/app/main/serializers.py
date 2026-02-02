@@ -38,10 +38,7 @@ class ReservationSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def create(self, validated_data):
-        print("serializer validated data", validated_data)
-        print("context", self.context)
         rooms_data = self.context["token_content"]["rooms_selected"]
-        print("rooms_data", rooms_data)
         reservation = Reservation.objects.create(**validated_data)
         room_instances = [
             RoomReserved(

@@ -1,8 +1,9 @@
 {% load i18n %}
 
-
+{% block content %}
   {% translate "A reservation has been requested. Please check the reservation
   parameters and confirm or decline the reservation by following the link to the
   administrator site." %}
 
   {{ site_url }}{% url 'admin:reservation-confirm' reservation.pk %}
+{% endblock %}

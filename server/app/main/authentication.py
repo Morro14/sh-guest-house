@@ -36,13 +36,11 @@ class SessionAuthentication(BaseAuthentication):
         except KeyError:
             raise AuthenticationFailed("Session cookie missing or expired")
         if not token:
-            print("auth no token")
             raise AuthenticationFailed("Session cookie missing or expired")
         try:
             payload = jwt.decode(
                 token, os.environ.get("JWT_SECRET"), "HS256"
             )
-            print("auth token payload", payload)
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed("Session token has expired")
         except jwt.InvalidTokenError:

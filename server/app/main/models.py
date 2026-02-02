@@ -5,7 +5,6 @@ from django.utils.translation import gettext_lazy as _
 from easy_thumbnails.files import get_thumbnailer
 from image_cropping import ImageRatioField
 from .utils.images_util import size_to_str
-from .notifications import send_on_reservation_validated
 
 User = get_user_model()
 
@@ -103,15 +102,13 @@ class Reservation(models.Model):
                 )
             self.status = self.Status.VALIDATED
             self.save()
-            send_on_reservation_validated(self)
-            return True
+            return self
 
     def confirm(self):
         if self.status != self.Status.VALIDATED:
             raise Exception("Reservation is not validated yet")
         self.status = self.Status.CONFIRMED
         self.save()
-        # TODO send mail
 
     def save(self, *args, **kwargs):
         self.clean()

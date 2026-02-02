@@ -1,16 +1,16 @@
 {% extends "emails/base.html" %} 
 {% load i18n %} 
 {% block subject %} 
-  {% translate "A new reservation is requested" %}
+
+{% translate "Your reservation for {{site_name}} has been confirmed." %}
 {% endblock %}
 {% block content %}
   <p>
-
-  {% blocktranslate %} 
-    A reservation has been requested. Please check the reservation
-    parameters and confirm or decline the reservation by following the link to the
-    administrator site. 
-  {% endblocktranslate %}
+    {% with guest_name=reservation.guest_name check_in=reservation.check_in check_out=reservation.check_out %}
+      {% blocktranslate %}
+        Hello, {{guest_name}}. Your reservation for {{site_name}} has been confirmed! We will be waiting for you on {{check_in}}. If you need to contact us please send a mail to {{manager_email}}.
+      {% endblocktranslate %}
+    {% endwith %}
   </p>
 
   <table cellpadding="0" cellspacing="0" style="margin-top: 16px; width: 300px">
@@ -59,19 +59,10 @@
 
   <p style="margin-top: 24px">
   <strong>
-
     <a
-      href={{ site_url }}{% url 'admin:reservation-confirm' reservation.pk %}
-      style="
-        display: inline-block;
-        padding: 10px 16px;
-        background: #EFA76A;
-        color: #FEFDFC;
-        text-decoration: none;
-        border-radius: 4px;
-        "
-      >
-      {% translate "View reservation" %}
+      href={{ site_url }}
+  >
+      {{site_name}}
     </a>
   </strong>
   </p>

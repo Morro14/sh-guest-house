@@ -19,10 +19,7 @@ def get_reservation_price_total(rooms, rooms_guests, nights: int):
             None,
         )
 
-        print("Room:", room.slug, room.price)
         room_price = get_room_total_price(room, guests_in_room["guests"])
-        print("Guests:", guests_in_room["guests"])
-        print("Room res price:", room_price)
         rooms_price_per_night += room_price
 
     total_price = nights * rooms_price_per_night

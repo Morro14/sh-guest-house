@@ -17,6 +17,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.vary import vary_on_headers
 from django.utils.decorators import method_decorator
 from django.core.cache import cache
+from django.http import HttpResponse
 from .queries import get_available_rooms
 from .serializers import (
     RoomSerializer,
@@ -25,16 +26,28 @@ from .serializers import (
     ReservationSerializer,
 )
 from .models import ContentPage, Room, Place, WideImage
-from collections import defaultdict
 from auth_app.utils.jwt_ import CustomJWT
 from datetime import date, timedelta
 from .authentication import SessionAuthentication
 from main.utils.room_price import get_reservation_price_total
 from .utils.data_parse import parse_rooms_selected
+from .notifications.tasks import (
+    send_on_reservation_validated,
+    send_on_reservation_confirmed,
+)
+from utils.language import _get_language_from_request
 
 load_dotenv()
 
 User = get_user_model()
+
+
+def template_test(request):
+    if not settings.DEBUG:
+        return HttpResponse(status=404)
+    lang = _get_language_from_request(request)
+    response = send_on_reservation_confirmed(res_pk="16")
+    return response
 
 
 class BookingRequestValidateView(APIView):
@@ -51,16 +64,10 @@ class BookingRequestValidateView(APIView):
         return response
 
     def post(self, request):
-        print(
-            "post request data:",
-            request.POST.get("guest-name"),
-            request.POST.get("email"),
-        )
         token = request.COOKIES["booking_request_token"]
         jwt_content = jwt.decode(
             token, os.environ.get("JWT_SECRET"), "HS256"
         )
-        # print("jwt_content", jwt_content)
 
         check_in_date = date.fromisoformat(jwt_content["date"])
         nights_int = int(jwt_content["nights"])
@@ -80,9 +87,10 @@ class BookingRequestValidateView(APIView):
             context={"token_content": jwt_content},
         )
         serializer.is_valid()
-        print("serializer errors", serializer.errors)
         reservation = serializer.save()
-        reservation.validate_no_overlap()
+        no_overlap_valid = reservation.validate_no_overlap()
+        if no_overlap_valid:
+            send_on_reservation_validated.delay(no_overlap_valid.pk)
         token_data = request.auth
         token_data.update({"request_validated": True, "user_email": email})
         token = CustomJWT(content=token_data, expires_in=60 * 2).get_token()
@@ -288,7 +296,6 @@ class TranslationView(APIView):
         response = Response(translations)
         print("setting cache")
         cache.set(cache_key, translations, timeout=60 * 60 * 24)
-        print("translations:", translations)
         return response
 
     def _get_language_from_request(self, request):
