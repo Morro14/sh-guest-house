@@ -1,54 +1,29 @@
-import { axiosInstance } from "~/root";
+import { axiosInstance, getLanguagePathParam } from "~/utils/general.ts";
 import type { Route } from "./+types/Booking";
 import { Outlet, useLocation, redirect, useFetcher } from "react-router";
 import { useTranslation } from "react-i18next";
 import Line from "~/components/index/Line";
 import AvailableRooms from "~/components/booking/AvailableRooms";
-import type { Room } from "~/types/general";
+import type { Room } from "~/types/booking";
 import NavContextProvider from "~/components/nav/NavContextProvider";
 import ContextProvider from "~/components/ContextProvider";
 import FloatingPanel from "~/components/booking/FloatingPanel";
 import BookingRoomSelectContext from "~/components/booking/BookingRoomSelectContext";
 import { getDefaultSearchParams } from "~/utils/general";
-import { isRouteErrorResponse, useRouteError } from "react-router";
-import Fallback from "~/components/Fallback";
 import type { ShouldRevalidateFunctionArgs } from "react-router";
-import { data } from "react-router";
+import ErrorFallback from "~/components/ErrorFallback";
+import type { AxiosResponse } from "axios";
+import { logError } from "~/utils/logging";
+import { useRouteError } from "react-router";
+import { useEffect } from "react";
 
 export function ErrorBoundary() {
   const error = useRouteError();
-  // const isRouteErrorResponseValue = isRouteErrorResponse(error);
-  const { t } = useTranslation();
-
-  console.log("error boundary", error);
-  if (isRouteErrorResponse(error)) {
-    const sessionError = error.status === 403;
-    return sessionError ? (
-      <Fallback
-        link={"booking"}
-        linkText={t("back to booking")}
-        message={t("Your session has expired")}
-      ></Fallback>
-    ) : (
-      <div>
-        <h1>
-          {error.status} {error.statusText}
-        </h1>
-        <p>{error.data}</p>
-      </div>
-    );
-  } else if (error instanceof Error) {
-    return (
-      <div>
-        <h1>Error</h1>
-        <p>{error.message}</p>
-        <p>The stack trace is:</p>
-        <pre>{error.stack}</pre>
-      </div>
-    );
-  } else {
-    return <h1>Unknown Error</h1>;
-  }
+  useEffect(() => {
+    logError(error);
+  }, [error]);
+  console.log("error router boundary", error);
+  return <ErrorFallback />;
 }
 
 export function shouldRevalidate({
@@ -74,39 +49,34 @@ export async function clientLoader({ request }) {
   if (!allParams) {
     const defaultParamsObj = getDefaultSearchParams();
     const defaultParams = new URLSearchParams(defaultParamsObj);
-    return redirect(`/booking?${defaultParams}`);
+    return redirect(
+      `/${getLanguagePathParam(url.pathname)}/booking?${defaultParams}`,
+    );
   }
   const response = await axiosInstance.get(`booking/request${url.search}`);
-  console.log(response);
-  return response;
+  return response as AxiosResponse;
 }
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
   if (formData.get("_intent") === "price_preview") {
-    console.log("price_preview");
     const response = await axiosInstance.post(
       `booking/reservation-price`,
       formData,
     );
-    console.log("response action", response);
     return response.data;
   } else {
-    const response = await axiosInstance.post(
-      "booking/request-summary",
-      formData,
-    );
-    console.log("booking confirm response", response);
+    await axiosInstance.post("booking/request-summary", formData);
+
     return redirect(`/booking/confirm`);
   }
 }
 
 export default function Booking({ loaderData }: Route.ComponentProps) {
-  const rooms =
-    loaderData.status === 200 ? (loaderData.data.rooms as Room[]) : [];
+  const rooms = loaderData.data.rooms as Room[];
+
   const { t } = useTranslation();
   const fetcher = useFetcher({ key: "price_preview" });
-  console.log("price preview action data", fetcher);
   const location = useLocation();
   return (
     <div className="bg-bg text-text-main">

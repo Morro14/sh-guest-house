@@ -21,6 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from two_factor.urls import urlpatterns as tf_urls
 from two_factor.admin import AdminSiteOTPRequired
+from main.views import FrontendLogsView
 
 print("Loaded translation version:", settings.TRANSLATION_VERSION)
 admin.site.__class__ = AdminSiteOTPRequired
@@ -28,11 +29,15 @@ urlpatterns = [
     path("", include(tf_urls)),
     path("admin/", admin.site.urls),
     path("api/", include("main.urls")),
+    path("api/logs-frontend", FrontendLogsView.as_view()),
     path("api-auth/", include("auth_app.urls")),
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.THUMBNAIL_MEDIA_URL,
-                          document_root=settings.THUMBNAIL_MEDIA_ROOT)
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+    )
+    urlpatterns += static(
+        settings.THUMBNAIL_MEDIA_URL,
+        document_root=settings.THUMBNAIL_MEDIA_ROOT,
+    )

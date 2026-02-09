@@ -1,15 +1,7 @@
-export interface Image {
-  order: number;
-  variants: { blur: string; small: string; main: string; full?: string };
+export interface HttpError {
+  status: number;
+  message: string;
+  data?: unknown;
 }
-export interface Room {
-  slug: string;
-  name: string;
-  adults_num: number;
-  children_num: number;
-  images: Array<Image>;
-  price: number;
-  beds: string;
-}
-
-export type Currency = "AMD" | "USD" | "EUR" | "RUB";
+export type ImageSize = "small" | "main" | "full";
+export type ImageRes = "small" | "blur" | "main" | "original";

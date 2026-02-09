@@ -7,7 +7,9 @@ from celery import shared_task
 from main.models import Reservation
 from django.conf import settings
 from django.http import HttpResponse
-from django.utils import translation
+import structlog
+
+log = structlog.get_logger()
 
 
 @shared_task(
@@ -15,7 +17,15 @@ from django.utils import translation
     autoretry_for=(Exception,),
     retry_kwargs={"max_retries": 3, "countdown": 10},
 )
-def send_on_reservation_validated(self, res_pk):
+def send_on_reservation_validated(self, res_pk, log_context):
+    log.info(
+        "email_send_start",
+        task_id=self.request.id,
+        retries=self.request.retries,
+    )
+    if log_context:
+        structlog.contextvars.bind_contextvars(**log_context)
+
     reservation = Reservation.objects.get(pk=res_pk)
     current_site = Site.objects.get_current()
     domain = current_site.domain
@@ -36,18 +46,35 @@ def send_on_reservation_validated(self, res_pk):
     subject = "New reservation request"
     html_body = render_to_string("emails/reservation_request.html", context)
     text_body = render_to_string("emails/reservation_request.txt", context)
-    mail_admins(
-        subject=subject,
-        message=text_body,
-        html_message=html_body,
-        fail_silently=False,
+    try:
+        mail_admins(
+            subject=subject,
+            message=text_body,
+            html_message=html_body,
+            fail_silently=False,
+        )
+    except Exception as e:
+        log.warning(
+            "email_send_retry",
+            task_id=self.request.id,
+            retries=self.request.retries,
+            error=str(e),
+        )
+
+    log.info(
+        "email_send_success",
+        task_id=self.request.id,
+        retries=self.request.retries,
     )
 
 
-def send_on_reservation_confirmed(res_pk):
+@shared_task(
+    bind=True,
+    autoretry_for=(Exception,),
+    retry_kwargs={"max_retries": 3, "countdown": 10},
+)
+def send_on_reservation_confirmed(self, res_pk, log_context=None):
     reservation = Reservation.objects.get(pk=res_pk)
-    lang = translation.get_language()
-    print("django lang", lang)
     current_site = Site.objects.get_current()
     domain = current_site.domain
     rooms = [
@@ -67,11 +94,37 @@ def send_on_reservation_confirmed(res_pk):
     }
     subject = _("Your reservation has been confirmed")
     html_body = render_to_string("emails/reservation_confirmed.txt", context)
-    # text_body = render_to_string("emails/reservation_confirmed.txt", context)
-    return HttpResponse(html_body, content_type="text/plain")
-    # send_mail(
-    #     subject=subject,
-    #     message=text_body,
-    #     html_message=html_body,
-    #     fail_silently=False,
-    # )
+    text_body = render_to_string("emails/reservation_confirmed.txt", context)
+
+    if log_context:
+        structlog.contextvars.bind_contextvars(**log_context)
+    log.info(
+        "email_send_start",
+        task_id=self.request.id,
+        retries=self.request.retries,
+    )
+    try:
+        send_mail(
+            subject=subject,
+            message=text_body,
+            html_message=html_body,
+            fail_silently=False,
+        )
+    except Exception as e:
+        log.warning(
+            "email_send retry",
+            task_id=self.request.id,
+            retries=self.request.retries,
+            error=str(e),
+        )
+        return
+    log.info(
+        "email_send_success",
+        task_id=self.request.id,
+        retries=self.request.retries,
+    )
+
+
+@shared_task
+def test_celery():
+    print("test celery")

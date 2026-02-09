@@ -3,10 +3,14 @@ import SelectGuests from "./formComponents/SelectGuests";
 import { useContextProvider } from "./ContextProvider";
 import { useTranslation } from "react-i18next";
 import ErrorPanel from "./formComponents/ErrorPanel";
+import { Temporal } from "@js-temporal/polyfill";
 
 export default function BookingPannel() {
   const { t } = useTranslation();
   const context = useContextProvider();
+  const defaultDate = Temporal.Now.zonedDateTimeISO("Asia/Yerevan")
+    .toPlainDate()
+    .toString();
 
   return (
     <div className="sticky top-0 z-30 inline-block w-full drop-shadow-md">
@@ -15,21 +19,20 @@ export default function BookingPannel() {
           method="post"
           className="flex justify-center h-10 items-center overflow-visible"
         >
-          <div className="w-[1px] bg-line-light h-8"></div>
-          <div className="flex items-center font-medium px-8 h-10">
-            BOOK NOW
+          <div className="flex items-center font-normal px-8 h-10">
+            {t("Create reservation:")}
           </div>
           <div className="w-[1px] bg-line-light h-8"></div>
           <label
             htmlFor="date-picker"
-            className="h-10 w-[calc(181px)] flex justify-center items-center hover:bg-peach-lighter"
+            className="h-10 w-[calc(181px)] flex justify-center items-center hover:bg-apricot-light transition-colors duration-100"
           >
-            <div className="h-[25px] border-b border-b-line-light">
+            <div className="border-b border-b-line-light ">
               <input
                 id="date-picker"
                 name="date"
                 type="date"
-                placeholder="Date"
+                defaultValue={defaultDate}
               />
             </div>
           </label>
@@ -40,9 +43,9 @@ export default function BookingPannel() {
 
           <div className="w-[1px] bg-line-light h-8"></div>
 
-          <div className="flex h-10 w-[160px] justify-center items-center hover:bg-peach-lighter">
+          <div className="flex h-10 w-[160px] justify-center items-center hover:bg-apricot-light transition-colors duration-100">
             <input
-              className="peer text-center font-medium w-12 ml-[-8px] focus:bg-peach-superlight placeholder:text-center placeholder:text-[#4c3b3350] placeholder:italic focus:placeholder:text-gray-400 border-b-1 border-line-light"
+              className="peer text-center font-medium w-12 ml-[-8px] focus:bg-peach-lighter border-b-1 border-line-light"
               name="nights"
               defaultValue={1}
               type="text"
@@ -59,9 +62,8 @@ export default function BookingPannel() {
             type="submit"
             className="font-medium underline mx-8 cursor-pointer"
           >
-            CHECK
+            {t("Continue")}
           </button>
-          <div className="w-[1px] bg-line-light h-8"></div>
         </Form>
       </div>
       <ErrorPanel></ErrorPanel>

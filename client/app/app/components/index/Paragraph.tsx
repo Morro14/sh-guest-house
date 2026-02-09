@@ -17,7 +17,7 @@ export default function Paragraph(params: {
     >
       {title.length > 0 ? <TitleTag>{title}</TitleTag> : ""}
       {params.subtitle ? <h3>{params.subtitle}</h3> : ""}
-      <p className="font-sans 2xl:text-lg">{body}</p>
+      <p className="font-sans text-lg">{body}</p>
     </div>
   );
 }

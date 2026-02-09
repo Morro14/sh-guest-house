@@ -1,31 +1,51 @@
 import { useFetchV3 } from "~/utils/fetchHook";
 import MediaFullView from "../MediaFullView";
 import { useNavContextProvider } from "../nav/NavContextProvider";
-import { CarouselMain } from "./CarouselMain";
-import type { Image } from "~/types/nav";
+import type { Image } from "~/types/booking";
+import type { ImageRes } from "~/types/general";
+import useEmblaCarousel from "embla-carousel-react";
 
-const MEDIA_BASE_URL = import.meta.env.VITE_SERVER_URL;
-
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 export default function CarouselWide({ tag }: { tag: string }) {
-  const context = useNavContextProvider();
   const { fetchedData, loading } = useFetchV3("wide-images/" + tag);
   const images = fetchedData?.data?.data as Array<Image>;
+  const context = useNavContextProvider();
+  const [emblaRef] = useEmblaCarousel({
+    startIndex: 1,
+    align: "center",
+    loop: true,
+  });
+  const imageRes: ImageRes = "main";
   return loading ? (
     <WideImagePlaceholder />
   ) : (
     <div>
-      <CarouselMain
-        images={images.concat(images)}
-        imageSize="main"
-        name="wide-1"
-      ></CarouselMain>
+      <div className="embla" ref={emblaRef}>
+        <div className="embla__container">
+          {images.map((img, i) => (
+            <div
+              key={`img-wide-${i}`}
+              className="embla__slide shrink-0 mr-3 carousel-wide-image"
+            >
+              <img
+                className="object-cover hover:cursor-pointer"
+                src={SERVER_URL + img.variants[imageRes]}
+                alt={"landscape-1" + "-" + i}
+                onClick={() => {
+                  context.setFullImageView(true);
+                  context.setItemSelected(i % 3);
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
       {context.fullImageView ? (
         <MediaFullView>
           <img
             className="h-full object-cover"
             src={
-              MEDIA_BASE_URL +
-              images[context.itemSelected]["variants"]["original"]
+              SERVER_URL + images[context.itemSelected]["variants"]["original"]
             }
           />
         </MediaFullView>

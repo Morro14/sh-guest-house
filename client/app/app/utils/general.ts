@@ -1,7 +1,24 @@
 import { useSearchParams } from "react-router";
 import { Temporal } from "@js-temporal/polyfill";
 import type { Currency } from "~/types/booking";
+import { data } from "react-router";
+import axios from "axios";
+import i18n from "root/src/i18n/i18n";
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
+axios.defaults.withCredentials = true;
+const axiosInstance = axios.create({
+  baseURL: SERVER_URL + "/api/",
+  // timeout: 10000,
+});
+axiosInstance.interceptors.request.use((config) => {
+  const lang = i18n.language;
+  if (lang) {
+    config.headers["X-language"] = lang.split("-")[0];
+  }
+  return config;
+});
+export { axiosInstance };
 export function isDigit(s: string) {
   const regex = /^\d+$/;
   return regex.test(s);
@@ -21,7 +38,10 @@ export function getDefaultSearchParams() {
     nights: NIGHTS,
   };
 }
-
+export function getLanguagePathParam(pathname: string) {
+  const segments = pathname.split("/");
+  return segments[1];
+}
 export function getUrlSearchParams<const K extends readonly string[]>(keys: K) {
   const [params] = useSearchParams();
   const defaultParams = getDefaultSearchParams();
@@ -56,4 +76,13 @@ export function formatPrice(priceNum: number, currency: Currency) {
       : price;
   const currencySymbol = currencySymbols[currency] || currency;
   return currencySymbol + " " + priceWithDot;
+}
+export function toRouteError(error: Response) {
+  if (axios.isAxiosError(error) && error.response) {
+    throw data(error.response.data, {
+      status: error.response.status,
+      statusText: error.response.statusText,
+    });
+  }
+  throw error;
 }

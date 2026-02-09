@@ -39,13 +39,13 @@ export default function NavArrow({
     >
       <path
         d="M1.00006 1C7.61231 9.26922 13.4899 11.8355 19.0001 11.8355"
-        stroke-width="2"
-        stroke-linecap="round"
+        strokeWidth="2"
+        strokeLinecap="round"
       />
       <path
         d="M1.00006 22.6711C7.61231 14.4019 13.4899 11.8356 19.0001 11.8356"
-        stroke-width="2"
-        stroke-linecap="round"
+        strokeWidth="2"
+        strokeLinecap="round"
       />
     </svg>
   );

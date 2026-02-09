@@ -1,21 +1,22 @@
 import { useTranslation } from "react-i18next";
 import { createSearchParams, Form, redirect, Link } from "react-router";
-import { axiosInstance } from "~/root";
+import { axiosInstance, getLanguagePathParam } from "~/utils/general.ts";
 import { Temporal } from "@js-temporal/polyfill";
 import { formatPrice } from "~/utils/general.ts";
 import BookingSummaryRoom from "~/components/booking/BookingSummaryRoom";
-import type { Room } from "~/types/general";
+import type { Room } from "~/types/booking";
 import backArrow from "root/src/assets/back-arrow.svg";
 import { isRouteErrorResponse, useRouteError } from "react-router";
 import Fallback from "~/components/Fallback";
-import { data } from "react-router";
+import ErrorFallback from "~/components/ErrorFallback";
+import type { AxiosResponse } from "axios";
+import { logError } from "~/utils/logging";
 
 export function ErrorBoundary() {
   const error = useRouteError();
-  const isRouteErrorResponseValue = isRouteErrorResponse(error);
+  logError(error);
   const { t } = useTranslation();
 
-  console.log("error boundary", isRouteErrorResponseValue, "error:", error);
   if (isRouteErrorResponse(error)) {
     const sessionError = error.status === 403;
     return sessionError ? (
@@ -25,44 +26,20 @@ export function ErrorBoundary() {
         message={t("Your session has expired")}
       ></Fallback>
     ) : (
-      <div>
-        <h1>
-          {error.status} {error.statusText}
-        </h1>
-        <p>{error.data}</p>
-      </div>
+      <ErrorFallback />
     );
-  } else if (error instanceof Error) {
-    return (
-      <div>
-        <h1>Error</h1>
-        <p>{error.message}</p>
-        <p>The stack trace is:</p>
-        <pre>{error.stack}</pre>
-      </div>
-    );
-  } else {
-    return <h1>Unknown Error</h1>;
-  }
+  } else return <ErrorFallback />;
 }
 
 export async function clientAction({ request }) {
   const formData = await request.formData();
-  const response = await axiosInstance.post("booking/validate", formData);
-  // .catch((r) => {
-  //   console.log("then");
-  //   if (r.status === 403) {
-  //     throw JSON.stringify({
-  //       message: "This session has expired",
-  //       status: 403,
-  //       error: r,
-  //     });
-  //   }
-  //   return r;
-  // });
-  console.log(response);
+  const response = (await axiosInstance.post(
+    "booking/validate",
+    formData,
+  )) as AxiosResponse;
+  const url = new URL(request.url);
   return redirect(
-    `/booking/response?validated=${response.data.request_validated}&email=${response.data.user_email}`,
+    `/${getLanguagePathParam(url.pathname)}/booking/response?validated=${response.data.request_validated}&email=${response.data.user_email}`,
   );
 }
 interface GuestPerRoomSelected {
@@ -84,20 +61,7 @@ interface LoaderData {
   };
 }
 export async function clientLoader() {
-  const response = await axiosInstance
-    .get("booking/request-summary")
-    .catch((r) => {
-      console.log("then");
-      if (r.status === 403) {
-        const responseData = {
-          message: "This session has expired",
-          status: 403,
-          error: r,
-        };
-        throw data(responseData, { status: 403 });
-      }
-    })
-    .then((r) => r);
+  const response = await axiosInstance.get("booking/request-summary");
   console.log("request-summary get:", response);
   return response;
 }

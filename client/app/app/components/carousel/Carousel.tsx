@@ -73,7 +73,7 @@ export function Carousel({
       </div>
     </div>
   ) : (
-    <div className={`flex flex-col gap-5 `}>
+    <div className={`flex flex-col gap-5 2xl:w-full md:w-[688px]`}>
       <div
         className={`"embla overflow-hidden carousel-small ${border ? "border-2 border-peach" : ""}`}
         ref={emblaRef}
@@ -86,7 +86,7 @@ export function Carousel({
             >
               <div className={`flex justify-center carousel-small `}>
                 <img
-                  className={` object-cover w-full`}
+                  className={` object-cover w-full hover:cursor-pointer`}
                   src={BASE_URL + img.variants[imageRes]}
                   alt={`${name}-${i}`}
                   loading="lazy"

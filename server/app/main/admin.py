@@ -90,7 +90,7 @@ class PlaceImageAdmin(admin.ModelAdmin):
 
 
 @admin.register(Place)
-class PlaceAdmin(admin.ModelAdmin):
+class PlaceAdmin(TabbedTranslationAdmin):
     pass
 
 

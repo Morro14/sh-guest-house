@@ -71,14 +71,11 @@ export default function FloatingPanel() {
             onClick={handleBookClick}
             className="w-[112px] cursor-pointer hover:underline"
           >
-            {/* <div className={`flex items-center gap-2 px-4 h-full transition-colors duration-200 font-medium text-lg ${moreRoomsRequired ? 'stroke-gray-warm-inactive text-gray-warm-inactive' : 'stroke-peach stroke-2 text-text-main'} `}> */}
             <div
               className={`${!moreRoomsRequired ? "border-b-2 border-peach " : "text-gray-warm-inactive"} mr-1 font-medium text-lg `}
             >
               <div>{t("Book")}</div>
             </div>
-            {/* {bookingArrowSmall} */}
-            {/* </div> */}
           </button>
         </div>
         <div
@@ -88,49 +85,3 @@ export default function FloatingPanel() {
     </div>
   );
 }
-
-const bookingArrowSmall = (
-  <svg
-    width="33"
-    height="9"
-    viewBox="0 0 33 9"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className=""
-  >
-    <path d="M-1.66893e-06 4.5C19.8 4.5 29.5833 4.5 32 4.5" />
-    <path
-      d="M25 8.5C27.5104 5.54346 29.908 4.5 32 4.5"
-      stroke-linecap="round"
-    />
-    <path
-      d="M25 0.5C27.5104 3.45654 29.908 4.5 32 4.5"
-      stroke-linecap="round"
-    />
-  </svg>
-);
-
-const bookingArrowBig = (
-  <svg
-    width="104"
-    height="16"
-    viewBox="0 0 104 16"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M-2.86102e-06 8.00001C63.1125 8 94.2969 8 102 8"
-      stroke-width="2"
-    />
-    <path
-      d="M90 15C94.4829 9.82605 98.7643 8 102.5 8"
-      stroke-width="2"
-      stroke-linecap="round"
-    />
-    <path
-      d="M90 1C94.4829 6.17395 98.7643 8 102.5 8"
-      stroke-width="2"
-      stroke-linecap="round"
-    />
-  </svg>
-);

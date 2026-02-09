@@ -1,33 +1,36 @@
 import { useTranslation } from "react-i18next";
-import { Form } from "react-router";
+import { LANGUAGES } from "~/vars";
+import { useLocation, useNavigate, useParams } from "react-router";
+import type { SyntheticEvent } from "react";
 
 export default function LangSelect() {
-	const { t, i18n } = useTranslation();
-	const languages = [
-		{ code: "en", label: "English" },
-		{ code: "ru", label: "Русский" },
-	];
-
-	return (
-		<div>
-			<Form>
-				<select
-					name="lang-select"
-					defaultValue={i18n.language}
-					onChange={(e) => i18n.changeLanguage(e.target.value)}
-				>
-					{languages.map((lang) => {
-						return (
-							<option
-								key={"opt-lang-" + lang.code}
-								value={lang.code}
-							>
-								{lang.label}
-							</option>
-						);
-					})}
-				</select>
-			</Form>
-		</div>
-	);
+  const { i18n } = useTranslation();
+  console.log("current lang", i18n.language);
+  const languageLabels = { en: "English", ru: "Русский" };
+  const params = useParams();
+  const loc = useLocation();
+  const nav = useNavigate();
+  const handleChange = (e: SyntheticEvent<HTMLSelectElement>) => {
+    const segments = loc.pathname.split("/");
+    segments[1] = e.target.value;
+    console.log("language select redirect url", segments.join("/"));
+    nav(segments.join("/"));
+  };
+  return (
+    <div>
+      <select
+        name="lang-select"
+        onChange={handleChange}
+        defaultValue={params.lang}
+      >
+        {LANGUAGES.map((lang) => {
+          return (
+            <option key={"opt-lang-" + lang} value={lang}>
+              {languageLabels[lang]}
+            </option>
+          );
+        })}
+      </select>
+    </div>
+  );
 }

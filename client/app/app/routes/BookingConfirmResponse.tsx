@@ -1,7 +1,27 @@
 import { useTranslation } from "react-i18next";
-import Header from "~/components/Header";
-import { axiosInstance } from "~/root";
+import { axiosInstance } from "~/utils/general.ts";
+import ErrorFallback from "~/components/ErrorFallback";
+import Fallback from "~/components/Fallback";
+import { isRouteErrorResponse, useRouteError } from "react-router";
+import { logError } from "~/utils/logging";
 
+export function ErrorBoundary() {
+  const error = useRouteError();
+  const { t } = useTranslation();
+  logError(error);
+  if (isRouteErrorResponse(error)) {
+    const sessionError = error.status === 403;
+    return sessionError ? (
+      <Fallback
+        link={"/booking"}
+        linkText={t("back to booking")}
+        message={t("Your session has expired")}
+      ></Fallback>
+    ) : (
+      <ErrorFallback />
+    );
+  } else return <ErrorFallback />;
+}
 export async function clientLoader() {
   const response = await axiosInstance.get("booking/validate");
   return response;
@@ -13,12 +33,13 @@ export default function BookingConfirmResponse({ loaderData }) {
   const { t } = useTranslation();
   return (
     <div className="flex flex-col items-center min-h-screen min-w-screen text-text-main">
-      <Header bookingPannelEnabled={false} />
       {!validated ? (
         <div className="flex flex-col items-center">
           <h3 className="mt-6">{t("Something went wrong")}</h3>
           <div className="index-container-1">
-            <p className="font-sans">{t("booking-validation-error")}</p>
+            <p className="font-sans">
+              {t("We could not verify your request. Please try again later.")}
+            </p>
           </div>
         </div>
       ) : (

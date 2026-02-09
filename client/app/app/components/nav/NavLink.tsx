@@ -2,7 +2,7 @@ import { flushSync } from "react-dom";
 
 export default function NavLink({ index, context, children }) {
   return (
-    <div className="cursor-pointer z-10 flex flex-col h-[70px]">
+    <div>
       <div
         onClick={() => {
           flushSync(() => {
@@ -12,7 +12,6 @@ export default function NavLink({ index, context, children }) {
             context.setItemSelected(index);
           });
         }}
-        className={`bg-transparent ${context.itemSelected !== index ? "hover:pl-5 font-normal" : "font-medium"} transition-all p-3 ease-out h-[70px]`}
       >
         {children}
       </div>

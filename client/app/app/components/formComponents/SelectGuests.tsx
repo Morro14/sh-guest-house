@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { useContextProvider } from "../ContextProvider";
 import { useRef, useState } from "react";
 import { useCloseOnClick } from "./utils";
 
@@ -37,8 +36,6 @@ export default function SelectGuests({
       );
     });
   };
-  console.log("default params:", defaultParams);
-  console.log("selected values:", selectedValues);
   const getGuestSelectLabelText = (adults: number, children: number) => {
     const cases = {
       adultsSelect: t("adultsWithCount", { count: adults }),
@@ -65,7 +62,7 @@ export default function SelectGuests({
   return (
     <div
       ref={wrapperRef}
-      className="relative inline-block w-[calc(4rem+128px)] hover:bg-peach-lighter"
+      className="relative inline-block w-[calc(4rem+128px)] hover:bg-apricot-light"
     >
       <input
         type="checkbox"

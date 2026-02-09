@@ -3,7 +3,8 @@ import Nav from "../nav/Nav";
 import { useNavContextProvider } from "../nav/NavContextProvider";
 import MediaFullView from "../MediaFullView";
 import { Carousel } from "../carousel/Carousel";
-import type { Room } from "app/types/general";
+import type { Room } from "app/types/booking";
+import NavRows from "../nav/NavRows";
 
 export default function RoomsPreview() {
   const { fetchedData, loading } = useFetchV3("rooms");
@@ -12,16 +13,14 @@ export default function RoomsPreview() {
   const roomCarousels = !loading
     ? rooms.map((room) => {
         return (
-          <div>
-            <Carousel
-              name="rooms"
-              key={`room-carousel-${room.slug}`}
-              images={room.images}
-              imageSize="small"
-              imageRes="main"
-              border={true}
-            ></Carousel>
-          </div>
+          <Carousel
+            name="rooms"
+            key={`room-carousel-${room.slug}`}
+            images={room.images}
+            imageSize="small"
+            imageRes="main"
+            border={true}
+          ></Carousel>
         );
       })
     : [];
@@ -38,44 +37,72 @@ export default function RoomsPreview() {
   //   300
 
   return loading ? (
-    <div className="flex justify-center items-center w-[688px] h-[388px] bg-olive-light text-gray-500 font-serif">
+    <div className="flex justify-cventer items-center carousel-small bg-olive-light text-gray-500 font-serif">
       Loading...
     </div>
   ) : (
-    <div className="flex justify-between pt-9">
-      {currentRoomCarousel}
-      {context.fullImageView ? (
-        <MediaFullView>
-          <Carousel
-            name="rooms"
-            key={`room-carousel-${rooms[context.itemSelected].slug}`}
-            images={rooms[context.itemSelected].images}
-            imageSize="full"
-            imageRes="original"
-            fullView={true}
-          ></Carousel>
-        </MediaFullView>
-      ) : (
-        ""
-      )}
-      <Nav
-        items={rooms}
-        slug="rooms"
-        contextProvider={useNavContextProvider}
-        template={NavLinkTemplate}
-      ></Nav>{" "}
+    <div className="flex flex-col md:items-center 2xl:items-start 2xl:justify-between relative">
+      <div className="carousel-small-width text-sm italic">
+        <h5 className="font-medium mb-2">{rooms[context.itemSelected].name}</h5>
+        <p>{rooms[context.itemSelected].beds}</p>
+      </div>
+      <div className="flex 2xl:flex-row pt-4 max-2xl:flex-col max-2xl:items-center 2xl:items-start max-2xl:gap-6 2xl:gap-0 w-full">
+        {currentRoomCarousel}
+        {context.fullImageView ? (
+          <MediaFullView>
+            <Carousel
+              name="rooms"
+              key={`room-carousel-${rooms[context.itemSelected].slug}`}
+              images={rooms[context.itemSelected].images}
+              imageSize="full"
+              imageRes="original"
+              fullView={true}
+            ></Carousel>
+          </MediaFullView>
+        ) : (
+          ""
+        )}
+        <Nav
+          items={rooms}
+          slug="rooms"
+          contextProvider={useNavContextProvider}
+          template={NavLinkTemplate}
+        ></Nav>
+        <NavRows
+          items={rooms}
+          slug="rooms"
+          contextProvider={useNavContextProvider}
+          template={NavRowsLinkTemplate}
+        ></NavRows>
+      </div>
     </div>
   );
 }
 
-function NavLinkTemplate({ item }) {
+function NavLinkTemplate({ item, isSelected }) {
   return (
-    <div>
-      <div className="text-xl font-sans">{item.name}</div>
-      <div className="flex gap-2">
-        <div className="font-sans text-base">{`${item.adults_num} Adults ${item.children_num} children`}</div>
+    <div
+      className={`hover:cursor-pointer ${isSelected ? "font-medium bg-apricot-light" : "font-normal"} transition-all px-3 py-1 ease-out h-[60px]`}
+    >
+      <div className="text-lg font-sans">{item.name}</div>
+      <div className="flex gap-2 text-sm">
+        <div className="font-sans">{`${item.adults_num} Adults ${item.children_num} children`}</div>
         <div>|</div>
         <div className="font-sans">Beds description</div>
+      </div>
+    </div>
+  );
+}
+function NavRowsLinkTemplate({ item, isSelected }) {
+  return (
+    <div
+      className={`hover:cursor-pointer border-gray-warm-light border-1 border-collapse ${isSelected ? "font-medium bg-apricot-light" : "font-normal"} transition-all py-1 px-3 ease-out h-[70px] `}
+    >
+      <div className="text-lg font-sans">{item.name}</div>
+      <div className="flex  items-end gap-2">
+        <div className="font-sans text-sm">{`${item.adults_num} Adults ${item.children_num} children`}</div>
+        <div>|</div>
+        <div className="font-sans text-sm">Beds description</div>
       </div>
     </div>
   );

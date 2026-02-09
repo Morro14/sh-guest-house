@@ -5,12 +5,24 @@ import { useTranslation } from "react-i18next";
 import { validate } from "~/components/formComponents/validate";
 import { redirect } from "react-router";
 import type { Route } from "./+types/BookingForm";
-import { getUrlSearchParams } from "~/utils/general";
+import { getLanguagePathParam, getUrlSearchParams } from "~/utils/general";
 import { useEffect } from "react";
 import type { ValidationErrors } from "~/components/formComponents/validate";
 import type { BookingForm } from "./Main";
 import { formDataToObject } from "./Main";
 
+import ErrorFallback from "~/components/ErrorFallback";
+import { logError } from "~/utils/logging";
+import { useRouteError } from "react-router";
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  useEffect(() => {
+    logError(error);
+  }, [error]);
+  console.log("error router boundary", error);
+  return <ErrorFallback />;
+}
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
   const formDataObject = formDataToObject(formData);
@@ -23,7 +35,8 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     formDataObj[k] = v.toString();
   }
   const params = new URLSearchParams(formDataObj);
-  return redirect(`/booking?${params}`);
+  const url = new URL(request.url);
+  return redirect(`/${getLanguagePathParam(url.pathname)}/booking?${params}`);
 }
 
 export default function BookingForm({ actionData }: Route.ComponentProps) {
@@ -55,8 +68,6 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
 
         <SelectGuests
           defaultParams={{
-            date: date,
-            nights: nights,
             adults: adults,
             children,
           }}
@@ -76,39 +87,12 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
           </div>
         </div>
       </div>
-      {/* <div className="flex justify-between items-center"> */}
-      {/* <div>{arrow}</div> */}
       <button
         type="submit"
         className="px-3 text-lg font-medium bg-peach rounded font-sans text-bg mt-2 cursor-pointer hover:bg-peach-accent"
       >
         {t("Show available rooms")}
       </button>
-      {/* <div className="rotate-180">{arrow}</div> */}
-      {/* </div> */}
     </Form>
   );
 }
-
-const arrow = (
-  <svg
-    width="20"
-    height="23"
-    viewBox="0 0 20 23"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M19 1C12.3878 9.01316 6.5102 11.5 1 11.5"
-      stroke="#EFA76A"
-      stroke-width="2"
-      stroke-linecap="round"
-    />
-    <path
-      d="M19 22C12.3878 13.9868 6.5102 11.5 1 11.5"
-      stroke="#EFA76A"
-      stroke-width="2"
-      stroke-linecap="round"
-    />
-  </svg>
-);

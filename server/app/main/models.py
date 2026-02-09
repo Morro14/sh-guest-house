@@ -5,8 +5,10 @@ from django.utils.translation import gettext_lazy as _
 from easy_thumbnails.files import get_thumbnailer
 from image_cropping import ImageRatioField
 from .utils.images_util import size_to_str
+import structlog
 
 User = get_user_model()
+log = structlog.get_logger()
 
 
 class Reservation(models.Model):
@@ -100,6 +102,7 @@ class Reservation(models.Model):
                 raise ValidationError(
                     f"Room '{room.name}' is already booked."
                 )
+                log.warning("validate_no_overlap fails")
             self.status = self.Status.VALIDATED
             self.save()
             return self

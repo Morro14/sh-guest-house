@@ -65,4 +65,6 @@ class PlaceSerializer(serializers.ModelSerializer):
             "distance",
             "distance_comment",
             "images",
+            "geoloc",
+            "info_link",
         ]

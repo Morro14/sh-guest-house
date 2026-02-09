@@ -12,30 +12,33 @@ export default function Header() {
         className={`flex justify-between items-center w-screen px-7 h-12 transition-all overflow-hidden `}
       >
         <Link to="/" className="w-[140px] font-light font-sans">
-          Shushan GH
+          {t("Site name")}
         </Link>
-        <div className="flex justify-between w-[306px] underline text-sm font-sans">
-          <Link to="contacts" className="w-[82px]">
-            {t("CONTACTS")}
+        <div className="flex justify-between w-[306px] uppercase text-sm font-sans">
+          <Link to="contacts" className="">
+            {t("About")}
           </Link>
-          <Link to="contacts" className="w-[82px]">
-            LOCATION
+          <Link to="contacts" className="">
+            {t("Rooms")}
           </Link>
-          <Link to="contacts" className="w-[82px]">
-            ROOMS
+          <Link to="contacts" className="">
+            {t("Contacts")}
+          </Link>
+          <Link to="contacts" className="">
+            {t("Location")}
           </Link>
         </div>
         <div className="flex items-center text-sm font-sans gap-7">
           <div className="flex justify-center">
             <LangSelect></LangSelect>
           </div>
-          <button
-            // onClick={}
-            className="cursor-pointer text-gray-2"
-          >
-            Login
-            {/* {params.auth ? "Logout" : "Login"} */}
-          </button>
+          {/* <button */}
+          {/*   // onClick={} */}
+          {/*   className="cursor-pointer text-gray-2 " */}
+          {/* > */}
+          {/*   Login */}
+          {/* {params.auth ? "Logout" : "Login"} */}
+          {/* </button> */}
         </div>
       </div>
     </header>

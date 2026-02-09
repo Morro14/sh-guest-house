@@ -6,11 +6,9 @@ from rest_framework.decorators import (
     permission_classes,
 )
 from dotenv import load_dotenv
-from django.contrib.auth import get_user_model
 from django.utils import translation
 from django.conf import settings
 import os
-import re
 import json
 import jwt
 from django.utils.translation import gettext as _
@@ -34,19 +32,25 @@ from .utils.data_parse import parse_rooms_selected
 from .notifications.tasks import (
     send_on_reservation_validated,
     send_on_reservation_confirmed,
+    test_celery,
 )
-from utils.language import _get_language_from_request
+import structlog
+from celery import current_app
+from app.celery import app
 
+print("current_app uri", current_app.connection().as_uri())
+print("app.celery app uri", app.conf.broker_url)
 load_dotenv()
-
-User = get_user_model()
+log = structlog.get_logger()
 
 
 def template_test(request):
     if not settings.DEBUG:
         return HttpResponse(status=404)
-    lang = _get_language_from_request(request)
-    response = send_on_reservation_confirmed(res_pk="16")
+    log_context = structlog.contextvars.get_contextvars()
+    response = send_on_reservation_confirmed.delay(
+        res_pk="16", log_context=log_context
+    )
     return response
 
 
@@ -89,8 +93,11 @@ class BookingRequestValidateView(APIView):
         serializer.is_valid()
         reservation = serializer.save()
         no_overlap_valid = reservation.validate_no_overlap()
+        log_context = structlog.contextvars.get_contextvars()
         if no_overlap_valid:
-            send_on_reservation_validated.delay(no_overlap_valid.pk)
+            send_on_reservation_validated.delay(
+                no_overlap_valid.pk, log_context
+            )
         token_data = request.auth
         token_data.update({"request_validated": True, "user_email": email})
         token = CustomJWT(content=token_data, expires_in=60 * 2).get_token()
@@ -106,6 +113,7 @@ class BookingRequestValidateView(APIView):
             max_age=60 * 2,
         )
         response.data = {"request_validated": True, "user_email": email}
+        log.info("request_validated", user_email=email)
         return response
 
 
@@ -140,6 +148,7 @@ class BookingRequestSummaryView(APIView):
             "price_total": reservation_price_total,
         }
 
+        log.info("request_summary_view", price_total=reservation_price_total)
         return response
 
     def post(self, request):
@@ -152,9 +161,8 @@ class BookingRequestSummaryView(APIView):
         rooms_selected = parse_rooms_selected(request)
         request_info.update({"rooms_selected": rooms_selected})
         token_updated = CustomJWT(
-            # TEST
             content=request_info,
-            expires_in=60 * 15,
+            expires_in=20,
         ).get_token()
 
         response = Response()
@@ -171,6 +179,7 @@ class BookingRequestSummaryView(APIView):
             "rooms_selected": rooms_selected,
             "request_info": request_info,
         }
+        log.info("request_summary_view")
         return response
 
 
@@ -211,6 +220,13 @@ class BookingRoomsRequestView(APIView):
             "rooms": serializer.data,
             "reserv_request_info": token_content,
         }
+        log.info(
+            "rooms_requested",
+            date=token_content["date"],
+            nights=token_content["nights"],
+            guests=int(token_content["adults"])
+            + int(token_content["children"]),
+        )
         return response
 
 
@@ -276,6 +292,7 @@ class TranslationView(APIView):
 
         lang = self._get_language_from_request(request=request)
         cache_key = f"translations_{lang}_{settings.TRANSLATION_VERSION}"
+        print("request language:", lang)
 
         cached = cache.get(key=cache_key)
         if cached:
@@ -292,6 +309,16 @@ class TranslationView(APIView):
             for c in content_instances
         }
         translations.update(content_formatted)
+        place_instances = Place.objects.all()
+        places_formatted = {
+            p.slug: {
+                "name": p.name,
+                "description": p.description,
+                "info_link": p.info_link,
+            }
+            for p in place_instances
+        }
+        translations.update({"places": places_formatted})
 
         response = Response(translations)
         print("setting cache")
@@ -301,6 +328,7 @@ class TranslationView(APIView):
     def _get_language_from_request(self, request):
         # Explicit ?lang= parameter takes priority
         if lang := request.GET.get("lang"):
+            print("detecting lang from request")
             return lang
 
         # Then check the Accept-Language header
@@ -315,3 +343,20 @@ class TranslationView(APIView):
 
         # Fallback
         return settings.LANGUAGE_CODE
+
+
+class FrontendLogsView(APIView):
+    permission_classes = []
+    authentication_classes = []
+
+    def post(self, request):
+        # print("log view data", request.data)
+        data_serialized = json.loads(request.data.get("data"))
+        # print("log view serizlized data", data_serialized)
+        log.error(
+            "frontend_error",
+            **data_serialized,
+            # request_id=getattr(request, "request_id", None),
+        )
+
+        return Response({"message": "ok"})

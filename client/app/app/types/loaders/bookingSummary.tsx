@@ -1,4 +1,4 @@
-import type { Room } from "app/types/general";
+import type { Room } from "app/types/booking";
 interface GuestPerRoomSelected {
   slug: string;
   guests: {

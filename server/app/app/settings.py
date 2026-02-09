@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "main",
+    # "main.apps.MainConfig",
     "auth_app",
     "django_otp",
     "django_otp.plugins.otp_static",
@@ -77,8 +78,10 @@ LOGIN_REDIRECT_URL = "two_factor:profile"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django_structlog.middlewares.RequestMiddleware",
     "django.middleware.locale.LocaleMiddleware",
+    "main.middleware.RequestLanguageMiddleware",
+    "main.middleware.ClientIPMiddleware",
+    "django_structlog.middlewares.RequestMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -200,6 +203,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
 ]
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = ["x-language", "content-type"]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 EMAIL_HOST = os.environ.get("EMAIL_HOST")
@@ -222,16 +226,19 @@ ADMINS = [("test_admin", "ivfmn2@gmail.com")]
 MANAGERS = ["ivfmn2@gmail.com"]
 
 CELERY_BROKER_URL = os.environ.get("REDIS_URL", "redis://127.0.0.1:6379/0")
+# CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_BROKER_TRANSPORT_OPTIONS = {
     "socket_connect_timeout": 5,
     "socket_timeout": 5,
 }
-CELERY_TASK_ALWAYS_EAGER = False
+CELERY_TASK_ALWAYS_EAGER = True
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30
+
+DJANGO_STRUCTLOG_CELERY_ENABLED = True
 
 LOGGING = {
     "version": 1,

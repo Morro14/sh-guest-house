@@ -8,15 +8,16 @@ import {
 
 export default [
   layout("components/LayoutMain.tsx", [
-    index("routes/Main.tsx"),
-    route("booking", "routes/Booking.tsx", [
-      index("routes/RequestInfo.tsx"),
-      route("change-request-info", "routes/BookingForm.tsx"),
-      // route("select-rooms", "routes/SelectRooms.tsx"),
-    ]),
-    ...prefix("booking", [
-      route("confirm", "routes/BookingSummary.tsx"),
-      route("response", "routes/BookingConfirmResponse.tsx"),
+    route(":lang?", "routes/Language.tsx", [
+      index("routes/Main.tsx"),
+      route("booking", "routes/Booking.tsx", [
+        index("routes/RequestInfo.tsx"),
+        route("change-request-info", "routes/BookingForm.tsx"),
+      ]),
+      ...prefix("booking", [
+        route("confirm", "routes/BookingSummary.tsx"),
+        route("response", "routes/BookingConfirmResponse.tsx"),
+      ]),
     ]),
   ]),
 ] satisfies RouteConfig;

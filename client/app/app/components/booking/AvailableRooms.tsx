@@ -1,6 +1,6 @@
 import MediaFullView from "../MediaFullView";
 import AvailableRoom from "./AvailableRoom";
-import type { Room } from "~/types/general";
+import type { Room } from "~/types/booking";
 import { Carousel } from "../carousel/Carousel";
 import { useNavContextProvider } from "../nav/NavContextProvider";
 import { Form, useFetcher, useLocation, useSearchParams } from "react-router";
