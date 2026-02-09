@@ -11,6 +11,7 @@ import Fallback from "~/components/Fallback";
 import ErrorFallback from "~/components/ErrorFallback";
 import type { AxiosResponse } from "axios";
 import { logError } from "~/utils/logging";
+import { useNavigation } from "react-router";
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -66,6 +67,8 @@ export async function clientLoader() {
   return response;
 }
 export default function BookingSummary({ loaderData }) {
+  const navigation = useNavigation();
+  console.log("navigation", navigation.formAction, navigation.state);
   const loaderDataClean: LoaderData = loaderData.data;
   const { t } = useTranslation();
   const {
@@ -168,7 +171,7 @@ export default function BookingSummary({ loaderData }) {
             type="submit"
             className="w-[100px] text-lg font-medium bg-peach rounded font-sans text-bg mt-2 cursor-pointer hover:bg-peach-accent"
           >
-            Book
+            {navigation.state === "idle" ? t("Book") : t("submitting")}
           </button>
         </Form>
       </div>

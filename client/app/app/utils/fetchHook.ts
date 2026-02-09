@@ -14,19 +14,18 @@ export function useFetchV3(url: string, valid = true, timeout = 0) {
     if (!loading) {
       return;
     }
-    axiosInstance.get("wrong-url").catch((e) => logError(e));
-    // axiosInstance
-    //   .get(url, { timeout: timeout })
-    //   .then((r) => {
-    //     setFetchedData({ data: r.data, status: r.status, message: "success" });
-    //
-    //     setLoading(false);
-    //   })
-    //   .catch((r) => {
-    //     logError(r);
-    //     setFetchedData({ data: r.data, status: r.status, message: r.message });
-    //     setLoading(false);
-    //   });
+    axiosInstance
+      .get(url, { timeout: timeout })
+      .then((r) => {
+        setFetchedData({ data: r.data, status: r.status, message: "success" });
+
+        setLoading(false);
+      })
+      .catch((r) => {
+        logError(r);
+        setFetchedData({ data: r.data, status: r.status, message: r.message });
+        setLoading(false);
+      });
   });
   return { validParams: valid, fetchedData, loading };
 }
