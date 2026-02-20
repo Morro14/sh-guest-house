@@ -5,25 +5,28 @@ import MediaFullView from "../MediaFullView";
 import { Carousel } from "../carousel/Carousel";
 import type { Room } from "app/types/booking";
 import NavRows from "../nav/NavRows";
+import { useTranslation } from "react-i18next";
 
 export default function RoomsPreview() {
-  const { fetchedData, loading } = useFetchV3("rooms");
-  const rooms = fetchedData?.data.data as Array<Room>;
+  const { fetchedData, loading } = useFetchV3("content/rooms");
+  const { t } = useTranslation();
+  const rooms = fetchedData?.data?.data as Array<Room>;
   const context = useNavContextProvider();
-  const roomCarousels = !loading
-    ? rooms.map((room) => {
-        return (
-          <Carousel
-            name="rooms"
-            key={`room-carousel-${room.slug}`}
-            images={room.images}
-            imageSize="small"
-            imageRes="main"
-            border={true}
-          ></Carousel>
-        );
-      })
-    : [];
+  const roomCarousels =
+    !loading && rooms
+      ? rooms.map((room) => {
+          return (
+            <Carousel
+              name="rooms"
+              key={`room-carousel-${room.slug}`}
+              images={room.images}
+              imageSize="small"
+              imageRes="main"
+              border={true}
+            ></Carousel>
+          );
+        })
+      : [];
   // const cachedRoomCarousels = useMemo(roomCarousels, [data])
   const currentRoomCarousel = roomCarousels[context.itemSelected];
   context.preStateChangeCallback = (callback: () => void) => {
@@ -35,16 +38,15 @@ export default function RoomsPreview() {
   //   callback()
   // },
   //   300
-
-  return loading ? (
+  return loading || !rooms || rooms.length === 0 ? (
     <div className="flex justify-cventer items-center carousel-small bg-olive-light text-gray-500 font-serif">
-      Loading...
+      {!rooms || rooms.length === 0 ? t("No data") : t("Loading...")}
     </div>
   ) : (
     <div className="flex flex-col md:items-center 2xl:items-start 2xl:justify-between relative">
-      <div className="carousel-small-width text-sm italic">
+      <div className="carousel-small-width text-sm italic ">
         <h5 className="font-medium mb-2">{rooms[context.itemSelected].name}</h5>
-        <p>{rooms[context.itemSelected].beds}</p>
+        <p className="h-10">{rooms[context.itemSelected].beds}</p>
       </div>
       <div className="flex 2xl:flex-row pt-4 max-2xl:flex-col max-2xl:items-center 2xl:items-start max-2xl:gap-6 2xl:gap-0 w-full">
         {currentRoomCarousel}

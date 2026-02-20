@@ -47,7 +47,7 @@ export default function BookingConfirmResponse({ loaderData }) {
           <h3 className="mt-6">
             {t("Your booking request has been submitted!")}
           </h3>
-          <div className="index-container-1">
+          <div className="index-container-1 flex justify-center text-center">
             <p className="font-sans">
               {t("booking-success-contact-msg", { email })}
             </p>

@@ -1,5 +1,5 @@
 from datetime import date, timedelta
-from .models import Reservation, Room, ContentPage
+from .models import Reservation, Room
 from django.db.models import OuterRef, Exists
 
 

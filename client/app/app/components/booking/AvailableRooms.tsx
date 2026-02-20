@@ -7,6 +7,7 @@ import { Form, useFetcher, useLocation, useSearchParams } from "react-router";
 import { useEffect, useRef, type ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useBookingRoomSelectContextProvider } from "./BookingRoomSelectContext";
+import Fallback from "../Fallback";
 
 export default function AvailableRooms({ rooms }) {
   const context = useNavContextProvider();
@@ -32,49 +33,57 @@ export default function AvailableRooms({ rooms }) {
   };
   return (
     <div id="available-rooms" className="flex flex-col items-center pt-14">
-      <h3 className="text-center text-nowrap my-7">
-        {rooms.length > 0
-          ? t("Available rooms")
-          : t(
-              "No available rooms for these dates. Check the next available dates for booking below.",
+      {rooms.length === 0 ? (
+        <div className="mt-5">
+          <Fallback
+            message={t(
+              "No available rooms for these dates. Please check another date.",
             )}
-      </h3>
-      {context.fullImageView ? (
-        <MediaFullView>
-          <Carousel
-            name={rooms[context.itemSelected]}
-            images={rooms[context.itemSelected].images}
-            imageRes="original"
-            imageSize="full"
-            fullView={true}
-          ></Carousel>
-        </MediaFullView>
+          ></Fallback>
+        </div>
       ) : (
-        ""
+        <div id="available-rooms" className="flex flex-col items-center pt-14">
+          <h3 className="text-center text-nowrap my-7">
+            ? t("Available rooms")
+          </h3>
+          {context.fullImageView ? (
+            <MediaFullView>
+              <Carousel
+                name={rooms[context.itemSelected]}
+                images={rooms[context.itemSelected].images}
+                imageRes="original"
+                imageSize="full"
+                fullView={true}
+              ></Carousel>
+            </MediaFullView>
+          ) : (
+            ""
+          )}
+          <Form
+            method="post"
+            onChange={handleFormChange}
+            ref={(node) => {
+              formRef.current = node;
+              formContext.setForm(node);
+            }}
+            key={URLSearchParams.toString()}
+            id="room-select-form"
+            className="grid grid-cols-2 2xl:w-[1000px] gap-x-10 gap-y-14"
+          >
+            {rooms.map((room: Room, index: number) => {
+              return (
+                <AvailableRoom
+                  formRef={formRef}
+                  key={room.name}
+                  room={room}
+                  index={index}
+                ></AvailableRoom>
+              );
+            })}
+            <button type="submit">Book</button>
+          </Form>
+        </div>
       )}
-      <Form
-        method="post"
-        onChange={handleFormChange}
-        ref={(node) => {
-          formRef.current = node;
-          formContext.setForm(node);
-        }}
-        key={URLSearchParams.toString()}
-        id="room-select-form"
-        className="grid grid-cols-2 2xl:w-[1000px] gap-x-10 gap-y-14"
-      >
-        {rooms.map((room: Room, index: number) => {
-          return (
-            <AvailableRoom
-              formRef={formRef}
-              key={room.name}
-              room={room}
-              index={index}
-            ></AvailableRoom>
-          );
-        })}
-        <button type="submit">Book</button>
-      </Form>
     </div>
   );
 }

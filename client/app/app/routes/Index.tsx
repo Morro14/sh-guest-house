@@ -1,13 +1,20 @@
 import { useTranslation } from "react-i18next";
-import LocationMain from "~/components/index/location/LocationMain";
+import LocationMain from "~/components/index/Location";
 import Paragraph from "~/components/index/Paragraph";
 import RoomsPreview from "~/components/index/Rooms";
 import NavContextProvider from "~/components/nav/NavContextProvider";
 import Places from "~/components/index/Places";
-import CarouselWide from "~/components/index/CarouselWide";
+import CarouselWide from "~/components/carousel/CarouselWide";
+import { useFetchV3 } from "~/utils/fetchHook";
+import { formatPageContentData } from "~/utils/format";
 
 export default function Index() {
   const { t } = useTranslation();
+  const { fetchedData } = useFetchV3("content/page-content");
+  const pageContent = fetchedData?.data?.data;
+  const pageContentObj = pageContent
+    ? formatPageContentData(pageContent)
+    : null;
   return (
     <div className="flex grow flex-col items-stretch text-text-main bg-bg gap-7 min-h-screen ">
       <div className="flex flex-col items-center">
@@ -23,13 +30,23 @@ export default function Index() {
       <div className="flex flex-col items-center">
         <div className="index-container-1 relative flex flex-col gap-9 pt-8">
           <div className="h-[120%] w-[1px] line-gray-gradient absolute -left-7 top-0"></div>
-          <Paragraph content="about" titleSize="h3" centered={false} />
+          <Paragraph
+            content={pageContentObj ? pageContentObj["about"] : null}
+            titleSize="h3"
+            centered={false}
+          />
 
-          <Paragraph content="rooms-preview" titleSize="h4" />
+          <Paragraph
+            content={pageContentObj ? pageContentObj["rooms-preview"] : null}
+            titleSize="h4"
+          />
           <NavContextProvider>
             <RoomsPreview></RoomsPreview>
           </NavContextProvider>
-          <Paragraph content="location" titleSize="h4" />
+          <Paragraph
+            content={pageContentObj ? pageContentObj["location"] : null}
+            titleSize="h4"
+          />
           <LocationMain></LocationMain>
         </div>
       </div>
@@ -53,7 +70,7 @@ export default function Index() {
         <div className="index-container-1 flex flex-col grow gap-9 2xl:w-[1000px] pt-8 relative">
           <div className="h-[120%] w-[1px] line-gray-gradient absolute -left-7 top-0"></div>
           <Paragraph
-            content="places"
+            content={pageContentObj ? pageContentObj["places"] : null}
             titleSize="h4"
             centered={false}
           ></Paragraph>

@@ -24,11 +24,12 @@ from two_factor.admin import AdminSiteOTPRequired
 from main.views import FrontendLogsView
 
 print("Loaded translation version:", settings.TRANSLATION_VERSION)
-admin.site.__class__ = AdminSiteOTPRequired
+# admin.site.__class__ = AdminSiteOTPRequired
 urlpatterns = [
-    path("", include(tf_urls)),
+    # path("", include(tf_urls)),
     path("admin/", admin.site.urls),
-    path("api/", include("main.urls")),
+    path("api/booking/", include("main.urls")),
+    path("api/content/", include("site_content.urls")),
     path("api/logs-frontend", FrontendLogsView.as_view()),
     path("api-auth/", include("auth_app.urls")),
 ]

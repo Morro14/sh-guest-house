@@ -9,7 +9,7 @@ import {
 export default [
   layout("components/LayoutMain.tsx", [
     route(":lang?", "routes/Language.tsx", [
-      index("routes/Main.tsx"),
+      index("routes/IndexRoute.tsx"),
       route("booking", "routes/Booking.tsx", [
         index("routes/RequestInfo.tsx"),
         route("change-request-info", "routes/BookingForm.tsx"),

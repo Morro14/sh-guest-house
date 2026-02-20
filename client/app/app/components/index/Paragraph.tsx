@@ -1,23 +1,31 @@
-import { useTranslation } from "react-i18next";
+export interface Paragraph {
+  slug: string;
+  title: string;
+  body: string;
+}
 
-export default function Paragraph(params: {
-  content: string;
+export default function Paragraph({
+  content,
+  titleSize,
+  centered,
+  subtitle,
+}: {
+  content: Paragraph | null;
   titleSize: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   centered?: boolean;
   subtitle?: string;
 }) {
-  const { t } = useTranslation();
-  const title = t(params.content + ".title");
-  const body = t(params.content + ".body");
-  const TitleTag = params.titleSize;
+  const TitleTag = titleSize;
 
-  return (
+  return !content ? (
+    <div className="w-full h-10 bg-gray-warm-light"></div>
+  ) : (
     <div
-      className={`${params.centered ? "flex flex-col items-center text-center" : ""}`}
+      className={`${centered ? "flex flex-col items-center text-center" : ""}`}
     >
-      {title.length > 0 ? <TitleTag>{title}</TitleTag> : ""}
-      {params.subtitle ? <h3>{params.subtitle}</h3> : ""}
-      <p className="font-sans text-lg">{body}</p>
+      {content.title.length > 0 ? <TitleTag>{content.title}</TitleTag> : ""}
+      {subtitle ? <h3>{subtitle}</h3> : ""}
+      <p className="font-sans text-lg">{content.body}</p>
     </div>
   );
 }

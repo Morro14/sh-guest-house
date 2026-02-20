@@ -1,9 +1,9 @@
-import ContextProvider from "~/components/ContextProvider";
-import type { Route } from "./+types/Main";
+import RequestAvailableRoomsContextProvider from "~/components/RequestAvailableRoomsContextProvider";
+import type { Route } from "./+types/IndexRoute";
 import { validate } from "~/components/formComponents/validate";
 import { redirect } from "react-router";
 import Index from "./Index";
-import BookingPannel from "~/components/BookingPanel";
+import BookingPannel from "~/components/index/BookingPanel";
 import type { ValidationErrors } from "~/components/formComponents/validate";
 import ErrorFallback from "~/components/ErrorFallback";
 import { logError } from "~/utils/logging";
@@ -47,14 +47,14 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   return redirect(`booking?${params}`);
 }
 
-export default function Main({ actionData }: Route.ComponentProps) {
+export default function IndexRoute({ actionData }: Route.ComponentProps) {
   const errors = actionData;
   return (
     <div className="flex flex-col min-h-screen min-w-screen text-text-main">
-      <ContextProvider params={{ errors: errors }}>
+      <RequestAvailableRoomsContextProvider params={{ errors: errors }}>
         <BookingPannel></BookingPannel>
-        <Index></Index>
-      </ContextProvider>
+      </RequestAvailableRoomsContextProvider>
+      <Index></Index>
     </div>
   );
 }

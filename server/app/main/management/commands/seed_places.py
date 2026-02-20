@@ -1,10 +1,8 @@
 from django.core.management.base import BaseCommand
-from django.contrib.auth import get_user_model
-from main.models import Place, PlaceImage
+from site_content.models import Place, PlaceImage
 from django.db.utils import IntegrityError
 from faker import Faker
 
-USER = get_user_model()
 fake = Faker()
 
 

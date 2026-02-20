@@ -1,4 +1,4 @@
-import { useContextProvider } from "../ContextProvider";
+import { useContextProvider } from "../RequestAvailableRoomsContextProvider";
 import { useRef } from "react";
 import type { ValidationErrors } from "./validate";
 

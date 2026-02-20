@@ -7,7 +7,7 @@ import useEmblaCarousel from "embla-carousel-react";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 export default function CarouselWide({ tag }: { tag: string }) {
-  const { fetchedData, loading } = useFetchV3("wide-images/" + tag);
+  const { fetchedData, loading } = useFetchV3("content/wide-images/" + tag);
   const images = fetchedData?.data?.data as Array<Image>;
   const context = useNavContextProvider();
   const [emblaRef] = useEmblaCarousel({
@@ -16,13 +16,13 @@ export default function CarouselWide({ tag }: { tag: string }) {
     loop: true,
   });
   const imageRes: ImageRes = "main";
-  return loading ? (
+  return loading || !images ? (
     <WideImagePlaceholder />
   ) : (
     <div>
       <div className="embla" ref={emblaRef}>
         <div className="embla__container">
-          {images.map((img, i) => (
+          {images.concat(images).map((img, i) => (
             <div
               key={`img-wide-${i}`}
               className="embla__slide shrink-0 mr-3 carousel-wide-image"

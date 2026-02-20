@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-from main.utils.get_translation_version import get_translation_version
+from site_content.utils.get_translation_version import (
+    get_translation_version,
+)
 from django.utils.translation import gettext_lazy as _
 from pathlib import Path
 import os
@@ -34,11 +36,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
+DEBUG = bool(os.environ.get("DEBUG"))
 AUTH_USER_MODEL = "auth_app.User"
 ALLOWED_HOSTS = []
 CLIENT_URL = os.environ.get("CLIENT_URL")
-SITE_NAME = _("Shushan guest house")
+SITE_NAME = os.environ.get("SITE_NAME")
 
 # Application definition
 
@@ -52,14 +55,15 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "main",
+    "site_content",
     # "main.apps.MainConfig",
     "auth_app",
     "django_otp",
     "django_otp.plugins.otp_static",
     "django_otp.plugins.otp_totp",
     "django_otp.plugins.otp_email",
-    "two_factor",
-    "two_factor.plugins.email",
+    # "two_factor",
+    # "two_factor.plugins.email",
     "easy_thumbnails",
     "image_cropping",
     "rest_framework",
@@ -73,8 +77,8 @@ INSTALLED_APPS = [
     # "allauth.socialaccount.providers.google",
 ]
 SITE_ID = 1
-LOGIN_URL = "two_factor:login"
-LOGIN_REDIRECT_URL = "two_factor:profile"
+# LOGIN_URL = "two_factor:login"
+# LOGIN_REDIRECT_URL = "two_factor:profile"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -86,7 +90,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django_otp.middleware.OTPMiddleware",
+    # "django_otp.middleware.OTPMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -97,9 +101,7 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKEND": [
         "django_filters.rest_framework.DjangoFilterBackend"
     ],
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "main.authentication.JWTAuthentication",
-    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated"
     ],
@@ -222,24 +224,27 @@ ALLOWED_SERVICES = []
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
 
-ADMINS = [("test_admin", "ivfmn2@gmail.com")]
+ADMINS = ["ivfmn2@gmail.com"]
 MANAGERS = ["ivfmn2@gmail.com"]
 
-CELERY_BROKER_URL = os.environ.get("REDIS_URL", "redis://127.0.0.1:6379/0")
-# CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
-CELERY_ACCEPT_CONTENT = ["json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_BROKER_TRANSPORT_OPTIONS = {
-    "socket_connect_timeout": 5,
-    "socket_timeout": 5,
-}
-CELERY_TASK_ALWAYS_EAGER = True
-CELERY_RESULT_BACKEND = "django-db"
-CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30
+# CELERY_BROKER_URL = os.environ.get("REDIS_URL", "redis://127.0.0.1:6379/0")
+# CELERY_ACCEPT_CONTENT = ["json"]
+# CELERY_TASK_SERIALIZER = "json"
+# CELERY_BROKER_TRANSPORT_OPTIONS = {
+#     "socket_connect_timeout": 5,
+#     "socket_timeout": 5,
+# }
+# CELERY_TASK_ALWAYS_EAGER = False
+# CELERY_RESULT_BACKEND = "django-db"
+# CELERY_TASK_TRACK_STARTED = True
+# CELERY_TASK_TIME_LIMIT = 30
 
 DJANGO_STRUCTLOG_CELERY_ENABLED = True
-
+if DEBUG:
+    DJANGO_STRUCTLOG_MIDDLEWARE_LOG_LEVEL = "DEBUG"
+else:
+    DJANGO_STRUCTLOG_MIDDLEWARE_LOG_LEVEL = "WARNING"
+LOGGING_LEVEL = os.environ.get("LOGGING_LEVEL", "WARNING")
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -250,7 +255,7 @@ LOGGING = {
     },
     "root": {
         "handlers": ["console"],
-        "level": "INFO",
+        "level": LOGGING_LEVEL,
     },
 }
 

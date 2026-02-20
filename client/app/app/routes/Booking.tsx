@@ -6,7 +6,7 @@ import Line from "~/components/index/Line";
 import AvailableRooms from "~/components/booking/AvailableRooms";
 import type { Room } from "~/types/booking";
 import NavContextProvider from "~/components/nav/NavContextProvider";
-import ContextProvider from "~/components/ContextProvider";
+import RequestAvailableRoomsContextProvider from "~/components/RequestAvailableRoomsContextProvider";
 import FloatingPanel from "~/components/booking/FloatingPanel";
 import BookingRoomSelectContext from "~/components/booking/BookingRoomSelectContext";
 import { getDefaultSearchParams } from "~/utils/general";
@@ -80,7 +80,7 @@ export default function Booking({ loaderData }: Route.ComponentProps) {
   const location = useLocation();
   return (
     <div className="bg-bg text-text-main">
-      <ContextProvider params={{ errors: [] }}>
+      <RequestAvailableRoomsContextProvider params={{ errors: [] }}>
         <div
           id="request-info-block"
           className="flex flex-col items-center mt-[34px]"
@@ -112,7 +112,7 @@ export default function Booking({ loaderData }: Route.ComponentProps) {
             </NavContextProvider>
           </BookingRoomSelectContext>
         </div>
-      </ContextProvider>
+      </RequestAvailableRoomsContextProvider>
     </div>
   );
 }

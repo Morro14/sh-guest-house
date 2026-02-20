@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 from rest_framework import exceptions
 import os, jwt
 
-
 USER_MODEL = get_user_model()
 
 
@@ -26,6 +25,5 @@ def jwt_auth(token):
 
 class IsJWTAuthenticated(permissions.BasePermission):
     def has_permission(self, request, view):
-        print("permission..")
         is_authenticated = jwt_auth(request.COOKIE.get("jwt"))
         return is_authenticated

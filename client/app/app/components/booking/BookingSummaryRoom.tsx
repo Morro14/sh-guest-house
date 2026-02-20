@@ -13,7 +13,7 @@ export default function BookingSummaryRoom(
       <div className="col-span-2 mt-1 h-24 overflow-clip border-2 border-peach">
         <img
           src={BASE_URL + room.images[0].variants.small}
-          className="object-fill "
+          className="object-cover size-full"
         />
       </div>
       <div className="col-span-8 grid grid-cols-8 pl-2">

@@ -3,15 +3,8 @@ import datetime
 import time
 import os
 from dotenv import load_dotenv
-from pydantic import BaseModel, ConfigDict
-
 
 load_dotenv()
-
-
-# class CustomTimeSerializer(BaseModel):
-#     model_config = ConfigDict(ser_json_timedelta="iso8601")
-#     duration: datetime.timedelta
 
 
 class CustomJWT:
@@ -21,18 +14,26 @@ class CustomJWT:
         secret=os.environ.get("JWT_SECRET"),
         content: dict = {},
         expires_in=36000,
+        jti=None,
     ):
         self.secret = secret
         self.content = content
         self.issued_at = int(time.time())
         self.expires_in = expires_in
+        self.jti = jti
 
     def get_token(self):
         payload = self.content
         payload.update(
-            {"exp": self.issued_at + self.expires_in, "iat": self.issued_at}
+            {
+                "exp": self.issued_at + self.expires_in,
+                "iat": self.issued_at,
+                "jti": self.jti,
+            }
         )
-        token = jwt.encode(payload=payload, key=self.secret, algorithm="HS256")
+        token = jwt.encode(
+            payload=payload, key=self.secret, algorithm="HS256"
+        )
         return token
 
     def update_token(self, token, add_data):

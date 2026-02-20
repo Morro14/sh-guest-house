@@ -23,25 +23,26 @@ interface Place {
 }
 
 export default function Places() {
-  const { fetchedData, loading } = useFetchV3("places");
-  const data = fetchedData?.data.data as Array<Place>;
+  const { fetchedData, loading } = useFetchV3("content/places");
+  const data = fetchedData?.data?.data as Array<Place>;
   const context = useNavContextProvider();
-  const images = !loading
-    ? () =>
-        data.map((place) => {
-          return (
-            <img
-              className="z-10 relative object-contain hover:cursor-pointer"
-              src={BASE_URL + place.images[0]?.variants.small}
-              onClick={() => {
-                context.setFullImageView(true);
-              }}
-            />
-          );
-        })
-    : () => [];
+  const images =
+    !loading && data
+      ? () =>
+          data.map((place) => {
+            return (
+              <img
+                className="z-10 relative object-contain hover:cursor-pointer"
+                src={BASE_URL + place.images[0]?.variants.small}
+                onClick={() => {
+                  context.setFullImageView(true);
+                }}
+              />
+            );
+          })
+      : () => [];
   const imagesCached = useMemo(images, [images]);
-  const currentImage = imagesCached[context.itemSelected];
+  const currentImage = data ? imagesCached[context.itemSelected] : null;
   const currentPlace = data ? data[context.itemSelected] : undefined;
   const [opacity, setOpacity] = useState(100);
   const { t } = useTranslation();
@@ -52,12 +53,10 @@ export default function Places() {
       callback();
     }, 150);
   };
-  return loading || !currentPlace ? (
+  return loading || !currentPlace || data.length === 0 ? (
     <div className="flex justify-center items-center w-[688px] h-[388px] bg-olive-light text-gray-500 font-serif">
-      Loading...
+      {!data || data.length === 0 ? t("No data") : t("Loading...")}
     </div>
-  ) : data.length === 0 ? (
-    ""
   ) : (
     <div className="">
       {context.fullImageView ? (

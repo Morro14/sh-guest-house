@@ -1,5 +1,6 @@
 from modeltranslation.translator import register, TranslationOptions
-from .models import ContentPage, Room, Place
+from .models import ContentPage, Place
+from main.models import Room
 
 
 @register(ContentPage)
@@ -15,4 +16,3 @@ class RoomTranslationOptions(TranslationOptions):
 @register(Place)
 class PlaceTranslationOptions(TranslationOptions):
     fields = ("name", "distance_comment", "description", "info_link")
-

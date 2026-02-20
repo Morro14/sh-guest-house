@@ -1,8 +1,8 @@
 import { Form } from "react-router";
-import SelectGuests from "./formComponents/SelectGuests";
-import { useContextProvider } from "./ContextProvider";
+import SelectGuests from "~/components/formComponents/SelectGuests";
+import { useContextProvider } from "~/components/RequestAvailableRoomsContextProvider";
 import { useTranslation } from "react-i18next";
-import ErrorPanel from "./formComponents/ErrorPanel";
+import ErrorPanel from "~/components/formComponents/ErrorPanel";
 import { Temporal } from "@js-temporal/polyfill";
 
 export default function BookingPannel() {

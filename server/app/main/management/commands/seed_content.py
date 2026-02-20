@@ -1,11 +1,7 @@
 from django.core.management.base import BaseCommand
-from django.contrib.auth import get_user_model
-from main.models import ContentPage
-from django.db.utils import IntegrityError
+from site_content.models import ContentPage
 from faker import Faker
 
-
-USER = get_user_model()
 fake = Faker()
 
 content_data = [
@@ -49,5 +45,7 @@ class Command(BaseCommand):
             )
 
         self.stdout.write(
-            self.style.SUCCESS("✅ database seeded with fake ContentPage data")
+            self.style.SUCCESS(
+                "✅ database seeded with fake ContentPage data"
+            )
         )

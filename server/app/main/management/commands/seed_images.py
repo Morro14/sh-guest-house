@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from main.models import WideImage, ImageTag
+from site_content.models import WideImage, ImageTag
 from django.db.utils import IntegrityError
 
 tags = ["main", "place"]

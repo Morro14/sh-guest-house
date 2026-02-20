@@ -1,18 +1,7 @@
 from rest_framework import serializers
-from .models import Room, RoomReserved, Image, Place, WideImage, Reservation
+from .models import Room, RoomReserved, Reservation
 from django.db import transaction
-
-
-class ImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Image
-        fields = ["order", "variants"]
-
-
-class ImageWideSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = WideImage
-        fields = ["order", "variants"]
+from site_content.serializers import ImageSerializer
 
 
 class RoomSerializer(serializers.ModelSerializer):
@@ -51,20 +40,3 @@ class ReservationSerializer(serializers.ModelSerializer):
         ]
         RoomReserved.objects.bulk_create(room_instances)
         return reservation
-
-
-class PlaceSerializer(serializers.ModelSerializer):
-    images = ImageSerializer(source="image", many=True, read_only=True)
-
-    class Meta:
-        model = Place
-        fields = [
-            "slug",
-            "name",
-            "description",
-            "distance",
-            "distance_comment",
-            "images",
-            "geoloc",
-            "info_link",
-        ]

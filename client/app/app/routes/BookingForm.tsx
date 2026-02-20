@@ -1,5 +1,5 @@
 import { Form } from "react-router";
-import { useContextProvider } from "../components/ContextProvider";
+import { useContextProvider } from "../components/RequestAvailableRoomsContextProvider";
 import SelectGuests from "../components/formComponents/SelectGuests";
 import { useTranslation } from "react-i18next";
 import { validate } from "~/components/formComponents/validate";
@@ -8,8 +8,8 @@ import type { Route } from "./+types/BookingForm";
 import { getLanguagePathParam, getUrlSearchParams } from "~/utils/general";
 import { useEffect } from "react";
 import type { ValidationErrors } from "~/components/formComponents/validate";
-import type { BookingForm } from "./Main";
-import { formDataToObject } from "./Main";
+import type { BookingForm } from "./IndexRoute";
+import { formDataToObject } from "./IndexRoute";
 
 import ErrorFallback from "~/components/ErrorFallback";
 import { logError } from "~/utils/logging";

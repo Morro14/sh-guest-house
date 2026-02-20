@@ -6,40 +6,25 @@ from rest_framework.decorators import (
     permission_classes,
 )
 from dotenv import load_dotenv
-from django.utils import translation
 from django.conf import settings
 import os
 import json
 import jwt
-from django.utils.translation import gettext as _
-from django.views.decorators.vary import vary_on_headers
-from django.utils.decorators import method_decorator
-from django.core.cache import cache
 from django.http import HttpResponse
 from .queries import get_available_rooms
 from .serializers import (
     RoomSerializer,
-    PlaceSerializer,
-    ImageWideSerializer,
     ReservationSerializer,
 )
-from .models import ContentPage, Room, Place, WideImage
+from .models import Room
 from auth_app.utils.jwt_ import CustomJWT
 from datetime import date, timedelta
 from .authentication import SessionAuthentication
 from main.utils.room_price import get_reservation_price_total
 from .utils.data_parse import parse_rooms_selected
-from .notifications.tasks import (
-    send_on_reservation_validated,
-    send_on_reservation_confirmed,
-    test_celery,
-)
 import structlog
-from celery import current_app
-from app.celery import app
+import uuid
 
-print("current_app uri", current_app.connection().as_uri())
-print("app.celery app uri", app.conf.broker_url)
 load_dotenv()
 log = structlog.get_logger()
 
@@ -47,11 +32,11 @@ log = structlog.get_logger()
 def template_test(request):
     if not settings.DEBUG:
         return HttpResponse(status=404)
+    log.warning("test log without context")
     log_context = structlog.contextvars.get_contextvars()
-    response = send_on_reservation_confirmed.delay(
-        res_pk="16", log_context=log_context
-    )
-    return response
+    structlog.contextvars.bind_contextvars(**log_context)
+    log.warning("test log with context")
+    return HttpResponse("test response")
 
 
 class BookingRequestValidateView(APIView):
@@ -72,7 +57,7 @@ class BookingRequestValidateView(APIView):
         jwt_content = jwt.decode(
             token, os.environ.get("JWT_SECRET"), "HS256"
         )
-
+        jti = request.auth["jti"]
         check_in_date = date.fromisoformat(jwt_content["date"])
         nights_int = int(jwt_content["nights"])
 
@@ -93,16 +78,16 @@ class BookingRequestValidateView(APIView):
         serializer.is_valid()
         reservation = serializer.save()
         no_overlap_valid = reservation.validate_no_overlap()
-        log_context = structlog.contextvars.get_contextvars()
-        if no_overlap_valid:
-            send_on_reservation_validated.delay(
-                no_overlap_valid.pk, log_context
-            )
+        if not no_overlap_valid:
+            log.warning("request_not_validated", user_email=email)
         token_data = request.auth
         token_data.update({"request_validated": True, "user_email": email})
-        token = CustomJWT(content=token_data, expires_in=60 * 2).get_token()
+        token = CustomJWT(
+            content=token_data,
+            expires_in=60 * 2,
+            jti=jti,
+        ).get_token()
         response = Response()
-        response.delete_cookie("booking_request_token")
         response.set_cookie(
             key="booking_request_token",
             value=token,
@@ -122,19 +107,20 @@ class BookingRequestSummaryView(APIView):
     authentication_classes = [SessionAuthentication]
 
     def get(self, request):
-        request_info = {
+        booking_request_info = {
             k: v
             for k, v in request.auth.items()
             if k in ["date", "nights", "adults", "children"]
         }
 
+        jti = request.auth["jti"]
         rooms_guests = request.auth["rooms_selected"]
         selected_room_slugs = [
             room["slug"] for room in request.auth["rooms_selected"]
         ]
         rooms = Room.objects.filter(slug__in=selected_room_slugs)
         reservation_price_total = get_reservation_price_total(
-            rooms, rooms_guests, int(request_info["nights"])
+            rooms, rooms_guests, int(booking_request_info["nights"])
         )
 
         serializer = RoomSerializer(data=rooms, many=True)
@@ -142,30 +128,38 @@ class BookingRequestSummaryView(APIView):
 
         response = Response()
         response.data = {
-            "request_info": request_info,
+            "request_info": booking_request_info,
             "guests_per_room_selected": request.auth["rooms_selected"],
             "rooms": serializer.data,
             "price_total": reservation_price_total,
         }
 
-        log.info("request_summary_view", price_total=reservation_price_total)
+        log.info(
+            "request_summary_view",
+            session_id=jti,
+            price_total=reservation_price_total,
+            date=booking_request_info["date"],
+            nights=booking_request_info["nights"],
+            guests=int(booking_request_info["adults"])
+            + int(booking_request_info["children"]),
+        )
         return response
 
     def post(self, request):
-        request_info = {
+        booking_request_info = {
             k: v
             for k, v in request.auth.items()
             if k in ["date", "nights", "adults", "children"]
         }
-
+        jti = request.auth["jti"]
         rooms_selected = parse_rooms_selected(request)
-        request_info.update({"rooms_selected": rooms_selected})
+        booking_request_info.update({"rooms_selected": rooms_selected})
         token_updated = CustomJWT(
-            content=request_info,
-            expires_in=20,
+            content=booking_request_info, expires_in=60 * 15, jti=jti
         ).get_token()
 
         response = Response()
+        response.delete_cookie("booking_request_token")
         response.set_cookie(
             key="booking_request_token",
             value=token_updated,
@@ -177,9 +171,17 @@ class BookingRequestSummaryView(APIView):
         )
         response.data = {
             "rooms_selected": rooms_selected,
-            "request_info": request_info,
+            "request_info": booking_request_info,
         }
-        log.info("request_summary_view")
+
+        log.info(
+            "request_summary_view",
+            session_id=jti,
+            date=booking_request_info["date"],
+            nights=booking_request_info["nights"],
+            guests=int(booking_request_info["adults"])
+            + int(booking_request_info["children"]),
+        )
         return response
 
 
@@ -193,20 +195,20 @@ class BookingRoomsRequestView(APIView):
             data.get("date"), data.get("nights")
         )
         serializer = RoomSerializer(available_rooms, many=True)
-        token_content = {
+        booking_request_info = {
             "date": data.get("date"),
             "nights": data.get("nights"),
             "adults": data.get("adults"),
             "children": data.get("children"),
         }
-
+        jti = str(uuid.uuid4())
         token = CustomJWT(
             secret=os.environ.get("JWT_SECRET"),
-            content=token_content,
+            content=booking_request_info,
             expires_in=60 * 15,
+            jti=jti,
         ).get_token()
         response = Response()
-
         response.set_cookie(
             key="booking_request_token",
             value=token,
@@ -218,14 +220,15 @@ class BookingRoomsRequestView(APIView):
         )
         response.data = {
             "rooms": serializer.data,
-            "reserv_request_info": token_content,
+            "reserv_request_info": booking_request_info,
         }
         log.info(
             "rooms_requested",
-            date=token_content["date"],
-            nights=token_content["nights"],
-            guests=int(token_content["adults"])
-            + int(token_content["children"]),
+            session_id=jti,
+            date=booking_request_info["date"],
+            nights=booking_request_info["nights"],
+            guests=int(booking_request_info["adults"])
+            + int(booking_request_info["children"]),
         )
         return response
 
@@ -238,16 +241,6 @@ class RoomSetView(APIView):
         rooms = Room.objects.prefetch_related("image").all()
         rooms_serial = RoomSerializer(rooms, many=True)
         return Response({"data": rooms_serial.data})
-
-
-class PlaceSetView(APIView):
-    permission_classes = []
-    authentication_classes = []
-
-    def get(self, request):
-        places = Place.objects.prefetch_related("image").all()
-        place_serial = PlaceSerializer(places, many=True)
-        return Response({"data": place_serial.data})
 
 
 @api_view(["POST"])
@@ -270,89 +263,12 @@ def reservation_price_view(request):
         return response
 
 
-class WideImageSet(APIView):
-    permission_classes = []
-    authentication_classes = []
-
-    def get(self, request, tag):
-        images = WideImage.objects.filter(tag__name=tag)
-        serializer = ImageWideSerializer(images, many=True)
-        data = serializer.data
-        return Response({"data": data})
-
-
-class TranslationView(APIView):
-    permission_classes = []
-    authentication_classes = []
-
-    @method_decorator(vary_on_headers("Accept-Language"), name="dispatch")
-    def get(self, request):
-        keys_path = os.path.join(settings.BASE_DIR, "main/translation.json")
-        keys = json.load(open(keys_path))
-
-        lang = self._get_language_from_request(request=request)
-        cache_key = f"translations_{lang}_{settings.TRANSLATION_VERSION}"
-        print("request language:", lang)
-
-        cached = cache.get(key=cache_key)
-        if cached:
-            print("sending cached response")
-            return Response(cached)
-
-        translation.activate(lang)
-        translations = {key: _(key) for key in keys}
-
-        # add model translations
-        content_instances = ContentPage.objects.all()
-        content_formatted = {
-            c.slug: {"title": c.title, "body": c.body, "slug": c.slug}
-            for c in content_instances
-        }
-        translations.update(content_formatted)
-        place_instances = Place.objects.all()
-        places_formatted = {
-            p.slug: {
-                "name": p.name,
-                "description": p.description,
-                "info_link": p.info_link,
-            }
-            for p in place_instances
-        }
-        translations.update({"places": places_formatted})
-
-        response = Response(translations)
-        print("setting cache")
-        cache.set(cache_key, translations, timeout=60 * 60 * 24)
-        return response
-
-    def _get_language_from_request(self, request):
-        # Explicit ?lang= parameter takes priority
-        if lang := request.GET.get("lang"):
-            print("detecting lang from request")
-            return lang
-
-        # Then check the Accept-Language header
-        header = request.META.get("HTTP_ACCEPT_LANGUAGE", "")
-        if header:
-            # Example header: "ru,en;q=0.8,hy;q=0.5"
-            langs = [h.split(";")[0].strip() for h in header.split(",")]
-            for lang in langs:
-                short = lang.split("-")[0]
-                if short in dict(settings.LANGUAGES):
-                    return short
-
-        # Fallback
-        return settings.LANGUAGE_CODE
-
-
 class FrontendLogsView(APIView):
     permission_classes = []
     authentication_classes = []
 
     def post(self, request):
-        # print("log view data", request.data)
         data_serialized = json.loads(request.data.get("data"))
-        # print("log view serizlized data", data_serialized)
         log.error(
             "frontend_error",
             **data_serialized,

@@ -1,16 +1,13 @@
 from django.core.management.base import BaseCommand
-from django.contrib.auth import get_user_model
-from main.models import (
-    Room,
+from site_content.models import (
     RoomImage,
-    ContentPage,
     WideImage,
 )
+from main.models import Room
 import random
 from django.db.utils import IntegrityError
 from faker import Faker
 
-USER = get_user_model()
 fake = Faker()
 
 content_data = [

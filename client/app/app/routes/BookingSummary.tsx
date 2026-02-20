@@ -169,7 +169,7 @@ export default function BookingSummary({ loaderData }) {
           </div>
           <button
             type="submit"
-            className="w-[100px] text-lg font-medium bg-peach rounded font-sans text-bg mt-2 cursor-pointer hover:bg-peach-accent"
+            className="w-[100px] text-lg font-medium bg-apricot-light rounded font-sans text-text-main mt-2 cursor-pointer hover:bg-peach-accent"
           >
             {navigation.state === "idle" ? t("Book") : t("submitting")}
           </button>
