@@ -1,11 +1,10 @@
-import { useTranslation } from "react-i18next";
 import { LANGUAGES } from "~/vars";
 import { useLocation, useNavigate, useParams } from "react-router";
 import type { SyntheticEvent } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function LangSelect() {
   const { i18n } = useTranslation();
-  console.log("current lang", i18n.language);
   const languageLabels = { en: "English", ru: "Русский" };
   const params = useParams();
   const loc = useLocation();
@@ -13,7 +12,7 @@ export default function LangSelect() {
   const handleChange = (e: SyntheticEvent<HTMLSelectElement>) => {
     const segments = loc.pathname.split("/");
     segments[1] = e.target.value;
-    console.log("language select redirect url", segments.join("/"));
+    i18n.changeLanguage(e.target.value);
     nav(segments.join("/"));
   };
   return (

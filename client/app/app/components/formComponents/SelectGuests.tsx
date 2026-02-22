@@ -126,7 +126,7 @@ export default function SelectGuests({
                 setSelectedValues({ adults: 2, children: 0 });
               }}
             >
-              reset
+              {t("reset")}
             </button>
             <button
               className="underline cursor-pointer"
@@ -135,7 +135,7 @@ export default function SelectGuests({
                 checkboxRef.current.checked = false;
               }}
             >
-              continue
+              {t("continue")}
             </button>
           </div>
         </div>

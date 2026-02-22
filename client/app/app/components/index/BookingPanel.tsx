@@ -20,7 +20,7 @@ export default function BookingPannel() {
           className="flex justify-center h-10 items-center overflow-visible"
         >
           <div className="flex items-center font-normal px-8 h-10">
-            {t("Create reservation:")}
+            {t("create_reservation")}
           </div>
           <div className="w-[1px] bg-line-light h-8"></div>
           <label
