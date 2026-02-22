@@ -5,12 +5,13 @@ from .models import User
 from .serializers import UserSerializer
 from django.conf import settings
 import requests
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 
 from .utils.jwt_ import CustomJWT
 from dotenv import load_dotenv
-import jwt, os
+import jwt
+import os
 
 load_dotenv()
 
@@ -18,12 +19,12 @@ load_dotenv()
 class RegisterView(views.APIView):
     permission_classes = [AllowAny]
     authentication_classes = []
+
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         try:
             serializer.is_valid(raise_exception=True)
-        except exceptions.ValidationError as e:
-            print(e)
+        except exceptions.ValidationError:
             return Response(data={"message": "User already exists."})
         serializer.save()
         return Response(serializer.data)
@@ -39,10 +40,8 @@ class LoginView(views.APIView):
         password = request.data["password"]
         user = get_object_or_404(klass=User, email=email)
         if not User:
-            print("user not found")
             raise exceptions.AuthenticationFailed("User not found.")
         if not user.check_password(password):
-            print("incorrect password")
             raise exceptions.AuthenticationFailed("Incorrect password.")
         token = CustomJWT(content={"id": str(user.id)}).get_token()
         response = Response()
@@ -53,7 +52,6 @@ class LoginView(views.APIView):
             samesite="None",
             secure=True,
         )
-        print(response.cookies)
         response.data = {"message": "User has successfully logged in."}
         return response
 
@@ -63,7 +61,6 @@ class GoogleLoginView(views.APIView):
     permission_classes = []
 
     def get(self, request):
-        # print('variables:', settings.GOOGLE_CLIENT_ID, settings.GOOGLE_CLIENT_SECRET)
         code = request.GET.get("code")
         token_url = "https://oauth2.googleapis.com/token"
         data = {
@@ -75,7 +72,6 @@ class GoogleLoginView(views.APIView):
         }
         r = requests.post(token_url, data=data)
         token_data = r.json()
-        # print("token_data", r)
         access_token = token_data["access_token"]
         refresh_token = token_data["refresh_token"]
 
@@ -87,9 +83,11 @@ class GoogleLoginView(views.APIView):
         user, created = User.objects.get_or_create(email=email)
         user.google_access_token = access_token
         user.google_refresh_token = refresh_token
-        user.add_service('google')
+        user.add_service("google")
         user.save()
-        temp_token = CustomJWT(content={"id": str(user.id)}, expires_in=60).get_token()
+        temp_token = CustomJWT(
+            content={"id": str(user.id)}, expires_in=60
+        ).get_token()
         response = HttpResponseRedirect(
             f"{settings.CLIENT_URL}oauth-success?token={temp_token}",
         )
@@ -136,11 +134,12 @@ class ProfileView(views.APIView):
         if not token:
             raise exceptions.AuthenticationFailed("Unauthorized!")
         try:
-            payload = jwt.decode(token, os.environ.get("JWT_SECRET"), "HS256")
+            payload = jwt.decode(
+                token, os.environ.get("JWT_SECRET"), "HS256"
+            )
         except jwt.ExpiredSignatureError:
             raise exceptions.AuthenticationFailed("Unauthorized!")
         user = User.objects.get(id=payload["id"])
-        print(user)
         response = Response({"email": user.email})
         return response
 
@@ -155,7 +154,9 @@ class PasswordRecoveryRequestView(views.APIView):
         email = request.data["email"]
         user = User.objects.get(email=email)
         if not user:
-            return Response({"message": "User with this email is not found."})
+            return Response(
+                {"message": "User with this email is not found."}
+            )
 
         token = CustomJWT(
             content={"email": request.data["email"]}, expires_in=600
@@ -169,9 +170,13 @@ class PasswordRecoveryConfirmView(views.APIView):
         if not token:
             raise exceptions.bad_request()
         try:
-            payload = jwt.decode(token, os.environ.get("JWT_SECRET"), "HS256")
+            payload = jwt.decode(
+                token, os.environ.get("JWT_SECRET"), "HS256"
+            )
         except jwt.exceptions.ExpiredSignatureError:
-            raise exceptions.bad_request("Password recovery token has expired")
+            raise exceptions.bad_request(
+                "Password recovery token has expired"
+            )
         user = User.objects.get(email=payload["email"])
         if not user:
             raise exceptions.bad_request()
@@ -184,8 +189,6 @@ class PasswordRecoveryConfirmView(views.APIView):
 class PasswordRecoverySetPassView(views.APIView):
     def post(self, request):
         password = request.data["password"]
-
-
 
 
 class LogoutView(views.APIView):

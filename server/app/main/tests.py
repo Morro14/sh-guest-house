@@ -40,7 +40,6 @@ class ReservationTest(APITestCase):
         total_price = get_reservation_price_total(
             res_rooms, res_rooms_guests, nights
         )
-        print("total_price:", total_price)
         url = reverse(reservation_price_view)
 
         token = CustomJWT(
@@ -51,5 +50,3 @@ class ReservationTest(APITestCase):
         ).get_token()
         self.client.cookies["booking_request_token"] = token
         response = self.client.get(url)
-
-        print("get price response:", response.content)

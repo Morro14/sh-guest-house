@@ -23,7 +23,6 @@ class Command(BaseCommand):
             return img_tags_obj
 
         image_tags = add_tags()
-        print("test image tags", image_tags)
 
         def add_images():
             for i in images_data:
@@ -32,7 +31,6 @@ class Command(BaseCommand):
                         (tag for tag in image_tags if tag.name == i["tag"]),
                         None,
                     )
-                    print("test first tag match", tag)
                     img = WideImage.objects.create(
                         alt_text=i["name"],
                         image_full=f"static/img/test/wide/{i["name"]}.jpg",

@@ -23,7 +23,6 @@ from two_factor.urls import urlpatterns as tf_urls
 from two_factor.admin import AdminSiteOTPRequired
 from main.views import FrontendLogsView
 
-print("Loaded translation version:", settings.TRANSLATION_VERSION)
 # admin.site.__class__ = AdminSiteOTPRequired
 urlpatterns = [
     # path("", include(tf_urls)),

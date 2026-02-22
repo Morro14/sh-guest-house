@@ -1,4 +1,5 @@
 import structlog
+
 from django.utils import translation
 
 log = structlog.get_logger()
@@ -9,11 +10,13 @@ class RequestLanguageMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        lang = request.headers.get("x-language")
-        if lang:
-            translation.activate(lang)
-            request.LANGUAGE_CODE = lang
-            structlog.contextvars.bind_contextvars(language=lang)
+        lang_url_param = request.GET.get("lang", None)
+        lang_header_param = request.headers.get("x-language")
+        lang = lang_url_param or lang_header_param or "en"
+        # print("mw lang", lang)
+        translation.activate(lang)
+        request.LANGUAGE_CODE = lang
+        structlog.contextvars.bind_contextvars(language=lang)
 
         response = self.get_response(request)
         return response

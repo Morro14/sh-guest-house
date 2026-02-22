@@ -18,7 +18,6 @@ log = structlog.get_logger()
 
 @receiver(post_save, sender=Reservation)
 def send_email_on_reservation_save(sender, instance, **kwargs):
-    print("signal instance", instance)
     try:
         if instance.status == Reservation.Status.VALIDATED:
             log_context = structlog.contextvars.get_contextvars()
@@ -28,7 +27,6 @@ def send_email_on_reservation_save(sender, instance, **kwargs):
                 instance_pk=instance.pk,
             )
         elif instance.status == Reservation.Status.CONFIRMED:
-            print("signal res cofnirmed")
             log_context = structlog.contextvars.get_contextvars()
             send_task_async(
                 send_on_reservation_confirmed,

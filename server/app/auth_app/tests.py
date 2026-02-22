@@ -1,9 +1,6 @@
 import requests
-from django.test import TestCase as TestCaseDj
 from rest_framework.test import APITestCase
 from django.contrib.auth import get_user_model
-from .utils.jwt_ import CustomJWT
-import os
 from dotenv import load_dotenv
 from .loggers import UserLogger
 from django_rest_passwordreset.models import ResetPasswordToken
@@ -18,18 +15,21 @@ USER_MODEL = get_user_model()
 URL_BASE = "http://127.0.0.1:8000/auth/"
 
 
-
-
 class UserInfoTest(APITestCase):
     def test_get_info(self):
-        user = USER_MODEL.objects.create_user(email='test@email.com', password="password123")
-        user.add_service('google')
+        user = USER_MODEL.objects.create_user(
+            email="test@email.com", password="password123"
+        )
+        user.add_service("google")
         user_token = CustomJWTTest(
             content={"id": str(user.id)},
         ).get_token()
         self.client.cookies["jwt"] = user_token
-        response = self.client.get(path='http://127.0.0.1:8000/api-v1/catalog/user-service-info')
-        print('test response',response.json())
+        response = self.client.get(
+            path="http://127.0.0.1:8000/api-v1/catalog/user-service-info"
+        )
+        print("test response", response.json())
+
 
 class PassResetTest(TestCase):
 
@@ -46,7 +46,9 @@ class PassResetTest(TestCase):
             URL_BASE + "password-reset/", data={"email": "ivfmn1@gmail.com"}
         )
         user = USER_MODEL.objects.get(email="ivfmn1@gmail.com")
-        logger.log(f"User {user} is trying to get password reset confirmation.")
+        logger.log(
+            f"User {user} is trying to get password reset confirmation."
+        )
         tokens = ResetPasswordToken.objects.all()
         print("token:", tokens[0].key)
 

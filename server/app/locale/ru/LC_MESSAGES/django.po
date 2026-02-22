@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-23 19:21+0000\n"
+"POT-Creation-Date: 2026-02-20 18:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,27 +20,45 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: app/settings.py:40 main/extra_translations.py:9
-msgid "Shushan guest house"
-msgstr "Гостевой дом \"Шушан\""
-
-#: app/settings.py:155
+#: app/settings.py:163
 msgid "English"
 msgstr "English"
 
-#: app/settings.py:155
+#: app/settings.py:163
 msgid "Russian"
 msgstr "Русский"
 
-#: main/admin.py:51
+#: auth_app/admin.py:27
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Permissions"
+msgstr "Нет доступа"
+
+#: auth_app/forms.py:13
+msgid "Password"
+msgstr ""
+
+#: auth_app/forms.py:16
+msgid "Password confirmation"
+msgstr ""
+
+#: auth_app/forms.py:28
+msgid "Passwords don't match"
+msgstr ""
+
+#: auth_app/models.py:12 site_content/utils/frontend_tr_strings.py:57
+msgid "Email"
+msgstr ""
+
+#: main/admin.py:57
 msgid "Reservation is already confirmed."
 msgstr "Бронирование уже подтверждено."
 
-#: main/admin.py:59
+#: main/admin.py:65
 msgid "Reservation is not validated yet."
 msgstr "Данные бронирования еще не проверены."
 
-#: main/admin.py:69
+#: main/admin.py:75
 msgid "Reservation confirmed and email notification sent."
 msgstr "Бронирование подтверждено и пользователю отправлено письмо."
 
@@ -53,234 +71,433 @@ msgstr "Введите токен, сгенерированный вашей п�
 msgid "Send email to %s"
 msgstr "Отправить письмо на адрес %s"
 
-#: main/models.py:56 templates/emails/reservation_request.html:17
+#: main/extra_translations.py:9
+msgid "Shushan guest house"
+msgstr "Гостевой дом \"Шушан\""
+
+#: main/models.py:48
+msgid "created at"
+msgstr ""
+
+#: main/models.py:60 site_content/utils/frontend_tr_strings.py:59
+#: templates/emails/reservation_confirmed.html:18
+#: templates/emails/reservation_request.html:18
 msgid "Guest name"
 msgstr "Имя гостя"
 
-#: main/models.py:127 main/models.py:182 main/models.py:302
+#: main/models.py:130 site_content/models.py:19 site_content/models.py:138
 #, fuzzy
 #| msgid "Room_slug"
 msgid "slug"
 msgstr "уникальное имя"
 
-#: main/models.py:128 main/models.py:183 main/models.py:303
+#: main/models.py:131 site_content/models.py:20 site_content/models.py:139
 msgid "unique name (lower case without spaces)"
 msgstr ""
 
-#: main/models.py:130
+#: main/models.py:133
 #, fuzzy
 #| msgid "Room_name"
 msgid "Room name"
 msgstr "имя комнаты"
 
-#: main/models.py:132
+#: main/models.py:135 site_content/utils/frontend_tr_strings.py:16
 msgid "Adults"
 msgstr ""
 
-#: main/models.py:133
+#: main/models.py:136
 msgid "places in the room for any guests (adult or children)"
 msgstr ""
 
-#: main/models.py:136
+#: main/models.py:139 site_content/utils/frontend_tr_strings.py:17
 #, fuzzy
 #| msgid "Room_children_num"
 msgid "Children"
 msgstr "кол-во детей"
 
-#: main/models.py:137
+#: main/models.py:140
 msgid "places in the room only for children"
 msgstr ""
 
-#: main/models.py:143
+#: main/models.py:146
 msgid "Room"
 msgstr "комната"
 
-#: main/models.py:144 templates/emails/reservation_request.html:44
+#: main/models.py:147 site_content/utils/frontend_tr_strings.py:32
+#: templates/emails/reservation_confirmed.html:45
+#: templates/emails/reservation_request.html:45
 msgid "Rooms"
 msgstr "комнаты"
 
-#: main/models.py:151
+#: main/models.py:154
 msgid "Reserved room"
 msgstr "Забронированная комната"
 
-#: main/models.py:152
+#: main/models.py:155
 msgid "Reserved rooms"
 msgstr "Забронированные комнаты"
 
-#: main/models.py:158
+#: main/models.py:161
 msgid "adult places reserved"
 msgstr "Забронировано взрослых мест"
 
-#: main/models.py:161
+#: main/models.py:164
 msgid "children places reserved"
 msgstr "Забронировано детских мест"
 
-#: main/models.py:186
+#: main/notifications/tasks.py:107
+#, fuzzy
+#| msgid "Reservation is already confirmed."
+msgid "Your reservation has been confirmed"
+msgstr "Бронирование уже подтверждено."
+
+#: site_content/models.py:23
 #, fuzzy
 #| msgid "Content_page_title"
 msgid "Content page title"
 msgstr "заголовок"
 
-#: main/models.py:189
+#: site_content/models.py:26
 msgid "Write the content in Markdown fromat."
 msgstr "Добавьте текст в формате markdown."
 
-#: main/models.py:190
+#: site_content/models.py:27
 #, fuzzy
 #| msgid "Content_page_body"
 msgid "Content page body"
 msgstr "Содержание"
 
-#: main/models.py:195
+#: site_content/models.py:32
 #, fuzzy
 #| msgid "Content_page"
 msgid "Content page"
 msgstr "Содержание страницы"
 
-#: main/models.py:196
+#: site_content/models.py:33
 #, fuzzy
 #| msgid "Content_pages"
 msgid "Content pages"
 msgstr "Содержание страниц"
 
-#: main/models.py:261
+#: site_content/models.py:97
 msgid "wide photo"
 msgstr "широкоформатное фото"
 
-#: main/models.py:262
+#: site_content/models.py:98
 msgid "wide photos"
 msgstr "широкоформатные фото"
 
-#: main/models.py:281
+#: site_content/models.py:117
 msgid "room image"
 msgstr "фото комнаты"
 
-#: main/models.py:282
+#: site_content/models.py:118
 msgid "room images"
 msgstr "фото комнат"
 
-#: main/models.py:297
+#: site_content/models.py:133
 #, fuzzy
 #| msgid "Room_name"
 msgid "name"
 msgstr "имя комнаты"
 
-#: main/models.py:305
+#: site_content/models.py:141
 msgid "distance"
 msgstr "расстояние"
 
-#: main/models.py:310
+#: site_content/models.py:146
 msgid "distance comment"
 msgstr "комментарий к растоянию"
 
-#: main/models.py:312
+#: site_content/models.py:148
 msgid "description"
 msgstr "описание"
 
-#: main/models.py:315 main/models.py:329
+#: site_content/models.py:150
+msgid "geolocation link"
+msgstr ""
+
+#: site_content/models.py:151
+msgid "link to a map provider with the location of the place"
+msgstr ""
+
+#: site_content/models.py:154
+msgid "Information link"
+msgstr ""
+
+#: site_content/models.py:156
+msgid "Link to an external resources with information about the place"
+msgstr ""
+
+#: site_content/models.py:162 site_content/models.py:176
 msgid "place"
 msgstr "достопримечательность"
 
-#: main/models.py:316
+#: site_content/models.py:163
 msgid "places"
 msgstr "достопримечательности"
 
-#: main/models.py:333
+#: site_content/models.py:180
 msgid "place image"
 msgstr "фото достопримечательности"
 
-#: main/models.py:334
+#: site_content/models.py:181
 msgid "place images"
 msgstr "фото достопримечательностей"
 
-#: main/notifications.py:19 main/notifications.py:22
-msgid "project_name"
+#: site_content/utils/frontend_tr_strings.py:3
+msgid "guests"
 msgstr ""
 
-#: main/utils/frontend_tr_strings.py:3
-msgid "day_one"
-msgstr "день"
-
-#: main/utils/frontend_tr_strings.py:4
-msgid "day_other"
-msgstr ""
-
-#: main/utils/frontend_tr_strings.py:5
-msgid "api-error-message"
-msgstr ""
-
-#: main/utils/frontend_tr_strings.py:6
-msgid "adultsWithCount_one"
-msgstr ""
-
-#: main/utils/frontend_tr_strings.py:7
-msgid "adultsWithCount_other"
-msgstr ""
-
-#: main/utils/frontend_tr_strings.py:8
+#: site_content/utils/frontend_tr_strings.py:4
 msgid "childrenWithCount_one"
 msgstr ""
 
-#: main/utils/frontend_tr_strings.py:9
+#: site_content/utils/frontend_tr_strings.py:5
 msgid "childrenWithCount_other"
 msgstr ""
 
-#: main/utils/frontend_tr_strings.py:10
-msgid "adults_other"
+#: site_content/utils/frontend_tr_strings.py:6
+msgid "Maximum guests"
 msgstr ""
 
-#: main/utils/frontend_tr_strings.py:11
-msgid "Please, enter the arival date."
+#: site_content/utils/frontend_tr_strings.py:7
+msgid "Select number of guests"
 msgstr ""
 
-#: main/utils/frontend_tr_strings.py:12
+#: site_content/utils/frontend_tr_strings.py:8
+#: templates/emails/reservation_confirmed.html:36
+#: templates/emails/reservation_request.html:36
+msgid "adults"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:9
+#: templates/emails/reservation_confirmed.html:36
+#: templates/emails/reservation_request.html:36
+#, fuzzy
+#| msgid "Room_children_num"
+msgid "children"
+msgstr "кол-во детей"
+
+#: site_content/utils/frontend_tr_strings.py:10
+msgid "Beds"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:11
+msgid "For one night"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:12
+msgid "Select guests"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:13
+msgid "Room selected"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:14
+msgid "No available rooms for these dates. Please check another date."
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:15
+msgid "Selected guests"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:18
+msgid "Book"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:19
+msgid "Something went wrong"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:20
+msgid "back to the main page"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:21
+msgid "adultsWithCount_one"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:22
+msgid "adultsWithCount_other"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:23
+msgid "reset"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:24
+msgid "continue"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:25
+msgid "Please enter the arival date."
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:26
+msgid "Please enter correct date."
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:27
 msgid "availableDate"
 msgstr ""
 
-#: main/utils/frontend_tr_strings.py:13
+#: site_content/utils/frontend_tr_strings.py:28
 msgid "There must be at least 1 guest."
 msgstr ""
 
-#: main/utils/frontend_tr_strings.py:14
+#: site_content/utils/frontend_tr_strings.py:29
 msgid "Nights must be a number."
 msgstr ""
 
-#: main/utils/frontend_tr_strings.py:15
-msgid "CONTACTS"
-msgstr "КОНТАКТЫ"
+#: site_content/utils/frontend_tr_strings.py:30
+#, fuzzy
+#| msgid "Guest name"
+msgid "Site name"
+msgstr "Имя гостя"
 
-#: main/utils/frontend_tr_strings.py:16
-msgid "locationSideText.one"
+#: site_content/utils/frontend_tr_strings.py:31
+msgid "About"
+msgstr "О нас"
+
+#: site_content/utils/frontend_tr_strings.py:33
+#, fuzzy
+#| msgid "Content_slug"
+msgid "Contacts"
+msgstr "Контакты"
+
+#: site_content/utils/frontend_tr_strings.py:34
+msgid "Location"
+msgstr "Как добраться"
+
+#: site_content/utils/frontend_tr_strings.py:35
+msgid "create_reservation"
+msgstr "Забронировать"
+
+#: site_content/utils/frontend_tr_strings.py:36
+msgid "day_one"
+msgstr "день"
+
+#: site_content/utils/frontend_tr_strings.py:37
+msgid "day_other"
 msgstr ""
 
-#: main/utils/frontend_tr_strings.py:17
-msgid "locationSideText.two"
+#: site_content/utils/frontend_tr_strings.py:38
+#, fuzzy
+#| msgid "Content_page"
+msgid "Continue"
+msgstr "Содержание страницы"
+
+#: site_content/utils/frontend_tr_strings.py:39
+msgid "Open in Google Maps"
 msgstr ""
 
-#: main/utils/frontend_tr_strings.py:18
+#: site_content/utils/frontend_tr_strings.py:40
+msgid "Open a written guide"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:41
+msgid "Shuttle from Yeghegnadzor"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:42
+msgid "No data"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:43
+msgid "Loading..."
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:44
+msgid "wikipedia"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:45
+msgid "location link"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:46
 msgid "Your booking request"
 msgstr ""
 
-#: main/utils/frontend_tr_strings.py:19
-msgid "Available rooms"
+#: site_content/utils/frontend_tr_strings.py:47
+msgid "back to booking"
 msgstr ""
 
-#: main/utils/frontend_tr_strings.py:20
+#: site_content/utils/frontend_tr_strings.py:48
+msgid "Your session has expired"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:49
+msgid "We could not verify your request. Please try again later."
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:50
+msgid "Your booking request has been submitted!"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:51
+msgid "booking-success-contact-msg"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:52
+msgid "nights_one"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:53
+msgid "nights_other"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:54
+msgid "Show available rooms"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:55
+msgid "edit reservation"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:56
+msgid "booking summary paragraph"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:58
+msgid "summary email help-text"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:60
+msgid "summary guest name help-text"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:61
+#: templates/emails/reservation_confirmed.html:54
+#: templates/emails/reservation_request.html:54
+msgid "Message"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:62
 msgid ""
-"No available rooms for these dates. Check the next available dates for "
-"booking below."
+"Please let us know the time of your arrival and any additional information "
+"related to your stay."
 msgstr ""
 
-#: main/utils/frontend_tr_strings.py:21
+#: site_content/utils/frontend_tr_strings.py:63
+msgid "submitting"
+msgstr ""
+
+#: site_content/utils/frontend_tr_strings.py:64
 msgid "index-title"
 msgstr ""
 
-#: main/utils/frontend_tr_strings.py:22
+#: site_content/utils/frontend_tr_strings.py:65
 msgid "Vayots Dzor"
 msgstr "Вайоц Дзор"
 
+#: site_content/utils/frontend_tr_strings.py:66
+msgid "Points of interest in the province"
+msgstr ""
+
 #: templates/admin/main/reservation/change_form.html:9
-#: templates/admin/main/reservations/reservation/change_form.html:9
 msgid "Confirm reservation"
 msgstr ""
 
@@ -289,11 +506,46 @@ msgstr ""
 msgid "Thank you for choosing %(site_name)s."
 msgstr ""
 
+#: templates/emails/reservation_confirmed.html:5
+msgid "Your reservation for {{site_name}} has been confirmed."
+msgstr ""
+
+#: templates/emails/reservation_confirmed.html:10
+#: templates/emails/reservation_confirmed.txt:5
+#, python-format
+msgid ""
+"\n"
+"        Hello, %(guest_name)s. Your reservation for %(site_name)s has been "
+"confirmed! We will be waiting for you on %(check_in)s. If you need to "
+"contact us please send a mail to %(manager_email)s.\n"
+"      "
+msgstr ""
+
+#: templates/emails/reservation_confirmed.html:23
+#: templates/emails/reservation_request.html:23
+msgid "Check-in"
+msgstr ""
+
+#: templates/emails/reservation_confirmed.html:28
+#: templates/emails/reservation_request.html:28
+msgid "Check-out"
+msgstr ""
+
+#: templates/emails/reservation_confirmed.html:33
+#: templates/emails/reservation_request.html:33
+msgid "Guests"
+msgstr ""
+
+#: templates/emails/reservation_confirmed.html:40
+#: templates/emails/reservation_request.html:40
+msgid "nights"
+msgstr ""
+
 #: templates/emails/reservation_request.html:4
 msgid "A new reservation is requested"
 msgstr ""
 
-#: templates/emails/reservation_request.html:8
+#: templates/emails/reservation_request.html:9
 msgid ""
 " \n"
 "    A reservation has been requested. Please check the reservation\n"
@@ -303,37 +555,7 @@ msgid ""
 "  "
 msgstr ""
 
-#: templates/emails/reservation_request.html:22
-msgid "Check-in"
-msgstr ""
-
-#: templates/emails/reservation_request.html:27
-msgid "Check-out"
-msgstr ""
-
-#: templates/emails/reservation_request.html:32
-msgid "Guests"
-msgstr ""
-
-#: templates/emails/reservation_request.html:35
-msgid "adults"
-msgstr ""
-
-#: templates/emails/reservation_request.html:35
-#, fuzzy
-#| msgid "Room_children_num"
-msgid "children"
-msgstr "кол-во детей"
-
-#: templates/emails/reservation_request.html:39
-msgid "Nights"
-msgstr ""
-
-#: templates/emails/reservation_request.html:53
-msgid "Message"
-msgstr ""
-
-#: templates/emails/reservation_request.html:72
+#: templates/emails/reservation_request.html:74
 msgid "View reservation"
 msgstr ""
 
@@ -406,6 +628,9 @@ msgstr "Назад"
 msgid "Enable Two-Factor Authentication"
 msgstr "Включить двух-уровневую аутентификацию"
 
+#~ msgid "CONTACTS"
+#~ msgstr "КОНТАКТЫ"
+
 #, fuzzy
 #~| msgid "Room_slug_helptext"
 #~ msgid "slug_helptext"
@@ -426,9 +651,6 @@ msgstr "Включить двух-уровневую аутентификаци�
 #~| msgid "Content_page_body"
 #~ msgid "Content_about_body"
 #~ msgstr "Содержание"
-
-#~ msgid "Content_slug"
-#~ msgstr "уникальное имя"
 
 #~ msgid "Content_slug_helptext"
 #~ msgstr "Идентификатор. Только для разработчика."

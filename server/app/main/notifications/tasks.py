@@ -84,7 +84,6 @@ def send_on_reservation_validated(params, log_context):
 def send_on_reservation_confirmed(params, log_context=None):
     from django.db import close_old_connections
 
-    print("signal task confirmed")
     close_old_connections()
     res_pk = params["instance_pk"]
     reservation = Reservation.objects.select_related().get(pk=res_pk)
