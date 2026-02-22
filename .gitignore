@@ -10,3 +10,9 @@ venv
 /client_test
 build
 thumbnails
+migrations
+**/static/test/
+/server/app/cmd/
+*.sqlite3
+pyproject.toml
+

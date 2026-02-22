@@ -4,7 +4,6 @@ anyio==4.9.0
 asgiref==3.11.0
 billiard==4.2.4
 cachetools==5.5.2
-celery==5.6.2
 certifi==2025.6.15
 cffi==1.17.1
 charset-normalizer==3.4.2
@@ -26,7 +25,7 @@ django-modeltranslation==0.19.19
 django-otp==1.7.0
 django-phonenumber-field==8.4.0
 django-rest-passwordreset==1.5.0
-django-structlog[celery]==10.0.0
+django-structlog==10.0.0
 django-two-factor-auth==1.18.1
 django_celery_results==2.6.0
 djangorestframework==3.16.0
@@ -61,7 +60,6 @@ python-dateutil==2.9.0.post0
 python-dotenv==1.1.1
 python-ipware==3.0.0
 qrcode==8.2
-redis==7.1.0
 requests==2.32.4
 requests-oauthlib==2.0.0
 rsa==4.9.1
