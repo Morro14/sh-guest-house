@@ -42,10 +42,11 @@ export default function AvailableRooms({ rooms }) {
           ></Fallback>
         </div>
       ) : (
-        <div id="available-rooms" className="flex flex-col items-center pt-14">
-          <h3 className="text-center text-nowrap my-7">
-            ? t("Available rooms")
-          </h3>
+        <div
+          id="available-rooms"
+          className="flex flex-col gap-3 items-center pt-14"
+        >
+          <h3 className="text-center text-nowrap">{t("Available rooms")}</h3>
           {context.fullImageView ? (
             <MediaFullView>
               <Carousel
@@ -80,7 +81,6 @@ export default function AvailableRooms({ rooms }) {
                 ></AvailableRoom>
               );
             })}
-            <button type="submit">Book</button>
           </Form>
         </div>
       )}

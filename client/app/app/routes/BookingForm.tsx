@@ -10,7 +10,6 @@ import { useEffect } from "react";
 import type { ValidationErrors } from "~/components/formComponents/validate";
 import type { BookingForm } from "./IndexRoute";
 import { formDataToObject } from "./IndexRoute";
-
 import ErrorFallback from "~/components/ErrorFallback";
 import { logError } from "~/utils/logging";
 import { useRouteError } from "react-router";
@@ -20,7 +19,6 @@ export function ErrorBoundary() {
   useEffect(() => {
     logError(error);
   }, [error]);
-  console.log("error router boundary", error);
   return <ErrorFallback />;
 }
 export async function clientAction({ request }: Route.ClientActionArgs) {
@@ -35,8 +33,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     formDataObj[k] = v.toString();
   }
   const params = new URLSearchParams(formDataObj);
-  const url = new URL(request.url);
-  return redirect(`/${getLanguagePathParam(url.pathname)}/booking?${params}`);
+  return redirect(`/${getLanguagePathParam()}/booking?${params}`);
 }
 
 export default function BookingForm({ actionData }: Route.ComponentProps) {
@@ -89,7 +86,7 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
       </div>
       <button
         type="submit"
-        className="px-3 text-lg font-medium bg-peach rounded font-sans text-bg mt-2 cursor-pointer hover:bg-peach-accent"
+        className="px-3 text-lg underline font-sans mt-2 cursor-pointer hover:bg-peach-accent"
       >
         {t("Show available rooms")}
       </button>

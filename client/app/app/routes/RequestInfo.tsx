@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { Link, useLocation, useParams, useSearchParams } from "react-router";
-import { getUrlSearchParams, getDefaultSearchParams } from "~/utils/general";
+import { Link, useParams, useSearchParams } from "react-router";
+import { getUrlSearchParams } from "~/utils/general";
 
 export default function RequestInfo() {
   const { date, adults, children, nights } = getUrlSearchParams([
@@ -24,7 +24,7 @@ export default function RequestInfo() {
   const dateString = dateF.format(dateObj);
   return (
     <div className="flex flex-col items-center w-full gap-3">
-      <div className="text-center flex justify-between items-center w-full">
+      <div className="text-center flex justify-between items-center w-full ">
         <p className={`${blockWidth}`}>{dateString}</p>
         <p className={`${blockWidth} font-medium`}>{guests}</p>
         <p className={`${blockWidth} font-medium`}>{nights}</p>

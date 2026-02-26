@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+.carousel-wide-image {
+  @apply 2xl:basis-[1130px] md:basis-[728px] basis-[375px];
+}
+.index-container-1 {
+  @apply 2xl:w-[1000px] md:w-[698px] w-[375px];
+}
+.image-frame-small-responsive {
+  @apply md:w-[688px] md:h-[388px] overflow-hidden;
+}
+.media-full-view {
+  @apply 2xl:h-[95vh];
+}
+.carousel-small {
+  @apply md:w-[688px] w-[375px];
+}
+.carousel-small-width {
+  @apply md:w-[688px];
+}
+.booking-floating-panel {
+  @apply xl:w-[1100px] lg:w-[984px] md:w-[728px] sm:w-[600px] max-sm:w-[600px];
+}
+.vertical-line-decor {
+  @apply md:block sm:hidden;
+}

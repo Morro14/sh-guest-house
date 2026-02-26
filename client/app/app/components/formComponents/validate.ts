@@ -1,6 +1,6 @@
 import { Temporal } from "@js-temporal/polyfill";
 import i18n from "root/src/i18n/i18n";
-import type { BookingForm } from "~/routes/Main";
+import type { BookingForm } from "~/routes/IndexRoute";
 
 interface Validation {
   valid: boolean;
@@ -22,6 +22,7 @@ export function validate(formDataObject: BookingForm) {
   const validations = [dateValidation, guestsValidation, nightsValidation];
   validations.forEach((v: Validation) => {
     if (!v.valid) {
+      errors[v.name] = { message: "" };
       errors[v.name].message = v.message;
     }
   });

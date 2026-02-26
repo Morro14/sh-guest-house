@@ -1,9 +1,8 @@
 import useEmblaCarousel from "embla-carousel-react";
-import type { Image } from "~/types/nav";
+import type { Image } from "~/types/booking";
 import CarouselDots from "./CarouselDots";
 import { useNavContextProvider } from "../nav/NavContextProvider";
 import CarouselDotsFullView from "./CarouselDotsFullView";
-import { useEffect, useState } from "react";
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -34,12 +33,12 @@ export function Carousel({
       return;
     }
   };
-  useEffect(() => {
-    if (emblaApi && fullView) {
-      // requestAnimationFrame(() => emblaApi.reInit())
-      console.log("embla init", emblaRef);
-    }
-  }, [emblaApi, fullView, emblaRef]);
+  // useEffect(() => {
+  //   if (emblaApi && fullView) {
+  //     // requestAnimationFrame(() => emblaApi.reInit())
+  //     console.log("embla init", emblaRef);
+  //   }
+  // }, [emblaApi, fullView, emblaRef]);
   return fullView ? (
     <div className="flex flex-col gap-5 items-center justify-end shrink">
       <div

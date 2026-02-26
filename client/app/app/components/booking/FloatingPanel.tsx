@@ -3,7 +3,6 @@ import { useBookingRoomSelectContextProvider } from "./BookingRoomSelectContext"
 import { useEffect, useState, type SyntheticEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useSubmit } from "react-router";
-import { useFetchV3 } from "~/utils/fetchHook";
 
 const CURRENCY = import.meta.env.VITE_CURRENCY;
 
@@ -49,12 +48,12 @@ export default function FloatingPanel() {
   const priceStatus = context.priceFetcher.state;
   return (
     <div
-      className={`${panelOffScreen ? "fixed top-4" : "absolute top-4"} z-20 top-0 w-full flex flex-col items-center justify-start`}
+      className={`${panelOffScreen ? "fixed top-4" : "absolute top-4"} z-20 top-0 w-full flex flex-col items-center justify-start `}
     >
       <div
-        className={`absolute 2xl:w-[1100px] ${moreRoomsRequired ? "h-16" : "h-10"} transition-all duration-200 drop-shadow-sm rounded-sm bg-bg`}
+        className={`absolute booking-floating-panel ${moreRoomsRequired ? "h-16" : "h-10"} transition-all duration-200 bg-apricot-superlight rounded-sm outline-2 outline-apricot -outline-offset-1`}
       ></div>
-      <div className="flex flex-col justify-start">
+      <div className="flex flex-col justify-start ">
         <div
           className={`z-10 flex justify-between items-center w-[1100px] mt-2 h-6`}
         >

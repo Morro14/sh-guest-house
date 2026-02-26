@@ -1,5 +1,3 @@
-// import { getLanguagePathParam } from "./general";
-
 export default {
   name: "pathCustom",
 
@@ -18,7 +16,6 @@ export default {
         }
       }
     }
-    console.log("detect", found);
     return found;
   },
 };

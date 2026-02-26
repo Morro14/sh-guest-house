@@ -22,7 +22,6 @@ export function ErrorBoundary() {
   useEffect(() => {
     logError(error);
   }, [error]);
-  console.log("error router boundary", error);
   return <ErrorFallback />;
 }
 
@@ -67,8 +66,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     return response.data;
   } else {
     await axiosInstance.post("booking/request-summary", formData);
-
-    return redirect(`/booking/confirm`);
+    return redirect(`/${getLanguagePathParam()}/booking/confirm`);
   }
 }
 
@@ -78,24 +76,25 @@ export default function Booking({ loaderData }: Route.ComponentProps) {
   const { t } = useTranslation();
   const fetcher = useFetcher({ key: "price_preview" });
   const location = useLocation();
+  console.log("pathname last segment", location.pathname.split("/").at(-1));
   return (
-    <div className="bg-bg text-text-main">
+    <div className="bg-bg text-text-main min-h-screen min-w-screen">
       <RequestAvailableRoomsContextProvider params={{ errors: [] }}>
         <div
           id="request-info-block"
-          className="flex flex-col items-center mt-[34px]"
+          className="flex flex-col items-center mt-8.5"
         >
           <h2 className="mb-8 ">{t("Your booking request")}</h2>
 
           <Line />
-          <div className="flex py-5 flex-col gap-3 items-center text-center 2xl:w-[600px]">
-            <div className="flex justify-between w-full font-medium">
-              <h4 className="w-[132px]">Date</h4>
-              <h4 className="w-50">Number of guests</h4>
-              <h4 className="w-[132px]">Nights</h4>
+          <div className="flex py-5 flex-col gap-3 items-center text-center 2xl:w-150">
+            <div className="flex capitalize justify-between w-full font-light font-sans">
+              <span className="w-33 ">{t("date")}</span>
+              <span className="w-50">{t("number of guests")}</span>
+              <span className="w-33">{t("nights")}</span>
             </div>
             <div
-              className={`${location.pathname === "/booking" ? "h-[68px]" : "h-[80px]"} w-full transition-all duration-200`}
+              className={`${location.pathname.split("/").at(-1) === "booking" ? "h-16" : "h-22"} w-full transition-all duration-200`}
             >
               <Outlet></Outlet>
             </div>
@@ -103,7 +102,7 @@ export default function Booking({ loaderData }: Route.ComponentProps) {
           <Line />
         </div>
         <div
-          className={`relative transition-all ${location.pathname === "/booking/change-request-info" ? "grayscale opacity-50 pointer-events-none" : ""}`}
+          className={`relative transition-all ${location.pathname.split("/").at(-1) === "change-request-info" ? "grayscale opacity-50 pointer-events-none" : ""}`}
         >
           <BookingRoomSelectContext priceFetcher={fetcher}>
             <FloatingPanel></FloatingPanel>

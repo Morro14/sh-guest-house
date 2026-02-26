@@ -27,7 +27,6 @@ export async function clientLoader() {
   return response;
 }
 export default function BookingConfirmResponse({ loaderData }) {
-  console.log("loaderData", loaderData);
   const validated = loaderData.status === 200;
   const email = loaderData.data.user_email;
   const { t } = useTranslation();

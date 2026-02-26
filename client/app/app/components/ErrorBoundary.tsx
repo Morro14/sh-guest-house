@@ -13,11 +13,11 @@ export class ReactErrorBoundary extends Component<Props, State> {
     return { error };
   }
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    console.log("react error boundary", error);
     logError(error, errorInfo);
   }
   render() {
     if (this.state.error) {
+      this.state = { error: null };
       return <ErrorFallback></ErrorFallback>;
     }
     return this.props.children;

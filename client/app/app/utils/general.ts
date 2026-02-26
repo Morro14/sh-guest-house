@@ -38,8 +38,14 @@ export function getDefaultSearchParams() {
     nights: NIGHTS,
   };
 }
-export function getLanguagePathParam(pathname: string) {
-  const segments = pathname.split("/");
+export function getLanguagePathParam(pathname: string = null) {
+  let segments = [];
+  if (!pathname) {
+    const url = new URL(document.location.toString());
+    segments = url.pathname.split("/");
+  } else {
+    segments = pathname.split("/");
+  }
   return segments[1];
 }
 export function getUrlSearchParams<const K extends readonly string[]>(keys: K) {

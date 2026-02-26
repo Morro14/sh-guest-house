@@ -12,10 +12,15 @@
 		"makemessages": "i18next --config i18next-parser.config.cjs"
 	},
 	"dependencies": {
+		"@emotion/react": "^11.14.0",
+		"@emotion/styled": "^11.14.1",
 		"@js-temporal/polyfill": "^0.5.1",
+		"@mui/material": "^7.3.8",
+		"@mui/x-date-pickers": "^8.27.2",
 		"@react-router/node": "^7.9.1",
 		"@react-router/serve": "^7.9.1",
 		"axios": "^1.11.0",
+		"dayjs": "^1.11.19",
 		"embla-carousel-react": "^8.6.0",
 		"i18next": "^25.6.0",
 		"i18next-browser-languagedetector": "^8.2.0",

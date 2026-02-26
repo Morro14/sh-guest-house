@@ -29,7 +29,7 @@ export default function Index() {
 
       <div className="flex flex-col items-center">
         <div className="index-container-1 relative flex flex-col gap-9 pt-8">
-          <div className="h-[120%] w-[1px] line-gray-gradient absolute -left-7 top-0"></div>
+          <div className="vertical-line-decor h-[120%] w-[1px] line-gray-gradient absolute -left-7 top-0"></div>
           <Paragraph
             content={pageContentObj ? pageContentObj["about"] : null}
             titleSize="h3"
@@ -51,7 +51,7 @@ export default function Index() {
         </div>
       </div>
 
-      <div className="h-[72px]"></div>
+      <div className="h-[42px]"></div>
 
       <div className="flex flex-col gap-6 mt-[18px] relative">
         <div>
@@ -68,7 +68,7 @@ export default function Index() {
 
       <div className="flex flex-col items-center">
         <div className="index-container-1 flex flex-col grow gap-9 2xl:w-[1000px] pt-8 relative">
-          <div className="h-[120%] w-[1px] line-gray-gradient absolute -left-7 top-0"></div>
+          <div className="vertical-line-decor h-[120%] w-[1px] line-gray-gradient absolute -left-7 top-0"></div>
           <Paragraph
             content={pageContentObj ? pageContentObj["places"] : null}
             titleSize="h4"

@@ -15,7 +15,7 @@ i18n
   .init({
     fallbackLng: "en",
     supportedLngs: ["en", "ru"], // add your available languages
-    debug: true, // optional, logs detection
+    debug: import.meta.env.VITE_DEBUG === "true", // optional, logs detection
 
     detection: {
       order: [

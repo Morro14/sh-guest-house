@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap");
 @import "tailwindcss";
-@source "inline:pl-[10px] pl-[20px] pl-[30px] pl-[40px]";
-@source "inline:bg-tag-pink bg-tag-blue";
+@import "./carousel.css";
+@import "./responsive.css";
 
 body {
   @apply m-0 flex justify-center font-serif bg-bg;
@@ -28,8 +28,9 @@ body {
   --color-red-bg-error: #ff9991;
   --color-red-bg-error-light: #fec0bb;
   --color-red-error: #e44d48;
-  --color-apricot-light: #ffe5b6;
+  --color-apricot: #ffe5b6;
   --color-apricot-light: #fff0d3;
+  --color-apricot-superlight: #fff9ed;
   --color-peach-light-1: #f8bc82;
   --color-peach-light: #f6c18d;
   --color-peach-lighter: #ffdbbd;
@@ -68,34 +69,30 @@ h3 {
 h4 {
   @apply text-xl mb-4 font-medium;
 }
-.carousel-wide-image {
-  @apply 2xl:basis-[1130px] xl:basis-[1000px] lg:basis-[984px] md:basis-[728px] sm:basis-[600px] max-sm:basis-[600px];
-}
-.index-container-1 {
-  @apply 2xl:w-[1000px] xl:w-[960px] lg:w-[944px] md:w-[698px] max-md:w-[620px];
-}
-.image-frame-small-responsive {
-  @apply md:w-[688px] md:h-[388px] overflow-hidden;
-}
-.media-full-view {
-  @apply 2xl:h-[95vh];
-}
-.carousel-small {
-  @apply md:w-[688px] md:h-[388px] max-md:w-[620px] max-md:h-[388px];
-}
-.carousel-small-width {
-  @apply md:w-[688px];
-}
-
-.embla {
-  overflow: hidden;
-}
-.embla__container {
-  display: flex;
-}
-.embla__slide {
-  min-width: 0;
-}
+/* .carousel-wide-image { */
+/*   @apply 2xl:basis-[1130px] xl:basis-[1000px] lg:basis-[984px] md:basis-[728px] sm:basis-[600px] max-sm:basis-[600px]; */
+/* } */
+/* .index-container-1 { */
+/*   @apply 2xl:w-[1000px] xl:w-[960px] lg:w-[944px] md:w-[698px] max-md:w-[620px]; */
+/* } */
+/* .image-frame-small-responsive { */
+/*   @apply md:w-[688px] md:h-[388px] overflow-hidden; */
+/* } */
+/* .media-full-view { */
+/*   @apply 2xl:h-[95vh]; */
+/* } */
+/* .carousel-small { */
+/*   @apply md:w-[688px] md:h-[388px] max-md:w-[620px] max-md:h-[388px]; */
+/* } */
+/* .carousel-small-width { */
+/*   @apply md:w-[688px]; */
+/* } */
+/* .booking-floating-panel { */
+/*   @apply xl:w-[1100px] lg:w-[984px] md:w-[728px] sm:w-[600px] max-sm:w-[600px]; */
+/* } */
+/* .vertical-line-decor { */
+/*   @apply md:block sm:hidden; */
+/* } */
 
 .float-visible {
   display: flex;

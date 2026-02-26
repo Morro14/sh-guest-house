@@ -11,7 +11,6 @@ export function ErrorBoundary() {
   useEffect(() => {
     logError(error);
   }, [error]);
-  console.log("error router boundary", error);
   return <ErrorFallback />;
 }
 export default function Language() {

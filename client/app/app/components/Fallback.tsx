@@ -6,7 +6,6 @@ export default function Fallback({
   linkText = undefined,
   onClick = undefined,
 }) {
-  console.log(link, linkText, onClick);
   return (
     <div className="flex flex-col justify-center items-center mt-10 text-text-main">
       <div className="text-gray-2 font-semibold text-lg">{message}</div>

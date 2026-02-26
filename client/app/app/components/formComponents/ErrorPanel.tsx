@@ -6,21 +6,19 @@ export default function ErrorPanel() {
   const pannelRef = useRef<HTMLDivElement>(null);
   const context = useContextProvider();
   const errors: ValidationErrors = context.errors;
-
-  const errorsExist = context.errorState && context.errorState.length > 0;
+  const errorsExist = errors && Object.keys(errors).length > 0;
   const style = errorsExist ? "h-7 flex" : "h-0 overflow-hidden";
-  const errorMessage = errorsExist ? context.errorState[0] : "";
-  return errors && Object.keys(errors).length > 0 ? (
+  const errorArray = errorsExist ? Object.entries(errors) : [];
+  const errorMessage = errorsExist ? errorArray[0][1].message : "";
+  return (
     <div
       ref={pannelRef}
       className={
-        "absolute justify-center items-center w-full italic bg-red-bg-error-light font-sans transition-all duration-200 " +
+        "absolute justify-center items-center w-full italic bg-red-bg-error-light font-sans transition-all duration-200 mt-1 " +
         style
       }
     >
-      {errorMessage.message}
+      {errorMessage}
     </div>
-  ) : (
-    ""
   );
 }

@@ -1,8 +1,11 @@
 import { useTranslation } from "react-i18next";
 import { createSearchParams, Form, redirect, Link } from "react-router";
-import { axiosInstance, getLanguagePathParam } from "~/utils/general.ts";
+import {
+  formatPrice,
+  axiosInstance,
+  getLanguagePathParam,
+} from "~/utils/general.ts";
 import { Temporal } from "@js-temporal/polyfill";
-import { formatPrice } from "~/utils/general.ts";
 import BookingSummaryRoom from "~/components/booking/BookingSummaryRoom";
 import type { Room } from "~/types/booking";
 import backArrow from "root/src/assets/back-arrow.svg";
@@ -38,9 +41,8 @@ export async function clientAction({ request }) {
     "booking/validate",
     formData,
   )) as AxiosResponse;
-  const url = new URL(request.url);
   return redirect(
-    `/${getLanguagePathParam(url.pathname)}/booking/response?validated=${response.data.request_validated}&email=${response.data.user_email}`,
+    `/${getLanguagePathParam()}/booking/response?validated=${response.data.request_validated}&email=${response.data.user_email}`,
   );
 }
 interface GuestPerRoomSelected {
@@ -63,12 +65,10 @@ interface LoaderData {
 }
 export async function clientLoader() {
   const response = await axiosInstance.get("booking/request-summary");
-  console.log("request-summary get:", response);
   return response;
 }
 export default function BookingSummary({ loaderData }) {
   const navigation = useNavigation();
-  console.log("navigation", navigation.formAction, navigation.state);
   const loaderDataClean: LoaderData = loaderData.data;
   const { t } = useTranslation();
   const {

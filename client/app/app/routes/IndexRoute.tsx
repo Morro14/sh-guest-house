@@ -9,13 +9,13 @@ import ErrorFallback from "~/components/ErrorFallback";
 import { logError } from "~/utils/logging";
 import { useRouteError } from "react-router";
 import { useEffect } from "react";
+import BookingPannelMobile from "~/components/index/BookingPanelMobile";
 
 export function ErrorBoundary() {
   const error = useRouteError();
   useEffect(() => {
     logError(error);
   }, [error]);
-  console.log("error router boundary", error);
   return <ErrorFallback />;
 }
 
@@ -33,17 +33,18 @@ export interface BookingForm {
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
   const formDataObject = formDataToObject(formData);
+  console.log("index action data", formData);
   const errors: ValidationErrors = validate(formDataObject);
   if (Object.keys(errors).length > 0) {
+    console.log("errors", errors);
     return errors;
   }
   const formDataObj = {};
   for (const [k, v] of formData.entries()) {
     formDataObj[k] = v.toString();
   }
-  console.log("form data:", formData);
-  console.log("form strings", formDataObj);
   const params = new URLSearchParams(formDataObj);
+  console.log("params", params);
   return redirect(`booking?${params}`);
 }
 
@@ -53,6 +54,7 @@ export default function IndexRoute({ actionData }: Route.ComponentProps) {
     <div className="flex flex-col min-h-screen min-w-screen text-text-main">
       <RequestAvailableRoomsContextProvider params={{ errors: errors }}>
         <BookingPannel></BookingPannel>
+        <BookingPannelMobile></BookingPannelMobile>
       </RequestAvailableRoomsContextProvider>
       <Index></Index>
     </div>

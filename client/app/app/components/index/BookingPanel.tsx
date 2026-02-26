@@ -11,13 +11,12 @@ export default function BookingPannel() {
   const defaultDate = Temporal.Now.zonedDateTimeISO("Asia/Yerevan")
     .toPlainDate()
     .toString();
-
   return (
-    <div className="sticky top-0 z-30 inline-block w-full drop-shadow-md">
-      <div className="flex justify-center items-center bg-peach-light w-full font-sans">
+    <div className="md:flex sticky hidden top-0 bottom-0 z-30 w-full drop-shadow-md h-10">
+      <div className="flex justify-center items-center bg-peach-light size-full font-sans">
         <Form
           method="post"
-          className="flex justify-center h-10 items-center overflow-visible"
+          className={`flex justify-center h-10 items-center overflow-visible bg-peach-light`}
         >
           <div className="flex items-center font-normal px-8 h-10">
             {t("create_reservation")}
