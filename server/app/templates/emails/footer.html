@@ -1,6 +1,16 @@
-{% load i18n %}
-<p style="margin: 0">
-  {% blocktrans %}Thank you for choosing {{ site_name }}.{% endblocktrans %}
-</p>
+{% block footer %}
+<footer 
+  style="
+    padding: 16px 24px;
+    background: #f0f0f0;
+    font-size: 12px;
+    color: #777777;
+  "
+  >
+  <p style="margin: 0">
+  {% block content %}{% endblock %}
+  </p>
 
-<p style="margin: 4px 0 0">© {{ current_year }} {{ site_name }}</p>
+  <p style="margin: 4px 0 0">© {{ current_year }} {{ site_name }}</p>
+</footer>
+{% endblock %}

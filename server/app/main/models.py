@@ -9,6 +9,10 @@ log = structlog.get_logger()
 
 
 class Reservation(models.Model):
+    class Meta:
+        default_manager_name = "objects"
+        base_manager_name = "objects"
+
     class Status(models.TextChoices):
         REQUESTED = "requested"
         VALIDATED = "validated"

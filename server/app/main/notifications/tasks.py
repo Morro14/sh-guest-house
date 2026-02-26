@@ -8,6 +8,11 @@ from django.conf import settings
 import structlog
 from structlog.contextvars import clear_contextvars
 import threading
+import time
+from .compute_mail_content import (
+    get_res_confirmed_mail_content,
+    get_res_validated_mail_content,
+)
 
 log = structlog.get_logger()
 
@@ -17,6 +22,26 @@ log = structlog.get_logger()
 #     autoretry_for=(Exception,),
 #     retry_kwargs={"max_retries": 3, "countdown": 10},
 # )
+
+
+def retry(times=3, delay=2):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            for attempt in range(times):
+                try:
+                    return func(*args, **kwargs)
+                except Exception as e:
+                    if attempt == times - 1:
+                        log.error(
+                            "email_send_error",
+                        )
+                    time.sleep(delay)
+
+        return wrapper
+
+    return decorator
+
+
 def send_task_async(task, log_context, **task_args):
     log_context = (
         log_context.__dict__
@@ -29,6 +54,7 @@ def send_task_async(task, log_context, **task_args):
     thread.start()
 
 
+@retry(times=3, delay=2)
 def send_on_reservation_validated(params, log_context):
     from django.db import close_old_connections
 
@@ -41,26 +67,7 @@ def send_on_reservation_validated(params, log_context):
         structlog.contextvars.bind_contextvars(**log_context)
 
     res_pk = params["instance_pk"]
-    reservation = Reservation.objects.select_related().get(pk=res_pk)
-    current_site = Site.objects.get_current()
-    domain = current_site.domain
-    rooms = [
-        room_reserved.room.name
-        for room_reserved in reservation.rooms_reserved.all()
-    ]
-    guests = reservation.get_guests()
-    context = {
-        "reservation": reservation,
-        "site_name": _(settings.SITE_NAME),
-        "site_url": domain,
-        "current_year": date.today().year,
-        "footer_message": _(settings.SITE_NAME),
-        "rooms": rooms,
-        "guests": guests,
-    }
-    subject = "New reservation request"
-    html_body = render_to_string("emails/reservation_request.html", context)
-    text_body = render_to_string("emails/reservation_request.txt", context)
+    subject, html_body, text_body = get_res_validated_mail_content(res_pk)
     try:
         mail_admins(
             subject=subject,
@@ -86,29 +93,9 @@ def send_on_reservation_confirmed(params, log_context=None):
 
     close_old_connections()
     res_pk = params["instance_pk"]
-    reservation = Reservation.objects.select_related().get(pk=res_pk)
-    current_site = Site.objects.get_current()
-    domain = current_site.domain
-    rooms = [
-        room_reserved.room.name
-        for room_reserved in reservation.rooms_reserved.all()
-    ]
-    guests = reservation.get_guests()
-    context = {
-        "reservation": reservation,
-        "site_name": _(settings.SITE_NAME),
-        "site_url": domain,
-        "current_year": date.today().year,
-        "footer_message": _(settings.SITE_NAME),
-        "rooms": rooms,
-        "guests": guests,
-        "manager_email": settings.MANAGERS[0] or "test_manager@email.com",
-    }
-    subject = _("Your reservation has been confirmed")
-    html_body = render_to_string(
-        "emails/reservation_confirmed.html", context
+    subject, html_body, text_body, email = get_res_confirmed_mail_content(
+        res_pk
     )
-    text_body = render_to_string("emails/reservation_confirmed.txt", context)
     if log_context:
         structlog.contextvars.bind_contextvars(**log_context)
     log.info(
@@ -117,7 +104,7 @@ def send_on_reservation_confirmed(params, log_context=None):
     try:
         send_mail(
             from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[reservation.email],
+            recipient_list=[email],
             subject=subject,
             message=text_body,
             html_message=html_body,

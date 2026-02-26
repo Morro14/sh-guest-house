@@ -70,20 +70,16 @@ class TranslationView(APIView):
         keys = json.load(open(keys_path))
 
         lang = request.LANGUAGE_CODE
-        print("request language:", lang)
         cache_key = f"translations_{lang}_{settings.TRANSLATION_VERSION}"
 
         cached = cache.get(key=cache_key)
         if cached:
-            print("sending cached response")
             return Response(cached)
 
         # translation.activate(lang)
         get_lang_value = translation.get_language()
-        print("translation lang", get_lang_value)
         translations = {key: _(key) for key in keys}
 
         response = Response(translations)
-        print("setting cache")
         cache.set(cache_key, translations, timeout=60 * 60 * 24)
         return response

@@ -70,7 +70,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_filters",
     "django_extensions",
-    "django_celery_results",
+    # "django_celery_results",
     "django_structlog",
     # "allauth.socialaccount",
     # "allauth.socialaccount.providers.google",
@@ -238,7 +238,7 @@ MANAGERS = ["ivfmn2@gmail.com"]
 # CELERY_TASK_TRACK_STARTED = True
 # CELERY_TASK_TIME_LIMIT = 30
 
-DJANGO_STRUCTLOG_CELERY_ENABLED = True
+# DJANGO_STRUCTLOG_CELERY_ENABLED = True
 if DEBUG:
     DJANGO_STRUCTLOG_MIDDLEWARE_LOG_LEVEL = "DEBUG"
 else:

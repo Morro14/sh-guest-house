@@ -8,7 +8,7 @@ from modeltranslation.admin import TabbedTranslationAdmin
 from django.utils.html import format_html
 from django.urls import path
 from django.shortcuts import get_object_or_404
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, BadRequest
 from django.shortcuts import redirect
 from django.db import transaction
 from django.utils.translation import gettext_lazy as _
@@ -31,26 +31,24 @@ class ReservationAdmin(admin.ModelAdmin):
         "created_at",
     ]
 
-    def get_queryset(self, request):
-        return Reservation.objects.all()
-
     def get_urls(self):
 
         urls = super().get_urls()
         custom_urls = [
             path(
-                "confirm/<int:object_id>",
+                "<int:object_id>/confirm",
                 self.admin_site.admin_view(self.confirm_reservation),
                 name="reservation-confirm",
             )
         ]
-        return urls + custom_urls
+        return custom_urls + urls
 
     def confirm_reservation(self, request, object_id):
-        reservation = Reservation.objects.get(pk=5)
+        reservation = get_object_or_404(self.model, pk=object_id)
+        if not reservation:
+            raise BadRequest
         if not self.has_change_permission(request, reservation):
             raise PermissionDenied
-
         if reservation.status == Reservation.Status.CONFIRMED:
             self.message_user(
                 request,

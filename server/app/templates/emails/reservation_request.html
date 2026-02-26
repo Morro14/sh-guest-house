@@ -13,10 +13,10 @@
   {% endblocktranslate %}
   </p>
 
-  <table cellpadding="0" cellspacing="0" style="margin-top: 16px; width: 300px">
+  <table cellpadding="0" cellspacing="0" >
     <tr>
       {% translate "Guest name" as guest_name_str %}
-      <td><strong>{{ guest_name_str|capfirst }}:</strong></td>
+      <td style="padding-right: 10px"><strong>{{ guest_name_str|capfirst }}: </strong></td>
       <td>{{ reservation.guest_name }}</td>
     </tr>
     <tr>
@@ -33,7 +33,7 @@
       {% translate "Guests" as guests_str %}
       <td><strong>{{ guests_str|capfirst }}:</strong></td>
       <td>
-        {% translate "adults" %}: {{ guests.adults }} | {% translate "children" %}: {{ guests.children }}
+        {{ guests.adults }} {% translate "adults" %} {% translate "and" %} {{ guests.children }} {% translate "children" %}
       </td>
     </tr>
     <tr>
