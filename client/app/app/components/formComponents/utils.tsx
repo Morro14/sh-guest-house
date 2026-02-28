@@ -1,8 +1,5 @@
 import { useEffect, type RefObject } from "react";
 import type { Room } from "~/types/booking";
-import i18n from "root/src/i18n/i18n";
-import { createTheme } from "@mui/material/styles";
-import { enUS, ruRU } from "@mui/x-date-pickers/locales";
 
 export function useCloseOnClick<T extends any[]>(
   wrapperRef: RefObject<HTMLElement>,
@@ -98,22 +95,4 @@ export function selectedRoomsToObjects(
   return roomsObj;
 }
 
-type Languages = (typeof i18n.languages)[number];
-function getPickerLocale(lang: Languages) {
-  const locales = {
-    en: enUS,
-    ru: ruRU,
-  };
-  return locales[lang];
-}
-export const datePickerTheme = createTheme(
-  {
-    palette: {
-      primary: {
-        main: "#EFA76A",
-        dark: "#EFA76A",
-      },
-    },
-  },
-  getPickerLocale(i18n.language),
-);
+// type Languages = (typeof i18n.languages)[number];

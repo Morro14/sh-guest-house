@@ -21,12 +21,12 @@ export default function BookingPannel() {
           <div className="flex items-center font-normal px-8 h-10">
             {t("create_reservation")}
           </div>
-          <div className="w-[1px] bg-line-light h-8"></div>
+          <div className="w-[1px] bg-accent-light h-8"></div>
           <label
             htmlFor="date-picker"
             className="h-10 w-[calc(181px)] flex justify-center items-center hover:bg-apricot-light transition-colors duration-100"
           >
-            <div className="border-b border-b-line-light ">
+            <div className="border-b border-b-accent-light ">
               <input
                 id="date-picker"
                 name="date"
@@ -36,15 +36,15 @@ export default function BookingPannel() {
             </div>
           </label>
 
-          <div className="w-[1px] bg-line-light h-8"></div>
+          <div className="w-[1px] bg-accent-light h-8"></div>
 
           <SelectGuests />
 
-          <div className="w-[1px] bg-line-light h-8"></div>
+          <div className="w-[1px] bg-accent-light h-8"></div>
 
           <div className="flex h-10 w-[160px] justify-center items-center hover:bg-apricot-light transition-colors duration-100">
             <input
-              className="peer text-center font-medium w-12 ml-[-8px] focus:bg-peach-lighter border-b-1 border-line-light"
+              className="peer text-center font-medium w-12 ml-[-8px] focus:bg-peach-lighter border-b-1 border-accent-light"
               name="nights"
               defaultValue={1}
               type="text"
@@ -52,11 +52,11 @@ export default function BookingPannel() {
               onChange={(e) => context.setNightsCount(Number(e.target.value))}
             />
             <div className="w-[25px] ml-2">
-              {t("day", { count: context.nightsCount })}
+              {t("Nights", { count: context.nightsCount })}
             </div>
           </div>
 
-          <div className="w-[1px] bg-line-light h-8"></div>
+          <div className="w-[1px] bg-accent-light h-8"></div>
           <button
             type="submit"
             className="font-medium underline mx-8 cursor-pointer"

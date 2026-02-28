@@ -38,11 +38,11 @@ export default function SelectGuestsMobile({
   };
   return (
     <fieldset className="flex flex-col">
-      <legend className="text-sm">{t("Number of guests:")}</legend>
+      <legend className="font-light">{t("Number of guests") + ":"}</legend>
       <select
         id="select-adults"
         defaultValue={selectedValues.adults}
-        className="rounded-sm bg-bg h-8"
+        className="rounded-sm text-lg bg-bg h-8"
         name="adults"
         onChange={(e) =>
           setSelectedValues({
@@ -56,7 +56,7 @@ export default function SelectGuestsMobile({
       <select
         id="select-children"
         defaultValue={selectedValues.children}
-        className="rounded-sm bg-bg h-8"
+        className="rounded-sm text-lg bg-bg h-8"
         name="children"
         onChange={(e) =>
           setSelectedValues({

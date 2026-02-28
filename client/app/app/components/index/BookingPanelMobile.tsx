@@ -6,81 +6,94 @@ import ErrorPanel from "~/components/formComponents/ErrorPanel";
 import { useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
-import { ThemeProvider } from "@mui/material/styles";
-import { datePickerTheme } from "../formComponents/utils";
 
 export default function BookingPannelMobile() {
   const { t } = useTranslation();
   const context = useContextProvider();
-  const submit = useSubmit();
   const formRef = useRef(null);
   const [formDisplay, setFormDisplay] = useState(false);
-  const [dateValue, setDateValue] = useState(dayjs());
+  const today = dayjs();
+  const [date, setDate] = useState(today);
   const handleFormLabelClick = () => {
-    if (formDisplay && formRef.current) {
-      submit(formRef.current, { method: "post" });
-    } else {
-      setFormDisplay(true);
-    }
+    setFormDisplay(!formDisplay);
   };
   return (
     <div className="md:hidden fixed bottom-0 z-30 inline-block w-full drop-shadow-md h-10">
-      <div className="absolute top-10">
-        <ErrorPanel></ErrorPanel>
-      </div>
       <div className="flex justify-center items-center bg-peach-light size-full font-sans">
-        <div className="flex flex-col relative justify-center h-10">
+        <div className="flex flex-col justify-center h-10 w-full">
           <button
             onClick={handleFormLabelClick}
             className="order-2 block items-center font-normal px-9"
           >
             {!formDisplay ? t("create_reservation") : t("book")}
           </button>
-          <Form
-            ref={formRef}
-            method="post"
-            className={`absolute bottom-10 ${formDisplay ? "flex" : "hidden"} flex-col  items-center overflow-visible bg-bg gap-6 py-6`}
-          >
-            <ThemeProvider theme={datePickerTheme}>
-              <DatePicker
-                value={dateValue}
-                onChange={(v) => setDateValue(v)}
-                defaultValue={dayjs()}
-              ></DatePicker>
-            </ThemeProvider>
-            <input
-              name="date"
-              value={dateValue.toISOString().slice(0, 10)}
-              className="hidden"
-            />
-
-            <SelectGuestsMobile />
-            <div className="flex flex-col items-center">
-              <label htmlFor="input-nights" className="text-sm">
-                Nights:
-              </label>
-              <div className="flex w-40 justify-center items-center hover:bg-apricot-light">
+          <div className="absolute bottom-10">
+            <ErrorPanel></ErrorPanel>
+            <Form
+              ref={formRef}
+              method="post"
+              className={` ${formDisplay ? "flex" : "hidden h-0"} w-screen flex-col  items-center overflow-visible bg-bg gap-6 py-6`}
+            >
+              <div className="flex flex-col items-center">
+                <label className="font-light" htmlFor="checkin-date-input">
+                  {t("Check-in date") + ":"}
+                </label>
+                <DatePicker
+                  defaultValue={today}
+                  value={date}
+                  onChange={(date) => setDate(date)}
+                  slotProps={{
+                    textField: {
+                      variant: "standard",
+                      sx: {
+                        "& .MuiPickersInputBase-root::before": {
+                          borderBottom: "1px solid #d9d9d9",
+                        },
+                      },
+                    },
+                  }}
+                ></DatePicker>
                 <input
-                  id="input-nights"
-                  className="text-center font-medium w-12 focus:bg-peach-lighter border-b border-line-light"
-                  name="nights"
-                  defaultValue={1}
-                  type="text"
-                  maxLength={2}
-                  onChange={(e) =>
-                    context.setNightsCount(Number(e.target.value))
-                  }
+                  name="date"
+                  className="hidden"
+                  id="checkin-date-input"
+                  value={date.toISOString().slice(0, 10)}
                 />
               </div>
-            </div>
-          </Form>
+              <SelectGuestsMobile />
+              <div className="flex flex-col items-center">
+                <label htmlFor="input-nights" className="font-light">
+                  {t("NightWithCount", { count: context.nightsCount }) + ":"}
+                </label>
+                <div className="flex w-40 justify-center items-center hover:bg-apricot-light">
+                  <input
+                    id="input-nights"
+                    className="text-center text-lg w-12 focus:bg-peach-lighter border-b border-gray-line"
+                    name="nights"
+                    defaultValue={1}
+                    type="text"
+                    maxLength={2}
+                    onChange={(e) =>
+                      context.setNightsCount(Number(e.target.value))
+                    }
+                  />
+                </div>
+              </div>
+              <button
+                type="submit"
+                className="font-medium underline mx-8 cursor-pointer"
+              >
+                {t("Continue")}
+              </button>
+            </Form>
+          </div>
         </div>
-        <button
-          className={`cursor-pointer ${formDisplay ? "block" : "hidden"}`}
-          onClick={() => setFormDisplay(false)}
-        >
-          {closeCross}
-        </button>
+        {/* <button */}
+        {/*   className={`cursor-pointer ${formDisplay ? "block" : "hidden"}`} */}
+        {/*   onClick={() => setFormDisplay(false)} */}
+        {/* > */}
+        {/*   {closeCross} */}
+        {/* </button> */}
       </div>
     </div>
   );

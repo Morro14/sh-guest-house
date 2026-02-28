@@ -13,7 +13,6 @@ body {
   justify-content: center;
   align-items: center;
 }
-
 @theme {
   --color-red-error: #ff2c2c;
   --color-red-error-full: #ff615c;
@@ -21,6 +20,7 @@ body {
   --color-bg: #fefdfc;
   --color-line: #4c3b3350;
   --color-accent: #764c38;
+  --color-accent-light: #beaaa1;
   --color-olive: #d1d8b8;
   --color-olive-light: #f0f3e5;
   --color-olive-light-transparent: #f0f3e580;
@@ -38,7 +38,7 @@ body {
   --color-peach-superlight: #ffe6d2;
   --color-peach: #efa76a;
   --color-peach-dark: #ce6f1e;
-  --color-line-light: #c59f8d;
+  --color-line-light: #ccc;
   --color-gray-warm: #e3dddd;
   --color-gray-warm-light: #f1f1f1;
   --color-gray-warm-inactive: #c5c4c3;

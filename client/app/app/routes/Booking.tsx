@@ -76,7 +76,6 @@ export default function Booking({ loaderData }: Route.ComponentProps) {
   const { t } = useTranslation();
   const fetcher = useFetcher({ key: "price_preview" });
   const location = useLocation();
-  console.log("pathname last segment", location.pathname.split("/").at(-1));
   return (
     <div className="bg-bg text-text-main min-h-screen min-w-screen">
       <RequestAvailableRoomsContextProvider params={{ errors: [] }}>

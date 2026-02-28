@@ -80,7 +80,7 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
             onChange={(e) => context.setNightsCount(Number(e.target.value))}
           />
           <div className="w-[25px] ml-2">
-            {t("nights", { count: context.nightsCount })}
+            {t("NightWithCount", { count: context.nightsCount })}
           </div>
         </div>
       </div>
