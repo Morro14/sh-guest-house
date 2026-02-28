@@ -33,7 +33,19 @@
       {% translate "Guests" as guests_str %}
       <td><strong>{{ guests_str|capfirst }}:</strong></td>
       <td>
-        {% translate "adults" %}: {{ guests.adults }} | {% translate "children" %}: {{ guests.children }}
+        {# Translators: {{count}} adults and {{count}} children #}
+        {% blocktranslate trimmed count adults=guests.adults %} 
+          {{ adults }} adult 
+        {% plural %}
+          {{ adults }} adults
+        {% endblocktranslate %}
+
+        {# Translators: {{count}} adults and {{count}} children #}
+        {% blocktranslate trimmed count children=guests.children %}
+            and {{ children }} child 
+        {% plural %}
+            and {{ children }} children 
+        {% endblocktranslate %} 
       </td>
     </tr>
     <tr>

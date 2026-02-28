@@ -4,7 +4,7 @@ from .views import (
     BookingRequestSummaryView,
     BookingRequestValidateView,
     reservation_price_view,
-    # template_test,
+    template_test,
 )
 
 urlpatterns = [
@@ -12,5 +12,5 @@ urlpatterns = [
     path("request-summary", BookingRequestSummaryView.as_view()),
     path("validate", BookingRequestValidateView.as_view()),
     path("reservation-price", reservation_price_view),
-    # path("template-test", template_test),
+    path("template-test", template_test),
 ]
