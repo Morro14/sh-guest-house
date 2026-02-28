@@ -12,6 +12,7 @@
 		"makemessages": "i18next --config i18next-parser.config.cjs"
 	},
 	"dependencies": {
+		"@base-ui/react": "^1.2.0",
 		"@emotion/react": "^11.14.0",
 		"@emotion/styled": "^11.14.1",
 		"@js-temporal/polyfill": "^0.5.1",

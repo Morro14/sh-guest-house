@@ -105,12 +105,24 @@ function validateGuests(adultsStr: string): Validation {
 }
 
 function validateNights(nights: string): Validation {
-  const isDigit = nights.trim().match(/\d/);
+  const isDigit = /^\d+$/g.test(nights.trim());
+  console.log("is digit", isDigit);
   if (!isDigit) {
     return {
       name: "nights",
       valid: false,
       message: i18n.t("Nights must be a number."),
+    };
+  }
+  const NIGHTS_LIMIT = 30;
+
+  const isBelowLimit = Number(nights) <= NIGHTS_LIMIT;
+  console.log("nights below limit", isBelowLimit);
+  if (!isBelowLimit) {
+    return {
+      name: "nights",
+      valid: false,
+      message: i18n.t("Maximum nights: 30"),
     };
   }
   return { valid: true };

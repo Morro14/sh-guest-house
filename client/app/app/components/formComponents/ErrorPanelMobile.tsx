@@ -2,7 +2,7 @@ import { useContextProvider } from "../RequestAvailableRoomsContextProvider";
 import { useRef } from "react";
 import type { ValidationErrors } from "./validate";
 
-export default function ErrorPanel() {
+export default function ErrorPanelMobile() {
   const pannelRef = useRef<HTMLDivElement>(null);
   const context = useContextProvider();
   const errors: ValidationErrors = context.errors;

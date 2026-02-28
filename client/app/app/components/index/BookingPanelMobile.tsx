@@ -1,10 +1,11 @@
-import { Form, useSubmit } from "react-router";
+import { Form } from "react-router";
 import SelectGuestsMobile from "~/components/formComponents/SelectGuestsMobile";
 import { useContextProvider } from "~/components/RequestAvailableRoomsContextProvider";
 import { useTranslation } from "react-i18next";
-import ErrorPanel from "~/components/formComponents/ErrorPanel";
+import ErrorPanelMobile from "~/components/formComponents/ErrorPanelMobile";
 import { useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import TextField from "@mui/material/TextField";
 import dayjs from "dayjs";
 
 export default function BookingPannelMobile() {
@@ -13,87 +14,87 @@ export default function BookingPannelMobile() {
   const formRef = useRef(null);
   const [formDisplay, setFormDisplay] = useState(false);
   const today = dayjs();
+  console.log("today", today.format());
   const [date, setDate] = useState(today);
   const handleFormLabelClick = () => {
     setFormDisplay(!formDisplay);
   };
+  console.log("error state", context.errors);
   return (
-    <div className="md:hidden fixed bottom-0 z-30 inline-block w-full drop-shadow-md h-10">
-      <div className="flex justify-center items-center bg-peach-light size-full font-sans">
+    <div className="md:hidden fixed bottom-0 z-30  w-full">
+      <div
+        className={`md:hidden w-screen h-screen bg-black  ${formDisplay ? "opacity-50" : "opacity-0"} transition-opacity duration-150`}
+      ></div>
+      <div
+        aria-disabled={formDisplay ? "true" : "false"}
+        className={`flex flex-col ${formDisplay ? "bottom-0 opacity-100 flex" : "pointer-events-none opacity-0 -bottom-[330px]"} pb-10 absolute z-10 transition-all duration-150`}
+      >
+        <Form
+          ref={formRef}
+          method="post"
+          className={`flex w-screen flex-col items-center overflow-visible bg-bg gap-6 py-6 font-sans text-text-main h-[336px]`}
+        >
+          <div className="flex flex-col items-center">
+            <label className="font-light" htmlFor="checkin-date-input">
+              {t("Check-in date") + ":"}
+            </label>
+            <DatePicker
+              maxDate={today.set("year", today.get("year") + 1)}
+              defaultValue={today}
+              value={date}
+              onChange={(date) => setDate(date)}
+              slotProps={{
+                textField: {
+                  variant: "standard",
+                  sx: {
+                    "& .MuiPickersInputBase-root::before": {
+                      borderBottom: "1px solid #d9d9d9",
+                    },
+                  },
+                },
+              }}
+            ></DatePicker>
+            <input
+              name="date"
+              className="hidden"
+              id="checkin-date-input"
+              value={date.format().slice(0, 10)}
+            />
+          </div>
+          <SelectGuestsMobile />
+          <div className="flex flex-col items-center">
+            <label htmlFor="input-nights" className="font-light">
+              {t("Nights")}
+            </label>
+            <div className="flex w-40 justify-center items-center hover:bg-apricot-light">
+              <TextField
+                error={context.errors?.nights ? true : false}
+                name="nights"
+                variant="standard"
+                defaultValue={1}
+                helperText={
+                  context.errors?.nights ? context.errors.nights.message : ""
+                }
+              ></TextField>
+            </div>
+          </div>
+          <button
+            type="submit"
+            className="font-medium underline mx-8 cursor-pointer"
+          >
+            {t("Continue")}
+          </button>
+        </Form>
+      </div>
+      <div className="relative bottom-0 flex justify-center z-100 items-center bg-peach-light size-full font-sans h-10">
         <div className="flex flex-col justify-center h-10 w-full">
           <button
             onClick={handleFormLabelClick}
-            className="order-2 block items-center font-normal px-9"
+            className={`order-2 block items-center capitalize font-normal px-9 cursor-pointer ${!formDisplay ? "text-lg" : "text-base"}`}
           >
-            {!formDisplay ? t("create_reservation") : t("book")}
+            {!formDisplay ? t("book") : t("close")}
           </button>
-          <div className="absolute bottom-10">
-            <ErrorPanel></ErrorPanel>
-            <Form
-              ref={formRef}
-              method="post"
-              className={` ${formDisplay ? "flex" : "hidden h-0"} w-screen flex-col  items-center overflow-visible bg-bg gap-6 py-6`}
-            >
-              <div className="flex flex-col items-center">
-                <label className="font-light" htmlFor="checkin-date-input">
-                  {t("Check-in date") + ":"}
-                </label>
-                <DatePicker
-                  defaultValue={today}
-                  value={date}
-                  onChange={(date) => setDate(date)}
-                  slotProps={{
-                    textField: {
-                      variant: "standard",
-                      sx: {
-                        "& .MuiPickersInputBase-root::before": {
-                          borderBottom: "1px solid #d9d9d9",
-                        },
-                      },
-                    },
-                  }}
-                ></DatePicker>
-                <input
-                  name="date"
-                  className="hidden"
-                  id="checkin-date-input"
-                  value={date.toISOString().slice(0, 10)}
-                />
-              </div>
-              <SelectGuestsMobile />
-              <div className="flex flex-col items-center">
-                <label htmlFor="input-nights" className="font-light">
-                  {t("NightWithCount", { count: context.nightsCount }) + ":"}
-                </label>
-                <div className="flex w-40 justify-center items-center hover:bg-apricot-light">
-                  <input
-                    id="input-nights"
-                    className="text-center text-lg w-12 focus:bg-peach-lighter border-b border-gray-line"
-                    name="nights"
-                    defaultValue={1}
-                    type="text"
-                    maxLength={2}
-                    onChange={(e) =>
-                      context.setNightsCount(Number(e.target.value))
-                    }
-                  />
-                </div>
-              </div>
-              <button
-                type="submit"
-                className="font-medium underline mx-8 cursor-pointer"
-              >
-                {t("Continue")}
-              </button>
-            </Form>
-          </div>
         </div>
-        {/* <button */}
-        {/*   className={`cursor-pointer ${formDisplay ? "block" : "hidden"}`} */}
-        {/*   onClick={() => setFormDisplay(false)} */}
-        {/* > */}
-        {/*   {closeCross} */}
-        {/* </button> */}
       </div>
     </div>
   );

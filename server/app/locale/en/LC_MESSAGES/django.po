@@ -261,7 +261,7 @@ msgstr ""
 
 #: site_content/utils/frontend_tr_strings.py:8
 msgid "adults"
-msgstr "{{count}} adults"
+msgstr "adults"
 
 #: site_content/utils/frontend_tr_strings.py:9
 #, fuzzy
@@ -664,49 +664,3 @@ msgstr ""
 msgid "Enable Two-Factor Authentication"
 msgstr ""
 
-#~ msgid "day_one"
-#~ msgstr "day"
-
-#~ msgid "day_other"
-#~ msgstr "nights"
-
-#, fuzzy
-#~| msgid "adultsWithCount_other"
-#~ msgid "nights_other"
-#~ msgstr "{{count}} adults"
-
-#, fuzzy
-#~| msgid "Room_slug_helptext"
-#~ msgid "slug_helptext"
-#~ msgstr "Identifier. Only for development."
-
-#~ msgid "Room_adults_num"
-#~ msgstr "Number of adults"
-
-#~ msgid "Room_children_num"
-#~ msgstr "Number of children"
-
-#~ msgid "booking-date"
-#~ msgstr "{{val, datetime}}"
-
-#~ msgid "Content_about_title"
-#~ msgstr "About the house"
-
-#~ msgid "Content_about_body"
-#~ msgstr ""
-#~ "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut at "
-#~ "scelerisque ante. Morbi efficitur porta lacus eget commodo. Suspendisse "
-#~ "facilisis et neque eget feugiat. Vestibulum et tincidunt ex, nec posuere "
-#~ "justo. Phasellus mollis libero sed arcu malesuada, vel lobortis lorem "
-#~ "aliquam. Phasellus ut nisl ut dui aliquam hendrerit eu pretium massa. "
-#~ "Nunc a malesuada tortor. Vestibulum sit amet lectus nibh. Praesent sit "
-#~ "amet lorem ac mi maximus vulputate. Sed ac pharetra lorem. Fusce "
-#~ "convallis leo lacus, in vulputate nibh aliquam porttitor."
-
-#, fuzzy
-#~| msgid "Content_page_title"
-#~ msgid "Content_slug_helptext"
-#~ msgstr "Title"
-
-#~ msgid "day"
-#~ msgstr "day"

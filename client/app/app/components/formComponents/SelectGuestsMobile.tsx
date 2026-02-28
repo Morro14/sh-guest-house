@@ -1,6 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { useRef, useState } from "react";
 import { useCloseOnClick } from "./utils";
+import {
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  FormHelperText,
+} from "@mui/material";
 
 const DEFAULT_PARAMS = {
   adults: "2",
@@ -27,46 +34,56 @@ export default function SelectGuestsMobile({
     return Array.from({ length: guestNum }, (_, i) => {
       const count = guestType === "children" ? i : i + 1;
       const key = `opt-${guestType}-${count}`;
-      const translationKey = guestType + "WithCount";
+      // const translationKey = guestType + "WithCount";
 
       return (
-        <option key={key} value={count}>
-          {t(translationKey, { count: count })}
-        </option>
+        <MenuItem key={key} value={count}>
+          {count}
+        </MenuItem>
       );
     });
   };
   return (
     <fieldset className="flex flex-col">
       <legend className="font-light">{t("Number of guests") + ":"}</legend>
-      <select
-        id="select-adults"
-        defaultValue={selectedValues.adults}
-        className="rounded-sm text-lg bg-bg h-8"
-        name="adults"
-        onChange={(e) =>
-          setSelectedValues({
-            ...selectedValues,
-            adults: Number(e.target.value),
-          })
-        }
-      >
-        {genGuestOptions(12, "adults")}
-      </select>
-      <select
-        id="select-children"
-        defaultValue={selectedValues.children}
-        className="rounded-sm text-lg bg-bg h-8"
-        name="children"
-        onChange={(e) =>
-          setSelectedValues({
-            ...selectedValues,
-            children: Number(e.target.value),
-          })
-        }
-      >
-        {genGuestOptions(12, "children")}
-      </select>
+      <div className="flex gap-6">
+        <FormControl sx={{ minWidth: 100 }}>
+          <Select
+            variant="standard"
+            label={t("adults")}
+            id="select-adults"
+            defaultValue={selectedValues.adults}
+            name="adults"
+            onChange={(e) =>
+              setSelectedValues({
+                ...selectedValues,
+                adults: Number(e.target.value),
+              })
+            }
+          >
+            {genGuestOptions(12, "adults")}
+          </Select>
+          <FormHelperText>{t("adults")}</FormHelperText>
+        </FormControl>
+        <FormControl>
+          <Select
+            variant="standard"
+            label={t("children")}
+            id="select-children"
+            defaultValue={selectedValues.children}
+            name="children"
+            onChange={(e) =>
+              setSelectedValues({
+                ...selectedValues,
+                children: Number(e.target.value),
+              })
+            }
+          >
+            {genGuestOptions(12, "children")}
+          </Select>
+          <FormHelperText>{t("children")}</FormHelperText>
+        </FormControl>
+      </div>
     </fieldset>
   );
 }
