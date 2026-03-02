@@ -52,7 +52,7 @@ export default function SelectGuestsMobile({
             variant="standard"
             label={t("adults")}
             id="select-adults"
-            defaultValue={selectedValues.adults}
+            defaultValue={2}
             name="adults"
             onChange={(e) =>
               setSelectedValues({
@@ -70,7 +70,7 @@ export default function SelectGuestsMobile({
             variant="standard"
             label={t("children")}
             id="select-children"
-            defaultValue={selectedValues.children}
+            defaultValue={0}
             name="children"
             onChange={(e) =>
               setSelectedValues({

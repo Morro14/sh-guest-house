@@ -4,7 +4,7 @@
   @apply 2xl:basis-[1130px] md:basis-[728px] basis-[375px];
 }
 .index-container-1 {
-  @apply 2xl:w-[1000px] md:w-[698px] w-[375px];
+  @apply 2xl:w-[1000px] md:w-[698px] w-[368px];
 }
 .image-frame-small-responsive {
   @apply md:w-[688px] md:h-[388px] overflow-hidden;
@@ -13,7 +13,7 @@
   @apply 2xl:h-[95vh];
 }
 .carousel-small {
-  @apply md:w-[688px] w-[375px];
+  @apply md:w-[688px] w-[375px] md:h-[388px] h-[250px];
 }
 .carousel-small-width {
   @apply md:w-[688px];

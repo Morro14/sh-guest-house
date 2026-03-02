@@ -46,7 +46,7 @@ export default function RoomsPreview() {
     <div className="flex flex-col md:items-center 2xl:items-start 2xl:justify-between relative">
       <div className="carousel-small-width text-sm italic ">
         <h5 className="font-medium mb-2">{rooms[context.itemSelected].name}</h5>
-        <p className="h-10">{rooms[context.itemSelected].beds}</p>
+        <p className="">{rooms[context.itemSelected].beds}</p>
       </div>
       <div className="flex 2xl:flex-row pt-4 max-2xl:flex-col max-2xl:items-center 2xl:items-start max-2xl:gap-6 2xl:gap-0 w-full">
         {currentRoomCarousel}

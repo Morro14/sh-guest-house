@@ -10,7 +10,6 @@ import { logError } from "~/utils/logging";
 import { useRouteError } from "react-router";
 import { useEffect } from "react";
 import BookingPannelMobile from "~/components/index/BookingPanelMobile";
-import MobilePanel from "~/components/formComponents/MobilePanel";
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -55,7 +54,6 @@ export default function IndexRoute({ actionData }: Route.ComponentProps) {
     <div className="flex flex-col min-h-screen min-w-screen text-text-main relative">
       <RequestAvailableRoomsContextProvider params={{ errors: errors }}>
         <BookingPannel></BookingPannel>
-        {/* <MobilePanel></MobilePanel> */}
         <BookingPannelMobile></BookingPannelMobile>
       </RequestAvailableRoomsContextProvider>
       <Index></Index>

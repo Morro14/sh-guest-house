@@ -20,7 +20,7 @@ body {
   --color-bg: #fefdfc;
   --color-line: #4c3b3350;
   --color-accent: #764c38;
-  --color-accent-light: #beaaa1;
+  --color-accent-light: #ba876f;
   --color-olive: #d1d8b8;
   --color-olive-light: #f0f3e5;
   --color-olive-light-transparent: #f0f3e580;
@@ -69,31 +69,6 @@ h3 {
 h4 {
   @apply text-xl mb-4 font-medium;
 }
-/* .carousel-wide-image { */
-/*   @apply 2xl:basis-[1130px] xl:basis-[1000px] lg:basis-[984px] md:basis-[728px] sm:basis-[600px] max-sm:basis-[600px]; */
-/* } */
-/* .index-container-1 { */
-/*   @apply 2xl:w-[1000px] xl:w-[960px] lg:w-[944px] md:w-[698px] max-md:w-[620px]; */
-/* } */
-/* .image-frame-small-responsive { */
-/*   @apply md:w-[688px] md:h-[388px] overflow-hidden; */
-/* } */
-/* .media-full-view { */
-/*   @apply 2xl:h-[95vh]; */
-/* } */
-/* .carousel-small { */
-/*   @apply md:w-[688px] md:h-[388px] max-md:w-[620px] max-md:h-[388px]; */
-/* } */
-/* .carousel-small-width { */
-/*   @apply md:w-[688px]; */
-/* } */
-/* .booking-floating-panel { */
-/*   @apply xl:w-[1100px] lg:w-[984px] md:w-[728px] sm:w-[600px] max-sm:w-[600px]; */
-/* } */
-/* .vertical-line-decor { */
-/*   @apply md:block sm:hidden; */
-/* } */
-
 .float-visible {
   display: flex;
 }

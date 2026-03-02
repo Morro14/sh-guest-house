@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useRef, useState } from "react";
 import { useCloseOnClick } from "./utils";
+import { Select, MenuItem, FormControl, FormHelperText } from "@mui/material";
 
 const DEFAULT_PARAMS = {
   adults: "2",
@@ -27,11 +28,10 @@ export default function SelectGuests({
     return Array.from({ length: guestNum }, (_, i) => {
       const count = guestType === "children" ? i : i + 1;
       const key = `opt-${guestType}-${count}`;
-      const translationKey = guestType + "WithCount";
 
       return (
         <option key={key} value={count}>
-          {t(translationKey, { count: count })}
+          {count}
         </option>
       );
     });
@@ -62,7 +62,7 @@ export default function SelectGuests({
   return (
     <div
       ref={wrapperRef}
-      className="relative inline-block w-[calc(4rem+128px)] hover:bg-apricot-light"
+      className="relative w-48 hover:bg-apricot h-10 flex justify-center items-center"
     >
       <input
         type="checkbox"
@@ -71,7 +71,7 @@ export default function SelectGuests({
         ref={checkboxRef}
       ></input>
       <label
-        className="text-center flex items-center cursor-pointer justify-center w-full h-10 peer-checked:bg-peach-superlight"
+        className="text-center pt-0.5 flex items-center cursor-pointer justify-center border-accent-light"
         htmlFor="guests-checkbox"
       >
         {getGuestSelectLabelText(
@@ -80,54 +80,64 @@ export default function SelectGuests({
         )}
       </label>
 
-      <div className="absolute z-50 h-0 overflow-hidden peer-checked:h-[150px] peer-checked:[&_.guest-input]:opacity-100 w-full transition-all duration-200">
-        <div className="flex flex-col p-4 bg-peach-superlight gap-4">
-          <select
-            id="select-adults"
-            defaultValue={selectedValues.adults}
-            className="guest-input border-accent border-1 rounded-sm px-2 bg-bg opacity-0 transition-all duration-200"
-            name="adults"
-            onChange={(e) =>
-              setSelectedValues({
-                ...selectedValues,
-                adults: Number(e.target.value),
-              })
-            }
-          >
-            {genGuestOptions(12, "adults")}
-          </select>
-          <select
-            id="select-children"
-            defaultValue={selectedValues.children}
-            className="guest-input border-accent border-1 rounded-sm px-2 bg-bg opacity-0 transition-all duration-200"
-            name="children"
-            onChange={(e) =>
-              setSelectedValues({
-                ...selectedValues,
-                children: Number(e.target.value),
-              })
-            }
-          >
-            {genGuestOptions(12, "children")}
-          </select>
+      <div className="absolute top-10 z-50 h-0 overflow-hidden peer-checked:h-[230px] w-full transition-all duration-200">
+        <div className="flex flex-col p-4 bg-apricot gap-4">
           <div className="flex flex-col items-center">
-            <button
-              className="underline text-sm text-gray-500 italic"
-              onClick={(e) => {
-                e.preventDefault();
-                const selectAdults = document.getElementById(
-                  "select-adults",
-                ) as HTMLSelectElement;
-                selectAdults.value = "2";
-                const selectChildren = document.getElementById(
-                  "select-children",
-                ) as HTMLSelectElement;
-                selectChildren.value = "0";
-                setSelectedValues({ adults: 2, children: 0 });
-              }}
+            <label className="text-sm" htmlFor="select-adults">
+              {t("adults")}
+            </label>
+            <select
+              id="select-adults"
+              defaultValue={selectedValues.adults}
+              className="guest-input border border-accent rounded-sm px-2 bg-bg"
+              name="adults"
+              onChange={(e) =>
+                setSelectedValues({
+                  ...selectedValues,
+                  adults: Number(e.target.value),
+                })
+              }
             >
-              {t("reset")}
-            </button>
+              {genGuestOptions(12, "adults")}
+            </select>
+          </div>
+          <div className="flex flex-col items-center">
+            <label className="text-sm" htmlFor="select-children">
+              {t("children")}
+            </label>
+            <select
+              id="select-children"
+              defaultValue={selectedValues.children}
+              className="guest-input border border-accent rounded-sm px-2 bg-bg"
+              name="children"
+              onChange={(e) =>
+                setSelectedValues({
+                  ...selectedValues,
+                  children: Number(e.target.value),
+                })
+              }
+            >
+              {genGuestOptions(12, "children")}
+            </select>
+          </div>
+          <div className="flex flex-col items-center">
+            {/* <button */}
+            {/*   className="underline text-sm text-gray-500 italic" */}
+            {/*   onClick={(e) => { */}
+            {/*     e.preventDefault(); */}
+            {/*     const selectAdults = document.getElementById( */}
+            {/*       "select-adults", */}
+            {/*     ) as HTMLSelectElement; */}
+            {/*     selectAdults.value = "2"; */}
+            {/*     const selectChildren = document.getElementById( */}
+            {/*       "select-children", */}
+            {/*     ) as HTMLSelectElement; */}
+            {/*     selectChildren.value = "0"; */}
+            {/*     setSelectedValues({ adults: 2, children: 0 }); */}
+            {/*   }} */}
+            {/* > */}
+            {/*   {t("reset")} */}
+            {/* </button> */}
             <button
               className="underline cursor-pointer"
               onClick={(e) => {

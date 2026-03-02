@@ -23,7 +23,7 @@ export default function BookingPannelMobile() {
   return (
     <div className="md:hidden fixed bottom-0 z-30  w-full">
       <div
-        className={`md:hidden w-screen h-screen bg-black  ${formDisplay ? "opacity-50" : "opacity-0"} transition-opacity duration-150`}
+        className={`md:hidden w-screen bg-black  ${formDisplay ? "opacity-50 h-screen" : "opacity-0 h-0"} transition-opacity duration-150`}
       ></div>
       <div
         aria-disabled={formDisplay ? "true" : "false"}

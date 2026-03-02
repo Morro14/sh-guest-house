@@ -11,6 +11,8 @@ export function useCloseOnClick<T extends any[]>(
     if (!switcherRef.current?.checked) return;
     const target = e.target as Node;
     if (wrapperRef.current && !wrapperRef.current.contains(target)) {
+      console.log("!contains", target);
+
       e.stopPropagation();
       if (switcherRef?.current) switcherRef.current.checked = false;
       if (callback) {
@@ -22,7 +24,8 @@ export function useCloseOnClick<T extends any[]>(
   useEffect(() => {
     if (!switcherRef.current) return;
 
-    document.addEventListener("click", handleClickOutside, true);
+    document.addEventListener("mousedown", handleClickOutside, true);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   });
 }
 export function useCloseOnClickV2<T extends any[]>(

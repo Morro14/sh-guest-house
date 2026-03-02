@@ -3,14 +3,18 @@ import SelectGuests from "~/components/formComponents/SelectGuests";
 import { useContextProvider } from "~/components/RequestAvailableRoomsContextProvider";
 import { useTranslation } from "react-i18next";
 import ErrorPanel from "~/components/formComponents/ErrorPanel";
-import { Temporal } from "@js-temporal/polyfill";
+import dayjs from "dayjs";
+import { useState } from "react";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { ThemeProvider } from "@mui/material";
+import { desktopDatePickerTheme } from "../formComponents/mui";
 
 export default function BookingPannel() {
+  const today = dayjs();
+  console.log("today", today.format());
+  const [date, setDate] = useState(today);
   const { t } = useTranslation();
   const context = useContextProvider();
-  const defaultDate = Temporal.Now.zonedDateTimeISO("Asia/Yerevan")
-    .toPlainDate()
-    .toString();
   return (
     <div className="md:flex sticky hidden top-0 bottom-0 z-30 w-full drop-shadow-md h-10">
       <div className="flex justify-center items-center bg-peach-light size-full font-sans">
@@ -18,23 +22,79 @@ export default function BookingPannel() {
           method="post"
           className={`flex justify-center h-10 items-center overflow-visible bg-peach-light`}
         >
-          <div className="flex items-center font-normal px-8 h-10">
+          <div className="flex items-center font-normal px-8 h-10 pt-0.5">
             {t("create_reservation")}
           </div>
           <div className="w-[1px] bg-accent-light h-8"></div>
-          <label
-            htmlFor="date-picker"
-            className="h-10 w-[calc(181px)] flex justify-center items-center hover:bg-apricot-light transition-colors duration-100"
-          >
-            <div className="border-b border-b-accent-light ">
-              <input
-                id="date-picker"
-                name="date"
-                type="date"
-                defaultValue={defaultDate}
-              />
-            </div>
-          </label>
+          <div className="px-4">
+            <ThemeProvider theme={desktopDatePickerTheme}>
+              <DatePicker
+                maxDate={today.set("year", today.get("year") + 1)}
+                defaultValue={today}
+                value={date}
+                onChange={(date) => setDate(date)}
+                disablePast
+                slotProps={{
+                  textField: {
+                    fullWidth: false,
+                    variant: "standard",
+                    size: "small",
+                    endAdornment: false,
+                    InputProps: {
+                      disableUnderline: true,
+                    },
+                    sx: {
+                      "& .MuiPickersInputBase-root::before": {
+                        borderColor: "#ba876f",
+                      },
+                      "& .MuiPickersInputBase-root::after": {
+                        borderColor: "#ba876f",
+                      },
+                      "& .MuiPickersInputBase-root:hover:not(.Mui-disabled, .Mui-error)::before":
+                        {
+                          borderColor: "#764c38",
+                          borderBottom: "1px solid #764c38",
+                        },
+                      "& .MuiPickersInputBase-root:hover:not(.Mui-disabled, .Mui-error)::after":
+                        {
+                          borderColor: "#764c38",
+                          borderBottom: "1px solid #764c38",
+                        },
+                      "& .MuiPickersInputBase-root": {
+                        width: "142px",
+                        fontSize: "16px",
+                        paddingTop: "2px",
+                      },
+                      "& .MuiPickersInputBase-sectionContent": {
+                        fontFamily: '"Source Sans 3"',
+                        paddingBottom: "0",
+                      },
+                      "& .MuiPickersInputBase-sectionsContainer": {
+                        padding: "0 6px 0",
+                      },
+                      "& .MuiIconButton-root": {
+                        scale: "90%",
+                        padding: "0 6px 0",
+                      },
+                      "& .MuiIconButton-root": {
+                        scale: "90%",
+                        padding: "0 6px 0",
+                      },
+                      "& .MuiIconButton-root:hover": {
+                        backgroundColor: "#ffe5b6",
+                      },
+                    },
+                  },
+                }}
+              ></DatePicker>
+            </ThemeProvider>
+            <input
+              name="date"
+              className="hidden"
+              id="checkin-date-input"
+              value={date.format().slice(0, 10)}
+            />
+          </div>
 
           <div className="w-[1px] bg-accent-light h-8"></div>
 
@@ -44,22 +104,26 @@ export default function BookingPannel() {
 
           <div className="flex h-10 w-[160px] justify-center items-center hover:bg-apricot-light transition-colors duration-100">
             <input
-              className="peer text-center font-medium w-12 ml-[-8px] focus:bg-peach-lighter border-b-1 border-accent-light"
+              className="peer text-center pt-0.5 border-b w-6 -ml-6 focus:bg-apricot border-accent-light"
               name="nights"
               defaultValue={1}
               type="text"
               maxLength={2}
+              id="nights-input"
               onChange={(e) => context.setNightsCount(Number(e.target.value))}
             />
-            <div className="w-[25px] ml-2">
+            <label
+              htmlFor="nights-input"
+              className="w-[25px] ml-2 pt-0.5 lowercase"
+            >
               {t("Nights", { count: context.nightsCount })}
-            </div>
+            </label>
           </div>
 
           <div className="w-[1px] bg-accent-light h-8"></div>
           <button
             type="submit"
-            className="font-medium underline mx-8 cursor-pointer"
+            className=" uppercase mx-8 cursor-pointer pt-0.5"
           >
             {t("Continue")}
           </button>
