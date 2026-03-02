@@ -1,56 +1,78 @@
-import type { EmblaViewportRefType } from "embla-carousel-react"
-import { useEffect, useMemo, useRef, useState } from "react"
-import { useNavContextProvider } from "../nav/NavContextProvider"
-import NavArrow from "../nav/NavArrow"
+import type { EmblaViewportRefType } from "embla-carousel-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useNavContextProvider } from "../nav/NavContextProvider";
+import NavArrow from "../nav/NavArrow";
 
-
-export default function CarouselDots({ emblaRef, emblaApi }: { emblaRef: EmblaViewportRefType, emblaApi: any }) {
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  // const [scrollSnaps, setScrollSnaps] = useState<number[]>([])
-  const scrollSnaps = emblaApi?.scrollSnapList() || []
-  const context = useNavContextProvider()
-  const selectorRef = useRef(undefined)
+export default function CarouselDots({
+  emblaRef,
+  emblaApi,
+}: {
+  emblaRef: EmblaViewportRefType;
+  emblaApi: any;
+}) {
+  const [currentSnap, setCurrentSnap] = useState(0);
+  const [snapListLength, setSnapListLength] = useState(0);
+  const selectorRef = useRef(undefined);
   if (selectorRef.current) {
-    selectorRef.current.style.left = String(selectedIndex * 35 + 'px')
+    selectorRef.current.style.left = String(currentSnap * 35 + "px");
   }
-  // const dotsInit = scrollSnaps.map((slide, i) => {
-  //   return <div key={`room-dot-${slide}`} onClick={() => emblaApi?.scrollTo(i)} className="w-3.5 h-3.5 rounded-[7px] cursor-pointer hover:bg-peach-light bg-gray-warm"></div>
-  // })
-
+  console.log("currentSnap", currentSnap);
+  const dotsNum = snapListLength;
+  const dots = Array.from({ length: dotsNum }, (_, i) => {
+    return (
+      <div
+        key={`room-dot-${i}`}
+        onClick={() => {
+          setCurrentSnap(i);
+          emblaApi.goTo(i);
+        }}
+        className="w-3.5 h-3.5 rounded-[7px] cursor-pointer hover:bg-peach-light bg-gray-warm"
+      ></div>
+    );
+  });
   useEffect(() => {
-    if (!emblaApi) {
-      return
-    }
-    const snapsLength = emblaApi.scrollSnapList().length
-    const dotsLength = context.dots.length
-    const genMoreDots = (newDotsNum: number, currentDotsNum: number) => Array.from({ length: newDotsNum }, (_, i) => {
-      return <div key={`room-dot-${currentDotsNum + i}`} onClick={() => emblaApi?.scrollTo(currentDotsNum + i)} className="w-3.5 h-3.5 rounded-[7px] cursor-pointer hover:bg-peach-light bg-gray-warm"></div>
-    })
-    if (dotsLength === 0) {
-      const moreDots = genMoreDots(snapsLength, 0)
-      context.setDots(moreDots)
+    if (!emblaApi) return;
+    emblaApi.on("select", (emblaApi, event) => {
+      const { targetSnap } = event.detail;
+      setCurrentSnap(targetSnap);
+      setSnapListLength(emblaApi.snapList().length);
+    });
+    setSnapListLength(emblaApi.snapList().length);
+  }, [emblaApi]);
 
-    }
-    if (dotsLength > snapsLength) {
-      context.setDots(context.dots.slice(0, snapsLength))
-    }
-    if (dotsLength < snapsLength) {
-      const moreDots = genMoreDots(snapsLength - dotsLength, dotsLength)
-      context.setDots(context.dots.concat(moreDots))
-    }
-    emblaApi.on("select", () => {
-      setSelectedIndex(emblaApi.selectedScrollSnap())
-    })
-  }, [emblaApi])
-
-  return <div className={"flex grow gap-[41px] justify-center items-center transtion-all duration-300"}>
-    <NavArrow key={'rooms-arrow-left'} direction="left" numElements={scrollSnaps.length} index={selectedIndex} func={() => selectedIndex > 0 ? emblaApi?.scrollTo(selectedIndex - 1) : undefined} />
-    <div className="flex relative gap-[21px]">
-      <div ref={selectorRef} className="absolute w-3.5 h-3.5 rounded-[7px] bg-peach transition-all duration-500 ease-out pointer-event-none"></div>
-      {context.dots ? context.dots : ""}
+  return (
+    <div
+      className={
+        "flex grow gap-[41px] justify-center items-center transtion-all duration-300"
+      }
+    >
+      <NavArrow
+        key={"rooms-arrow-left"}
+        direction="left"
+        numElements={dotsNum}
+        index={currentSnap}
+        func={() =>
+          currentSnap > 0 ? emblaApi?.goTo(currentSnap - 1) : undefined
+        }
+      />
+      <div className="flex relative gap-[21px]">
+        <div
+          ref={selectorRef}
+          className="absolute w-3.5 h-3.5 rounded-[7px] bg-peach transition-all duration-500 ease-out pointer-event-none"
+        ></div>
+        {dots}
+      </div>
+      <NavArrow
+        key={"rooms-arrow-right"}
+        direction="right"
+        index={currentSnap}
+        func={() =>
+          currentSnap < snapListLength - 1
+            ? emblaApi?.goTo(currentSnap + 1)
+            : undefined
+        }
+        numElements={dotsNum}
+      />
     </div>
-    <NavArrow key={'rooms-arrow-right'} direction="right" index={selectedIndex} func={() => selectedIndex < scrollSnaps.length - 1 ? emblaApi?.scrollTo(selectedIndex + 1) : undefined} numElements={scrollSnaps.length} />
-  </div>
+  );
 }
-
-

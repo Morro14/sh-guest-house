@@ -25,14 +25,14 @@ export default function CarouselDotsFullView({
       return;
     }
     if (emblaApi) {
-      setDotSelected(emblaApi.selectedScrollSnap());
+      setDotSelected(emblaApi.selectedSnap());
       const snapsLength = snapListLen;
       const genMoreDots = (newDotsNum: number, currentDotsNum: number) =>
         Array.from({ length: newDotsNum }, (_, i) => {
           return (
             <div
               key={`room-dot-${currentDotsNum + i}`}
-              onClick={() => emblaApi?.scrollTo(currentDotsNum + i)}
+              onClick={() => emblaApi?.goTo(currentDotsNum + i)}
               className="w-3.5 h-3.5 rounded-[7px] cursor-pointer hover:bg-peach-light bg-gray-warm"
             ></div>
           );
@@ -41,7 +41,7 @@ export default function CarouselDotsFullView({
       setDots(genDots);
     }
     emblaApi.on("select", () => {
-      setDotSelected(emblaApi.selectedScrollSnap());
+      setDotSelected(emblaApi.selectedSnap());
     });
   }, [snapListLen, emblaApi]);
 
@@ -57,7 +57,7 @@ export default function CarouselDotsFullView({
         numElements={dots.length}
         index={dotSelected}
         func={() =>
-          dotSelected > 0 ? emblaApi?.scrollTo(dotSelected - 1) : undefined
+          dotSelected > 0 ? emblaApi?.goTo(dotSelected - 1) : undefined
         }
       />
       <div className="flex relative gap-[21px]">
@@ -73,7 +73,7 @@ export default function CarouselDotsFullView({
         index={dotSelected}
         func={() =>
           dotSelected < dots.length - 1
-            ? emblaApi?.scrollTo(dotSelected + 1)
+            ? emblaApi?.goTo(dotSelected + 1)
             : undefined
         }
         numElements={dots.length}
