@@ -71,7 +71,7 @@ export default function Places() {
       ) : (
         ""
       )}
-      <div className="md:mb-9 2xl:mb-0 ">
+      <div className="mb-9 2xl:mb-0 ">
         <NavRows
           items={data}
           slug="rooms"

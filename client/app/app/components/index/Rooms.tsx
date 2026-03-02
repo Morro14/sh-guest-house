@@ -46,7 +46,9 @@ export default function RoomsPreview() {
     <div className="flex flex-col md:items-center 2xl:items-start 2xl:justify-between relative">
       <div className="carousel-small-width text-sm italic ">
         <h5 className="font-medium mb-2">{rooms[context.itemSelected].name}</h5>
-        <p className="">{rooms[context.itemSelected].beds}</p>
+        <p className="h-15 md:h-10 overflow-hidden">
+          {rooms[context.itemSelected].beds}
+        </p>
       </div>
       <div className="flex 2xl:flex-row pt-4 max-2xl:flex-col max-2xl:items-center 2xl:items-start max-2xl:gap-6 2xl:gap-0 w-full">
         {currentRoomCarousel}
@@ -98,10 +100,10 @@ function NavLinkTemplate({ item, isSelected }) {
 function NavRowsLinkTemplate({ item, isSelected }) {
   return (
     <div
-      className={`hover:cursor-pointer border-gray-warm-light border-1 border-collapse ${isSelected ? "font-medium bg-apricot-light" : "font-normal"} transition-all py-1 px-3 ease-out h-[70px] `}
+      className={`hover:cursor-pointer border-gray-warm-light border-1 border-collapse ${isSelected ? "font-medium bg-apricot-light" : "font-normal"} transition-all py-1 px-3 ease-out md:h-[70px] h-16 `}
     >
       <div className="text-lg font-sans">{item.name}</div>
-      <div className="flex  items-end gap-2">
+      <div className="flex items-end gap-2">
         <div className="font-sans text-sm">{`${item.adults_num} Adults ${item.children_num} children`}</div>
         <div>|</div>
         <div className="font-sans text-sm">Beds description</div>

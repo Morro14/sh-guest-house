@@ -2,7 +2,6 @@ import { Form } from "react-router";
 import SelectGuestsMobile from "~/components/formComponents/SelectGuestsMobile";
 import { useContextProvider } from "~/components/RequestAvailableRoomsContextProvider";
 import { useTranslation } from "react-i18next";
-import ErrorPanelMobile from "~/components/formComponents/ErrorPanelMobile";
 import { useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import TextField from "@mui/material/TextField";
@@ -39,6 +38,7 @@ export default function BookingPannelMobile() {
               {t("Check-in date") + ":"}
             </label>
             <DatePicker
+              disablePast
               maxDate={today.set("year", today.get("year") + 1)}
               defaultValue={today}
               value={date}
