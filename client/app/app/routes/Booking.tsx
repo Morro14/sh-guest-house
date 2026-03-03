@@ -83,22 +83,17 @@ export default function Booking({ loaderData }: Route.ComponentProps) {
           id="request-info-block"
           className="flex flex-col items-center mt-8.5"
         >
-          <h2 className="mb-8 ">{t("Your booking request")}</h2>
+          <h2 className="  ">{t("Your booking request")}</h2>
 
-          <Line />
-          <div className="flex py-5 flex-col gap-3 items-center text-center 2xl:w-150">
-            <div className="flex capitalize justify-between w-full font-light font-sans">
-              <span className="w-33 ">{t("date")}</span>
-              <span className="w-50">{t("number of guests")}</span>
-              <span className="w-33">{t("nights")}</span>
-            </div>
+          {/* <Line /> */}
+          <div className="flex pb-5 flex-col gap-3 items-center text-center md:w-150">
             <div
-              className={`${location.pathname.split("/").at(-1) === "booking" ? "h-16" : "h-22"} w-full transition-all duration-200`}
+              className={`${location.pathname.split("/").at(-1) === "booking" ? "md:h-22.5" : "h-25"} w-full transition-all duration-200`}
             >
               <Outlet></Outlet>
             </div>
           </div>
-          <Line />
+          {/* <Line /> */}
         </div>
         <div
           className={`relative transition-all ${location.pathname.split("/").at(-1) === "change-request-info" ? "grayscale opacity-50 pointer-events-none" : ""}`}

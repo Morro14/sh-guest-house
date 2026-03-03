@@ -8,7 +8,8 @@ const CURRENCY = import.meta.env.VITE_CURRENCY;
 
 export default function FloatingPanel() {
   const params = getUrlSearchParams(["date", "adults", "children", "nights"]);
-  const guests = Number(params.adults) + Number(params.children);
+  const [adults, children] = [Number(params.adults), Number(params.children)];
+  const guests = adults + children;
   const formContext = useBookingRoomSelectContextProvider();
   const moreRoomsRequired =
     formContext.guestPool.adults !== 0 || formContext.guestPool.children !== 0;
@@ -51,31 +52,42 @@ export default function FloatingPanel() {
       className={`${panelOffScreen ? "fixed top-4" : "absolute top-4"} z-20 top-0 w-full flex flex-col items-center justify-start `}
     >
       <div
-        className={`absolute booking-floating-panel ${moreRoomsRequired ? "h-16" : "h-10"} transition-all duration-200 bg-apricot-superlight rounded-sm outline-2 outline-apricot -outline-offset-1`}
+        className={`absolute booking-floating-panel border-t border-gray-warm-inactive ${moreRoomsRequired ? "h-14" : "h-[38px]"} transition-all duration-200 bg-bg rounded-sm shadow-md`}
       ></div>
-      <div className="flex flex-col justify-start ">
+      <div className="flex flex-col justify-start items-center w-full">
         <div
-          className={`z-10 flex justify-between items-center w-[1100px] mt-2 h-6`}
+          className={`z-10 flex flex-col  justify-center items-center mt-2 lg:h-6 h-full booking-floating-panel`}
         >
-          <div className="w-[112px] px-4"></div>
-          <div className={`flex items-center gap-7 font-sans`}>
-            <div>{`Date: ${dateString}`}</div>
-            <div>{`Guests: ${guests}`}</div>
-            <div>{`Nights: ${params.nights}`}</div>
-            <div className="w-16 overflow-visible text-nowrap">
-              {`Price: ${priceStatus === "idle" ? formatPrice(price, CURRENCY) : "..."}`}
-            </div>
-          </div>
-          <button
-            onClick={handleBookClick}
-            className="w-[112px] cursor-pointer hover:underline"
+          <div
+            className={`lg:grid lg:grid-cols-6 flex capitalize lg:w-full lg:place-items-center lg:place-content-center justify-center items-center lg:gap-7 gap-3 font-sans`}
           >
             <div
-              className={`${!moreRoomsRequired ? "border-b-2 border-peach " : "text-gray-warm-inactive"} mr-1 font-medium text-lg `}
+              className={`${panelOffScreen ? "block" : "max-lg:hidden"} lg:col-start-2 lg:block hidden `}
+            >{`${dateString}`}</div>
+            <div
+              className={`${panelOffScreen ? "block" : "max-lg:hidden"} lg:col-start-3  lg:block hidden`}
             >
-              <div>{t("Book")}</div>
+              {`${t("guests")}: ${params.adults}` +
+                (children > 0 ? " + " + children : "")}
             </div>
-          </button>
+            <div
+              className={`${panelOffScreen ? "block" : "max-lg:hidden"} lg:col-start-4 lg:block hidden `}
+            >{`${t("nights")}: ${params.nights}`}</div>
+            <div className="overflow-visible text-nowrap lg:col-start-5 ">
+              {`Price: ${priceStatus === "idle" ? formatPrice(price, CURRENCY) : "..."}`}
+            </div>
+            <button
+              disabled={moreRoomsRequired}
+              onClick={handleBookClick}
+              className="px-2 lg:col-start-6 bg-peach disabled:bg-gray-warm-inactive rounded-sm"
+            >
+              <div
+                className={`${moreRoomsRequired ? "text-gray-warm-inactive" : "text-text-main"} font-sans font-medium text-white `}
+              >
+                <div className="">{t("Book")}</div>
+              </div>
+            </button>
+          </div>
         </div>
         <div
           className={`z-10 text-red-error text-center font-sans ${moreRoomsRequired ? "block" : "hidden opacity-0"} transition-discrete transition-all duration-200`}

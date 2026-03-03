@@ -7,11 +7,12 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { ThemeProvider } from "@mui/material";
-import { desktopDatePickerTheme } from "../formComponents/mui";
+import { desktopDatePickerTheme } from "../formComponents/mui.tsx";
+import { desktopDatePickerSx } from "../formComponents/mui.tsx";
+import { IndexFormLayout } from "../formComponents/SelectGuestsLayouts.tsx";
 
 export default function BookingPannel() {
   const today = dayjs();
-  console.log("today", today.format());
   const [date, setDate] = useState(today);
   const { t } = useTranslation();
   const context = useContextProvider();
@@ -43,47 +44,7 @@ export default function BookingPannel() {
                     InputProps: {
                       disableUnderline: true,
                     },
-                    sx: {
-                      "& .MuiPickersInputBase-root::before": {
-                        borderColor: "#ba876f",
-                      },
-                      "& .MuiPickersInputBase-root::after": {
-                        borderColor: "#ba876f",
-                      },
-                      "& .MuiPickersInputBase-root:hover:not(.Mui-disabled, .Mui-error)::before":
-                        {
-                          borderColor: "#764c38",
-                          borderBottom: "1px solid #764c38",
-                        },
-                      "& .MuiPickersInputBase-root:hover:not(.Mui-disabled, .Mui-error)::after":
-                        {
-                          borderColor: "#764c38",
-                          borderBottom: "1px solid #764c38",
-                        },
-                      "& .MuiPickersInputBase-root": {
-                        width: "142px",
-                        fontSize: "16px",
-                        paddingTop: "2px",
-                      },
-                      "& .MuiPickersInputBase-sectionContent": {
-                        fontFamily: '"Source Sans 3"',
-                        paddingBottom: "0",
-                      },
-                      "& .MuiPickersInputBase-sectionsContainer": {
-                        padding: "0 6px 0",
-                      },
-                      "& .MuiIconButton-root": {
-                        scale: "90%",
-                        padding: "0 6px 0",
-                      },
-                      "& .MuiIconButton-root": {
-                        scale: "90%",
-                        padding: "0 6px 0",
-                      },
-                      "& .MuiIconButton-root:hover": {
-                        backgroundColor: "#ffe5b6",
-                      },
-                    },
+                    sx: desktopDatePickerSx,
                   },
                 }}
               ></DatePicker>
@@ -98,7 +59,7 @@ export default function BookingPannel() {
 
           <div className="w-[1px] bg-accent-light h-8"></div>
 
-          <SelectGuests />
+          <SelectGuests layout={IndexFormLayout} />
 
           <div className="w-[1px] bg-accent-light h-8"></div>
 

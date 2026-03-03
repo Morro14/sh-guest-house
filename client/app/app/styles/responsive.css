@@ -19,7 +19,7 @@
   @apply md:w-[688px];
 }
 .booking-floating-panel {
-  @apply xl:w-[1100px] lg:w-[984px] md:w-[728px] sm:w-[600px] max-sm:w-[600px];
+  @apply lg:w-[1000px] md:w-[600px] sm:w-[540px] min-w-[395px];
 }
 .vertical-line-decor {
   @apply md:block sm:hidden;

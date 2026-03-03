@@ -32,7 +32,10 @@ export default function AvailableRooms({ rooms }) {
     });
   };
   return (
-    <div id="available-rooms" className="flex flex-col items-center pt-14">
+    <div
+      id="available-rooms"
+      className="flex flex-col items-center md:pt-14 pt-24"
+    >
       {rooms.length === 0 ? (
         <div className="mt-5">
           <Fallback
@@ -69,7 +72,7 @@ export default function AvailableRooms({ rooms }) {
             }}
             key={URLSearchParams.toString()}
             id="room-select-form"
-            className="grid grid-cols-2 2xl:w-[1000px] gap-x-10 gap-y-14"
+            className="grid lg:grid-cols-2 grid-cols-1  xl:gap-x-10 gap-x-7 xl:gap-y-14 gap-y-10"
           >
             {rooms.map((room: Room, index: number) => {
               return (

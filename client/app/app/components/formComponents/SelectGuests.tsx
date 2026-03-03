@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useRef, useState } from "react";
 import { useCloseOnClick } from "./utils";
-import { Select, MenuItem, FormControl, FormHelperText } from "@mui/material";
 
 const DEFAULT_PARAMS = {
   adults: "2",
@@ -10,8 +9,10 @@ const DEFAULT_PARAMS = {
 
 export default function SelectGuests({
   defaultParams = DEFAULT_PARAMS,
+  layout: Layout,
 }: {
   defaultParams?: typeof DEFAULT_PARAMS;
+  layout: React.ComponentType;
 }) {
   const { t } = useTranslation();
   const [selectedValues, setSelectedValues] = useState({
@@ -60,10 +61,7 @@ export default function SelectGuests({
     return value;
   };
   return (
-    <div
-      ref={wrapperRef}
-      className="relative w-48 hover:bg-apricot h-10 flex justify-center items-center"
-    >
+    <Layout ref={wrapperRef}>
       <input
         type="checkbox"
         className="peer hidden"
@@ -80,8 +78,8 @@ export default function SelectGuests({
         )}
       </label>
 
-      <div className="absolute top-10 z-50 h-0 overflow-hidden peer-checked:h-[230px] w-full transition-all duration-200">
-        <div className="flex flex-col p-4 bg-apricot gap-4">
+      <div className="absolute shadow-sm top-10 z-50 h-0 overflow-hidden peer-checked:h-[180px] w-full transition-all duration-200">
+        <div className="flex flex-col p-4 bg-apricot gap-4 h-full">
           <div className="flex flex-col items-center">
             <label className="text-sm" htmlFor="select-adults">
               {t("adults")}
@@ -150,6 +148,6 @@ export default function SelectGuests({
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }

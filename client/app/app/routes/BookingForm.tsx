@@ -6,13 +6,17 @@ import { validate } from "~/components/formComponents/validate";
 import { redirect } from "react-router";
 import type { Route } from "./+types/BookingForm";
 import { getLanguagePathParam, getUrlSearchParams } from "~/utils/general";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { ValidationErrors } from "~/components/formComponents/validate";
 import type { BookingForm } from "./IndexRoute";
 import { formDataToObject } from "./IndexRoute";
 import ErrorFallback from "~/components/ErrorFallback";
 import { logError } from "~/utils/logging";
 import { useRouteError } from "react-router";
+import { DatePicker } from "@mui/x-date-pickers";
+import { desktopDatePickerSx } from "../components/formComponents/mui.tsx";
+import dayjs from "dayjs";
+import { FormChangeLayout } from "~/components/formComponents/SelectGuestsLayouts.tsx";
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -38,8 +42,10 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 
 export default function BookingForm({ actionData }: Route.ComponentProps) {
   const context = useContextProvider();
+  const today = dayjs();
+  const [date, setDate] = useState(today);
   const { t } = useTranslation();
-  const { date, nights, adults, children } = getUrlSearchParams([
+  const searchParams = getUrlSearchParams([
     "date",
     "adults",
     "children",
@@ -52,41 +58,75 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
   }, [actionData, context]);
   return (
     <Form method="post" className="flex flex-col gap-3 items-center size-full">
-      <div className="flex justify-between w-full items-center overflow-visible">
-        <div className="h-[25px] border-b w-[132px] border-b-line-light">
-          <input
-            defaultValue={date}
-            id="date-picker"
-            name="date"
-            type="date"
-            placeholder="Date"
+      <div className="flex justify-between w-full items-center overflow-visible font-sans">
+        <div className="flex flex-col items-center gap-3">
+          <label className="font-light" htmlFor="checkin-date-input">
+            {t("Check-in date") + ":"}
+          </label>
+          <div className="h-[25px] border-b w-[132px] border-line-light">
+            <DatePicker
+              maxDate={today.set("year", today.get("year") + 1)}
+              defaultValue={today}
+              value={date}
+              onChange={(date) => setDate(date)}
+              disablePast
+              slotProps={{
+                textField: {
+                  fullWidth: false,
+                  variant: "standard",
+                  size: "small",
+                  endAdornment: false,
+                  InputProps: {
+                    disableUnderline: true,
+                  },
+                  sx: desktopDatePickerSx,
+                },
+              }}
+            ></DatePicker>
+            <input
+              className="hidden"
+              value={date.format().slice(0, 10)}
+              id="checkin-date-input"
+              name="date"
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col items-center gap-3 border-b border-b-line-light">
+          <label className="font-light" htmlFor="checkin-date-input">
+            {t("Check-in date") + ":"}
+          </label>
+          <SelectGuests
+            layout={FormChangeLayout}
+            defaultParams={{
+              adults: searchParams.adults,
+              children: searchParams.children,
+            }}
           />
         </div>
 
-        <SelectGuests
-          defaultParams={{
-            adults: adults,
-            children,
-          }}
-        />
-
-        <div className="flex h-10 w-[132px] justify-center items-center hover:bg-peach-lighter">
-          <input
-            className="text-center font-medium w-12 placeholder:text-center placeholder:text-[#4c3b3350] placeholder:italic focus:placeholder:text-gray-400 border-b-1 border-line-light"
-            name="nights"
-            defaultValue={Number(nights)}
-            type="text"
-            maxLength={2}
-            onChange={(e) => context.setNightsCount(Number(e.target.value))}
-          />
-          <div className="w-[25px] ml-2">
-            {t("NightWithCount", { count: context.nightsCount })}
+        <div className="flex flex-col items-center gap-3">
+          <label className="font-light" htmlFor="checkin-date-input">
+            {t("Check-in date") + ":"}
+          </label>
+          <div className="flex h-full w-[132px] justify-center items-center">
+            <input
+              className="text-center font-medium w-6 placeholder:text-center placeholder:text-[#4c3b3350] placeholder:italic focus:placeholder:text-gray-400 border-b-1 border-line-light"
+              name="nights"
+              defaultValue={Number(searchParams.nights)}
+              type="text"
+              maxLength={2}
+              onChange={(e) => context.setNightsCount(Number(e.target.value))}
+            />
+            <div className="w-[25px] ml-2">
+              {t("nights", { count: context.nightsCount })}
+            </div>
           </div>
         </div>
       </div>
       <button
         type="submit"
-        className="px-3 text-lg underline font-sans mt-2 cursor-pointer hover:bg-peach-accent"
+        className="px-3 bg-peach rounded-sm text-white font-medium font-sans mt-2 cursor-pointer "
       >
         {t("Show available rooms")}
       </button>

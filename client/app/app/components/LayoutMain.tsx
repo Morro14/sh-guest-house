@@ -6,7 +6,7 @@ import { ThemeProvider } from "@emotion/react";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { datePickerTheme, locales } from "./formComponents/mui";
+import { datePickerTheme, locales } from "./formComponents/mui.tsx";
 import "dayjs/locale/ru";
 import i18n from "root/src/i18n/i18n";
 
