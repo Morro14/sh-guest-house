@@ -94,7 +94,7 @@ export default function AvailableRoom({
     <fieldset key={room.name} className={`bg-bg drop-shadow-sm`}>
       <legend className="sr-only">{room.name}</legend>
       <img
-        className="border-2 border-peach object-cover w-[482px] h-[272px]"
+        className="border-2 border-peach object-cover sm:w-[482px] w-[360px] md:h-[272px] h-[203px]"
         src={`${SERVER_URL}/${room.images[0].variants.small}`}
         onClick={() => {
           navContext.setFullImageView(true);
@@ -103,17 +103,19 @@ export default function AvailableRoom({
       />
       <div className="flex flex-col gap-2 mt-2 px-2">
         <h4>{room.name}</h4>
-        <div className="font-sans grid grid-cols-10 text-base">
-          <span className="flex font-[350] col-span-4 ">
+        <div className="font-sans grid grid-cols-10 gap-y-2 sm:gap-y-0 text-base">
+          <span className="flex font-[350] sm:col-span-4 col-span-10 ">
             {t("Maximum guests")}
           </span>
-          <span className="pl-2 col-span-6">{getGuestsString()}</span>
-          <span className="flex col-span-4 font-[500]">
+          <span className="pl-2 sm:col-span-6 col-span-10">
+            {getGuestsString()}
+          </span>
+          <span className="flex sm:col-span-4 col-span-10 font-[500]">
             {t("Select number of guests")}
           </span>
-          <div className="pl-2 col-span-6 grid grid-cols-6">
-            <div className="col-span-3 flex items-center gap-2">
-              <label className="font-[500]">{t("adults")}</label>
+          <div className="pl-2 sm:col-span-6 col-span-10  grid sm:gap-y-0 gap-y-1 grid-cols-6">
+            <div className="sm:col-span-3 col-span-10 flex items-center gap-2">
+              <label className="font-[500] sm:w-full w-16">{t("adults")}</label>
               <select
                 name={`[${room.slug}][adults]`}
                 onChange={handleChange}
@@ -122,8 +124,10 @@ export default function AvailableRoom({
                 {genSelectOptions("adults")}
               </select>
             </div>
-            <div className="col-span-3 flex gap-2">
-              <label className="font-[500]">{t("children")}</label>
+            <div className="sm:col-span-3 col-span-10 flex gap-2">
+              <label className="font-[500] sm:w-full w-16">
+                {t("children")}
+              </label>
               <select
                 name={`[${room.slug}][children]`}
                 onChange={handleChange}
@@ -133,8 +137,12 @@ export default function AvailableRoom({
               </select>
             </div>
           </div>
-          <span className="flex col-span-4 font-[350]">{t("Beds")}</span>
-          <span className="pl-2 flex col-span-6">{room.beds.slice(0, 20)}</span>
+          <span className="flex sm:col-span-4 col-span-10 font-[350]">
+            {t("Beds")}
+          </span>
+          <span className="pl-2 flex sm:col-span-6 col-span-10">
+            {room.beds.slice(0, 20)}
+          </span>
         </div>
         <div className="flex items-end gap-32">
           <div className="flex flex-col">
