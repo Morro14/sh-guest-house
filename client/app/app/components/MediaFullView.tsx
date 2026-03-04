@@ -28,7 +28,10 @@ export default function MediaFullView({ children }: { children: ReactNode }) {
         (!opacity ? "opacity-0" : "opacity-100")
       }
     >
-      <div ref={contentRef} className="flex justify-center media-full-view">
+      <div
+        ref={contentRef}
+        className="flex justify-center media-full-view items-center"
+      >
         {children}
       </div>
       <img src={closeButton} className="fixed top-5 right-5 cursor-pointer" />
