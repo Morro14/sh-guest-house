@@ -1,16 +1,16 @@
 export default function NavScrollArrow({
   direction,
   scrollEl,
-  scrollPos,
 }: {
   direction: "up" | "down";
   scrollEl: Element;
-  scrollPos: { scrollTop: number; scrollTopMax: number };
 }) {
   const styleConditions = {
-    up: direction === "up" && scrollPos?.scrollTop !== 0,
+    up: direction === "up" && scrollEl?.scrollTop !== 0,
     down:
-      direction === "down" && scrollPos?.scrollTop !== scrollPos?.scrollTopMax,
+      direction === "down" &&
+      scrollEl?.scrollTop + 4 <=
+        scrollEl?.scrollHeight - scrollEl?.offsetHeight,
   };
   const styles = {
     active: "stroke-peach group-hover:fill-peach cursor-pointer",
@@ -20,6 +20,13 @@ export default function NavScrollArrow({
   const svgStyle = () => {
     return styles[active ? "active" : "inactive"];
   };
+  console.log(
+    "style cond",
+    direction,
+    styleConditions,
+    scrollEl?.scrollTop,
+    scrollEl?.scrollHeight - scrollEl?.offsetHeight,
+  );
   const handleClick = () => {
     if (!scrollEl) return;
     if (direction === "down") {

@@ -22,12 +22,11 @@ export default function Nav<T>({
 }: NavProps<T>) {
   const context = useNavContextProvider();
   const selectorRef = useRef<HTMLDivElement>(undefined);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollRefState, setScrollRefState] = useState({
     scrollTop: 0,
-    scrollTopMax: 0,
+    scrollTopMax: 0 || scrollRef?.current?.scrollTopMax,
   });
-  const scrollRef = useRef<HTMLDivElement>(null);
-  // const { scrollPos } = useFloatingSelector(context.lastSelected, loaded, context.itemSelected, scrollRef, selectorRef)
   if (selectorRef.current) {
     selectorRef.current.style.top =
       String(context.selectorPos * selectorRef.current.clientHeight) + "px";
