@@ -52,15 +52,14 @@ export default function FloatingPanel() {
       className={`${panelOffScreen ? "fixed top-4" : "absolute top-4"} z-20 top-0 w-full flex flex-col items-center justify-start `}
     >
       <div
-        className={`absolute booking-floating-panel border-t border-gray-warm-inactive ${moreRoomsRequired ? "h-14" : "h-[38px]"} transition-all duration-200 bg-bg rounded-sm shadow-md`}
+        className={`absolute booking-floating-panel border-t border-gray-warm-inactive ${moreRoomsRequired ? "h-15.5" : "h-[38px]"} transition-all duration-200 bg-bg rounded-sm shadow-md`}
       ></div>
       <div className="flex flex-col justify-start items-center w-full">
         <div
-          className={`z-10 flex flex-col  justify-center items-center mt-2 lg:h-6 h-full booking-floating-panel`}
+          className={`z-10 flex justify-between items-center  px-6 mt-2 lg:h-6 h-full booking-floating-panel`}
         >
-          <div
-            className={`lg:grid lg:grid-cols-6 flex capitalize lg:w-full lg:place-items-center lg:place-content-center justify-center items-center lg:gap-7 gap-3 font-sans`}
-          >
+          <div className="w-16"></div>
+          <div className={`flex lg:gap-7 gap-6 font-sans font-[350]`}>
             <div
               className={`${panelOffScreen ? "block" : "max-lg:hidden"} lg:col-start-2 lg:block hidden `}
             >{`${dateString}`}</div>
@@ -76,18 +75,18 @@ export default function FloatingPanel() {
             <div className="overflow-visible text-nowrap lg:col-start-5 ">
               {`Price: ${priceStatus === "idle" ? formatPrice(price, CURRENCY) : "..."}`}
             </div>
-            <button
-              disabled={moreRoomsRequired}
-              onClick={handleBookClick}
-              className="px-2 lg:col-start-6 bg-peach disabled:bg-gray-warm-inactive rounded-sm"
-            >
-              <div
-                className={`${moreRoomsRequired ? "text-gray-warm-inactive" : "text-text-main"} font-sans font-medium text-white `}
-              >
-                <div className="">{t("Book")}</div>
-              </div>
-            </button>
           </div>
+          <button
+            disabled={moreRoomsRequired}
+            onClick={handleBookClick}
+            className="px-2 lg:col-start-6 w-16 flex justify-end cursor-pointer "
+          >
+            <div
+              className={`px-2  ${moreRoomsRequired ? "border-0 text-gray-warm-inactive" : "border-b-2 border-peach text-text-main"} font-serif font-medium`}
+            >
+              {t("Continue")}
+            </div>
+          </button>
         </div>
         <div
           className={`z-10 text-red-error text-center font-sans ${moreRoomsRequired ? "block" : "hidden opacity-0"} transition-discrete transition-all duration-200`}

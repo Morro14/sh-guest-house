@@ -13,12 +13,10 @@ export default function BookingPannelMobile() {
   const formRef = useRef(null);
   const [formDisplay, setFormDisplay] = useState(false);
   const today = dayjs();
-  console.log("today", today.format());
   const [date, setDate] = useState(today);
   const handleFormLabelClick = () => {
     setFormDisplay(!formDisplay);
   };
-  console.log("error state", context.errors);
   return (
     <div className="md:hidden fixed bottom-0 z-30  w-full">
       <div

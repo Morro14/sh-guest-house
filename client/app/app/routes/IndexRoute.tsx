@@ -33,10 +33,8 @@ export interface BookingForm {
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
   const formDataObject = formDataToObject(formData);
-  console.log("index action data", formData);
   const errors: ValidationErrors = validate(formDataObject);
   if (Object.keys(errors).length > 0) {
-    console.log("errors", errors);
     return errors;
   }
   const formDataObj = {};
@@ -44,7 +42,6 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     formDataObj[k] = v.toString();
   }
   const params = new URLSearchParams(formDataObj);
-  console.log("params", params);
   return redirect(`booking?${params}`);
 }
 

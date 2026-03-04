@@ -27,22 +27,21 @@ export default function RequestInfo() {
       <div className="text-center flex justify-between items-center w-full font-sans">
         <div className="flex flex-col items-center gap-3">
           <span className="font-light">{t("Check-in date") + ":"}</span>
-          <p className={`${blockWidth} font-medium text-lg`}>{dateString}</p>
+          <p className={`${blockWidth} font-serif text-lg`}>{dateString}</p>
         </div>
         <div className="flex flex-col items-center gap-3">
           <span className="font-light">{t("Number of guests") + ":"}</span>
-          <p className={`${blockWidth} font-medium text-lg`}>{guests}</p>
+          <p className={`${blockWidth} font-serif text-lg`}>{guests}</p>
         </div>
         <div className="flex flex-col items-center gap-3">
           <span className="font-light">{t("Nights") + ":"}</span>
-          <p className={`${blockWidth} font-medium text-lg`}>{nights}</p>
+          <p className={`${blockWidth} font-serif text-lg`}>{nights}</p>
         </div>
       </div>
       <Link
         className="underline
-      italic
       font-sans
-      font-light cursor-pointer"
+      font-light text-sm cursor-pointer"
         to={formUrl}
       >
         change

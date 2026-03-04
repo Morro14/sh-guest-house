@@ -32,6 +32,7 @@ export default function Language() {
     const segments = pathname.split("/");
     segments[1] = DEFAULT_LANGUAGE;
     const newPathname = segments.join("/");
+    console.log("new lang url", newPathname);
     return <Navigate to={`${newPathname}${searchParams}`} replace></Navigate>;
   }
   return <Outlet></Outlet>;

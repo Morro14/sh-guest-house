@@ -86,12 +86,11 @@ export default function AvailableRoom({
       });
     }
     // formContext.setTotalPrice(formContext.totalPrice + priceChange);
-    console.log("form ref", formContext.form);
   };
   const roomSelected =
     currentGuestSelect.adults !== 0 || currentGuestSelect.children !== 0;
   return (
-    <fieldset key={room.name} className={`bg-bg drop-shadow-sm`}>
+    <fieldset key={room.name} className={`drop-shadow-sm bg-bg`}>
       <legend className="sr-only">{room.name}</legend>
       <img
         className="border-2 border-peach object-cover sm:w-[482px] w-[360px] md:h-[272px] h-[203px]"
@@ -102,20 +101,20 @@ export default function AvailableRoom({
         }}
       />
       <div className="flex flex-col gap-2 mt-2 px-2">
-        <h4>{room.name}</h4>
+        <h4 className="mb-0!">{room.name}</h4>
         <div className="font-sans grid grid-cols-10 gap-y-2 sm:gap-y-0 text-base">
-          <span className="flex font-[350] sm:col-span-4 col-span-10 ">
+          <span className="flex font-light sm:col-span-4 col-span-10 ">
             {t("Maximum guests")}
           </span>
-          <span className="pl-2 sm:col-span-6 col-span-10">
+          <span className="font-light pl-2 sm:col-span-6 col-span-10">
             {getGuestsString()}
           </span>
-          <span className="flex sm:col-span-4 col-span-10 font-[500]">
+          <span className="font-light flex sm:col-span-4 col-span-10">
             {t("Select number of guests")}
           </span>
           <div className="pl-2 sm:col-span-6 col-span-10  grid sm:gap-y-0 gap-y-1 grid-cols-6">
             <div className="sm:col-span-3 col-span-10 flex items-center gap-2">
-              <label className="font-[500] sm:w-full w-16">{t("adults")}</label>
+              <label className="sm:w-auto w-16">{t("adults")}</label>
               <select
                 name={`[${room.slug}][adults]`}
                 onChange={handleChange}
@@ -125,9 +124,7 @@ export default function AvailableRoom({
               </select>
             </div>
             <div className="sm:col-span-3 col-span-10 flex gap-2">
-              <label className="font-[500] sm:w-full w-16">
-                {t("children")}
-              </label>
+              <label className="sm:w-auto w-16">{t("children")}</label>
               <select
                 name={`[${room.slug}][children]`}
                 onChange={handleChange}
@@ -137,25 +134,23 @@ export default function AvailableRoom({
               </select>
             </div>
           </div>
-          <span className="flex sm:col-span-4 col-span-10 font-[350]">
+          <span className="flex sm:col-span-4 col-span-10 font-light">
             {t("Beds")}
           </span>
-          <span className="pl-2 flex sm:col-span-6 col-span-10">
+          <span className="pl-2 flex sm:col-span-6 col-span-10 font-light">
             {room.beds.slice(0, 20)}
           </span>
         </div>
         <div className="flex items-end gap-32">
           <div className="flex flex-col">
-            <div className="font-sans text-base font-light">
-              {t("For one night")}:
-            </div>
-            <span className="font-serif text-green-warm text-xl -mt-1">{`${formatPrice(room.price, CURRENCY)}`}</span>
+            <div className="font-sans text-base">{t("For one night")}:</div>
+            <span className="font-sans text-green-warm text-xl -mt-1">{`${formatPrice(room.price, CURRENCY)}`}</span>
           </div>
           {nightsNum > 1 ? (
             <div className="flex flex-col">
               <div className="font-sans text-base font-light">{`For ${nightsNum} nights:`}</div>
               <div className="flex items-end">
-                <span className="font-serif text-green-warm text-xl -mt-1">{`${formatPrice(room.price * nightsNum, CURRENCY)}`}</span>
+                <span className="font-sans text-green-warm text-xl -mt-1">{`${formatPrice(room.price * nightsNum, CURRENCY)}`}</span>
               </div>
             </div>
           ) : (
@@ -163,10 +158,10 @@ export default function AvailableRoom({
           )}
         </div>
       </div>
-      <div className="flex justify-center items-center mt-4 border-y-1 border-gray-warm h-11">
+      <div className="flex justify-center items-center mt-4 border-y-1 border-gray-warm h-8">
         {/* <input name={`room-${index}`} value={room.slug} onChange={() => formContext.setSelectedRooms(getSelectedRooms(formRef?.current))} id={`room-checkbox-${index}`} className="absolute opacity-0 pointer-events-none peer" type="checkbox"></input> */}
         <span
-          className={`size-full flex items-center justify-center text-xl text-center italic transition-all duration-200 ${roomSelected ? "" : "text-gray-warm-inactive"}`}
+          className={`size-full flex items-center justify-center font-sans font-light text-center transition-all duration-200 ${roomSelected ? "" : "text-gray-warm-inactive"}`}
         >
           {!roomSelected ? t("Select guests") : t("Room selected")}
         </span>

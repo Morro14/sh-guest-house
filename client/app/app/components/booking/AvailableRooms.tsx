@@ -42,7 +42,7 @@ export default function AvailableRooms({ rooms }) {
           ></Fallback>
         </div>
       ) : (
-        <div id="available-rooms" className="flex flex-col items-center pt-14">
+        <div id="available-rooms" className="flex flex-col items-center pt-12">
           <h3 className="text-center text-nowrap">{t("Available rooms")}</h3>
           {context.fullImageView ? (
             <MediaFullView>

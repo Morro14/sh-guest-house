@@ -106,7 +106,6 @@ function validateGuests(adultsStr: string): Validation {
 
 function validateNights(nights: string): Validation {
   const isDigit = /^\d+$/g.test(nights.trim());
-  console.log("is digit", isDigit);
   if (!isDigit) {
     return {
       name: "nights",
@@ -117,7 +116,6 @@ function validateNights(nights: string): Validation {
   const NIGHTS_LIMIT = 30;
 
   const isBelowLimit = Number(nights) <= NIGHTS_LIMIT;
-  console.log("nights below limit", isBelowLimit);
   if (!isBelowLimit) {
     return {
       name: "nights",

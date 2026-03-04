@@ -50,8 +50,7 @@ export default function RoomsPreview() {
           {rooms[context.itemSelected].beds}
         </p>
       </div>
-      <div className="flex 2xl:flex-row pt-4 max-2xl:flex-col max-2xl:items-center 2xl:items-start max-2xl:gap-6 2xl:gap-0 w-full">
-        {currentRoomCarousel}
+      <div>
         {context.fullImageView ? (
           <MediaFullView>
             <Carousel
@@ -66,6 +65,9 @@ export default function RoomsPreview() {
         ) : (
           ""
         )}
+      </div>
+      <div className="flex 2xl:flex-row pt-4 max-2xl:flex-col max-2xl:items-center 2xl:items-start max-2xl:gap-6 2xl:gap-0 w-full">
+        {currentRoomCarousel}
         <Nav
           items={rooms}
           slug="rooms"

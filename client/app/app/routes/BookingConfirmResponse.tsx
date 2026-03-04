@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { axiosInstance } from "~/utils/general.ts";
+import { axiosInstance, getLanguagePathParam } from "~/utils/general.ts";
 import ErrorFallback from "~/components/ErrorFallback";
 import Fallback from "~/components/Fallback";
-import { isRouteErrorResponse, useRouteError } from "react-router";
+import { isRouteErrorResponse, useRouteError, Link } from "react-router";
 import { logError } from "~/utils/logging";
 
 export function ErrorBoundary() {
@@ -53,6 +53,12 @@ export default function BookingConfirmResponse({ loaderData }) {
           </div>
         </div>
       )}
+      <Link
+        className="text-sm text-gray-warm-mid underline"
+        to={`/${getLanguagePathParam()}`}
+      >
+        {t("back to the main page")}
+      </Link>
     </div>
   );
 }

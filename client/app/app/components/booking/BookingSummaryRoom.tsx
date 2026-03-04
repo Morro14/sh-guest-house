@@ -9,23 +9,28 @@ export default function BookingSummaryRoom(
 ) {
   const { t } = useTranslation();
   return (
-    <div className="grid grid-cols-10 mb-1" key={`summary-room-${room.slug}`}>
-      <div className="col-span-2 mt-1 h-24 overflow-clip border-2 border-peach">
+    <div
+      className="grid md:grid-cols-5 md:col-span-5 col-span-10 grid-cols-1 gap-y-2 pl-4"
+      key={`summary-room-${room.slug}`}
+    >
+      <li className="col-span-5 text-sm ml-4 text-gray-warm-mid font-serif">
+        {room.name}
+      </li>
+      <div className="col-span-5 mt-1 w-[172px] h-[98px] overflow-clip border-2 border-peach">
         <img
           src={BASE_URL + room.images[0].variants.small}
           className="object-cover size-full"
         />
       </div>
-      <div className="col-span-8 grid grid-cols-8 pl-2">
-        <div className="col-span-8 font-serif mb-1">{room.name}</div>
-        <div className="col-span-2 text-sm text-gray-warm-mid">
-          {t("Maximum guests")}
-        </div>
-        <div className="col-span-6 ">{room.adults_num + room.children_num}</div>
-        <div className="col-span-2 text-sm text-gray-warm-mid">
-          {t("Selected guests")}
-        </div>
-        <div className="col-span-3 ">
+      <ul className="list-disc pl-8 pt-2 col-span-5 text-sm truncate grid grid-cols-8">
+        <li className="col-span-3 text-sm text-gray-warm-mid">
+          {t("Maximum guests") + ":"}
+        </li>
+        <div className="col-span-4 ">{room.adults_num + room.children_num}</div>
+        <li className="col-span-7 text-sm text-gray-warm-mid">
+          {t("Selected guests") + ":"}
+        </li>
+        <div className="col-span-2 ">
           <span className="text-sm text-gray-warm-mid">
             {t("Adults") + ": "}
           </span>
@@ -37,12 +42,13 @@ export default function BookingSummaryRoom(
           </span>
           <span>{guests.children}</span>
         </div>
-        <div className="col-span-2 text-sm text-gray-warm-mid">{t("Beds")}</div>
-        <div className="col-span-6 truncate overflow-hidden text-sm text-gray-warm-mid">
+        <li className=" col-span-7 text-sm text-gray-warm-mid">
+          {t("Beds") + ":"}
+        </li>
+        <div className="col-span-7 truncate overflow-hidden text-sm text-gray-warm-mid">
           {room.beds}
         </div>
-        <div className="col-span-8 h-[18px]"></div>
-      </div>
+      </ul>
     </div>
   );
 }

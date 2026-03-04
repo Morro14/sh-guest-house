@@ -14,7 +14,6 @@ export default function CarouselDotsFullView({
 }) {
   const context = useNavContextProvider();
   const [dotSelected, setDotSelected] = useState(context.imageSelected);
-  console.log("imageSelected", context.imageSelected);
   const selectorRef = useRef(undefined);
   if (selectorRef.current) {
     selectorRef.current.style.left = String(dotSelected * 35 + "px");

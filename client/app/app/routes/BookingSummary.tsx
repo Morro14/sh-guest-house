@@ -15,6 +15,7 @@ import ErrorFallback from "~/components/ErrorFallback";
 import type { AxiosResponse } from "axios";
 import { logError } from "~/utils/logging";
 import { useNavigation } from "react-router";
+import { langCodes } from "~/utils/lang";
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -70,7 +71,7 @@ export async function clientLoader() {
 export default function BookingSummary({ loaderData }) {
   const navigation = useNavigation();
   const loaderDataClean: LoaderData = loaderData.data;
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const {
     request_info: requestInfo,
     rooms,
@@ -80,7 +81,9 @@ export default function BookingSummary({ loaderData }) {
   const dateStart = Temporal.PlainDate.from(requestInfo.date);
   const nights = Number(requestInfo.nights);
   const dateEnd = dateStart.add({ days: nights });
-
+  const formatDate = (date: Temporal.PlainDate) => {
+    return date.toLocaleString(langCodes[i18n.language]);
+  };
   const reservationSearchParams = createSearchParams({
     nights: requestInfo.nights,
     date: requestInfo.date,
@@ -95,25 +98,34 @@ export default function BookingSummary({ loaderData }) {
       </div>
       <div className="index-container-1">
         <div className="h-[1px] bg-gray-warm w-full mb-4"></div>
-        <div className="grid grid-cols-10 font-sans">
-          <div className="px-1  col-span-1 ">Date</div>
-          <div className=" col-span-9 font-serif">{`${dateStart.toLocaleString()} - ${dateEnd.toLocaleString()}`}</div>
-          <div className="px-1  col-span-1 ">Total price</div>
-          <div className=" col-span-9 font-serif">
+        <div className="grid grid-cols-10 gap-y-1 font-sans capitalize">
+          <div className=" md:col-span-2 col-span-3 font-light">
+            {t("date") + ":"}
+          </div>
+          <div className="md:col-span-8 col-span-7">{`${formatDate(dateStart)} - ${formatDate(dateEnd)}`}</div>
+          <div className=" md:col-span-2 col-span-3 font-light">
+            {t("total price") + ":"}
+          </div>
+          <div className="md:col-span-8 col-span-7">
             {formatPrice(price, "AMD")}
           </div>
-          <div className="px-1  cwl-span-1 ">Rooms</div>
-          <div className="col-span-9 ">
+          <div className=" md:col-span-10 col-span-3 font-light">
+            {t("rooms") + ":"}
+          </div>
+          <ol className="list-decimal col-span-10 grid grid-cols-subgrid gap-y-3">
             {rooms.map((room: Room) => {
               const guestsSelected = guestsInfo.find(
                 (r) => r.slug === room.slug,
               );
               return BookingSummaryRoom(room, guestsSelected.guests);
             })}
-          </div>
+          </ol>
         </div>
         <div className="h-[1px] bg-gray-warm w-full my-6"></div>
-        <Link to={`/booking?${reservationSearchParams}`} className="flex gap-3">
+        <Link
+          to={`/${getLanguagePathParam()}/booking?${reservationSearchParams}`}
+          className="flex gap-3"
+        >
           <img src={backArrow} />
           <span className="font-sans font-light underline hover:cursor-pointer">
             {t("edit reservation")}
@@ -169,9 +181,9 @@ export default function BookingSummary({ loaderData }) {
           </div>
           <button
             type="submit"
-            className="w-[100px] text-lg font-medium bg-apricot-light rounded font-sans text-text-main mt-2 cursor-pointer hover:bg-peach-accent"
+            className="w-[120px] text-lg font-medium bg-peach capitalize rounded font-sans text-white mt-2 cursor-pointer hover:bg-peach-accent"
           >
-            {navigation.state === "idle" ? t("Book") : t("submitting")}
+            {navigation.state === "idle" ? t("confirm") : t("submitting")}
           </button>
         </Form>
       </div>

@@ -16,7 +16,6 @@ export default function CarouselDots({
   if (selectorRef.current) {
     selectorRef.current.style.left = String(currentSnap * 35 + "px");
   }
-  console.log("currentSnap", currentSnap);
   const dotsNum = snapListLength;
   const dots = Array.from({ length: dotsNum }, (_, i) => {
     return (
