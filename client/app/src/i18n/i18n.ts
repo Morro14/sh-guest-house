@@ -10,22 +10,15 @@ languageDetector.addDetector(pathCustom);
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 i18n
   .use(HttpBackend)
-  .use(languageDetector)
+  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     fallbackLng: "en",
-    supportedLngs: ["en", "ru"], // add your available languages
-    debug: import.meta.env.VITE_DEBUG === "true", // optional, logs detection
+    supportedLngs: ["en", "ru"],
+    debug: import.meta.env.VITE_DEBUG === "true",
 
     detection: {
-      order: [
-        "pathCustom",
-        // "localStorage", // use saved choice first
-        // "cookie", // optional, if you store cookie
-        // "navigator", // check browser accept-languages
-        // "htmlTag", // <html lang="">
-        // "querystring", // ?lang=ru
-      ],
+      order: ["pathCustom"],
       pathCustom: 1,
       lookupQuerystring: "lang",
       caches: ["localStorage", "cookie"],

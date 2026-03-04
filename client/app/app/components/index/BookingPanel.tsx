@@ -17,7 +17,7 @@ export default function BookingPannel() {
   const { t } = useTranslation();
   const context = useContextProvider();
   return (
-    <div className="md:flex sticky hidden top-0 bottom-0 z-30 w-full drop-shadow-md h-10">
+    <div className="md:flex sticky hidden top-0 bottom-0 z-30 w-full drop-shadow-md h-10 justify-center">
       <div className="flex justify-center items-center bg-peach-light size-full font-sans">
         <Form
           method="post"
@@ -90,7 +90,9 @@ export default function BookingPannel() {
           </button>
         </Form>
       </div>
-      <ErrorPanel></ErrorPanel>
+      <div className="absolute top-10">
+        <ErrorPanel></ErrorPanel>
+      </div>
     </div>
   );
 }

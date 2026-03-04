@@ -62,6 +62,7 @@ export default function Places() {
       {context.fullImageView ? (
         <MediaFullView>
           <img
+            className="object-contain"
             src={
               BASE_URL +
               data[context.itemSelected]["images"][0]["variants"]["original"]

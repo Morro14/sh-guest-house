@@ -2,14 +2,15 @@ import { useTranslation } from "react-i18next";
 import { axiosInstance, getLanguagePathParam } from "~/utils/general.ts";
 import ErrorFallback from "~/components/ErrorFallback";
 import Fallback from "~/components/Fallback";
-import { isRouteErrorResponse, useRouteError, Link } from "react-router";
+import { useRouteError, Link } from "react-router";
 import { logError } from "~/utils/logging";
+import { isAxiosError } from "axios";
 
 export function ErrorBoundary() {
   const error = useRouteError();
   const { t } = useTranslation();
   logError(error);
-  if (isRouteErrorResponse(error)) {
+  if (isAxiosError(error)) {
     const sessionError = error.status === 403;
     return sessionError ? (
       <Fallback

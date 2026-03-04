@@ -10,7 +10,7 @@
   @apply md:w-[688px] md:h-[388px] overflow-hidden;
 }
 .media-full-view {
-  @apply w-[95vw] h-[95vh];
+  @apply w-[90vw] h-[90vh];
 }
 .carousel-small {
   @apply md:w-[688px] w-[375px] md:h-[388px] h-[250px];

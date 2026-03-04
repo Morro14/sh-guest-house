@@ -24,7 +24,7 @@ export function Carousel({
 }) {
   const context = useNavContextProvider();
   const [emblaRef, emblaApi] = useEmblaCarousel({
-    startIndex: fullView ? context.imageSelected : 0,
+    startSnap: fullView ? context.imageSelected : 0,
   });
   const imageOnClick = (imageIndex: number) => {
     if (!fullView) {
@@ -34,12 +34,12 @@ export function Carousel({
       return;
     }
   };
-  useEffect(() => {
-    if (emblaApi && fullView) {
-      if (emblaApi.selectedSnap() === context.imageSelected) return;
-      emblaApi.goTo(context.imageSelected);
-    }
-  }, [emblaApi, fullView, context.imageSelected]);
+  // useEffect(() => {
+  //   if (emblaApi && fullView) {
+  //     if (emblaApi.selectedSnap() === context.imageSelected) return;
+  //     emblaApi.goTo(context.imageSelected);
+  //   }
+  // }, [emblaApi, fullView, context.imageSelected]);
   return fullView ? (
     <div className="flex flex-col gap-5 items-center justify-end shrink size-full">
       <div className="embla bg-black-transparent border-2 border-peach size-full">

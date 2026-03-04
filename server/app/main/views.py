@@ -214,7 +214,7 @@ class BookingRoomsRequestView(APIView):
         token = CustomJWT(
             secret=os.environ.get("JWT_SECRET"),
             content=booking_request_info,
-            expires_in=60 * 15,
+            expires_in=20 * 60,
             jti=jti,
         ).get_token()
         response = Response()
@@ -225,7 +225,7 @@ class BookingRoomsRequestView(APIView):
             samesite="None",
             secure=True,
             path="/api/booking",
-            max_age=60 * 15,
+            max_age=20 * 60,
         )
         response.data = {
             "rooms": serializer.data,

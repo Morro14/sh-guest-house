@@ -17,6 +17,8 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { desktopDatePickerSx } from "../components/formComponents/mui.tsx";
 import dayjs from "dayjs";
 import { FormChangeLayout } from "~/components/formComponents/SelectGuestsLayouts.tsx";
+import ErrorPanelMobile from "~/components/formComponents/ErrorPanelMobile.tsx";
+import ErrorPanel from "~/components/formComponents/ErrorPanel.tsx";
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -52,12 +54,16 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
     "nights",
   ]);
   useEffect(() => {
+    console.log("effect", actionData);
     if (actionData && Object.keys(actionData).length > 0) {
       context.setErrorState(actionData);
     }
   }, [actionData, context]);
   return (
-    <Form method="post" className="flex flex-col gap-3 items-center size-full">
+    <Form
+      method="post"
+      className="relative flex flex-col gap-3 items-center size-full"
+    >
       <div className="flex justify-between w-full items-center overflow-visible font-sans">
         <div className="flex flex-col items-center gap-3">
           <label className="font-light" htmlFor="checkin-date-input">
@@ -124,6 +130,13 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
           </div>
         </div>
       </div>
+      {context.errorState ? (
+        <div className="absolute top-[106px]">
+          <ErrorPanel></ErrorPanel>
+        </div>
+      ) : (
+        ""
+      )}
       <button
         type="submit"
         className="px-3 bg-peach rounded-sm text-white font-medium font-sans mt-2 cursor-pointer "

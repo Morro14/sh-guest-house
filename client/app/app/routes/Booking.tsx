@@ -1,8 +1,13 @@
 import { axiosInstance, getLanguagePathParam } from "~/utils/general.ts";
 import type { Route } from "./+types/Booking";
-import { Outlet, useLocation, redirect, useFetcher } from "react-router";
+import {
+  isRouteErrorResponse,
+  Outlet,
+  useLocation,
+  redirect,
+  useFetcher,
+} from "react-router";
 import { useTranslation } from "react-i18next";
-import Line from "~/components/index/Line";
 import AvailableRooms from "~/components/booking/AvailableRooms";
 import type { Room } from "~/types/booking";
 import NavContextProvider from "~/components/nav/NavContextProvider";
@@ -16,13 +21,27 @@ import type { AxiosResponse } from "axios";
 import { logError } from "~/utils/logging";
 import { useRouteError } from "react-router";
 import { useEffect } from "react";
+import Fallback from "~/components/Fallback";
+import { isAxiosError } from "axios";
 
 export function ErrorBoundary() {
+  const { t } = useTranslation();
   const error = useRouteError();
   useEffect(() => {
     logError(error);
   }, [error]);
-  return <ErrorFallback />;
+  if (isAxiosError(error)) {
+    const sessionError = error.status === 403;
+    return sessionError ? (
+      <Fallback
+        link={"/booking"}
+        linkText={t("back to booking")}
+        message={t("Your session has expired")}
+      ></Fallback>
+    ) : (
+      <ErrorFallback />
+    );
+  } else return <ErrorFallback />;
 }
 
 export function shouldRevalidate({

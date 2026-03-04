@@ -9,10 +9,10 @@ import { Temporal } from "@js-temporal/polyfill";
 import BookingSummaryRoom from "~/components/booking/BookingSummaryRoom";
 import type { Room } from "~/types/booking";
 import backArrow from "root/src/assets/back-arrow.svg";
-import { isRouteErrorResponse, useRouteError } from "react-router";
+import { useRouteError } from "react-router";
 import Fallback from "~/components/Fallback";
 import ErrorFallback from "~/components/ErrorFallback";
-import type { AxiosResponse } from "axios";
+import { isAxiosError, type AxiosResponse } from "axios";
 import { logError } from "~/utils/logging";
 import { useNavigation } from "react-router";
 import { langCodes } from "~/utils/lang";
@@ -22,7 +22,7 @@ export function ErrorBoundary() {
   logError(error);
   const { t } = useTranslation();
 
-  if (isRouteErrorResponse(error)) {
+  if (isAxiosError(error)) {
     const sessionError = error.status === 403;
     return sessionError ? (
       <Fallback

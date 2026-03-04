@@ -7,7 +7,7 @@ export default function Fallback({
   onClick = undefined,
 }) {
   return (
-    <div className="flex flex-col justify-center items-center mt-10 text-text-main">
+    <div className="flex flex-col justify-center items-center w-screen mt-10 text-text-main">
       <div className="text-gray-2 font-semibold text-lg">{message}</div>
       {link ? (
         <Link to={link} className="font-light underline">
