@@ -11,6 +11,7 @@ venv
 build
 thumbnails
 migrations
+collectstatic
 **/static/test/
 /server/app/cmd/
 *.sqlite3

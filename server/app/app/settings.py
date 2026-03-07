@@ -36,9 +36,9 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = bool(os.environ.get("DEBUG"))
+DEBUG = os.environ.get("DEBUG") == "True"
 AUTH_USER_MODEL = "auth_app.User"
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1"]
 CLIENT_URL = os.environ.get("CLIENT_URL")
 SITE_NAME = os.environ.get("SITE_NAME")
 
@@ -51,18 +51,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.admin",
+    "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "main",
     "site_content",
-    # "main.apps.MainConfig",
     "auth_app",
     "django_otp",
     "django_otp.plugins.otp_static",
     "django_otp.plugins.otp_totp",
     "django_otp.plugins.otp_email",
-    # "two_factor",
-    # "two_factor.plugins.email",
     "easy_thumbnails",
     "image_cropping",
     "rest_framework",
@@ -70,16 +68,14 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_filters",
     "django_extensions",
-    # "django_celery_results",
     "django_structlog",
-    # "allauth.socialaccount",
-    # "allauth.socialaccount.providers.google",
 ]
 SITE_ID = 1
 # LOGIN_URL = "two_factor:login"
 # LOGIN_REDIRECT_URL = "two_factor:profile"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "main.middleware.RequestLanguageMiddleware",
@@ -176,22 +172,24 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
-MEDIA_URL = "/media/"
+# MEDIA_URL = "/media/"
 STATIC_URL = "static/"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
+    BASE_DIR / "staticfiles",
+    BASE_DIR / "templates",
+    BASE_DIR / "thumbnails",
 ]
-STATIC_ROOT = "staticfiles"
+STATIC_ROOT = BASE_DIR / "collectstatic/"
 
 IMAGE_CROPPING_BACKEND = (
     "image_cropping.backends.easy_thumbs.EasyThumbnailsBackend"
 )
 IMAGE_CROPPING_BACKEND_PARAMS = {}
 
-THUMBNAIL_BASEDIR = "thumbnails"
-THUMBNAIL_MEDIA_ROOT = BASE_DIR / "thumbnails"
-THUMBNAIL_MEDIA_URL = "/thumbnails/"
-
+THUMBNAIL_BASEDIR = "thumbnails/thumb"
+# THUMBNAIL_MEDIA_ROOT = BASE_DIR / "thumbnails"
+# THUMBNAIL_MEDIA_URL = "/thumbnails/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -270,4 +268,17 @@ structlog.configure(
     logger_factory=structlog.stdlib.LoggerFactory(),
     wrapper_class=structlog.stdlib.BoundLogger,
     cache_logger_on_first_use=True,
+)
+
+# whitenoise
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+STATICFILES_STORAGE = (
+    "whitenoise.storage.CompressedManifestStaticFilesStorage"
 )
