@@ -14,31 +14,25 @@ export default function RoomsPreview() {
   const context = useNavContextProvider();
   const roomCarousels =
     !loading && rooms
-      ? rooms.map((room) => {
+      ? rooms.map((room, index) => {
           return (
             <Carousel
+              display={context.itemSelected === index}
               name="rooms"
-              key={`room-carousel-${room.slug}`}
               images={room.images}
               imageSize="small"
               imageRes="main"
               border={true}
+              key={`room-carousel-${index}`}
             ></Carousel>
           );
         })
       : [];
-  // const cachedRoomCarousels = useMemo(roomCarousels, [data])
   const currentRoomCarousel = roomCarousels[context.itemSelected];
   context.preStateChangeCallback = (callback: () => void) => {
     callback();
   };
-  // setOpacity(0)
-  // setTimeout(() => {
-  //   setOpacity(100)
-  //   callback()
-  // },
-  //   300
-  return loading || !rooms || rooms.length === 0 ? (
+  return !rooms || rooms.length === 0 ? (
     <div className="flex justify-cventer items-center carousel-small bg-olive-light text-gray-500 font-serif">
       {!rooms || rooms.length === 0 ? t("No data") : t("Loading...")}
     </div>
@@ -67,17 +61,11 @@ export default function RoomsPreview() {
         )}
       </div>
       <div className="flex 2xl:flex-row pt-4 max-2xl:flex-col max-2xl:items-center 2xl:items-start max-2xl:gap-6 2xl:gap-0 w-full">
-        {currentRoomCarousel}
-        <Nav
-          items={rooms}
-          slug="rooms"
-          contextProvider={useNavContextProvider}
-          template={NavLinkTemplate}
-        ></Nav>
+        {roomCarousels.map((carousel) => carousel)}
+        <Nav items={rooms} slug="rooms" template={NavLinkTemplate}></Nav>
         <NavRows
           items={rooms}
           slug="rooms"
-          contextProvider={useNavContextProvider}
           template={NavRowsLinkTemplate}
         ></NavRows>
       </div>

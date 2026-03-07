@@ -29,10 +29,12 @@ export default function Places() {
   const images =
     !loading && data
       ? () =>
-          data.map((place) => {
+          data.map((place, index) => {
             return (
               <img
-                className="z-10 relative object-contain hover:cursor-pointer"
+                key={`place-image-${index}-key`}
+                className={`z-10 relative object-contain hover:cursor-pointer ${index === context.itemSelected ? "block" : "hidden"}`}
+                loading={`${index === context.itemSelected ? "eager" : "lazy"}`}
                 src={BASE_URL + place.images[0]?.variants.small}
                 onClick={() => {
                   context.setFullImageView(true);
@@ -41,18 +43,19 @@ export default function Places() {
             );
           })
       : () => [];
+
   const imagesCached = useMemo(images, [images]);
   const currentImage = data ? imagesCached[context.itemSelected] : null;
   const currentPlace = data ? data[context.itemSelected] : undefined;
   const [opacity, setOpacity] = useState(100);
   const { t } = useTranslation();
-  context.preStateChangeCallback = (callback: () => void) => {
-    setOpacity(0);
-    setTimeout(() => {
-      setOpacity(100);
-      callback();
-    }, 150);
-  };
+  // context.preStateChangeCallback = (callback: () => void) => {
+  //   setOpacity(0);
+  //   setTimeout(() => {
+  //     setOpacity(100);
+  //     callback();
+  //   }, 150);
+  // };
   return loading || !currentPlace || data.length === 0 ? (
     <div className="flex justify-center items-center w-[688px] h-[388px] bg-olive-light text-gray-500 font-serif">
       {!data || data.length === 0 ? t("No data") : t("Loading...")}
@@ -76,7 +79,6 @@ export default function Places() {
         <NavRows
           items={data}
           slug="rooms"
-          contextProvider={useNavContextProvider}
           template={NavRowsLinkTemplate}
         ></NavRows>
       </div>
@@ -104,21 +106,18 @@ export default function Places() {
         </a>
       </div>
       <div className="flex 2xl:flex-row md:pt-4 md:flex-col md:items-center 2xl:items-start md:gap-6 2xl:gap-0 w-full 2xl:justify-between">
-        <div className="image-frame-small-responsive absolute bg-gray-warm-light"></div>
-        <div
-          className={
-            "flex max-2xl:justify-center max-2xl:w-full transition-opacity duration-300" +
-            ` opacity-${opacity}`
-          }
-        >
-          <div className="carousel-small">{currentImage}</div>
+        {/* <div className="image-frame-small-responsive absolute bg-gray-warm-light"></div> */}
+        {/* <div */}
+        {/*   className={ */}
+        {/*     "flex max-2xl:justify-center max-2xl:w-full transition-opacity duration-300" + */}
+        {/*     ` opacity-${opacity}` */}
+        {/*   } */}
+        {/* > */}
+        <div className="carousel-small">
+          {imagesCached.map((image) => image)}
         </div>
-        <Nav
-          items={data}
-          contextProvider={useNavContextProvider}
-          template={NavLinkTemplate}
-          slug="places"
-        ></Nav>
+        {/* </div> */}
+        <Nav items={data} template={NavLinkTemplate} slug="places"></Nav>
       </div>
       <div
         className={

@@ -9,6 +9,7 @@ export default function NavLink({ index, context, children }) {
             context.setSelectorPos(index);
           });
           context.preStateChangeCallback(() => {
+            context.setLastItemSelected(context.itemSelected);
             context.setItemSelected(index);
           });
         }}

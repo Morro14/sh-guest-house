@@ -4,11 +4,13 @@ import type { EmblaCarouselType } from "embla-carousel";
 
 export default function CarouselDots({
   emblaApi,
+  snapListLen,
 }: {
   emblaApi: EmblaCarouselType;
+  snapListLen: number;
 }) {
   const [currentSnap, setCurrentSnap] = useState(0);
-  const [snapListLength, setSnapListLength] = useState(0);
+  const [snapListLength, setSnapListLength] = useState(snapListLen);
   const selectorRef = useRef(undefined);
   if (selectorRef.current) {
     selectorRef.current.style.left = String(currentSnap * 35 + "px");
@@ -30,10 +32,9 @@ export default function CarouselDots({
     if (!emblaApi) return;
     emblaApi.on("select", (emblaApi, event) => {
       const { targetSnap } = event.detail;
-      setCurrentSnap(targetSnap);
       setSnapListLength(emblaApi.snapList().length);
+      setCurrentSnap(targetSnap);
     });
-    setSnapListLength(emblaApi.snapList().length);
   }, [emblaApi]);
 
   return (

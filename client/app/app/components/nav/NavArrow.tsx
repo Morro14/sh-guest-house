@@ -7,7 +7,7 @@ export default function NavArrow({
   direction: "left" | "right";
   numElements: number;
   index: number;
-  func: () => any;
+  func: () => void;
 }) {
   const styleConditions = {
     right: direction === "right" && index < numElements - 1,

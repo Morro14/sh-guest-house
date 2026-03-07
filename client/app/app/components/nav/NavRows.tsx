@@ -1,23 +1,19 @@
 import NavLink from "./NavLink.tsx";
 import { useNavContextProvider } from "./NavContextProvider.tsx";
 
-type NavProps<T> = {
-  items: T[];
-  template: React.ComponentType<{ item: T; isSelected: boolean }>;
-  slug: string;
-  contextProvider: () => NavContextValue;
-};
-type NavContextValue = {
-  itemSelected: number;
-  setItemSelected: (i: number) => void;
-  lastSelected: number;
-  setLastSelected: (i: number) => void;
-};
-export default function NavRows<T>({
-  slug,
-  items,
-  template: NavLinkTemplate,
-}: NavProps<T>) {
+// type NavProps<T> = {
+//   items: T[];
+//   template: React.ComponentType<{ item: T; isSelected: boolean }>;
+//   slug: string;
+//   contextProvider: () => NavContextValue;
+// };
+// type NavContextValue = {
+//   itemSelected: number;
+//   setItemSelected: (i: number) => void;
+//   lastSelected: number;
+//   setLastSelected: (i: number) => void;
+// };
+export default function NavRows({ slug, items, template: NavLinkTemplate }) {
   const context = useNavContextProvider();
 
   return (

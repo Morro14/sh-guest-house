@@ -13,6 +13,7 @@ export function Carousel({
   imageRes,
   fullView = false,
   border = false,
+  display = true,
 }: {
   name: string;
   images: Array<Image>;
@@ -20,6 +21,7 @@ export function Carousel({
   imageRes: "small" | "blur" | "main" | "original";
   fullView?: boolean;
   border?: boolean;
+  display?: boolean;
 }) {
   const context = useNavContextProvider();
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -64,7 +66,9 @@ export function Carousel({
       </div>
     </div>
   ) : (
-    <div className={`flex flex-col gap-5 2xl:w-full md:w-[688px]`}>
+    <div
+      className={`${display ? "flex" : "hidden"} flex-col gap-5 2xl:w-full md:w-[688px]`}
+    >
       <div
         className={`"embla overflow-hidden carousel-small ${border ? "border-2 border-peach" : ""}`}
         ref={emblaRef}
@@ -88,7 +92,10 @@ export function Carousel({
           ))}
         </div>
       </div>
-      <CarouselDots emblaApi={emblaApi}></CarouselDots>
+      <CarouselDots
+        emblaApi={emblaApi}
+        snapListLen={images.length}
+      ></CarouselDots>
     </div>
   );
 }

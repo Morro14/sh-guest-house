@@ -1,16 +1,17 @@
 export default function NavScrollArrow({
   direction,
   scrollEl,
+  scrollTop,
 }: {
   direction: "up" | "down";
   scrollEl: HTMLElement;
+  scrollTop: number;
 }) {
   const styleConditions = {
-    up: direction === "up" && scrollEl?.scrollTop !== 0,
+    up: direction === "up" && scrollTop !== 0,
     down:
       direction === "down" &&
-      scrollEl?.scrollTop + 4 <=
-        scrollEl?.scrollHeight - scrollEl?.offsetHeight,
+      scrollTop + 4 <= scrollEl?.scrollHeight - scrollEl?.offsetHeight,
   };
   const styles = {
     active: "stroke-peach group-hover:fill-peach cursor-pointer",
