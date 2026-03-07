@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
+from django.conf import settings
 from easy_thumbnails.files import get_thumbnailer
 from image_cropping import ImageRatioField
 from .utils.images_util import size_to_str
@@ -62,7 +62,12 @@ class Image(models.Model):
             options["quality"] = 30
         thumb = get_thumbnailer(self.image_full).get_thumbnail(options)
 
-        return thumb.url
+        # make url relative to collectstatic folder for production serving
+        split_url = thumb.url.split("/")
+        split_url[1] = settings.STATIC_URL.replace("/", "")
+        collectstatic_url = "/".join(split_url)
+
+        return collectstatic_url
 
     @property
     def variants(self):

@@ -33,7 +33,6 @@ export function Carousel({
       return;
     }
   };
-  console.log("image res", imageRes);
   return fullView ? (
     <div className="flex flex-col gap-5 items-center justify-end shrink size-full">
       <div className="embla bg-black-transparent border-2 border-peach size-full">
