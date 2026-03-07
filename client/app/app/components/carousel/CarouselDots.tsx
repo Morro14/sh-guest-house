@@ -1,14 +1,11 @@
-import type { EmblaViewportRefType } from "embla-carousel-react";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useNavContextProvider } from "../nav/NavContextProvider";
+import { useEffect, useRef, useState } from "react";
 import NavArrow from "../nav/NavArrow";
+import type { EmblaCarouselType } from "embla-carousel";
 
 export default function CarouselDots({
-  emblaRef,
   emblaApi,
 }: {
-  emblaRef: EmblaViewportRefType;
-  emblaApi: any;
+  emblaApi: EmblaCarouselType;
 }) {
   const [currentSnap, setCurrentSnap] = useState(0);
   const [snapListLength, setSnapListLength] = useState(0);

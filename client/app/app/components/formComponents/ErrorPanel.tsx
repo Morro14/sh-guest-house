@@ -14,7 +14,6 @@ export default function ErrorPanel() {
       : errorState && Object.keys(errorState).length > 0
         ? Object.entries(errorState)
         : [];
-  console.log("error array", errorArray);
   const errorMessage = errorArray.length > 0 ? errorArray[0][1].message : "";
   return (
     <div

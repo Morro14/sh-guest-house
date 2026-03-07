@@ -1,7 +1,5 @@
 import { createTheme } from "@mui/material";
 import { enUS, ruRU } from "@mui/x-date-pickers/locales";
-import type { SxProps, Theme } from "@mui/material/styles";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 export const datePickerTheme = createTheme({
   palette: {
@@ -13,9 +11,9 @@ export const datePickerTheme = createTheme({
     },
   },
   components: {
-    MuiPickersInputBase: {
+    MuiInputBase: {
       styleOverrides: {
-        root: { color: "#4c3b33" },
+        root: { color: "#4c3b33", fontFamily: "Source Sans 3" },
       },
     },
   },
@@ -30,9 +28,9 @@ export const desktopDatePickerTheme = createTheme({
     },
   },
   components: {
-    MuiPickersInputBase: {
+    MuiInputBase: {
       styleOverrides: {
-        root: { color: "#4c3b33" },
+        root: { color: "#4c3b33", fontFamily: "Source Sans 3" },
       },
     },
     MuiSvgIcon: {
@@ -70,10 +68,6 @@ export const desktopDatePickerSx = {
     paddingBottom: "0",
   },
   "& .MuiPickersInputBase-sectionsContainer": {
-    padding: "0 6px 0",
-  },
-  "& .MuiIconButton-root": {
-    scale: "90%",
     padding: "0 6px 0",
   },
   "& .MuiIconButton-root": {

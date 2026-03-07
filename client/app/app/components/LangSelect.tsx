@@ -1,6 +1,5 @@
 import { LANGUAGES } from "~/vars";
 import { useLocation, useNavigate, useParams } from "react-router";
-import type { SyntheticEvent } from "react";
 import { useTranslation } from "react-i18next";
 
 export default function LangSelect() {
@@ -9,7 +8,7 @@ export default function LangSelect() {
   const params = useParams();
   const loc = useLocation();
   const nav = useNavigate();
-  const handleChange = (e: SyntheticEvent<HTMLSelectElement>) => {
+  const handleChange = (e) => {
     const segments = loc.pathname.split("/");
     segments[1] = e.target.value;
     i18n.changeLanguage(e.target.value);
@@ -20,7 +19,7 @@ export default function LangSelect() {
       <select
         name="lang-select"
         onChange={handleChange}
-        defaultValue={params.lang}
+        defaultValue={i18n.language || params.lang}
       >
         {LANGUAGES.map((lang) => {
           return (

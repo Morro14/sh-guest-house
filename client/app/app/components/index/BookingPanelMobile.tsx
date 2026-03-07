@@ -53,6 +53,7 @@ export default function BookingPannelMobile() {
               }}
             ></DatePicker>
             <input
+              readOnly
               name="date"
               className="hidden"
               id="checkin-date-input"

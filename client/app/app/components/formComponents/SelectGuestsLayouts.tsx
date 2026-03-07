@@ -6,9 +6,18 @@ export function FormChangeLayout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function IndexFormLayout({ children }: { children: React.ReactNode }) {
+export function IndexFormLayout({
+  children,
+  ref,
+}: {
+  children: React.ReactNode;
+  ref: React.RefObject<HTMLDivElement>;
+}) {
   return (
-    <div className="relative w-48 hover:bg-apricot h-full flex justify-center items-center">
+    <div
+      ref={ref}
+      className="relative w-48 hover:bg-apricot h-full flex justify-center items-center"
+    >
       {children}
     </div>
   );

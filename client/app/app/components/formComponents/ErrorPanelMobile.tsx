@@ -7,7 +7,6 @@ export default function ErrorPanelMobile() {
   const context = useContextProvider();
   const errors: ValidationErrors = context.errors;
   const errorsExist = errors && Object.keys(errors).length > 0;
-  console.log("error panel", errors);
   const style = errorsExist ? "h-7 flex" : "h-0 overflow-hidden";
   const errorArray = errorsExist ? Object.entries(errors) : [];
   const errorMessage = errorsExist ? errorArray[0][1].message : "";

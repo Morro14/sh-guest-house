@@ -6,7 +6,7 @@ export default function Header() {
   const { t } = useTranslation();
   return (
     <div>
-      <div className="font-sans text-red-error font-light text-center mb-2">
+      <div className="font-sans text-red-error text-center">
         {t("This is a test version of the project")}
       </div>
       <header

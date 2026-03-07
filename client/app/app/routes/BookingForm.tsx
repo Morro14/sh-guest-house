@@ -17,7 +17,6 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { desktopDatePickerSx } from "../components/formComponents/mui.tsx";
 import dayjs from "dayjs";
 import { FormChangeLayout } from "~/components/formComponents/SelectGuestsLayouts.tsx";
-import ErrorPanelMobile from "~/components/formComponents/ErrorPanelMobile.tsx";
 import ErrorPanel from "~/components/formComponents/ErrorPanel.tsx";
 
 export function ErrorBoundary() {
@@ -54,7 +53,6 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
     "nights",
   ]);
   useEffect(() => {
-    console.log("effect", actionData);
     if (actionData && Object.keys(actionData).length > 0) {
       context.setErrorState(actionData);
     }
@@ -91,6 +89,7 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
             ></DatePicker>
             <input
               className="hidden"
+              readOnly
               value={date.format().slice(0, 10)}
               id="checkin-date-input"
               name="date"

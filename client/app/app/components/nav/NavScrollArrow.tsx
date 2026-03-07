@@ -3,7 +3,7 @@ export default function NavScrollArrow({
   scrollEl,
 }: {
   direction: "up" | "down";
-  scrollEl: Element;
+  scrollEl: HTMLElement;
 }) {
   const styleConditions = {
     up: direction === "up" && scrollEl?.scrollTop !== 0,
@@ -20,13 +20,6 @@ export default function NavScrollArrow({
   const svgStyle = () => {
     return styles[active ? "active" : "inactive"];
   };
-  console.log(
-    "style cond",
-    direction,
-    styleConditions,
-    scrollEl?.scrollTop,
-    scrollEl?.scrollHeight - scrollEl?.offsetHeight,
-  );
   const handleClick = () => {
     if (!scrollEl) return;
     if (direction === "down") {

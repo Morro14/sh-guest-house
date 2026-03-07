@@ -11,7 +11,7 @@ export default function CarouselWide({ tag }: { tag: string }) {
   const images = fetchedData?.data?.data as Array<Image>;
   const context = useNavContextProvider();
   const [emblaRef] = useEmblaCarousel({
-    startIndex: 1,
+    startSnap: 1,
     align: "center",
     loop: true,
   });

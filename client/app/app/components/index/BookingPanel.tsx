@@ -51,6 +51,7 @@ export default function BookingPannel() {
             </ThemeProvider>
             <input
               name="date"
+              readOnly
               className="hidden"
               id="checkin-date-input"
               value={date.format().slice(0, 10)}

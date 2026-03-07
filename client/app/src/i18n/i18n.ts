@@ -2,12 +2,9 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import HttpBackend from "i18next-http-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
-import pathCustom from "app/utils/langFromPath";
-
-const languageDetector = new LanguageDetector();
-languageDetector.addDetector(pathCustom);
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
+
 i18n
   .use(HttpBackend)
   .use(LanguageDetector)
@@ -16,11 +13,11 @@ i18n
     fallbackLng: "en",
     supportedLngs: ["en", "ru"],
     debug: import.meta.env.VITE_DEBUG === "true",
+    // debug: true,
 
     detection: {
-      order: ["pathCustom"],
-      pathCustom: 1,
-      lookupQuerystring: "lang",
+      order: ["navigator"],
+      lookupFromPathIndex: 0,
       caches: ["localStorage", "cookie"],
     },
 

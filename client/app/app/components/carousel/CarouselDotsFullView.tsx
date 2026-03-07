@@ -1,15 +1,13 @@
-import type { EmblaViewportRefType } from "embla-carousel-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavContextProvider } from "../nav/NavContextProvider";
 import NavArrow from "app/components/nav/NavArrow";
+import type { EmblaCarouselType } from "embla-carousel";
 
 export default function CarouselDotsFullView({
-  emblaRef,
   emblaApi,
   snapListLen,
 }: {
-  emblaRef: EmblaViewportRefType;
-  emblaApi: any;
+  emblaApi: EmblaCarouselType;
   snapListLen: number;
 }) {
   const context = useNavContextProvider();

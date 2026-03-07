@@ -21,12 +21,7 @@ export default function Nav<T>({
   template: NavLinkTemplate,
 }: NavProps<T>) {
   const context = useNavContextProvider();
-  const selectorRef = useRef<HTMLDivElement>(undefined);
   const scrollRef = useRef<HTMLDivElement>(null);
-  if (selectorRef.current) {
-    selectorRef.current.style.top =
-      String(context.selectorPos * selectorRef.current.clientHeight) + "px";
-  }
 
   return (
     <div className="flex flex-col items-center relative max-2xl:hidden">
@@ -40,7 +35,6 @@ export default function Nav<T>({
       >
         <div
           className={`absolute w-[2px] h-[60px] bg-peach transition-all ease-out`}
-          ref={selectorRef}
         ></div>
         {items.map((item, i) => {
           return (
@@ -53,7 +47,6 @@ export default function Nav<T>({
           );
         })}
       </div>
-      {/* <div className={`${scrollRef?.current.scrollTop !== scrollRef?.current.scrollTopMax ? "h-[2px] bg-peach" : ""} w-full`}></div> */}
       <NavScrollArrow
         direction="down"
         scrollEl={scrollRef?.current}

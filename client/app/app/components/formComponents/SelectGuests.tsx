@@ -12,7 +12,13 @@ export default function SelectGuests({
   layout: Layout,
 }: {
   defaultParams?: typeof DEFAULT_PARAMS;
-  layout: React.ComponentType;
+  layout: ({
+    children,
+    ref,
+  }: {
+    children: React.ReactNode;
+    ref: React.RefObject<HTMLDivElement>;
+  }) => React.ReactNode;
 }) {
   const { t } = useTranslation();
   const [selectedValues, setSelectedValues] = useState({

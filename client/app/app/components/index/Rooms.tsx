@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 
 export default function RoomsPreview() {
   const { fetchedData, loading } = useFetchV3("content/rooms");
+  console.log("fetched data", fetchedData);
   const { t } = useTranslation();
   const rooms = fetchedData?.data?.data as Array<Room>;
   const context = useNavContextProvider();
