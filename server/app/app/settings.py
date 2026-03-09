@@ -38,7 +38,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = os.environ.get("DEBUG") == "True"
 AUTH_USER_MODEL = "auth_app.User"
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = ["shushan-guesthouse.onrender.com", "127.0.0.1"]
 CLIENT_URL = os.environ.get("CLIENT_URL")
 SITE_NAME = os.environ.get("SITE_NAME")
 
@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "django_otp.plugins.otp_static",
     "django_otp.plugins.otp_totp",
     "django_otp.plugins.otp_email",
+    "two_factor",
     "easy_thumbnails",
     "image_cropping",
     "rest_framework",
@@ -71,8 +72,8 @@ INSTALLED_APPS = [
     "django_structlog",
 ]
 SITE_ID = 1
-# LOGIN_URL = "two_factor:login"
-# LOGIN_REDIRECT_URL = "two_factor:profile"
+LOGIN_URL = "two_factor:login"
+LOGIN_REDIRECT_URL = "two_factor:profile"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -85,7 +86,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    # "django_otp.middleware.OTPMiddleware",
+    "django_otp.middleware.OTPMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -106,7 +107,10 @@ ROOT_URLCONF = "app.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "DIRS": [
+            os.path.join(BASE_DIR, "templates"),
+            os.path.join(BASE_DIR, "collectstatic/frontend"),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -188,8 +192,8 @@ IMAGE_CROPPING_BACKEND = (
 IMAGE_CROPPING_BACKEND_PARAMS = {}
 
 THUMBNAIL_BASEDIR = "thumbnails/thumb"
-# THUMBNAIL_MEDIA_ROOT = BASE_DIR / "thumbnails"
-# THUMBNAIL_MEDIA_URL = "/thumbnails/"
+THUMBNAIL_MEDIA_ROOT = BASE_DIR / "thumbnails"
+THUMBNAIL_MEDIA_URL = "/thumbnails/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -204,7 +208,7 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = ["x-language", "content-type"]
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = os.environ.get("EMAIL_HOST")
 EMAIL_PORT = int(os.environ.get("EMAIL_PORT"))
 EMAIL_USE_TLS = True

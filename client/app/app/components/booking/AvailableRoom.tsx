@@ -94,7 +94,7 @@ export default function AvailableRoom({
       <legend className="sr-only">{room.name}</legend>
       <img
         className="border-2 border-peach object-cover sm:w-[482px] w-[360px] md:h-[272px] h-[203px]"
-        src={`${SERVER_URL}/${room.images[0].variants.small}`}
+        src={`${SERVER_URL}${room.images[0].variants.small}`}
         onClick={() => {
           navContext.setFullImageView(true);
           navContext.setItemSelected(index);

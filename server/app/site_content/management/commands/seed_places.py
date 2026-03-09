@@ -15,6 +15,14 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+
+        if Place.objects.exists():
+            self.stdout.write(
+                self.style.SUCCESS(
+                    "Skipping generating data for Place. Place already exist."
+                )
+            )
+            return
         places_data = [
             {
                 "name": "Tanaat",

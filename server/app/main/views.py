@@ -38,14 +38,14 @@ load_dotenv()
 log = structlog.get_logger()
 
 
-def template_test(request):
-    # if not settings.DEBUG:
-    #     return HttpResponse(status=404)
-    # res = Reservation.objects.get(pk=1)
-    translation.activate("ru")
-    subject, html_body, text_body = get_res_validated_mail_content(1)
-
-    return HttpResponse(html_body)
+# def template_test(request):
+#     # if not settings.DEBUG:
+#     #     return HttpResponse(status=404)
+#     # res = Reservation.objects.get(pk=1)
+#     translation.activate("ru")
+#     subject, html_body, text_body = get_res_validated_mail_content(1)
+#
+#     return HttpResponse(html_body)
 
 
 class BookingRequestValidateView(APIView):

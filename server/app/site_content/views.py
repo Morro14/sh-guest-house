@@ -3,8 +3,6 @@ from site_content.models import WideImage, Place, ContentPage
 from main.models import Room
 from rest_framework.response import Response
 from django.utils.translation import gettext as _
-from django.views.decorators.vary import vary_on_headers
-from django.utils.decorators import method_decorator
 from django.core.cache import cache
 from django.conf import settings
 from .serializers import (
@@ -13,10 +11,14 @@ from .serializers import (
     ImageWideSerializer,
     ContentPageSerializer,
 )
+from django.views.generic import TemplateView
 import os
 import json
 from django.utils import translation
-from utils.language import _get_language_from_request
+
+
+class FrontendView(TemplateView):
+    template_name = "index.html"
 
 
 class WideImageSet(APIView):

@@ -37,6 +37,13 @@ class Command(BaseCommand):
     help = "Populate database with Contentinstances for tests"
 
     def handle(self, *args, **options):
+        if ContentPage.objects.exists():
+            self.stdout.write(
+                self.style.SUCCESS(
+                    "Skipping generating data for ContentPage. ContentPage already exists."
+                )
+            )
+            return
         for c in content_data:
             ContentPage.objects.create(
                 slug=c["slug"],

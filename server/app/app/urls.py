@@ -16,21 +16,24 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, re_path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from two_factor.urls import urlpatterns as tf_urls
 from two_factor.admin import AdminSiteOTPRequired
 from main.views import FrontendLogsView
+from site_content.views import FrontendView
 
-# admin.site.__class__ = AdminSiteOTPRequired
+admin.site.__class__ = AdminSiteOTPRequired
 urlpatterns = [
-    # path("", include(tf_urls)),
+    path("", FrontendView.as_view()),
     path("admin/", admin.site.urls),
     path("api/booking/", include("main.urls")),
     path("api/content/", include("site_content.urls")),
     path("api/logs-frontend", FrontendLogsView.as_view()),
     path("api-auth/", include("auth_app.urls")),
+    path("", include(tf_urls)),
+    re_path(r"^(?:.*)/?$", FrontendView.as_view()),
 ]
 
 if settings.DEBUG:

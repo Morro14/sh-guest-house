@@ -17,6 +17,15 @@ class Command(BaseCommand):
     help = "Populate database with WideImage instances for tests"
 
     def handle(self, *args, **options):
+
+        if WideImage.objects.exists():
+            self.stdout.write(
+                self.style.SUCCESS(
+                    "Skipping generating data for WideImage. WideImage already exist."
+                )
+            )
+            return
+
         def add_tags():
             img_tags = [ImageTag(name=tag) for tag in tags]
             img_tags_obj = ImageTag.objects.bulk_create(img_tags)

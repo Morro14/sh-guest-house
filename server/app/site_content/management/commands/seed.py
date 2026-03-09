@@ -60,6 +60,14 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        if Room.objects.exists():
+            self.stdout.write(
+                self.style.SUCCESS(
+                    "Skipping generating data for Room. Room already exist."
+                )
+            )
+            return
+
         def add_rooms():
             for i in range(options["rooms"]):
                 try:

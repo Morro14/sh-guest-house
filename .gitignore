@@ -16,4 +16,6 @@ collectstatic
 /server/app/cmd/
 *.sqlite3
 pyproject.toml
-
+.idea
+.vscode
+.eslintrc.json
