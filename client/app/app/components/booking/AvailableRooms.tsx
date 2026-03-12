@@ -47,7 +47,7 @@ export default function AvailableRooms({ rooms }) {
           {context.fullImageView ? (
             <MediaFullView>
               <Carousel
-                name={rooms[context.itemSelected]}
+                name="carousel-full-view"
                 images={rooms[context.itemSelected].images}
                 imageRes="original"
                 imageSize="full"

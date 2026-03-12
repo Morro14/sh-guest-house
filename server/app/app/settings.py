@@ -18,6 +18,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import structlog
+from dj_lite import sqlite_config
 
 # from django.core.management.utils import get_random_secret_key
 
@@ -129,12 +130,7 @@ WSGI_APPLICATION = "app.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
+DATABASES = {"default": sqlite_config(BASE_DIR)}
 
 
 # Password validation
@@ -177,12 +173,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 # MEDIA_URL = "/media/"
-STATIC_URL = "static/"
+MEDIA_ROOT = BASE_DIR / "media"
+STATIC_URL = "/static/"
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
     BASE_DIR / "staticfiles",
-    BASE_DIR / "templates",
-    BASE_DIR / "thumbnails",
 ]
 STATIC_ROOT = BASE_DIR / "collectstatic/"
 
@@ -191,9 +185,9 @@ IMAGE_CROPPING_BACKEND = (
 )
 IMAGE_CROPPING_BACKEND_PARAMS = {}
 
-THUMBNAIL_BASEDIR = "thumbnails/thumb"
-THUMBNAIL_MEDIA_ROOT = BASE_DIR / "thumbnails"
-THUMBNAIL_MEDIA_URL = "/thumbnails/"
+THUMBNAIL_BASEDIR = "thumbnails"
+# THUMBNAIL_MEDIA_ROOT = BASE_DIR / "collectstatic/media/thumbnails"
+# THUMBNAIL_MEDIA_URL = "/thumbnails/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -275,6 +269,9 @@ structlog.configure(
 )
 
 # whitenoise
+WHITENOISE_ROOT = os.path.join(BASE_DIR, "media")
+# WHITENOISE_INDEX_FILE = True
+
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",

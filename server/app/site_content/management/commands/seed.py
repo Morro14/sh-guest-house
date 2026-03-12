@@ -98,20 +98,12 @@ class Command(BaseCommand):
                     try:
                         RoomImage.objects.create(
                             room=rooms[i],
-                            image_full=f"static/img/test/rooms/room-{random.randint(1, 10)}-1.webp",
+                            image_full=f"img/test/rooms/room-{random.randint(1, 10)}-1.webp",
                             order=j,
                         )
                     except IntegrityError:
                         continue
 
-        def add_wide_images():
-            WideImage.objects.create(
-                original="static/img/full/full-1.png",
-                alt_text="wide-image-1",
-                image_full="static/img/full/wide-photo-1.png",
-            )
-
-        # add_wide_images()
         add_room_images()
 
         self.stdout.write(

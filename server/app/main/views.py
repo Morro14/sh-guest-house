@@ -277,6 +277,7 @@ class FrontendLogsView(APIView):
     authentication_classes = []
 
     def post(self, request):
+
         data_serialized = json.loads(request.data.get("data"))
         log.error(
             "frontend_error",

@@ -26,21 +26,20 @@ from site_content.views import FrontendView
 
 admin.site.__class__ = AdminSiteOTPRequired
 urlpatterns = [
-    path("", FrontendView.as_view()),
     path("admin/", admin.site.urls),
     path("api/booking/", include("main.urls")),
     path("api/content/", include("site_content.urls")),
     path("api/logs-frontend", FrontendLogsView.as_view()),
     path("api-auth/", include("auth_app.urls")),
     path("", include(tf_urls)),
+    path("", FrontendView.as_view()),
     re_path(r"^(?:.*)/?$", FrontendView.as_view()),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(
-        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
-    )
-    urlpatterns += static(
-        settings.THUMBNAIL_MEDIA_URL,
-        document_root=settings.THUMBNAIL_MEDIA_ROOT,
-    )
+urlpatterns += static(
+    settings.STATIC_URL, document_root=settings.STATIC_ROOT
+)
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# urlpatterns += static(
+#     settings.THUMBNAIL_MEDIA_URL,
+#     document_root=settings.THUMBNAIL_MEDIA_ROOT,
+# )

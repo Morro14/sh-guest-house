@@ -20,7 +20,6 @@ def get_res_validated_mail_content(res_pk):
         for room_reserved in reservation.rooms_reserved.all()
     ]
     guests = reservation.get_guests()
-    print("guest type", type(guests["adults"]))
     context = {
         "reservation": reservation,
         "site_name": _(settings.SITE_NAME),
@@ -48,7 +47,6 @@ def get_res_confirmed_mail_content(res_pk):
         for room_reserved in reservation.rooms_reserved.all()
     ]
     guests = reservation.get_guests()
-    print("guest type", type(guests["adults"]))
     context = {
         "reservation": reservation,
         "site_name": _(settings.SITE_NAME),

@@ -24,8 +24,9 @@ export function Carousel({
   display?: boolean;
 }) {
   const context = useNavContextProvider();
+  const startSnap = fullView ? context.imageSelected : 0;
   const [emblaRef, emblaApi] = useEmblaCarousel({
-    startSnap: fullView ? context.imageSelected : 0,
+    startSnap: Number(startSnap),
   });
   const imageOnClick = (imageIndex: number) => {
     if (!fullView) {
@@ -67,10 +68,10 @@ export function Carousel({
     </div>
   ) : (
     <div
-      className={`${display ? "flex" : "hidden"} flex-col gap-5 2xl:w-full md:w-[688px]`}
+      className={`embla ${display ? "flex" : "hidden"} flex-col gap-5 2xl:w-full md:w-[688px]`}
     >
       <div
-        className={`"embla overflow-hidden carousel-small ${border ? "border-2 border-peach" : ""}`}
+        className={`"embla__viewport overflow-hidden carousel-small ${border ? "border-2 border-peach" : ""}`}
         ref={emblaRef}
       >
         <div className={`embla__container`}>

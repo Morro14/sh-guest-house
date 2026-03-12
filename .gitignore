@@ -12,10 +12,10 @@ build
 thumbnails
 migrations
 collectstatic
-**/static/test/
 /server/app/cmd/
 *.sqlite3
 pyproject.toml
 .idea
 .vscode
 .eslintrc.json
+**/frontend/

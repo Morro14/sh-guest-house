@@ -77,3 +77,4 @@ urllib3==2.5.0
 vine==5.1.0
 wcwidth==0.5.2
 whitenoise==6.12.0
+dj-lite==1.3.0

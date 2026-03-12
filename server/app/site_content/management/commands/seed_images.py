@@ -42,7 +42,7 @@ class Command(BaseCommand):
                     )
                     img = WideImage.objects.create(
                         alt_text=i["name"],
-                        image_full=f"static/img/test/wide/{i["name"]}.jpg",
+                        image_full=f"img/test/wide/{i["name"]}.jpg",
                     )
                     img.tag.add(tag)
                 except IntegrityError:

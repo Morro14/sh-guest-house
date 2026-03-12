@@ -64,26 +64,26 @@ class Command(BaseCommand):
             alt_text="tanaat",
             order=0,
             place=Place.objects.get(slug="tanaat"),
-            image_full="static/img/test/places/tanaat.jpg",
+            image_full="img/test/places/tanaat.jpg",
         )
         noravank_img = PlaceImage.objects.create(
             alt_text="noravank",
             order=0,
             place=Place.objects.get(slug="noravank"),
-            image_full="static/img/test/places/noravank.jpg",
+            image_full="img/test/places/noravank.jpg",
         )
         spitakavor_img = PlaceImage.objects.create(
             alt_text="spitakavor",
             order=0,
             place=Place.objects.get(slug="spitakavor"),
-            image_full="static/img/test/places/spitakavor.jpg",
+            image_full="img/test/places/spitakavor.jpg",
         )
         dadal_img = PlaceImage.objects.create(
             alt_text="dadal",
             order=0,
             place=Place.objects.get(slug="dadal"),
-            image_full="static/img/test/places/dadal.jpg",
+            image_full="img/test/places/dadal.jpg",
         )
         self.stdout.write(
-            self.style.SUCCESS("✅ database seeded with fake data")
+            self.style.SUCCESS("✅ database seeded with fake Place data")
         )

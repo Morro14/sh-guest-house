@@ -18,12 +18,6 @@ class WideImageAmin(admin.ModelAdmin):
     fields = ["alt_text", "order", "image_full", "tag"]
 
 
-# @admin.register(OriginalImage)
-# class OriginalImageAdmin(admin.ModelAdmin):
-#     # fields = ["wide_image"]
-#     pass
-
-
 @admin.register(PlaceImage)
 class PlaceImageAdmin(admin.ModelAdmin):
     fields = ["alt_text", "order", "image_full", "place"]
