@@ -23,11 +23,18 @@ class User(AbstractBaseUser, PermissionsMixin):
     def has_perm(self, perm, obj=None):
         if self.is_active and self.is_superuser:
             return True
+        app_label = perm.split(".")[0]
+        if (
+            self.is_active
+            and self.is_staff
+            and app_label in ["site_content", "main"]
+        ):
+            return True
         return _user_has_perm(self, perm, obj)
 
     def has_module_perms(self, app_label):
         if self.is_active and self.is_superuser:
             return True
-        if self.is_staff:
+        if self.is_active and self.is_staff:
             return app_label in ["site_content", "main"]
         return _user_has_module_perms(self, app_label)

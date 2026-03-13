@@ -58,11 +58,11 @@ INSTALLED_APPS = [
     "main",
     "site_content",
     "auth_app",
-    "django_otp",
-    "django_otp.plugins.otp_static",
-    "django_otp.plugins.otp_totp",
-    "django_otp.plugins.otp_email",
-    "two_factor",
+    # "django_otp",
+    # "django_otp.plugins.otp_static",
+    # "django_otp.plugins.otp_totp",
+    # "django_otp.plugins.otp_email",
+    # "two_factor",
     "easy_thumbnails",
     "image_cropping",
     "rest_framework",
@@ -73,8 +73,8 @@ INSTALLED_APPS = [
     "django_structlog",
 ]
 SITE_ID = 1
-LOGIN_URL = "two_factor:login"
-LOGIN_REDIRECT_URL = "two_factor:profile"
+# LOGIN_URL = "two_factor:login"
+# LOGIN_REDIRECT_URL = "two_factor:profile"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -87,7 +87,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django_otp.middleware.OTPMiddleware",
+    # "django_otp.middleware.OTPMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]

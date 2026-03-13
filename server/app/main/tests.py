@@ -20,7 +20,10 @@ class AdminTest(APITestCase):
         print(user)
         request = rf.get("/admin/")
         request.user = user
-        print("all perms", user.get_all_permissions())
+        app_list = admin.site.get_app_list(request)
+        print(app_list)
+        # print("all perms", user.get_all_permissions())
+        # print("admin registery", admin.site._registry)
         # for model, model_admin in admin.site._registry.items():
         #     module_perm = model_admin.has_module_permission(request)
         #     perms = model_admin.get_model_perms(request)

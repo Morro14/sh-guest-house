@@ -24,7 +24,10 @@ class CustomUserAdmin(BaseUserAdmin):
                 ]
             },
         ),
-        (_("Permissions"), {"fields": ["is_staff", "is_superuser"]}),
+        (
+            _("Permissions"),
+            {"fields": ["is_staff", "is_superuser", "groups"]},
+        ),
     ]
     add_fieldsets = [
         (
