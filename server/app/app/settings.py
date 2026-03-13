@@ -39,12 +39,12 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = os.environ.get("DEBUG") == "True"
 AUTH_USER_MODEL = "auth_app.User"
-ALLOWED_HOSTS = ["shushan-guesthouse.onrender.com", "127.0.0.1"]
+ALLOWED_HOSTS = ["shushan-gh.onrender.com", "127.0.0.1"]
 CLIENT_URL = os.environ.get("CLIENT_URL")
 SITE_NAME = os.environ.get("SITE_NAME")
+SITE_DOMAIN = os.environ.get("SITE_DOMAIN")
 
 # Application definition
-
 INSTALLED_APPS = [
     "modeltranslation",
     "django.contrib.auth",

@@ -18,6 +18,7 @@ class CustomUserManager(BaseUserManager):
         user = self.create_user(
             email, password=password, is_superuser=True, **extra_fields
         )
+
         user.is_staff = True
         user.save()
         return user

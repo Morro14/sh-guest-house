@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .managers import CustomUserManager
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import _user_has_perm, _user_has_module_perms
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -20,7 +21,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     def has_perm(self, perm, obj=None):
-        return True
+        if self.is_active and self.is_superuser:
+            return True
+        return _user_has_perm(self, perm, obj)
 
     def has_module_perms(self, app_label):
-        return app_label in ["site_content", "main"]
+        if self.is_active and self.is_superuser:
+            return True
+        if self.is_staff:
+            return app_label in ["site_content", "main"]
+        return _user_has_module_perms(self, app_label)
