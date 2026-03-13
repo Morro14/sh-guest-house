@@ -33,7 +33,7 @@ urlpatterns = [
     path("api-auth/", include("auth_app.urls")),
     path("", include(tf_urls)),
     path("", FrontendView.as_view()),
-    re_path(r"^(?:.*)/?$", FrontendView.as_view()),
+    # re_path(r"^(?:.*)/?$", FrontendView.as_view()),
 ]
 urlpatterns += static(
     settings.STATIC_URL, document_root=settings.STATIC_ROOT
