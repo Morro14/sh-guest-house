@@ -25,7 +25,6 @@ from django.conf.urls.static import static
 from main.views import FrontendLogsView
 from site_content.views import FrontendView
 
-admin.autodiscover()
 # admin.site.__class__ = AdminSiteOTPRequired
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -34,8 +33,8 @@ urlpatterns = [
     path("api/logs-frontend", FrontendLogsView.as_view()),
     path("api-auth/", include("auth_app.urls")),
     # path("", include(tf_urls)),
-    # path("", FrontendView.as_view()),
-    # re_path(r"^(?:.*)/?$", FrontendView.as_view()),
+    path("", FrontendView.as_view()),
+    re_path(r"^(?:.*)/?$", FrontendView.as_view()),
     re_path(r"^(ru|en)/.*$", FrontendView.as_view()),
 ]
 urlpatterns += static(

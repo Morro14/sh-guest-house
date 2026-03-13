@@ -32,9 +32,7 @@ def retry(times=3, delay=2):
                     return func(*args, **kwargs)
                 except Exception as e:
                     if attempt == times - 1:
-                        log.error(
-                            "email_send_error",
-                        )
+                        log.error("email_send_error", error=e)
                     time.sleep(delay)
 
         return wrapper

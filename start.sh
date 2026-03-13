@@ -11,6 +11,6 @@ python3 manage.py seed_content
 python3 manage.py seed_images
 python3 manage.py seed_places
 python3 manage.py set_site
-
+python3 manage.py add_permissions
 python3 manage.py collectstatic --no-input
 python3 manage.py gen_thumbnails

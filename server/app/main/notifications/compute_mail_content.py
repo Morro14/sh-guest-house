@@ -24,6 +24,7 @@ def get_res_validated_mail_content(res_pk):
         "reservation": reservation,
         "site_name": _(settings.SITE_NAME),
         "site_url": domain,
+        "admin_url": f"/admin/main/reservation/{res_pk}",
         "current_year": date.today().year,
         "footer_message": _(settings.SITE_NAME),
         "rooms": rooms,

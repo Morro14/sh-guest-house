@@ -34,6 +34,7 @@ def send_email_on_reservation_save(sender, instance, **kwargs):
                 instance_pk=instance.pk,
             )
     except Exception as e:
+        print("EMAIL ERROR", e)
         log.error("email_send_error", error=e)
 
 

@@ -1,10 +1,24 @@
 from django.contrib.auth import get_user_model
 from rest_framework.test import APITestCase
 from django.core.management import call_command
+from .models import Reservation
+from datetime import date
 
 from django.test.client import RequestFactory
 
 from django.contrib import admin
+
+
+class EmailTest(APITestCase):
+    def test_res_request(self):
+        res = Reservation.objects.create(
+            check_in=date(2026, 3, 21),
+            check_out=date(2026, 3, 23),
+            email="ivfmn2@gmail.com",
+            message="123",
+            guest_name="test testman",
+        )
+        res.validate_no_overlap()
 
 
 class AdminTest(APITestCase):
