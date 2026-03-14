@@ -35,14 +35,29 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-
+ON_RENDER = "RENDER" in os.environ
 DEBUG = os.environ.get("DEBUG") == "True"
 AUTH_USER_MODEL = "auth_app.User"
-ALLOWED_HOSTS = ["shushan-gh.onrender.com", "127.0.0.1"]
+
+ALLOWED_HOSTS = []
+RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+else:
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+
+CSRF_TRUSTED_ORIGINS = []
+if RENDER_EXTERNAL_HOSTNAME:
+    CSRF_TRUSTED_ORIGINS.append(f"https://{RENDER_EXTERNAL_HOSTNAME}")
+
+if ON_RENDER:
+    DB_PATH = "/var/data/db"
+else:
+    DB_PATH = BASE_DIR / "db.sqlite3"
+
 CLIENT_URL = os.environ.get("CLIENT_URL")
 SITE_NAME = os.environ.get("SITE_NAME")
-SITE_DOMAIN = os.environ.get("SITE_DOMAIN")
+SITE_DOMAIN = RENDER_EXTERNAL_HOSTNAME
 
 # Application definition
 INSTALLED_APPS = [
@@ -110,7 +125,6 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
             os.path.join(BASE_DIR, "templates"),
-            os.path.join(BASE_DIR, "collectstatic/frontend"),
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -130,7 +144,7 @@ WSGI_APPLICATION = "app.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {"default": sqlite_config(BASE_DIR)}
+DATABASES = {"default": sqlite_config(DB_PATH)}
 
 
 # Password validation
@@ -173,7 +187,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 # MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+if ON_RENDER:
+    MEDIA_ROOT = "/var/data/media"
+else:
+    MEDIA_ROOT = BASE_DIR / "media"
+
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     BASE_DIR / "staticfiles",
@@ -269,8 +287,12 @@ structlog.configure(
 )
 
 # whitenoise
-WHITENOISE_ROOT = os.path.join(BASE_DIR, "media")
+if ON_RENDER:
+    WHITENOISE_ROOT = "/var/data/media"
+else:
+    WHITENOISE_ROOT = os.path.join(BASE_DIR, "media")
 # WHITENOISE_INDEX_FILE = True
+WHITENOISE_MAX_AGE = 31536000
 
 STORAGES = {
     "default": {
