@@ -51,11 +51,6 @@ CSRF_TRUSTED_ORIGINS = []
 if RENDER_EXTERNAL_HOSTNAME:
     CSRF_TRUSTED_ORIGINS.append(f"https://{RENDER_EXTERNAL_HOSTNAME}")
 
-if ON_RENDER:
-    DB_PATH = Path("/var/data/db")
-else:
-    DB_PATH = BASE_DIR
-
 
 CLIENT_URL = os.environ.get("CLIENT_URL")
 SITE_NAME = os.environ.get("SITE_NAME")
@@ -151,6 +146,11 @@ WSGI_APPLICATION = "app.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+if ON_RENDER:
+    DB_PATH = Path("/var/data/db")
+    print("Database path set to:", DB_PATH)
+else:
+    DB_PATH = BASE_DIR
 DATABASES = {"default": sqlite_config(DB_PATH)}
 
 
@@ -297,6 +297,7 @@ if ON_RENDER:
     CREDENTIAL_PATH = "/etc/secrets/storage-credentials.json"
 else:
     CREDENTIAL_PATH = os.path.join(BASE_DIR, "storage-credentials.json")
+
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
     CREDENTIAL_PATH
 )
