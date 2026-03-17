@@ -36,7 +36,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-ON_RENDER = os.environ.get("RENDER")
+ON_RENDER = os.environ.get("RENDER") == "true"
 DEBUG = os.environ.get("DEBUG") == "True"
 AUTH_USER_MODEL = "auth_app.User"
 
