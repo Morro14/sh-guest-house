@@ -298,7 +298,7 @@ if ON_RENDER:
 else:
     CREDENTIAL_PATH = os.path.join(BASE_DIR, "storage-credentials.json")
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    os.path.join(BASE_DIR, "storage-credentials.json")
+    CREDENTIAL_PATH
 )
 
 # if ON_RENDER:
