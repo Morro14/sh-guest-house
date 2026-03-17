@@ -6,7 +6,7 @@ import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
-  // base: "/static/frontend/",
+  base: "/static/frontend/",
   plugins: [reactRouter(), tailwindcss(), tsconfigPaths()],
   resolve: {
     alias: {
