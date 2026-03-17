@@ -21,14 +21,14 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         if Place.objects.exists():
-            places = Place.objects.all()
-            places.delete()
-            # self.stdout.write(
-            #     self.style.SUCCESS(
-            #         "Skipping generating data for Place. Place already exist."
-            #     )
-            # )
-            # return
+            # places = Place.objects.all()
+            # places.delete()
+            self.stdout.write(
+                self.style.SUCCESS(
+                    "Skipping generating data for Place. Place already exist."
+                )
+            )
+            return
         places_data = [
             {
                 "name": "Tanaat",
@@ -70,7 +70,7 @@ class Command(BaseCommand):
                 alt_text=p["slug"],
                 order=order,
                 place=place_instance,
-                image_full=os.path.join(media_base_dir, local_img_path),
+                image_full=os.path.join(local_img_path),
             )
             with open(
                 os.path.join(media_base_dir, local_img_path), "rb"

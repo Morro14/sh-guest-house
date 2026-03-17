@@ -70,24 +70,18 @@ class Command(BaseCommand):
                         )
                         instance = RoomImage.objects.create(
                             room=rooms[i],
-                            image_full=os.path.join(
-                                media_base_dir, local_img_path
-                            ),
+                            image_full=os.path.join(local_img_path),
                             order=j,
                         )
                         cloud_filename = local_img_path
 
-                        # with open(
-                        #     os.path.join(media_base_dir, local_img_path),
-                        #     "rb",
-                        # ) as f:
-                        #     print(
-                        #         "open",
-                        #         os.path.join(media_base_dir, local_img_path),
-                        #     )
-                        #     instance.image_full.save(
-                        #         cloud_filename, File(f), save=True
-                        #     )
+                        with open(
+                            os.path.join(media_base_dir, local_img_path),
+                            "rb",
+                        ) as f:
+                            instance.image_full.save(
+                                cloud_filename, File(f), save=True
+                            )
                     except IntegrityError:
                         continue
 

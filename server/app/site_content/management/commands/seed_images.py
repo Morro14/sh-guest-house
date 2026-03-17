@@ -50,9 +50,7 @@ class Command(BaseCommand):
                     )
                     img = WideImage.objects.create(
                         alt_text=i["name"],
-                        image_full=os.path.join(
-                            media_base_dir, local_img_path
-                        ),
+                        image_full=os.path.join(local_img_path),
                     )
                     img.tag.add(tag)
 
