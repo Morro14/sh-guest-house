@@ -77,18 +77,17 @@ class Command(BaseCommand):
                         )
                         cloud_filename = local_img_path
 
-                        with open(
-                            os.path.join(media_base_dir, local_img_path),
-                            "rb",
-                        ) as f:
-                            print(
-                                "open",
-                                os.path.join(media_base_dir, local_img_path),
-                            )
-                            instance.image_full.save(
-                                cloud_filename, File(f), save=True
-                            )
-                        print("saved path", instance.image_full)
+                        # with open(
+                        #     os.path.join(media_base_dir, local_img_path),
+                        #     "rb",
+                        # ) as f:
+                        #     print(
+                        #         "open",
+                        #         os.path.join(media_base_dir, local_img_path),
+                        #     )
+                        #     instance.image_full.save(
+                        #         cloud_filename, File(f), save=True
+                        #     )
                     except IntegrityError:
                         continue
 
