@@ -60,7 +60,7 @@ SITE_NAME = os.environ.get("SITE_NAME")
 if ON_RENDER:
     SITE_DOMAIN = RENDER_EXTERNAL_HOSTNAME
 else:
-    SITE_DOMAIN = "Site name"
+    SITE_DOMAIN = os.environ.get("SITE_DOMAIN")
 
 # Application definition
 INSTALLED_APPS = [
@@ -288,13 +288,6 @@ structlog.configure(
     cache_logger_on_first_use=True,
 )
 
-# whitenoise
-if ON_RENDER:
-    WHITENOISE_ROOT = "/var/data/media"
-else:
-    WHITENOISE_ROOT = os.path.join(BASE_DIR, "media")
-# WHITENOISE_INDEX_FILE = True
-WHITENOISE_MAX_AGE = 31536000
 
 # Google Cloud Storage
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
