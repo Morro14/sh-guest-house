@@ -148,7 +148,6 @@ WSGI_APPLICATION = "app.wsgi.application"
 
 if ON_RENDER:
     DB_PATH = Path("/var/data/db")
-    print("Database path set to:", DB_PATH)
 else:
     DB_PATH = BASE_DIR
 DATABASES = {"default": sqlite_config(DB_PATH)}
