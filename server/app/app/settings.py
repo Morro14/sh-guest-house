@@ -52,7 +52,7 @@ if RENDER_EXTERNAL_HOSTNAME:
     CSRF_TRUSTED_ORIGINS.append(f"https://{RENDER_EXTERNAL_HOSTNAME}")
 
 if ON_RENDER:
-    DB_PATH = "/var/data/db"
+    DB_PATH = Path("/var/data/db")
 else:
     DB_PATH = BASE_DIR
 CLIENT_URL = os.environ.get("CLIENT_URL")
