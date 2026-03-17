@@ -55,8 +55,11 @@ if ON_RENDER:
     DB_PATH = Path("/var/data/db")
 else:
     DB_PATH = BASE_DIR
+
+
 CLIENT_URL = os.environ.get("CLIENT_URL")
 SITE_NAME = os.environ.get("SITE_NAME")
+
 if ON_RENDER:
     SITE_DOMAIN = RENDER_EXTERNAL_HOSTNAME
 else:
@@ -290,6 +293,10 @@ structlog.configure(
 
 
 # Google Cloud Storage
+if ON_RENDER:
+    CREDENTIAL_PATH = "/etc/secrets/storage-credentials.json"
+else:
+    CREDENTIAL_PATH = os.path.join(BASE_DIR, "storage-credentials.json")
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
     os.path.join(BASE_DIR, "storage-credentials.json")
 )
