@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 
 # from two_factor.urls import urlpatterns as tf_urls
 # from two_factor.admin import AdminSiteOTPRequired
-from main.views import FrontendLogsView
+from main.views import FrontendLogsView, HealthCheckView
 from site_content.views import FrontendView
 
 # admin.site.__class__ = AdminSiteOTPRequired
@@ -34,13 +34,14 @@ urlpatterns = [
     path("api-auth/", include("auth_app.urls")),
     # path("", include(tf_urls)),
     path("", FrontendView.as_view()),
-    re_path(r"^(?:.*)/?$", FrontendView.as_view()),
+    # re_path(r"^(?:.*)/?$", FrontendView.as_view()),
     re_path(r"^(ru|en)/.*$", FrontendView.as_view()),
+    path("healthcheck", HealthCheckView.as_view()),
 ]
 urlpatterns += static(
     settings.STATIC_URL, document_root=settings.STATIC_ROOT
 )
-# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# urlpatterns += static(settings.MEDIA_URL)
 # urlpatterns += static(
 #     settings.THUMBNAIL_MEDIA_URL,
 #     document_root=settings.THUMBNAIL_MEDIA_ROOT,

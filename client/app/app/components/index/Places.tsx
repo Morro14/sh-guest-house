@@ -8,8 +8,7 @@ import { wikipediaLogo } from "~/components/svg/wikipediaLogo.tsx";
 import { locationIcon } from "~/components/svg/locationIcon.tsx";
 import { useTranslation } from "react-i18next";
 import NavRows from "../nav/NavRows.tsx";
-
-const BASE_URL = import.meta.env.VITE_SERVER_URL;
+import { ImageLoading } from "../ImageLoading.tsx";
 
 interface Place {
   slug: string;
@@ -34,8 +33,7 @@ export default function Places() {
               <img
                 key={`place-image-${index}-key`}
                 className={`z-10 relative object-contain hover:cursor-pointer ${index === context.itemSelected ? "block" : "hidden"}`}
-                loading={`${index === context.itemSelected ? "eager" : "lazy"}`}
-                src={BASE_URL + place.images[0]?.variants.small}
+                src={place.images[0]?.variants.small}
                 onClick={() => {
                   context.setFullImageView(true);
                 }}
@@ -64,13 +62,17 @@ export default function Places() {
     <div className="">
       {context.fullImageView ? (
         <MediaFullView>
-          <img
-            className="object-contain"
-            src={
-              BASE_URL +
-              data[context.itemSelected]["images"][0]["variants"]["original"]
-            }
-          />
+          <ImageLoading
+            attributes={{
+              key: `place-image-${context.imageSelected}-key`,
+              src: data[context.itemSelected].images[0]?.variants.original,
+              className: `object-contain`,
+              onClick: () => {
+                context.setFullImageView(true);
+              },
+              alt: `${data[context.itemSelected].images[0]?.alt_text}-photo-${context.itemSelected}`,
+            }}
+          ></ImageLoading>
         </MediaFullView>
       ) : (
         ""
@@ -94,7 +96,7 @@ export default function Places() {
           href={currentPlace.info_link}
           className="flex items-center gap-1 hover:cursor-pointer"
         >
-          <div className="relative bottom-[1px]">{wikipediaLogo}</div>
+          <div className="relative b-[1px]">{wikipediaLogo}</div>
           <div className="">{t("wikipedia")}</div>
         </a>
         <a

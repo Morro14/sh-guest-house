@@ -4,8 +4,8 @@ import { useNavContextProvider } from "../nav/NavContextProvider";
 import type { Image } from "~/types/booking";
 import type { ImageRes } from "~/types/general";
 import useEmblaCarousel from "embla-carousel-react";
+import { ImageLoading } from "../ImageLoading";
 
-const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 export default function CarouselWide({ tag }: { tag: string }) {
   const { fetchedData, loading } = useFetchV3("content/wide-images/" + tag);
   const images = fetchedData?.data?.data as Array<Image>;
@@ -29,8 +29,8 @@ export default function CarouselWide({ tag }: { tag: string }) {
             >
               <img
                 className="object-cover hover:cursor-pointer"
-                src={SERVER_URL + img.variants[imageRes]}
-                alt={"landscape-1" + "-" + i}
+                src={img.variants[imageRes]}
+                alt={"photo" + "-" + i}
                 onClick={() => {
                   context.setFullImageView(true);
                   context.setItemSelected(i % 3);
@@ -42,12 +42,17 @@ export default function CarouselWide({ tag }: { tag: string }) {
       </div>
       {context.fullImageView ? (
         <MediaFullView>
-          <img
-            className="h-full object-cover"
-            src={
-              SERVER_URL + images[context.itemSelected]["variants"]["original"]
-            }
-          />
+          <ImageLoading
+            attributes={{
+              className: "h-full object-cover",
+              src: images[context.itemSelected]["variants"]["original"],
+              alt:
+                images[context.itemSelected].alt_text +
+                "-" +
+                context.itemSelected +
+                "-full",
+            }}
+          ></ImageLoading>
         </MediaFullView>
       ) : (
         ""

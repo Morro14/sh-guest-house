@@ -19,3 +19,4 @@ pyproject.toml
 .vscode
 .eslintrc.json
 **/frontend/
+storage-credentials.json

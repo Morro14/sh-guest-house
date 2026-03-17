@@ -3,6 +3,10 @@ from site_content.models import Place, PlaceImage
 from django.db.utils import IntegrityError
 from faker import Faker
 
+import os
+from django.core.files import File
+from django.conf import settings
+
 fake = Faker()
 
 
@@ -17,12 +21,14 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         if Place.objects.exists():
-            self.stdout.write(
-                self.style.SUCCESS(
-                    "Skipping generating data for Place. Place already exist."
-                )
-            )
-            return
+            places = Place.objects.all()
+            places.delete()
+            # self.stdout.write(
+            #     self.style.SUCCESS(
+            #         "Skipping generating data for Place. Place already exist."
+            #     )
+            # )
+            # return
         places_data = [
             {
                 "name": "Tanaat",
@@ -49,41 +55,33 @@ class Command(BaseCommand):
                 "distance": 7.4,
             },
         ]
-        for p in places_data:
-            try:
-                Place.objects.create(
-                    name=p["name"],
-                    slug=p["slug"],
-                    description=p["description"],
-                    distance=p["distance"],
-                )
-            except IntegrityError:
-                continue
 
-        tanaat_img = PlaceImage.objects.create(
-            alt_text="tanaat",
-            order=0,
-            place=Place.objects.get(slug="tanaat"),
-            image_full="img/test/places/tanaat.jpg",
-        )
-        noravank_img = PlaceImage.objects.create(
-            alt_text="noravank",
-            order=0,
-            place=Place.objects.get(slug="noravank"),
-            image_full="img/test/places/noravank.jpg",
-        )
-        spitakavor_img = PlaceImage.objects.create(
-            alt_text="spitakavor",
-            order=0,
-            place=Place.objects.get(slug="spitakavor"),
-            image_full="img/test/places/spitakavor.jpg",
-        )
-        dadal_img = PlaceImage.objects.create(
-            alt_text="dadal",
-            order=0,
-            place=Place.objects.get(slug="dadal"),
-            image_full="img/test/places/dadal.jpg",
-        )
+        media_base_dir = settings.BASE_DIR / "media/"
+        order = 0
+        for p in places_data:
+            place_instance = Place.objects.create(
+                name=p["name"],
+                slug=p["slug"],
+                description=p["description"],
+                distance=p["distance"],
+            )
+            local_img_path = f"demo/places/{p["slug"]}.jpg"
+            img_instance = PlaceImage.objects.create(
+                alt_text=p["slug"],
+                order=order,
+                place=place_instance,
+                image_full=os.path.join(media_base_dir, local_img_path),
+            )
+            with open(
+                os.path.join(media_base_dir, local_img_path), "rb"
+            ) as f:
+                img_instance.image_full.save(
+                    os.path.join(local_img_path),
+                    File(f),
+                    save=True,
+                )
+            order += 1
+
         self.stdout.write(
             self.style.SUCCESS("✅ database seeded with fake Place data")
         )

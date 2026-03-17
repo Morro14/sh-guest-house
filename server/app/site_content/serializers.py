@@ -12,13 +12,13 @@ class ContentPageSerializer(serializers.ModelSerializer):
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
-        fields = ["order", "variants"]
+        fields = ["order", "variants", "alt_text"]
 
 
 class ImageWideSerializer(serializers.ModelSerializer):
     class Meta:
         model = WideImage
-        fields = ["order", "variants"]
+        fields = ["order", "variants", "alt_text"]
 
 
 class RoomSerializer(serializers.ModelSerializer):

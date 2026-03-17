@@ -44,7 +44,7 @@ class Image(models.Model):
 
     alt_text = models.CharField(max_length=255, blank=True)
     order = models.PositiveBigIntegerField(default=0)
-    image_full = models.ImageField(upload_to="img/full")
+    image_full = models.ImageField()
     cropping_main = ImageRatioField("image", size_to_str(main_res))
     cropping_small = ImageRatioField("image", size_to_str(small_res))
     cropping_blur = ImageRatioField("image", size_to_str(blur_res))
@@ -62,6 +62,7 @@ class Image(models.Model):
             options["filters"] = ["blur"]
             options["quality"] = 30
         thumb = get_thumbnailer(self.image_full).get_thumbnail(options)
+        # print("thumbnail url", thumb.url)
         # media_url = os.path.join(settings.MEDIA_ROOT, thumb.url)
         return thumb.url
 

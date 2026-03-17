@@ -1,6 +1,13 @@
 export interface Image {
   order: number;
-  variants: { blur: string; small: string; main: string; full?: string };
+  variants: {
+    blur: string;
+    small: string;
+    main: string;
+    original?: string;
+    full?: string;
+  };
+  alt_text: string;
 }
 export interface Room {
   slug: string;

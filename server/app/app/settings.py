@@ -19,6 +19,7 @@ import os
 from dotenv import load_dotenv
 import structlog
 from dj_lite import sqlite_config
+from google.oauth2 import service_account
 
 # from django.core.management.utils import get_random_secret_key
 
@@ -53,11 +54,13 @@ if RENDER_EXTERNAL_HOSTNAME:
 if ON_RENDER:
     DB_PATH = "/var/data/db"
 else:
-    DB_PATH = BASE_DIR / "db.sqlite3"
-
+    DB_PATH = BASE_DIR
 CLIENT_URL = os.environ.get("CLIENT_URL")
 SITE_NAME = os.environ.get("SITE_NAME")
-SITE_DOMAIN = RENDER_EXTERNAL_HOSTNAME
+if ON_RENDER:
+    SITE_DOMAIN = RENDER_EXTERNAL_HOSTNAME
+else:
+    SITE_DOMAIN = "Site name"
 
 # Application definition
 INSTALLED_APPS = [
@@ -125,6 +128,7 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
             os.path.join(BASE_DIR, "templates"),
+            os.path.join(BASE_DIR, "collectstatic/frontend"),
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -186,11 +190,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
-# MEDIA_URL = "/media/"
-if ON_RENDER:
-    MEDIA_ROOT = "/var/data/media"
-else:
-    MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = f"https://storage.googleapis.com/{os.environ.get("GOOGLE_CLOUD_STORAGE_BUCKET")}/media/"
+# if not ON_RENDER:
+#     MEDIA_ROOT = BASE_DIR / "media"
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
@@ -294,9 +296,29 @@ else:
 # WHITENOISE_INDEX_FILE = True
 WHITENOISE_MAX_AGE = 31536000
 
+# Google Cloud Storage
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.path.join(BASE_DIR, "storage-credentials.json")
+)
+
+# if ON_RENDER:
+STORAGE_BACKEND = "storages.backends.gcloud.GoogleCloudStorage"
+STORAGE_BACKEND_OPTIONS = {
+    "bucket_name": os.environ.get("GOOGLE_CLOUD_STORAGE_BUCKET"),
+    "project_id": os.environ.get("GOOGLE_CLOUD_PROJECT_NAME"),
+    "credentials": GS_CREDENTIALS,
+    "location": "media",
+    "default_acl": None,
+    "querystring_auth": False,
+}
+# else:
+#     STORAGE_BACKEND = "django.core.files.storage.FileSystemStorage"
+#     STORAGE_BACKEND_OPTIONS = {}
+
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": STORAGE_BACKEND,
+        "OPTIONS": STORAGE_BACKEND_OPTIONS,
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",

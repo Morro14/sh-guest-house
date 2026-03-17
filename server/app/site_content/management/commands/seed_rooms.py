@@ -1,42 +1,16 @@
 from django.core.management.base import BaseCommand
 from site_content.models import (
     RoomImage,
-    WideImage,
 )
 from main.models import Room
 import random
 from django.db.utils import IntegrityError
 from faker import Faker
+import os
+from django.core.files import File
+from django.conf import settings
 
 fake = Faker()
-
-content_data = [
-    {
-        "slug": "about",
-        "title": "About the house",
-        "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut at scelerisque ante. Morbi efficitur porta lacus eget commodo. Suspendisse facilisis et neque eget feugiat. Vestibulum et tincidunt ex, nec posuere justo. Phasellus mollis libero sed arcu malesuada, vel lobortis lorem aliquam. Phasellus ut nisl ut dui aliquam hendrerit eu pretium massa. Nunc a malesuada tortor. Vestibulum sit amet lectus nibh. Praesent sit amet lorem ac mi maximus vulputate. Sed ac pharetra lorem. Fusce convallis leo lacus, in vulputate nibh aliquam porttitor.",
-    },
-    {
-        "slug": "rooms-preview",
-        "title": "Rooms",
-        "body": "Maecenas dui purus, tempus et tristique a, imperdiet eu quam. Mauris vitae elit sem. Integer tincidunt, nunc sit amet sodales molestie, elit metus laoreet augue, sit amet tristique risus risus nec magna.",
-    },
-    {
-        "slug": "places",
-        "title": "Points of interest in the province",
-        "body": "Cras tortor tellus, volutpat et odio ac, congue dignissim felis. In  tempor odio vel ligula vehicula, a elementum orci dictum. Sed leo nulla, volutpat nec dapibus a, vulputate eu eros. Suspendisse semper ipsum id  ipsum euismod porttitor. Curabitur mollis vel arcu vitae porta.",
-    },
-    {
-        "slug": "services",
-        "title": "Services",
-        "body": "Cras tortor tellus, volutpat et odio ac, congue dignissim felis. In  tempor odio vel ligula vehicula, a elementum orci dictum. Sed leo nulla, volutpat nec dapibus a, vulputate eu eros. Suspendisse semper ipsum id  ipsum euismod porttitor. Curabitur mollis vel arcu vitae porta.",
-    },
-    {
-        "slug": "location",
-        "title": "How to get to us",
-        "body": "Cras tincidunt nisl id velit bibendum  tincidunt. Vivamus semper ex nibh, sit amet blandit est posuere vel.  Morbi condimentum malesuada ex sed convallis. Maecenas felis urna,  faucibus nec nulla pellentesque, tristique blandit ex. Mauris quis  tempus velit. Etiam ut est ligula. Fusce sagittis sodales enim vel  consectetur.",
-    },
-]
 
 
 class Command(BaseCommand):
@@ -46,12 +20,6 @@ class Command(BaseCommand):
         parser.add_argument(
             "--rooms", type=int, default=7, help="Number of rooms"
         )
-        # parser.add_argument(
-        #     "--content",
-        #     type=bool,
-        #     default=False,
-        #     help="Generate content pages or not",
-        # )
         parser.add_argument(
             "--images",
             type=int,
@@ -90,17 +58,37 @@ class Command(BaseCommand):
                     continue
 
         add_rooms()
+        media_base_dir = settings.BASE_DIR / "media/"
 
         def add_room_images():
             rooms = Room.objects.all()
             for i in range(options["rooms"] or len(rooms)):
                 for j in range(random.randint(3, 5)):
                     try:
-                        RoomImage.objects.create(
+                        local_img_path = (
+                            f"demo/rooms/room-{random.randint(1, 10)}-1.webp"
+                        )
+                        instance = RoomImage.objects.create(
                             room=rooms[i],
-                            image_full=f"img/test/rooms/room-{random.randint(1, 10)}-1.webp",
+                            image_full=os.path.join(
+                                media_base_dir, local_img_path
+                            ),
                             order=j,
                         )
+                        cloud_filename = local_img_path
+
+                        with open(
+                            os.path.join(media_base_dir, local_img_path),
+                            "rb",
+                        ) as f:
+                            print(
+                                "open",
+                                os.path.join(media_base_dir, local_img_path),
+                            )
+                            instance.image_full.save(
+                                cloud_filename, File(f), save=True
+                            )
+                        print("saved path", instance.image_full)
                     except IntegrityError:
                         continue
 

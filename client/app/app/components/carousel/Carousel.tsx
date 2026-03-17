@@ -3,6 +3,7 @@ import type { Image } from "~/types/booking";
 import CarouselDots from "./CarouselDots";
 import { useNavContextProvider } from "../nav/NavContextProvider";
 import CarouselDotsFullView from "./CarouselDotsFullView";
+import { ImageLoading } from "../ImageLoading";
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -46,13 +47,14 @@ export function Carousel({
                 key={`${name}-slide-${i}`}
                 className="embla__slide shrink-0 grow basis-full h-full flex justify-center items-center"
               >
-                <img
-                  className={`h-full object-contain`}
-                  src={BASE_URL + img.variants[imageRes]}
-                  alt={`${name}-${i}`}
-                  // loading="lazy"
-                  onClick={() => imageOnClick(i)}
-                />
+                <ImageLoading
+                  attributes={{
+                    className: "h-full object-contain",
+                    src: img.variants[imageRes],
+                    onClick: () => imageOnClick(i),
+                    alt: `${name}-${i}`,
+                  }}
+                ></ImageLoading>
               </div>
             ))}
           </div>
@@ -83,7 +85,7 @@ export function Carousel({
               <div className={`flex justify-center carousel-small `}>
                 <img
                   className={` object-cover w-full hover:cursor-pointer`}
-                  src={BASE_URL + img.variants[imageRes]}
+                  src={img.variants[imageRes]}
                   alt={`${name}-${i}`}
                   loading="lazy"
                   onClick={() => imageOnClick(i)}

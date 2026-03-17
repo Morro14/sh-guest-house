@@ -286,3 +286,11 @@ class FrontendLogsView(APIView):
         )
 
         return Response({"message": "ok"})
+
+
+class HealthCheckView(APIView):
+    permission_classes = []
+    authentication_classes = []
+
+    def get(self, request):
+        return Response({"message": "Health check response"})

@@ -1,7 +1,3 @@
-mkdir /var/data/db
-mkdir /var/data/media
-mkdir /var/data/logs
-cp -r ./server/app/media/* /var/data/media
 pip install -r ./server/requirements.txt
 npm install --prefix ./client/app
 npm run --prefix ./client/app build
