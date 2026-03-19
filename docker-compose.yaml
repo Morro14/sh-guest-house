@@ -1,0 +1,23 @@
+services:
+  web:
+    build: .
+    command: >
+      sh -c "mkdir -p /var/data/db &&
+             python /app/server/app/manage.py makemigrations &&
+             python /app/server/app/manage.py migrate &&
+             python /app/server/app/manage.py createsuperuser --no-input || true &&
+             python /app/server/app/manage.py set_site &&
+             python /app/server/app/manage.py add_permissions &&
+             python /app/server/app/manage.py seed_rooms &&
+             python /app/server/app/manage.py seed_images &&
+             python /app/server/app/manage.py seed_content &&
+             python /app/server/app/manage.py seed_places &&
+             python /app/server/app/manage.py collectstatic --no-input &&
+             gunicorn --bind 0.0.0.0:8000 --chdir /app/server/app app.wsgi:application"
+    volumes:
+      - ./render_data:/var/data
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./server/.env
+      - ./client/app/.env

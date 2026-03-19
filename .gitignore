@@ -20,3 +20,4 @@ pyproject.toml
 .eslintrc.json
 **/frontend/
 storage-credentials.json
+render_data/

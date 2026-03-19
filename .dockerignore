@@ -1,0 +1,24 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+.env
+.venv
+venv/
+db.sqlite3
+collectstatic/
+staticfiles/frontend/
+
+
+# Node / Frontend
+node_modules/
+client/app/node_modules/
+npm-debug.log
+
+# Docker / Local Data
+render_data/
+.dockerignore
+docker-compose.yml
+render.yaml
