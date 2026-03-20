@@ -20,11 +20,11 @@ export default function BookingPannelMobile() {
   return (
     <div className="md:hidden fixed bottom-0 z-30  w-full">
       <div
-        className={`md:hidden w-screen bg-black  ${formDisplay ? "opacity-50 h-screen" : "opacity-0 h-0"} transition-opacity duration-150`}
+        className={`md:hidden w-screen bg-black  ${formDisplay ? "opacity-50 h-screen" : "opacity-0 h-0"} transition-opacity duration-500`}
       ></div>
       <div
         aria-disabled={formDisplay ? "true" : "false"}
-        className={`flex flex-col ${formDisplay ? "bottom-0 opacity-100 flex" : "pointer-events-none opacity-0 -bottom-[330px]"} pb-10 absolute z-10 transition-all duration-150`}
+        className={`flex flex-col ${formDisplay ? "bottom-0 opacity-100 flex" : "pointer-events-none opacity-0 -bottom-[330px]"} pb-10 absolute z-10 transition-all duration-500`}
       >
         <Form
           ref={formRef}
