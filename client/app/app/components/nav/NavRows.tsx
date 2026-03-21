@@ -17,19 +17,17 @@ export default function NavRows({ slug, items, template: NavLinkTemplate }) {
   const context = useNavContextProvider();
 
   return (
-    <div className="flex flex-col items-center relative 2xl:hidden w-full">
-      <div className="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 scroll-smooth overflow-scroll w-full">
-        {items.map((item, i) => {
-          return (
-            <NavLink key={`${slug}-nav-link-${i}`} index={i} context={context}>
-              <NavLinkTemplate
-                item={item}
-                isSelected={context.itemSelected === i}
-              ></NavLinkTemplate>
-            </NavLink>
-          );
-        })}
-      </div>
+    <div className="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 scroll-smooth overflow-scroll w-full">
+      {items.map((item, i) => {
+        return (
+          <NavLink key={`${slug}-nav-link-${i}`} index={i} context={context}>
+            <NavLinkTemplate
+              item={item}
+              isSelected={context.itemSelected === i}
+            ></NavLinkTemplate>
+          </NavLink>
+        );
+      })}
     </div>
   );
 }

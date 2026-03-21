@@ -13,9 +13,9 @@ export default function Header() {
         className={`flex flex-col items-center transition-all w-full bg-olive-light text-text-main h-9`}
       >
         <div
-          className={`flex justify-between items-center w-full px-7 h-12 transition-all overflow-hidden `}
+          className={`flex justify-between items-center w-full md:px-7 px-2 h-12 transition-all overflow-hidden `}
         >
-          <Link to="/" className="w-[140px] font-light font-sans">
+          <Link to="/" className="w-[140px] text-lg font-sans">
             {t("Site name")}
           </Link>
           <div className="md:flex hidden justify-between w-[306px] uppercase text-sm font-sans ">

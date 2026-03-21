@@ -115,7 +115,7 @@ export default function Places() {
         {/*     ` opacity-${opacity}` */}
         {/*   } */}
         {/* > */}
-        <div className="carousel-small">
+        <div className="carousel-small-width">
           {imagesCached.map((image) => image)}
         </div>
         {/* </div> */}
@@ -123,7 +123,7 @@ export default function Places() {
       </div>
       <div
         className={
-          "font-sans 2xl:text-lg carousel-small mt-8 transition-opacity duration-300" +
+          "font-sans 2xl:text-lg carousel-small-width mt-8 transition-opacity duration-300" +
           ` opacity-${opacity}`
         }
       >

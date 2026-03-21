@@ -22,5 +22,5 @@
   @apply lg:w-[1000px] md:w-[600px] sm:w-[540px] min-w-[395px];
 }
 .vertical-line-decor {
-  @apply md:block sm:hidden;
+  @apply md:block hidden;
 }

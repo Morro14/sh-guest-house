@@ -111,13 +111,9 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
 ]
 REST_FRAMEWORK = {
-    "DEFAULT_FILTER_BACKEND": [
-        "django_filters.rest_framework.DjangoFilterBackend"
-    ],
+    "DEFAULT_FILTER_BACKEND": ["django_filters.rest_framework.DjangoFilterBackend"],
     "DEFAULT_AUTHENTICATION_CLASSES": [],
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated"
-    ],
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
 }
 ROOT_URLCONF = "app.urls"
 
@@ -204,9 +200,7 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = BASE_DIR / "collectstatic/"
 
-IMAGE_CROPPING_BACKEND = (
-    "image_cropping.backends.easy_thumbs.EasyThumbnailsBackend"
-)
+IMAGE_CROPPING_BACKEND = "image_cropping.backends.easy_thumbs.EasyThumbnailsBackend"
 IMAGE_CROPPING_BACKEND_PARAMS = {}
 
 THUMBNAIL_BASEDIR = "thumbnails"
@@ -299,9 +293,7 @@ if ON_RENDER:
 else:
     CREDENTIAL_PATH = os.path.join(BASE_DIR, "storage-credentials.json")
 
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    CREDENTIAL_PATH
-)
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(CREDENTIAL_PATH)
 
 if ON_RENDER:
     STORAGE_BACKEND = "storages.backends.gcloud.GoogleCloudStorage"
@@ -326,6 +318,4 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-STATICFILES_STORAGE = (
-    "whitenoise.storage.CompressedManifestStaticFilesStorage"
-)
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"

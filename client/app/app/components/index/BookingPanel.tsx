@@ -23,7 +23,7 @@ export default function BookingPannel() {
           method="post"
           className={`flex justify-center h-10 items-center overflow-visible bg-peach-light`}
         >
-          <div className="flex items-center font-normal px-8 h-10 pt-0.5">
+          <div className="flex items-center text-nowrap text-ellipsis text-sm font-normal pr-8 pl-2 h-10 pt-0.5">
             {t("create_reservation")}
           </div>
           <div className="w-[1px] bg-accent-light h-8"></div>

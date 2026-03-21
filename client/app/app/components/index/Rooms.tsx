@@ -63,11 +63,20 @@ export default function RoomsPreview() {
       <div className="flex 2xl:flex-row pt-4 max-2xl:flex-col max-2xl:items-center 2xl:items-start max-2xl:gap-6 2xl:gap-0 w-full">
         {roomCarousels.map((carousel) => carousel)}
         <Nav items={rooms} slug="rooms" template={NavLinkTemplate}></Nav>
-        <NavRows
-          items={rooms}
-          slug="rooms"
-          template={NavRowsLinkTemplate}
-        ></NavRows>
+        <div className="max-md:hidden 2xl:hidden w-full">
+          <NavRows
+            items={rooms}
+            slug="rooms"
+            template={NavRowsLinkTemplate}
+          ></NavRows>
+        </div>
+        <div className="md:hidden w-full">
+          <NavRows
+            items={rooms}
+            slug="rooms"
+            template={NavMobileTemplate}
+          ></NavRows>
+        </div>
       </div>
     </div>
   );
@@ -81,8 +90,7 @@ function NavLinkTemplate({ item, isSelected }) {
       <div className="text-lg font-sans">{item.name}</div>
       <div className="flex gap-2 text-sm">
         <div className="font-sans">{`${item.adults_num} Adults ${item.children_num} children`}</div>
-        <div>|</div>
-        <div className="font-sans">Beds description</div>
+        {/* <div className="font-sans">{item.beds}</div> */}
       </div>
     </div>
   );
@@ -95,8 +103,20 @@ function NavRowsLinkTemplate({ item, isSelected }) {
       <div className="text-lg font-sans">{item.name}</div>
       <div className="flex items-end gap-2">
         <div className="font-sans text-sm">{`${item.adults_num} Adults ${item.children_num} children`}</div>
-        <div>|</div>
-        <div className="font-sans text-sm">Beds description</div>
+        {/* <div className="font-sans text-sm">{item.beds}</div> */}
+      </div>
+    </div>
+  );
+}
+function NavMobileTemplate({ item, isSelected }) {
+  return (
+    <div
+      className={`flex flex-col w-full justify-center items-center hover:cursor-pointer ${isSelected ? "font-medium bg-apricot-light" : "font-normal"} transition-all py-1 px-3 ease-out md:h-[70px] h-16 `}
+    >
+      <div className="text-lg font-sans">{item.name}</div>
+      <div className="flex font-light items-end gap-2">
+        <div className="font-sans text-sm">{`${item.adults_num} Adults ${item.children_num} children`}</div>
+        {/* <div className="font-sans text-sm">{item.beds}</div> */}
       </div>
     </div>
   );

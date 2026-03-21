@@ -17,14 +17,27 @@ export default function BookingPannelMobile() {
   const handleFormLabelClick = () => {
     setFormDisplay(!formDisplay);
   };
+  // visualViewport
+  // const [viewPortOffset, setViewPortOffset] = useState<number>(0);
+  // console.log("viewport offset", viewPortOffset, "form display", formDisplay);
+  // useEffect(() => {
+  //   if (!window) return;
+  //   window.visualViewport.addEventListener("resize", () => {
+  //     const offset =
+  //       Math.floor(window.innerHeight) -
+  //       Math.floor(window.visualViewport.height);
+  //     setViewPortOffset(offset > 50 ? offset : 0);
+  //   });
+  // });
   return (
     <div className="md:hidden fixed bottom-0 z-30  w-full">
       <div
         className={`md:hidden w-screen bg-black  ${formDisplay ? "opacity-50 h-screen" : "opacity-0 h-0"} transition-opacity duration-500`}
+        onClick={() => setFormDisplay(false)}
       ></div>
       <div
-        aria-disabled={formDisplay ? "true" : "false"}
-        className={`flex flex-col ${formDisplay ? "bottom-0 opacity-100 flex" : "pointer-events-none opacity-0 -bottom-[330px]"} pb-10 absolute z-10 transition-all duration-500`}
+        aria-disabled={formDisplay ? "false" : "true"}
+        className={`flex flex-col ${formDisplay ? `bottom-0 opacity-100 flex` : "pointer-events-none opacity-0 -bottom-[330px]"} pb-10 absolute z-10 transition-all duration-500`}
       >
         <Form
           ref={formRef}
@@ -87,12 +100,22 @@ export default function BookingPannelMobile() {
       </div>
       <div className="relative bottom-0 flex justify-center z-100 items-center bg-peach-light size-full font-sans h-10">
         <div className="flex flex-col justify-center h-10 w-full">
-          <button
+          <div
             onClick={handleFormLabelClick}
-            className={`order-2 block items-center capitalize font-normal px-9 cursor-pointer ${!formDisplay ? "text-lg" : "text-base"}`}
+            className={`flex items-center justify-between  px-2  `}
           >
-            {!formDisplay ? t("book") : t("close")}
-          </button>
+            <div className="w-[21px]"></div>
+            <button
+              className={`capitalize font-normal cursor-pointer ${!formDisplay ? "text-lg" : "text-base"}`}
+            >
+              {!formDisplay ? t("book") : t("close")}
+            </button>
+            {formDisplay ? (
+              <button className="cursor-pointer">{closeCross}</button>
+            ) : (
+              <div className="w-[21px]"></div>
+            )}
+          </div>
         </div>
       </div>
     </div>
