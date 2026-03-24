@@ -77,7 +77,7 @@ export default function Places() {
       ) : (
         ""
       )}
-      <div className="mb-9 2xl:mb-0 ">
+      <div className="mb-9 2xl:mb-0 2xl:hidden">
         <NavRows
           items={data}
           slug="rooms"
@@ -119,7 +119,9 @@ export default function Places() {
           {imagesCached.map((image) => image)}
         </div>
         {/* </div> */}
-        <Nav items={data} template={NavLinkTemplate} slug="places"></Nav>
+        <div className="max-2xl:hidden">
+          <Nav items={data} template={NavLinkTemplate} slug="places"></Nav>
+        </div>
       </div>
       <div
         className={
