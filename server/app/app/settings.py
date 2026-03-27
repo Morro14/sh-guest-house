@@ -191,8 +191,8 @@ USE_TZ = True
 if ON_RENDER:
     MEDIA_URL = f"https://storage.googleapis.com/{os.environ.get("GOOGLE_CLOUD_STORAGE_BUCKET")}/media/"
 else:
-    MEDIA_URL = "media/"
-    MEDIA_ROOT = BASE_DIR / "media"
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [

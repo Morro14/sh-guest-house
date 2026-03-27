@@ -2,6 +2,8 @@ from rest_framework.views import APIView
 from site_content.models import WideImage, Place, ContentPage
 from main.models import Room
 from rest_framework.response import Response
+from rest_framework.generics import ListAPIView
+from rest_framework.pagination import LimitOffsetPagination
 from django.utils.translation import gettext as _
 from django.core.cache import cache
 from django.conf import settings
@@ -31,14 +33,17 @@ class WideImageSet(APIView):
         return Response({"data": serializer.data})
 
 
-class RoomSetView(APIView):
+class RoomSetView(ListAPIView):
     permission_classes = []
     authentication_classes = []
+    serializer_class = RoomSerializer
+    queryset = Room.objects.prefetch_related("image").all()
+    pagination_class = LimitOffsetPagination
 
-    def get(self, request):
-        rooms = Room.objects.prefetch_related("image").all()
-        rooms_serial = RoomSerializer(rooms, many=True)
-        return Response({"data": rooms_serial.data})
+    def list(self, request, *args, **kwargs):
+        print("query params", request.query_params)
+        list_response = super().list(request, *args, **kwargs)
+        return Response({"data": list_response.data})
 
 
 class PlaceSetView(APIView):
@@ -66,9 +71,7 @@ class TranslationView(APIView):
     authentication_classes = []
 
     def get(self, request, lng=None):
-        keys_path = os.path.join(
-            settings.BASE_DIR, "site_content/translation.json"
-        )
+        keys_path = os.path.join(settings.BASE_DIR, "site_content/translation.json")
         keys = json.load(open(keys_path))
 
         lang = request.LANGUAGE_CODE

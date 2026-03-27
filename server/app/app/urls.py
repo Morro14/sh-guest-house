@@ -33,15 +33,13 @@ urlpatterns = [
     path("api/logs-frontend", FrontendLogsView.as_view()),
     path("api-auth/", include("auth_app.urls")),
     # path("", include(tf_urls)),
-    path("", FrontendView.as_view()),
+    # path("", FrontendView.as_view()),
     # re_path(r"^(?:.*)/?$", FrontendView.as_view()),
-    re_path(r"^(ru|en)/.*$", FrontendView.as_view()),
-    path("healthcheck", HealthCheckView.as_view()),
+    # re_path(r"^(ru|en)/.*$", FrontendView.as_view()),
+    # path("healthcheck", HealthCheckView.as_view()),
 ]
-urlpatterns += static(
-    settings.STATIC_URL, document_root=settings.STATIC_ROOT
-)
-# urlpatterns += static(settings.MEDIA_URL)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # urlpatterns += static(
 #     settings.THUMBNAIL_MEDIA_URL,
 #     document_root=settings.THUMBNAIL_MEDIA_ROOT,

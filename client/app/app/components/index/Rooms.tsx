@@ -1,122 +1,130 @@
 import { useFetchV3 } from "~/utils/fetchHook";
-import Nav from "../nav/Nav";
 import { useNavContextProvider } from "../nav/NavContextProvider";
 import MediaFullView from "../MediaFullView";
 import { Carousel } from "../carousel/Carousel";
 import type { Room } from "app/types/booking";
-import NavRows from "../nav/NavRows";
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import { flushSync } from "react-dom";
+import { axiosInstance } from "~/utils/general";
+import { logError } from "~/utils/logging";
+
+const debug = import.meta.env.VITE_DEBUG === "true";
+const MEDIA_BASE_URL = debug ? import.meta.env.VITE_LOCAL_SERVER_URL : "";
 
 export default function RoomsPreview() {
-  const { fetchedData, loading } = useFetchV3("content/rooms");
+  const { fetchedData, loading } = useFetchV3("content/rooms/?limit=3");
   const { t } = useTranslation();
-  const rooms = fetchedData?.data?.data as Array<Room>;
+  const rooms = fetchedData?.data?.data.results as Array<Room>;
   const context = useNavContextProvider();
-  const roomCarousels =
-    !loading && rooms
-      ? rooms.map((room, index) => {
-          return (
-            <Carousel
-              display={context.itemSelected === index}
-              name="rooms"
-              images={room.images}
-              imageSize="small"
-              imageRes="main"
-              border={true}
-              key={`room-carousel-${index}`}
-            ></Carousel>
-          );
-        })
-      : [];
-  const currentRoomCarousel = roomCarousels[context.itemSelected];
-  context.preStateChangeCallback = (callback: () => void) => {
-    callback();
-  };
-  return !rooms || rooms.length === 0 ? (
-    <div className="flex justify-cventer items-center carousel-small bg-olive-light text-gray-500 font-serif">
-      {!rooms || rooms.length === 0 ? t("No data") : t("Loading...")}
+  const roomCardAngles = ["-rotate-1", "rotate-2", "rotate-1", "-rotate-2"];
+  const roomCardOffsets = { leftOffset: "left-11", rightColumn: "top-12" };
+  const [showMoreRooms, setShowMoreRooms] = useState(false);
+  const [expandContainer, setExpandContainer] = useState(false);
+  const [roomCardOpacity, setRoomCardOpacity] = useState("opacity-0");
+  const [extraRooms, setExtraRooms] = useState<Array<Room> | null>(null);
+  function genRoomCard(room: Room, i: number) {
+    const styles = [];
+    if (i % 2 !== 0) {
+      styles.push(roomCardOffsets.rightColumn);
+    }
+    if ((i + 1) % 3 === 0) {
+      styles.push(roomCardOffsets.leftOffset);
+    }
+    styles.push(roomCardAngles[i % roomCardAngles.length]);
+    if (i > 2) {
+      styles.push(roomCardOpacity);
+    }
+    const styleString = styles.join(" ");
+    return (
+      <div
+        className={`relative flex flex-col items-center overflow-hidden ${styleString} top-0 transition-opacity duration-300`}
+        key={`room-card-${i}`}
+      >
+        <img
+          className="object-cover md:w-100.5 md:h-57 border-2 border-primary cursor-pointer drop-shadow-sm"
+          src={`${MEDIA_BASE_URL}${room.images[0].variants.small}`}
+          onClick={() => {
+            context.setItemSelected(i);
+            context.setFullImageView(true);
+          }}
+        />
+        <span className="text-lg font-medium">{room.name}</span>
+      </div>
+    );
+  }
+  useEffect(() => {
+    if (expandContainer) {
+      setRoomCardOpacity("opacity-100");
+    } else if (!expandContainer) {
+      setRoomCardOpacity("opacity-0");
+    }
+  }, [expandContainer]);
+
+  useEffect(() => {
+    if (!showMoreRooms || extraRooms) return;
+    axiosInstance
+      .get("content/rooms/?limit=10&offset=3")
+      .then((response) => {
+        if (response.status === 200) {
+          setExtraRooms(response.data.data.results);
+        }
+      })
+      .catch((r) => logError(r));
+  }, [showMoreRooms, extraRooms]);
+
+  console.log("extra rooms", extraRooms);
+  return !rooms || loading ? (
+    <div className="flex justify-center items-center text-center w-full h-96 bg-gray-warm-light text-gray-500 font-sans rounded-xl">
+      <span>
+        {!rooms || rooms.length === 0 ? t("No data") : t("Loading...")}
+      </span>
     </div>
   ) : (
-    <div className="flex flex-col md:items-center 2xl:items-start 2xl:justify-between relative">
-      <div className="carousel-small-width text-sm italic ">
-        <h5 className="font-medium mb-2">{rooms[context.itemSelected].name}</h5>
-        <p className="h-15 md:h-10 overflow-hidden">
-          {rooms[context.itemSelected].beds}
-        </p>
-      </div>
-      <div>
-        {context.fullImageView ? (
-          <MediaFullView>
-            <Carousel
-              name="rooms"
-              key={`room-carousel-${rooms[context.itemSelected].slug}`}
-              images={rooms[context.itemSelected].images}
-              imageSize="full"
-              imageRes="original"
-              fullView={true}
-            ></Carousel>
-          </MediaFullView>
-        ) : (
-          ""
-        )}
-      </div>
-      <div className="flex 2xl:flex-row pt-4 max-2xl:flex-col max-2xl:items-center 2xl:items-start max-2xl:gap-6 2xl:gap-0 w-full">
-        {roomCarousels.map((carousel) => carousel)}
-        <Nav items={rooms} slug="rooms" template={NavLinkTemplate}></Nav>
-        <div className="max-md:hidden 2xl:hidden w-full">
-          <NavRows
-            items={rooms}
-            slug="rooms"
-            template={NavRowsLinkTemplate}
-          ></NavRows>
-        </div>
-        <div className="md:hidden w-full">
-          <NavRows
-            items={rooms}
-            slug="rooms"
-            template={NavMobileTemplate}
-          ></NavRows>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function NavLinkTemplate({ item, isSelected }) {
-  return (
     <div
-      className={`hover:cursor-pointer ${isSelected ? "font-medium bg-apricot-light" : "font-normal"} transition-all px-3 py-1 ease-out h-[60px]`}
+      className={`flex flex-col md:items-center 2xl:items-start w-full ${expandContainer ? "2xl:h-420" : "2xl:h-144"} 2xl:justify-between relative transition-[height] duration-300`}
     >
-      <div className="text-lg font-sans">{item.name}</div>
-      <div className="flex gap-2 text-sm">
-        <div className="font-sans">{`${item.adults_num} Adults ${item.children_num} children`}</div>
-        {/* <div className="font-sans">{item.beds}</div> */}
-      </div>
-    </div>
-  );
-}
-function NavRowsLinkTemplate({ item, isSelected }) {
-  return (
-    <div
-      className={`hover:cursor-pointer border-gray-warm-light border-1 border-collapse ${isSelected ? "font-medium bg-apricot-light" : "font-normal"} transition-all py-1 px-3 ease-out md:h-[70px] h-16 `}
-    >
-      <div className="text-lg font-sans">{item.name}</div>
-      <div className="flex items-end gap-2">
-        <div className="font-sans text-sm">{`${item.adults_num} Adults ${item.children_num} children`}</div>
-        {/* <div className="font-sans text-sm">{item.beds}</div> */}
-      </div>
-    </div>
-  );
-}
-function NavMobileTemplate({ item, isSelected }) {
-  return (
-    <div
-      className={`flex flex-col w-full justify-center items-center hover:cursor-pointer ${isSelected ? "font-medium bg-apricot-light" : "font-normal"} transition-all py-1 px-3 ease-out md:h-[70px] h-16 `}
-    >
-      <div className="text-lg font-sans">{item.name}</div>
-      <div className="flex font-light items-end gap-2">
-        <div className="font-sans text-sm">{`${item.adults_num} Adults ${item.children_num} children`}</div>
-        {/* <div className="font-sans text-sm">{item.beds}</div> */}
+      {context.fullImageView ? (
+        <MediaFullView>
+          <Carousel
+            name="rooms"
+            key={`room-carousel-${rooms[context.itemSelected].slug}`}
+            images={rooms[context.itemSelected].images}
+            imageSize="full"
+            imageRes="original"
+            fullView={true}
+          ></Carousel>
+        </MediaFullView>
+      ) : (
+        ""
+      )}
+      <div
+        className={`grid grid-cols-2 gap-4 gap-y-16 relative 2xl:px-28 w-full content-start transition-none duration-0`}
+      >
+        {rooms.map((room, i) => genRoomCard(room, i))}
+        {showMoreRooms && extraRooms
+          ? rooms.concat(extraRooms).map((room, i) => {
+              if (i < 3) return "";
+              return genRoomCard(room, i);
+            })
+          : ""}
+        <button
+          className="font-medium underline cursor-pointer"
+          onClick={() => {
+            flushSync(() => {
+              setExpandContainer(!expandContainer);
+              if (!showMoreRooms) setShowMoreRooms(true);
+            });
+            if (showMoreRooms) {
+              setTimeout(() => {
+                setShowMoreRooms(!showMoreRooms);
+              }, 300);
+              return;
+            }
+          }}
+        >
+          {!showMoreRooms ? t("More rooms...") : t("Show less rooms")}
+        </button>
       </div>
     </div>
   );

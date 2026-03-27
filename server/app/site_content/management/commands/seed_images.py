@@ -53,19 +53,15 @@ class Command(BaseCommand):
                         image_full=os.path.join(local_img_path),
                     )
                     img.tag.add(tag)
-
-                    with open(
-                        os.path.join(media_base_dir, local_img_path),
-                        "rb",
-                    ) as f:
-                        img.image_full.save(
-                            cloud_file_path, File(f), save=True
-                        )
+                    if settings.ON_RENDER:
+                        with open(
+                            os.path.join(media_base_dir, local_img_path),
+                            "rb",
+                        ) as f:
+                            img.image_full.save(cloud_file_path, File(f), save=True)
                 except IntegrityError:
                     continue
 
         add_images()
 
-        self.stdout.write(
-            self.style.SUCCESS("✅ Database seeded with wide images")
-        )
+        self.stdout.write(self.style.SUCCESS("✅ Database seeded with wide images"))

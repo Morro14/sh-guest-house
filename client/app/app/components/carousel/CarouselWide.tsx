@@ -6,6 +6,9 @@ import type { ImageRes } from "~/types/general";
 import useEmblaCarousel from "embla-carousel-react";
 import { ImageLoading } from "../ImageLoading";
 
+const localDev = import.meta.env.VITE_DEBUG === "true";
+const MEDIA_URL_BASE = import.meta.env.VITE_SERVER_URL;
+
 export default function CarouselWide({ tag }: { tag: string }) {
   const { fetchedData, loading } = useFetchV3("content/wide-images/" + tag);
   const images = fetchedData?.data?.data as Array<Image>;
@@ -29,7 +32,11 @@ export default function CarouselWide({ tag }: { tag: string }) {
             >
               <img
                 className="object-cover hover:cursor-pointer"
-                src={img.variants[imageRes]}
+                src={
+                  localDev
+                    ? MEDIA_URL_BASE + img.variants[imageRes]
+                    : img.variants[imageRes]
+                }
                 alt={"photo" + "-" + i}
                 onClick={() => {
                   context.setFullImageView(true);

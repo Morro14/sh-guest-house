@@ -6,23 +6,23 @@ export default function Header() {
   const { t } = useTranslation();
   return (
     <div>
-      <div className="font-sans text-red-error text-center">
-        {t("This is a test version of the project")}
-      </div>
+      {/* <div className="font-sans text-red-error text-center"> */}
+      {/*   {t("This is a test version of the project")} */}
+      {/* </div> */}
       <header
-        className={`flex flex-col items-center transition-all w-full bg-olive-light text-text-main h-9`}
+        className={`flex flex-col items-center justify-center transition-all w-full text-text-main h-13`}
       >
         <div
-          className={`flex justify-between items-center w-full md:px-7 px-2 h-12 transition-all overflow-hidden `}
+          className={`flex justify-between items-center w-full md:px-7 px-2 transition-all overflow-hidden `}
         >
           <Link to="/" className="w-[140px] text-lg font-sans">
             {t("Site name")}
           </Link>
-          <div className="md:flex hidden justify-between w-[306px] uppercase text-sm font-sans ">
+          <div className="md:flex gap-5 hidden justify-between text font-sc underline ">
             <Link to="contacts" className="">
               {t("About")}
             </Link>
-            <Link to="contacts" className="">
+            <Link to="contacts" className="capitalize">
               {t("Rooms")}
             </Link>
             <Link to="contacts" className="">

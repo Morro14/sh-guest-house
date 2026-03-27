@@ -17,16 +17,15 @@ export default function BookingPannel() {
   const { t } = useTranslation();
   const context = useContextProvider();
   return (
-    <div className="md:flex sticky hidden top-0 bottom-0 z-30 w-full drop-shadow-md h-10 justify-center">
-      <div className="flex justify-center items-center bg-peach-light size-full font-sans">
+    <div className="md:flex sticky hidden top-0 bottom-0 z-30 w-full h-12 justify-center bg-bg drop-shadow-sm">
+      <div className="flex justify-center items-center size-full font-sans border-x border-accent-lighter">
         <Form
           method="post"
-          className={`flex justify-center h-10 items-center overflow-visible bg-peach-light`}
+          className={`flex justify-center h-12 items-center overflow-visible `}
         >
-          <div className="flex items-center text-nowrap text-ellipsis text-sm font-normal pr-8 pl-2 h-10 pt-0.5">
+          <div className="flex items-center text-nowrap text-ellipsis pr-8 pl-2">
             {t("create_reservation")}
           </div>
-          <div className="w-[1px] bg-accent-light h-8"></div>
           <div className="px-4">
             <ThemeProvider theme={desktopDatePickerTheme}>
               <DatePicker
@@ -58,15 +57,11 @@ export default function BookingPannel() {
             />
           </div>
 
-          <div className="w-[1px] bg-accent-light h-8"></div>
-
           <SelectGuests layout={IndexFormLayout} />
 
-          <div className="w-[1px] bg-accent-light h-8"></div>
-
-          <div className="flex h-10 w-[160px] justify-center items-center hover:bg-apricot-light transition-colors duration-100">
+          <div className="flex h-10 w-40 justify-center items-center">
             <input
-              className="peer text-center pt-0.5 border-b w-6 -ml-6 focus:bg-apricot border-accent-light"
+              className="peer text-center border-b w-6 -ml-6 border-accent-light"
               name="nights"
               defaultValue={1}
               type="text"
@@ -74,21 +69,16 @@ export default function BookingPannel() {
               id="nights-input"
               onChange={(e) => context.setNightsCount(Number(e.target.value))}
             />
-            <label
-              htmlFor="nights-input"
-              className="w-[25px] ml-2 pt-0.5 lowercase"
-            >
+            <label htmlFor="nights-input" className="ml-2 lowercase">
               {t("Nights", { count: context.nightsCount })}
             </label>
           </div>
-
-          <div className="w-[1px] bg-accent-light h-8"></div>
-          <button
-            type="submit"
-            className=" uppercase mx-8 cursor-pointer pt-0.5"
-          >
-            {t("Continue")}
-          </button>
+          <div className="flex flex-col items-center justify-center -mb-2">
+            <button type="submit" className="capitalize mx-8 cursor-pointer">
+              {t("Continue")}
+            </button>
+            {underline}
+          </div>
         </Form>
       </div>
       <div className="absolute top-10">
@@ -97,3 +87,58 @@ export default function BookingPannel() {
     </div>
   );
 }
+
+const underline = (
+  <svg
+    width="136"
+    height="6"
+    viewBox="0 0 136 6"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g filter="url(#filter0_g_2001_76)">
+      <path
+        d="M0.86969 3.62521C52.4697 1.22521 111.703 2.62521 134.87 3.62521"
+        stroke="#FBB396"
+        strokeWidth="3"
+      />
+    </g>
+    <defs>
+      <filter
+        id="filter0_g_2001_76"
+        x="-1.2219e-05"
+        y="4.88162e-05"
+        width="135.734"
+        height="5.92373"
+        filterUnits="userSpaceOnUse"
+        colorInterpolationFilters="sRGB"
+      >
+        <feFlood floodOpacity="0" result="BackgroundImageFix" />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="BackgroundImageFix"
+          result="shape"
+        />
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.26315790414810181 0.26315790414810181"
+          numOctaves="3"
+          seed="3261"
+        />
+        <feDisplacementMap
+          in="shape"
+          scale="1.6000000238418579"
+          xChannelSelector="R"
+          yChannelSelector="G"
+          result="displacedImage"
+          width="100%"
+          height="100%"
+        />
+        <feMerge result="effect1_texture_2001_76">
+          <feMergeNode in="displacedImage" />
+        </feMerge>
+      </filter>
+    </defs>
+  </svg>
+);

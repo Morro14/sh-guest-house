@@ -14,9 +14,7 @@ class Command(BaseCommand):
     help = "Populate database with Place instances for tests"
 
     def add_arguments(self, parser):
-        parser.add_argument(
-            "--num", type=int, default=4, help="Number of places"
-        )
+        parser.add_argument("--num", type=int, default=4, help="Number of places")
 
     def handle(self, *args, **options):
 
@@ -72,16 +70,13 @@ class Command(BaseCommand):
                 place=place_instance,
                 image_full=os.path.join(local_img_path),
             )
-            with open(
-                os.path.join(media_base_dir, local_img_path), "rb"
-            ) as f:
-                img_instance.image_full.save(
-                    os.path.join(local_img_path),
-                    File(f),
-                    save=True,
-                )
+            if settings.ON_RENDER:
+                with open(os.path.join(media_base_dir, local_img_path), "rb") as f:
+                    img_instance.image_full.save(
+                        os.path.join(local_img_path),
+                        File(f),
+                        save=True,
+                    )
             order += 1
 
-        self.stdout.write(
-            self.style.SUCCESS("✅ database seeded with fake Place data")
-        )
+        self.stdout.write(self.style.SUCCESS("✅ database seeded with fake Place data"))

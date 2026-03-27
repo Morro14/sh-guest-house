@@ -62,19 +62,13 @@ class Image(models.Model):
             options["filters"] = ["blur"]
             options["quality"] = 30
         thumb = get_thumbnailer(self.image_full).get_thumbnail(options)
-        # print("thumbnail url", thumb.url)
-        # media_url = os.path.join(settings.MEDIA_ROOT, thumb.url)
         return thumb.url
 
     @property
     def variants(self):
         results = {
-            "blur": self.get_variant_url(
-                self.blur_res, self.cropping_blur, blur=True
-            ),
-            "small": self.get_variant_url(
-                self.small_res, self.cropping_small
-            ),
+            "blur": self.get_variant_url(self.blur_res, self.cropping_blur, blur=True),
+            "small": self.get_variant_url(self.small_res, self.cropping_small),
             "main": self.get_variant_url(self.main_res, self.cropping_main),
             "original": self.image_full.url,
         }
@@ -131,9 +125,7 @@ class RoomImage(Image):
 
 
 class Place(models.Model):
-    name = models.CharField(
-        unique=True, max_length=63, verbose_name=_("name")
-    )
+    name = models.CharField(unique=True, max_length=63, verbose_name=_("name"))
     slug = models.CharField(
         unique=True,
         max_length=30,
@@ -154,9 +146,7 @@ class Place(models.Model):
     )
     info_link = models.CharField(
         verbose_name=_("Information link"),
-        help_text=_(
-            "Link to an external resources with information about the place"
-        ),
+        help_text=_("Link to an external resources with information about the place"),
         blank=True,
     )
 

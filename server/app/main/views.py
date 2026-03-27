@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from rest_framework.decorators import (
     api_view,
     authentication_classes,
@@ -63,9 +64,7 @@ class BookingRequestValidateView(APIView):
 
     def post(self, request):
         token = request.COOKIES["booking_request_token"]
-        jwt_content = jwt.decode(
-            token, os.environ.get("JWT_SECRET"), "HS256"
-        )
+        jwt_content = jwt.decode(token, os.environ.get("JWT_SECRET"), "HS256")
         jti = request.auth["jti"]
         check_in_date = date.fromisoformat(jwt_content["date"])
         nights_int = int(jwt_content["nights"])
@@ -124,9 +123,7 @@ class BookingRequestSummaryView(APIView):
 
         jti = request.auth["jti"]
         rooms_guests = request.auth["rooms_selected"]
-        selected_room_slugs = [
-            room["slug"] for room in request.auth["rooms_selected"]
-        ]
+        selected_room_slugs = [room["slug"] for room in request.auth["rooms_selected"]]
         rooms = Room.objects.filter(slug__in=selected_room_slugs)
         reservation_price_total = get_reservation_price_total(
             rooms, rooms_guests, int(booking_request_info["nights"])
@@ -200,9 +197,7 @@ class BookingRoomsRequestView(APIView):
 
     def get(self, request):
         data = request.GET
-        available_rooms = get_available_rooms(
-            data.get("date"), data.get("nights")
-        )
+        available_rooms = get_available_rooms(data.get("date"), data.get("nights"))
         serializer = RoomSerializer(available_rooms, many=True)
         booking_request_info = {
             "date": data.get("date"),
@@ -242,16 +237,6 @@ class BookingRoomsRequestView(APIView):
         return response
 
 
-class RoomSetView(APIView):
-    permission_classes = []
-    authentication_classes = []
-
-    def get(self, request):
-        rooms = Room.objects.prefetch_related("image").all()
-        rooms_serial = RoomSerializer(rooms, many=True)
-        return Response({"data": rooms_serial.data})
-
-
 @api_view(["POST"])
 @authentication_classes([SessionAuthentication])
 @permission_classes([])
@@ -265,9 +250,7 @@ def reservation_price_view(request):
         reservation_price_total = get_reservation_price_total(
             rooms, rooms_guests, int(nights)
         )
-        response = Response(
-            data={"reservation_price": reservation_price_total}
-        )
+        response = Response(data={"reservation_price": reservation_price_total})
 
         return response
 

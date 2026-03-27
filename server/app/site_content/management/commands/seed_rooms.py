@@ -17,9 +17,7 @@ class Command(BaseCommand):
     help = "Populate database with Room, RoomImage and Content instances for tests"
 
     def add_arguments(self, parser):
-        parser.add_argument(
-            "--rooms", type=int, default=7, help="Number of rooms"
-        )
+        parser.add_argument("--rooms", type=int, default=7, help="Number of rooms")
         parser.add_argument(
             "--images",
             type=int,
@@ -74,19 +72,17 @@ class Command(BaseCommand):
                             order=j,
                         )
                         cloud_filename = local_img_path
-
-                        with open(
-                            os.path.join(media_base_dir, local_img_path),
-                            "rb",
-                        ) as f:
-                            instance.image_full.save(
-                                cloud_filename, File(f), save=True
-                            )
+                        if settings.ON_RENDER:
+                            with open(
+                                os.path.join(media_base_dir, local_img_path),
+                                "rb",
+                            ) as f:
+                                instance.image_full.save(
+                                    cloud_filename, File(f), save=True
+                                )
                     except IntegrityError:
                         continue
 
         add_room_images()
 
-        self.stdout.write(
-            self.style.SUCCESS("✅ Database seeded with fake data")
-        )
+        self.stdout.write(self.style.SUCCESS("✅ Database seeded with fake data"))
