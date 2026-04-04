@@ -5,6 +5,7 @@ from site_content.views import (
     PlaceSetView,
     WideImageSet,
     PageContentView,
+    GridImageSet,
 )
 
 urlpatterns = [
@@ -13,4 +14,5 @@ urlpatterns = [
     path("places", PlaceSetView.as_view()),
     path("page-content", PageContentView.as_view()),
     path("wide-images/<slug:tag>", WideImageSet.as_view()),
+    path("grid-images/<slug:tag>", GridImageSet.as_view()),
 ]

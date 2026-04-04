@@ -1,24 +1,29 @@
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
+
+interface ImageProps {
+  src: string;
+}
 
 export function ImageLoading({
-  attributes,
+  imageAttrs,
+  placeholder = ImagePlacesholder,
 }: {
-  attributes: React.ComponentProps<"img">;
+  imageAttrs: ImageProps & React.ImgHTMLAttributes<HTMLImageElement>;
+  placeholder?: React.ReactNode;
 }) {
-  const { t } = useTranslation();
   const [loaded, setLoaded] = useState(false);
-  const { className, ...rest } = attributes;
+  const { className, ...rest } = imageAttrs;
+  console.log("loaded", loaded);
   return (
-    <div>
-      <span className={`text-white font-sans ${loaded ? "hidden" : "block"}`}>
-        {t("loading...")}
-      </span>
+    <div className="size-full">
       <img
         {...rest}
+        className={`${className ? className : ""} ${loaded ? "block" : "hidden"}`}
         onLoad={() => setLoaded(true)}
-        className={`${className} ${loaded ? "block" : "hidden"} ${attributes}`}
-      />
+      ></img>
+      <div className={!loaded ? "block" : "hidden"}>{placeholder}</div>
     </div>
   );
 }
+
+const ImagePlacesholder = <div className="bg-gray-warm-light size-full"></div>;

@@ -94,6 +94,31 @@ class WideImage(Image):
         verbose_name_plural = _("wide photos")
 
 
+class GridImage(Image):
+    GRID_FRAME_FORMATS = {
+        "wide": _("Wide"),
+        "medium": _("Album medium"),
+        "portrait": _("Protrait medium"),
+        "small": _("Album small"),
+    }
+    main_res = (2054, 736)
+    small_res = (1200, 368)
+
+    tag = models.ManyToManyField(to="ImageTag", blank=True)
+
+    format_in_grid = models.TextField(
+        help_text=_(
+            "Which frame format this image is for inside the mosaic image grid"
+        ),
+        choices=GRID_FRAME_FORMATS,
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name = _("grid image")
+        verbose_name_plural = _("grid images")
+
+
 class ImageTag(models.Model):
     name = models.CharField(max_length=30, unique=True)
 

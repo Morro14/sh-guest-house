@@ -6,7 +6,7 @@ export default function LocationMain() {
   const { t } = useTranslation();
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex md:flex-row flex-col items-center col-span-2 font-sans gap-5 font-medium text-lg">
+      <div className="flex md:flex-row flex-col items-center md:justify-center col-span-2 font-sans gap-5 font-medium text-lg">
         <Link to="" className="flex gap-2 underline">
           <img className="w-4" src={googleMapsIcon} />
           <div>{t("Open in Google Maps")}</div>

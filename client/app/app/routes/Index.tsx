@@ -7,6 +7,8 @@ import Places from "~/components/index/Places";
 import CarouselWide from "~/components/carousel/CarouselWide";
 import { useFetchV3 } from "~/utils/fetchHook";
 import { formatPageContentData } from "~/utils/format";
+import CarouselGrid from "~/components/carousel/CarouselGrid";
+import CarouselGridContextProvider from "~/components/carousel/CarouselGridContext";
 
 export default function Index() {
   const { t } = useTranslation();
@@ -21,7 +23,9 @@ export default function Index() {
         <h1 className="mt-[42px] mb-3 tracking-wide">{t("index-title")}</h1>
         <div className="flex flex-col gap-6 mt-10 relative">
           <NavContextProvider>
-            <CarouselWide tag="main"></CarouselWide>
+            <CarouselGridContextProvider>
+              <CarouselGrid name="index"></CarouselGrid>
+            </CarouselGridContextProvider>
           </NavContextProvider>
         </div>
       </div>

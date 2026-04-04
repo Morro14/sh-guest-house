@@ -1,5 +1,5 @@
 from rest_framework.views import APIView
-from site_content.models import WideImage, Place, ContentPage
+from site_content.models import WideImage, Place, ContentPage, GridImage
 from main.models import Room
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
@@ -12,6 +12,7 @@ from .serializers import (
     RoomSerializer,
     ImageWideSerializer,
     ContentPageSerializer,
+    ImageGridSerializer,
 )
 from django.views.generic import TemplateView
 import os
@@ -30,6 +31,17 @@ class WideImageSet(APIView):
     def get(self, request, tag):
         images = WideImage.objects.filter(tag__name=tag)
         serializer = ImageWideSerializer(images, many=True)
+        return Response({"data": serializer.data})
+
+
+class GridImageSet(APIView):
+    permission_classes = []
+    authentication_classes = []
+
+    def get(self, request, tag):
+        images = GridImage.objects.filter(tag__name=tag)
+        print("grid images", images)
+        serializer = ImageGridSerializer(images, many=True)
         return Response({"data": serializer.data})
 
 

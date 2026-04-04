@@ -17,11 +17,12 @@ export default function BookingPannel() {
   const { t } = useTranslation();
   const context = useContextProvider();
   return (
-    <div className="md:flex sticky hidden top-0 bottom-0 z-30 w-full h-12 justify-center bg-bg drop-shadow-sm">
+    <div className="md:flex sticky hidden top-0 bottom-0 z-30 w-full h-12 justify-center">
+      <div className="size-full absolute bg-bg drop-shadow-sm"></div>
       <div className="flex justify-center items-center size-full font-sans border-x border-accent-lighter">
         <Form
           method="post"
-          className={`flex justify-center h-12 items-center overflow-visible `}
+          className={`flex z-40 justify-center h-12 items-center overflow-visible `}
         >
           <div className="flex items-center text-nowrap text-ellipsis pr-8 pl-2">
             {t("create_reservation")}
