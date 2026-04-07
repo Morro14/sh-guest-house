@@ -20,7 +20,6 @@ export default function ImageGrid({
   grid: Grid;
   gridIndex: number;
 }) {
-  console.log("grid", grid);
   const { t } = useTranslation();
   const gridContext = useCarouselGridContextProvider();
   const navContext = useNavContextProvider();

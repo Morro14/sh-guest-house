@@ -9,6 +9,8 @@ import { useFetchV3 } from "~/utils/fetchHook";
 import { formatPageContentData } from "~/utils/format";
 import CarouselGrid from "~/components/carousel/CarouselGrid";
 import CarouselGridContextProvider from "~/components/carousel/CarouselGridContext";
+import Reviews from "~/components/index/Reviews";
+import Map from "~/components/index/map/Map";
 
 export default function Index() {
   const { t } = useTranslation();
@@ -19,18 +21,17 @@ export default function Index() {
     : null;
   return (
     <div className="flex grow flex-col items-stretch text-text-main bg-bg gap-7 min-h-screen ">
-      <div className="flex flex-col items-center">
-        <h1 className="mt-[42px] mb-3 tracking-wide">{t("index-title")}</h1>
-        <div className="flex flex-col gap-6 mt-10 relative">
-          <NavContextProvider>
-            <CarouselGridContextProvider>
-              <CarouselGrid name="index"></CarouselGrid>
-            </CarouselGridContextProvider>
-          </NavContextProvider>
-        </div>
+      <div className="flex flex-col gap-1 items-center">
+        <h1 className="mt-[54px] mb-3 tracking-wide">{t("index-title")}</h1>
+        <h2 className="">{t("Some subtitle")}</h2>
+        <NavContextProvider>
+          <CarouselGridContextProvider>
+            <CarouselGrid name="index"></CarouselGrid>
+          </CarouselGridContextProvider>
+        </NavContextProvider>
       </div>
-
       <div className="flex flex-col items-center">
+        <Reviews></Reviews>
         <div className="index-container-1 relative flex flex-col gap-9 pt-8">
           <Paragraph
             content={pageContentObj ? pageContentObj["about"] : null}
@@ -76,9 +77,7 @@ export default function Index() {
             titleSize="h4"
             centered={true}
           ></Paragraph>
-          <NavContextProvider>
-            <Places></Places>
-          </NavContextProvider>
+          <Map></Map>
         </div>
       </div>
     </div>

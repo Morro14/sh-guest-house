@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Image, WideImage, Place, ContentPage, GridImage
+from .models import Image, WideImage, Place, ContentPage, GridImage, Review
 from main.models import Room
 
 
@@ -58,3 +58,9 @@ class PlaceSerializer(serializers.ModelSerializer):
             "geoloc",
             "info_link",
         ]
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = "__all__"

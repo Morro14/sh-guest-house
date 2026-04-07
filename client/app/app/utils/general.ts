@@ -19,6 +19,7 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 export { axiosInstance };
+
 export function isDigit(s: string) {
   const regex = /^\d+$/;
   return regex.test(s);
@@ -38,6 +39,7 @@ export function getDefaultSearchParams() {
     nights: NIGHTS,
   };
 }
+
 export function getLanguagePathParam(pathname: string = null) {
   let segments = [];
   if (!pathname) {
@@ -48,6 +50,7 @@ export function getLanguagePathParam(pathname: string = null) {
   }
   return segments[1];
 }
+
 export function getUrlSearchParams<const K extends readonly string[]>(keys: K) {
   const [params] = useSearchParams();
   const defaultParams = getDefaultSearchParams();
@@ -83,6 +86,7 @@ export function formatPrice(priceNum: number, currency: Currency) {
   const currencySymbol = currencySymbols[currency] || currency;
   return currencySymbol + " " + priceWithDot;
 }
+
 export function toRouteError(error: Response) {
   if (axios.isAxiosError(error) && error.response) {
     throw data(error.response.data, {

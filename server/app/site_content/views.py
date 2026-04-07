@@ -1,8 +1,9 @@
 from rest_framework.views import APIView
-from site_content.models import WideImage, Place, ContentPage, GridImage
+from site_content.models import WideImage, Place, ContentPage, GridImage, Review
 from main.models import Room
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
+from rest_framework import viewsets
 from rest_framework.pagination import LimitOffsetPagination
 from django.utils.translation import gettext as _
 from django.core.cache import cache
@@ -13,6 +14,7 @@ from .serializers import (
     ImageWideSerializer,
     ContentPageSerializer,
     ImageGridSerializer,
+    ReviewSerializer,
 )
 from django.views.generic import TemplateView
 import os
@@ -53,7 +55,6 @@ class RoomSetView(ListAPIView):
     pagination_class = LimitOffsetPagination
 
     def list(self, request, *args, **kwargs):
-        print("query params", request.query_params)
         list_response = super().list(request, *args, **kwargs)
         return Response({"data": list_response.data})
 
@@ -100,3 +101,16 @@ class TranslationView(APIView):
         response = Response(translations)
         cache.set(cache_key, translations, timeout=60 * 60 * 24)
         return response
+
+
+class ReviewView(viewsets.ReadOnlyModelViewSet):
+    permission_classes = []
+    authentication_classes = []
+
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+    pagination_class = LimitOffsetPagination
+
+
+review_details = ReviewView.as_view({"get": "retrieve"})
+review_list = ReviewView.as_view({"get": "list"})

@@ -1,10 +1,9 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.conf import settings
 from easy_thumbnails.files import get_thumbnailer
 from image_cropping import ImageRatioField
 from .utils.images_util import size_to_str
-import os
+from .validators import validate_rating_value
 
 
 class ContentPage(models.Model):
@@ -199,3 +198,13 @@ class PlaceImage(Image):
 
     def __str__(self):
         return f"{self.place.name} image f{self.pk}"
+
+
+class Review(models.Model):
+    date = models.DateField(verbose_name=_("review date"))
+    rating = models.FloatField(validators=[validate_rating_value])
+    content = models.TextField()
+
+    class Meta:
+        verbose_name = _("review")
+        verbose_name = _("reviews")

@@ -19,7 +19,10 @@ export default function CarouselGridNav({
   };
   return (
     <div className="flex gap-10">
-      <div onClick={() => arrowFunc("left")} className="rotate-180">
+      <div
+        onClick={() => arrowFunc("left")}
+        className="rotate-180 hover:cursor-pointer"
+      >
         <img src={arrowRight} />
       </div>
       <div>
@@ -34,7 +37,7 @@ export default function CarouselGridNav({
             : t("Show more images")}
         </button>
       </div>
-      <div onClick={() => arrowFunc("right")}>
+      <div onClick={() => arrowFunc("right")} className="hover:cursor-pointer">
         <img src={arrowRight} />
       </div>
     </div>
