@@ -13,7 +13,6 @@ export function ImageLoading({
 }) {
   const [loaded, setLoaded] = useState(false);
   const { className, ...rest } = imageAttrs;
-  console.log("loaded", loaded);
   return (
     <div className="size-full">
       <img

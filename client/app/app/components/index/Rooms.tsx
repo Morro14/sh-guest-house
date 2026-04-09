@@ -73,7 +73,6 @@ export default function RoomsPreview() {
       .catch((r) => logError(r));
   }, [showMoreRooms, extraRooms]);
 
-  console.log("extra rooms", extraRooms);
   return !rooms || loading ? (
     <div className="flex justify-center items-center text-center w-full h-96 bg-gray-warm-light text-gray-500 font-sans rounded-xl">
       <span>

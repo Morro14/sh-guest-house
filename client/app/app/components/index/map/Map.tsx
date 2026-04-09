@@ -1,12 +1,14 @@
 import type { MapPlaceData } from "~/types/map";
 import MapPlace from "./Place";
 import { useFetchV3 } from "~/utils/fetchHook";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import mapPaths from "src/assets/map-paths.svg";
+import draw from "./canvas";
+import MapPlaceComponent from "./Place";
 
 export default function Map() {
   const { fetchedData } = useFetchV3("content/places");
   const placesData = fetchedData?.data?.data as MapPlaceData[];
-  const [mapOffset, setMapOffset] = useState({ x: 0, y: 0 });
   const placesObj = placesData
     ? placesData.reduce((prev, cur) => {
         const slug = cur.slug;
@@ -16,7 +18,23 @@ export default function Map() {
     : null;
   const mapSurface = useRef<HTMLDivElement | null>(null);
   const mapContainer = useRef<HTMLDivElement | null>(null);
-
+  const mapContent = useRef(null);
+  console.log("places", placesObj);
+  useEffect(() => {
+    if (!mapSurface.current || !mapContent.current) {
+      return;
+    }
+    const mapContentOffsets = {
+      x: Math.floor(
+        (mapSurface.current.clientWidth - mapContent.current.clientWidth) / 2,
+      ),
+      y: Math.floor(
+        (mapSurface.current.clientHeight - mapContent.current.clientHeight) / 2,
+      ),
+    };
+    mapContent.current.style.top = `${mapContentOffsets.y}px`;
+    mapContent.current.style.left = `${mapContentOffsets.x}px`;
+  });
   useEffect(() => {
     if (!mapSurface.current || !mapContainer.current) {
       return;
@@ -31,14 +49,11 @@ export default function Map() {
           2,
       ),
     };
-    // setMapOffset({ x: initOffset.x, y: initOffset.y });
     mapSurface.current.style.left = `${-initOffset.x}px`;
     mapSurface.current.style.top = `${-initOffset.y}px`;
     let mouseDownX: number, mouseDownY: number;
     let mapOffsetX: number = -initOffset.x;
     let mapOffsetY: number = -initOffset.y;
-    // const initPos = { x: mapOffset.x, y: mapOffset.y };
-    //
     const thresholds = {
       top: 0,
       bottom:
@@ -56,22 +71,22 @@ export default function Map() {
         right: mapSurface.current.offsetLeft < thresholds.right,
       };
       const allowedMove = {
-        top: mouseDownY > e.clientY || !limits.top,
-        bottom: mouseDownY > e.clientY || !limits.bottom,
-        left: mouseDownX > e.clientX || !limits.left,
-        right: mouseDownX < e.clientX || !limits.right,
+        top: !limits.bottom,
+        bottom: !limits.top,
+        left: !limits.right,
+        right: !limits.left,
       };
-      if (!allowedMove.left) {
+      if (!allowedMove.right) {
         mapSurface.current.style.left = `0px`;
-      } else if (!allowedMove.right) {
+      } else if (!allowedMove.left) {
         mapSurface.current.style.left = `${mapContainer.current.clientWidth - mapSurface.current.clientWidth}px`;
       } else {
         mapSurface.current.style.left = `${mapOffsetX + e.clientX - mouseDownX}px`;
       }
 
-      if (!allowedMove.top) {
+      if (!allowedMove.bottom) {
         mapSurface.current.style.top = `0px`;
-      } else if (!allowedMove.bottom) {
+      } else if (!allowedMove.top) {
         mapSurface.current.style.top = `${mapContainer.current.clientHeight - mapSurface.current.clientHeight}px`;
       } else {
         mapSurface.current.style.top = `${mapOffsetY + e.clientY - mouseDownY}px`;
@@ -92,13 +107,36 @@ export default function Map() {
       );
     });
   }, [mapSurface]);
+
+  const canvas = useRef(null);
+  useEffect(() => {
+    if (!canvas.current) {
+      return;
+    }
+    const dpr = window.devicePixelRatio || 1;
+    const canvasSize = { w: 1600, h: 1600 };
+    canvas.current.width = canvasSize.w;
+    canvas.current.height = canvasSize.h;
+    draw(canvas);
+  }, [canvas]);
   return (
     <div
       className="index-container-1 relative h-[md:1180px] overflow-clip border border-text-main"
       ref={mapContainer}
     >
-      <div className="w-500 h-500 relative bg-olive-400" ref={mapSurface}>
-        {placesObj ? <MapPlace place={placesObj["spitakavor"]}></MapPlace> : ""}
+      <div className="w-400 h-400 relative" ref={mapSurface}>
+        <canvas ref={canvas} className="w-400 h-400"></canvas>
+        {placesObj ? (
+          <MapPlaceComponent
+            place={placesObj["spitakavor"]}
+            options={{
+              position: { leftOffset: 860, topOffset: 520 },
+              contentPosition: "top",
+            }}
+          ></MapPlaceComponent>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

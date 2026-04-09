@@ -17,7 +17,13 @@ export default function MapPlaceComponent({
   const { t } = useTranslation();
   const dot = <div className="size-2.5 rounded-[5px] bg-text-main mt-2"></div>;
   return (
-    <div className="absolute flex flex-col items-center">
+    <div
+      className={`absolute flex flex-col items-center`}
+      style={{
+        top: `${options.position.topOffset}px`,
+        left: `${options.position.leftOffset}px`,
+      }}
+    >
       {options.contentPosition === "bottom" ? dot : ""}
 
       <div className="text-lg">{place.name}</div>
