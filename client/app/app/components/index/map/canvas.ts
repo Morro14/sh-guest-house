@@ -16,6 +16,31 @@ export default function draw(canvasRef: React.RefObject<HTMLCanvasElement>) {
       x: Math.floor((canvasRef.current.width - naturalWidth) / 2),
       y: Math.floor((canvasRef.current.height - naturalHeight) / 2),
     };
+    const canvasWidth = 1600;
+    const canvasHeight = 1600;
+    ctx.lineWidth = 0.1;
+    // ctx.fillStyle = "#D0D0D0";
+    // ctx.fillRect(0, 0, canvasWidth, 20);
+    // ctx.fillText("test", 60, 60);
+    // for (let i = 1; i < canvasWidth / 20; i++) {
+    //   // ctx.font = "10px sans";
+    //   ctx.moveTo(i * 20, 0);
+    //   ctx.lineTo(i * 20, canvasHeight);
+    //   ctx.save();
+    //   ctx.translate(i * 20, 0);
+    //   ctx.rotate(Math.PI / 2);
+    //   ctx.fillStyle = "black";
+    //   ctx.fillText(String(i * 20), 0, 0);
+    //   ctx.restore();
+    // }
+    // ctx.stroke();
+    // for (let i = 1; i < canvasHeight / 20; i++) {
+    //   ctx.moveTo(0, i * 20);
+    //   ctx.fillStyle = "black";
+    //   ctx.fillText(String(i * 20), 0, i * 20);
+    //   ctx.lineTo(canvasWidth, i * 20);
+    // }
+    // ctx.stroke();
     ctx.drawImage(
       pathsImage,
       imageOffsets.x,
@@ -23,29 +48,5 @@ export default function draw(canvasRef: React.RefObject<HTMLCanvasElement>) {
       naturalWidth,
       naturalHeight,
     );
-    const canvasWidth = 1600;
-    const canvasHeight = 1600;
-    ctx.lineWidth = 0.1;
-    // ctx.fillStyle = "#D0D0D0";
-    // ctx.fillRect(0, 0, canvasWidth, 20);
-    // ctx.fillText("test", 60, 60);
-    for (let i = 1; i < canvasWidth / 20; i++) {
-      // ctx.font = "10px sans";
-      ctx.moveTo(i * 20, 0);
-      ctx.lineTo(i * 20, canvasHeight);
-      ctx.save();
-      ctx.translate(i * 20, 0);
-      ctx.rotate(Math.PI / 2);
-      ctx.fillStyle = "black";
-      ctx.fillText(String(i * 20), 0, 0);
-      ctx.restore();
-    }
-    for (let i = 1; i < canvasHeight / 20; i++) {
-      ctx.moveTo(0, i * 20);
-      ctx.fillStyle = "black";
-      ctx.fillText(String(i * 20), 0, i * 20);
-      ctx.lineTo(canvasWidth, i * 20);
-    }
-    ctx.stroke();
   };
 }

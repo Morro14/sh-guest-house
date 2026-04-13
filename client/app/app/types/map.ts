@@ -8,12 +8,14 @@ export interface MapPlaceData {
   description: string;
   geoloc: string;
   info_link: string;
-  images: Image;
+  images: Image[];
   iconURL?: string;
 }
 
 export interface MapPlaceOptions {
-  position: { topOffset: number; leftOffset: number };
+  offsets?: { topOffset: number; leftOffset: number };
+  position?: "absolute" | "relative" | "static";
   contentPosition?: "top" | "bottom";
   iconPosition?: "left" | "right" | "top" | "bottom";
+  dot?: boolean;
 }

@@ -1,25 +1,25 @@
 import type { MapPlaceData } from "~/types/map";
-import MapPlace from "./Place";
 import { useFetchV3 } from "~/utils/fetchHook";
 import { useEffect, useRef } from "react";
-import mapPaths from "src/assets/map-paths.svg";
 import draw from "./canvas";
 import MapPlaceComponent from "./Place";
+import { useMapContextProvider } from "./MapContextProvider";
+import MapMediaFullView from "./MapMediaFullView";
+import MapPlaceDetails from "./MapPlaceDetails";
 
 export default function Map() {
   const { fetchedData } = useFetchV3("content/places");
   const placesData = fetchedData?.data?.data as MapPlaceData[];
   const placesObj = placesData
     ? placesData.reduce((prev, cur) => {
-        const slug = cur.slug;
-        prev[slug] = cur;
-        return prev;
-      }, {})
+      const slug = cur.slug;
+      prev[slug] = cur;
+      return prev;
+    }, {})
     : null;
   const mapSurface = useRef<HTMLDivElement | null>(null);
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const mapContent = useRef(null);
-  console.log("places", placesObj);
   useEffect(() => {
     if (!mapSurface.current || !mapContent.current) {
       return;
@@ -39,14 +39,13 @@ export default function Map() {
     if (!mapSurface.current || !mapContainer.current) {
       return;
     }
-    console.log("map container", mapContainer.current);
     const initOffset = {
       x: Math.floor(
         (mapSurface.current.clientWidth - mapContainer.current.clientWidth) / 2,
       ),
       y: Math.floor(
         (mapSurface.current.clientHeight - mapContainer.current.clientHeight) /
-          2,
+        2,
       ),
     };
     mapSurface.current.style.left = `${-initOffset.x}px`;
@@ -119,6 +118,7 @@ export default function Map() {
     canvas.current.height = canvasSize.h;
     draw(canvas);
   }, [canvas]);
+  const context = useMapContextProvider();
   return (
     <div
       className="index-container-1 relative h-[md:1180px] overflow-clip border border-text-main"
@@ -127,13 +127,111 @@ export default function Map() {
       <div className="w-400 h-400 relative" ref={mapSurface}>
         <canvas ref={canvas} className="w-400 h-400"></canvas>
         {placesObj ? (
-          <MapPlaceComponent
-            place={placesObj["spitakavor"]}
-            options={{
-              position: { leftOffset: 860, topOffset: 520 },
-              contentPosition: "top",
-            }}
-          ></MapPlaceComponent>
+          <div>
+            {context.fullView ? (
+              <MapMediaFullView>
+                <MapPlaceDetails
+                  place={context.placeSelected}
+                ></MapPlaceDetails>
+              </MapMediaFullView>
+            ) : (
+              ""
+            )}
+            <MapPlaceComponent
+              place={placesObj["spitakavor"]}
+              options={{
+                offsets: { leftOffset: 825, topOffset: 455 },
+                contentPosition: "top",
+              }}
+            ></MapPlaceComponent>
+            <MapPlaceComponent
+              place={placesObj["dadal"]}
+              options={{
+                offsets: { leftOffset: 690, topOffset: 1060 },
+                contentPosition: "bottom",
+              }}
+            ></MapPlaceComponent>
+            <MapPlaceComponent
+              place={placesObj["noravank"]}
+              options={{
+                offsets: { leftOffset: 444, topOffset: 1210 },
+                contentPosition: "bottom",
+              }}
+            ></MapPlaceComponent>
+
+            <MapPlaceComponent
+              place={placesObj["areni"]}
+              options={{
+                offsets: { leftOffset: 515, topOffset: 930 },
+                contentPosition: "top",
+              }}
+            ></MapPlaceComponent>
+            <MapPlaceComponent
+              place={placesObj["yegheg museum"]}
+              options={{
+                offsets: { leftOffset: 798, topOffset: 936 },
+                contentPosition: "bottom",
+              }}
+            ></MapPlaceComponent>
+            <MapPlaceComponent
+              place={placesObj["tanaat"]}
+              options={{
+                offsets: { leftOffset: 1154, topOffset: 538 },
+                contentPosition: "top",
+              }}
+            ></MapPlaceComponent>
+            <MapPlaceComponent
+              place={placesObj["tsahats"]}
+              options={{
+                offsets: { leftOffset: 638, topOffset: 316 },
+                contentPosition: "top",
+              }}
+            ></MapPlaceComponent>
+            <MapPlaceComponent
+              place={placesObj["yerevan"]}
+              options={{
+                offsets: { leftOffset: 312, topOffset: 880 },
+                contentPosition: "top",
+              }}
+            ></MapPlaceComponent>
+            <div
+              className="absolute flex flex-col gap-2"
+              style={{ left: `${1260}px`, top: `${1080}px` }}
+            >
+              <MapPlaceComponent
+                place={placesObj["jermuk"]}
+                options={{
+                  position: "relative",
+                  contentPosition: "top",
+                  dot: false,
+                }}
+              ></MapPlaceComponent>
+              <MapPlaceComponent
+                place={placesObj["sisian"]}
+                options={{
+                  position: "relative",
+                  contentPosition: "top",
+                  dot: false,
+                }}
+              ></MapPlaceComponent>
+              <MapPlaceComponent
+                place={placesObj["goris"]}
+                options={{
+                  position: "relative",
+                  contentPosition: "top",
+                  dot: false,
+                }}
+              ></MapPlaceComponent>
+              <MapPlaceComponent
+                place={placesObj["tatev"]}
+                options={{
+                  position: "relative",
+                  contentPosition: "top",
+                  dot: false,
+                }}
+              ></MapPlaceComponent>
+            </div>
+          </div>
         ) : (
           ""
         )}

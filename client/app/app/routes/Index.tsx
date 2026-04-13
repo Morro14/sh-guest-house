@@ -11,6 +11,7 @@ import CarouselGrid from "~/components/carousel/CarouselGrid";
 import CarouselGridContextProvider from "~/components/carousel/CarouselGridContext";
 import Reviews from "~/components/index/Reviews";
 import Map from "~/components/index/map/Map";
+import MapContextProvider from "~/components/index/map/MapContextProvider";
 
 export default function Index() {
   const { t } = useTranslation();
@@ -77,7 +78,9 @@ export default function Index() {
             titleSize="h4"
             centered={true}
           ></Paragraph>
-          <Map></Map>
+          <MapContextProvider>
+            <Map></Map>
+          </MapContextProvider>
         </div>
       </div>
     </div>

@@ -1,10 +1,14 @@
 import { useTranslation } from "react-i18next";
 import type { MapPlaceData, MapPlaceOptions } from "~/types/map";
+import { useMapContextProvider } from "./MapContextProvider";
+import type React from "react";
 
 const defaultOptions: MapPlaceOptions = {
-  position: { topOffset: 0, leftOffset: 0 },
+  offsets: { topOffset: 0, leftOffset: 0 },
+  position: "absolute",
   contentPosition: "top",
   iconPosition: "top",
+  dot: true,
 };
 
 export default function MapPlaceComponent({
@@ -14,21 +18,36 @@ export default function MapPlaceComponent({
   place: MapPlaceData;
   options?: MapPlaceOptions;
 }) {
+  const optionsMerged = { ...defaultOptions, ...options };
   const { t } = useTranslation();
   const dot = <div className="size-2.5 rounded-[5px] bg-text-main mt-2"></div>;
+  const context = useMapContextProvider();
+  let mousePosOnClick = { x: 0, y: 0 }
   return (
     <div
-      className={`absolute flex flex-col items-center`}
+      onClick={(e: React.MouseEvent) => {
+        if (mousePosOnClick.x !== e.clientX && mousePosOnClick.y !== e.clientY) {
+          return
+        }
+        context.setPlaceSelected(place);
+        context.setFullView(true);
+      }}
+      onMouseDown={(e: React.MouseEvent) => {
+        mousePosOnClick = { x: e.clientX, y: e.clientY }
+      }}
+      className={`${optionsMerged.position} flex flex-col items-center font-semibold hover:underline hover:cursor-pointer`}
       style={{
-        top: `${options.position.topOffset}px`,
-        left: `${options.position.leftOffset}px`,
+        top: `${optionsMerged.offsets.topOffset}px`,
+        left: `${optionsMerged.offsets.leftOffset}px`,
       }}
     >
-      {options.contentPosition === "bottom" ? dot : ""}
+      {optionsMerged.contentPosition === "bottom" && optionsMerged.dot
+        ? dot
+        : ""}
 
       <div className="text-lg">{place.name}</div>
-      <div className="">{`${place.distance} ${t("km", { context: "distance" })}`}</div>
-      {options.contentPosition === "top" ? dot : ""}
+      <div className="text-sm">{`${place.distance} ${t("km", { context: "distance" })}`}</div>
+      {optionsMerged.contentPosition === "top" && optionsMerged.dot ? dot : ""}
     </div>
   );
 }

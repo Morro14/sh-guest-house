@@ -52,6 +52,60 @@ class Command(BaseCommand):
                 "description": fake.text(),
                 "distance": 7.4,
             },
+            {
+                "name": "Yeghegnadzor museum",
+                "slug": "yegheg museum",
+                "description": fake.text(),
+                "distance": 3.0,
+            },
+            {
+                "name": "Areni",
+                "slug": "areni",
+                "description": fake.text(),
+                "distance": 19.0,
+            },
+            {
+                "name": "Tsahats Kar",
+                "slug": "tsahats",
+                "description": fake.text(),
+                "distance": 28,
+            },
+            {
+                "name": "Jermuk",
+                "slug": "jermuk",
+                "description": fake.text(),
+                "distance": 50,
+            },
+            {
+                "name": "Sisian",
+                "slug": "sisian",
+                "description": fake.text(),
+                "distance": 89,
+            },
+            {
+                "name": "Tatev",
+                "slug": "tatev",
+                "description": fake.text(),
+                "distance": 134,
+            },
+            {
+                "name": "Goris",
+                "slug": "goris",
+                "description": fake.text(),
+                "distance": 119,
+            },
+            {
+                "name": "Yerevan",
+                "slug": "yerevan",
+                "description": fake.text(),
+                "distance": 128,
+            },
+            {
+                "name": "Sevan",
+                "slug": "sevan",
+                "description": fake.text(),
+                "distance": 131,
+            },
         ]
 
         media_base_dir = settings.BASE_DIR / "media/"
@@ -64,6 +118,12 @@ class Command(BaseCommand):
                 distance=p["distance"],
             )
             local_img_path = f"demo/places/{p["slug"]}.jpg"
+
+            if not settings.ON_RENDER and not os.path.exists(
+                os.path.join(local_img_path)
+            ):
+                order += 1
+                continue
             img_instance = PlaceImage.objects.create(
                 alt_text=p["slug"],
                 order=order,
