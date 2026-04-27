@@ -5,7 +5,7 @@ import { useNavContextProvider } from "../nav/NavContextProvider";
 import CarouselDotsFullView from "./CarouselDotsFullView";
 import { ImageLoading } from "../ImageLoading";
 
-const BASE_URL = import.meta.env.VITE_SERVER_URL;
+const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL
 
 export function Carousel({
   name,
@@ -48,9 +48,9 @@ export function Carousel({
                 className="embla__slide shrink-0 grow basis-full h-full flex justify-center items-center"
               >
                 <ImageLoading
-                  attributes={{
+                  imageAttrs={{
                     className: "h-full object-contain",
-                    src: img.variants[imageRes],
+                    src: `${MEDIA_URL}${img.variants[imageRes]}`,
                     onClick: () => imageOnClick(i),
                     alt: `${name}-${i}`,
                   }}

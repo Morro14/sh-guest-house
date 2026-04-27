@@ -49,7 +49,7 @@ export default function FloatingPanel() {
   const priceStatus = context.priceFetcher.state;
   return (
     <div
-      className={`${panelOffScreen ? "fixed top-4" : "absolute top-4"} z-20 top-0 w-full flex flex-col items-center justify-start `}
+      className={`${panelOffScreen ? "fixed top-4" : "absolute top-4"} z-20 top-0 w-full flex flex-col items-center justify-start font-sans`}
     >
       <div
         className={`absolute booking-floating-panel border-t border-gray-warm-inactive ${moreRoomsRequired ? "h-15.5" : "h-[38px]"} transition-all duration-200 bg-bg rounded-sm shadow-md`}
@@ -59,7 +59,7 @@ export default function FloatingPanel() {
           className={`z-10 flex justify-between items-center  px-6 mt-2 lg:h-6 h-full booking-floating-panel`}
         >
           <div className="w-16"></div>
-          <div className={`flex lg:gap-7 gap-6 font-sans font-[350]`}>
+          <div className={`flex lg:gap-7 gap-6 font-[350]`}>
             <div
               className={`${panelOffScreen ? "block" : "max-lg:hidden"} lg:col-start-2 lg:block hidden `}
             >{`${dateString}`}</div>
@@ -82,14 +82,14 @@ export default function FloatingPanel() {
             className="px-2 lg:col-start-6 w-16 flex justify-end cursor-pointer "
           >
             <div
-              className={`px-2  ${moreRoomsRequired ? "border-0 text-gray-warm-inactive" : "border-b-2 border-peach text-text-main"} font-serif font-medium`}
+              className={`px-2  ${moreRoomsRequired ? "border-0 text-gray-warm-inactive" : "border-b-2 border-peach text-text-main"} font-medium`}
             >
               {t("Continue")}
             </div>
           </button>
         </div>
         <div
-          className={`z-10 text-red-error text-center font-sans ${moreRoomsRequired ? "block" : "hidden opacity-0"} transition-discrete transition-all duration-200`}
+          className={`z-10 text-red-error text-center ${moreRoomsRequired ? "block" : "hidden opacity-0"} transition-discrete transition-all duration-200`}
         >{`Select more rooms to accommodate ${guests} guests`}</div>
       </div>
     </div>

@@ -12,6 +12,8 @@ import CarouselGridContextProvider from "~/components/carousel/CarouselGridConte
 import Reviews from "~/components/index/Reviews";
 import Map from "~/components/index/map/Map";
 import MapContextProvider from "~/components/index/map/MapContextProvider";
+import NavHorizontal from "~/components/index/NavHorizontal";
+import ContentCard from "~/components/index/ContentCard";
 
 export default function Index() {
   const { t } = useTranslation();
@@ -22,38 +24,46 @@ export default function Index() {
     : null;
   return (
     <div className="flex grow flex-col items-stretch text-text-main bg-bg gap-7 min-h-screen ">
-      <div className="flex flex-col gap-1 items-center">
-        <h1 className="mt-[54px] mb-3 tracking-wide">{t("index-title")}</h1>
-        <h2 className="">{t("Some subtitle")}</h2>
+      <div className="flex flex-col items-center">
+        <h1 className="mt-14 mb-3 tracking-wide">{t("index-title")}</h1>
+        <h2 className="mb-14!">{t("Some subtitle")}</h2>
         <NavContextProvider>
           <CarouselGridContextProvider>
             <CarouselGrid name="index"></CarouselGrid>
           </CarouselGridContextProvider>
         </NavContextProvider>
+        <Reviews></Reviews>
+        <NavHorizontal></NavHorizontal>
       </div>
       <div className="flex flex-col items-center">
-        <Reviews></Reviews>
-        <div className="index-container-1 relative flex flex-col gap-9 pt-8">
-          <Paragraph
-            content={pageContentObj ? pageContentObj["about"] : null}
-            titleSize="h3"
-            centered={true}
-          />
-
-          <Paragraph
-            content={pageContentObj ? pageContentObj["rooms-preview"] : null}
-            titleSize="h4"
-            centered={true}
-          />
+        <div className="index-container-1 relative flex flex-col items-center gap-12 mt-14">
+          <ContentCard>
+            <Paragraph
+              content={pageContentObj ? pageContentObj["about"] : null}
+              titleSize="h3"
+              centered={true}
+            />
+          </ContentCard>
+          <ContentCard>
+            <Paragraph
+              content={pageContentObj ? pageContentObj["rooms-preview"] : null}
+              titleSize="h3"
+              centered={true}
+            />
+          </ContentCard>
           <NavContextProvider>
             <RoomsPreview></RoomsPreview>
           </NavContextProvider>
-          <Paragraph
-            content={pageContentObj ? pageContentObj["location"] : null}
-            titleSize="h4"
-            centered={true}
-          />
-          <LocationMain></LocationMain>
+          <ContentCard>
+            <div className="flex flex-col gap-4">
+              <Paragraph
+                content={pageContentObj ? pageContentObj["location"] : null}
+                titleSize="h3"
+                centered={true}
+              />
+              <LocationMain></LocationMain>
+            </div>
+          </ContentCard>
         </div>
       </div>
 
@@ -72,7 +82,7 @@ export default function Index() {
       </div>
 
       <div className="flex flex-col items-center">
-        <div className="index-container-1 flex flex-col grow gap-9 2xl:w-[1000px] pt-8 relative">
+        <div className="index-container-1 flex flex-col grow gap-12 2xl:w-[1000px] pt-8 relative">
           <Paragraph
             content={pageContentObj ? pageContentObj["places"] : null}
             titleSize="h4"

@@ -14,7 +14,7 @@ export function ImageLoading({
   const [loaded, setLoaded] = useState(false);
   const { className, ...rest } = imageAttrs;
   return (
-    <div className="size-full">
+    <div className="size-full flex justify-center">
       <img
         {...rest}
         className={`${className ? className : ""} ${loaded ? "block" : "hidden"}`}

@@ -6,7 +6,8 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
 const CURRENCY = import.meta.env.VITE_CURRENCY;
-const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
+const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL
 
 export default function AvailableRoom({
   room,
@@ -93,8 +94,8 @@ export default function AvailableRoom({
     <fieldset key={room.name} className={`drop-shadow-sm bg-bg`}>
       <legend className="sr-only">{room.name}</legend>
       <img
-        className="border-2 border-peach object-cover sm:w-[482px] w-[360px] md:h-[272px] h-[203px]"
-        src={`${room.images[0].variants.small}`}
+        className="border-2 border-peach object-cover sm:w-[482px] w-[360px] md:h-[272px] h-[203px] hover:cursor-pointer"
+        src={`${MEDIA_URL}${room.images[0].variants.small}`}
         onClick={() => {
           navContext.setFullImageView(true);
           navContext.setItemSelected(index);

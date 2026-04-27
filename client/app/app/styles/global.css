@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Ysabeau+Infant:ital,wght@0,1..1000;1,1..1000&family=Ysabeau+SC:wght@1..1000&family=Ysabeau:ital,wght@0,1..1000;1,1..1000&family=Zen+Kaku+Gothic+Antique&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Ysabeau+Infant:ital,wght@0,1..1000;1,1..1000&family=Ysabeau+SC:wght@1..1000&family=Ysabeau:ital,wght@0,1..1000;1,1..1000&family=Zen+Kaku+Gothic+Antique&display=swap"); */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&family=Ysabeau+SC:wght@1..1000&family=Ysabeau:ital,wght@0,1..1000;1,1..1000&family=Zen+Kaku+Gothic+Antique&display=swap');
 @import "tailwindcss";
 @import "./carousel.css";
 @import "./responsive.css";
@@ -49,11 +50,9 @@ body {
   --color-green-warm: #699a57;
   --color-green-warm-light: #a6cd98;
   --color-black-transparent: #000000bf;
-  --font-sans: "Zen Kaku Gothic Antique", sans-serif;
-  --font-nunito: "Nunito", sans-serif;
-  --font-accent: "Ysabeau", serif;
+  --font-sans: "Source Sans 3", sans-serif;
+  --font-source-sans: "Source Sans 3", sans-serif;
   --font-serif: "Ysabeau", serif;
-  --font-infant: "Ysabeau Infant", serif;
   --font-sc: "Ysabeau SC", serif;
 }
 
@@ -68,6 +67,9 @@ h3 {
 }
 h4 {
   @apply text-xl mb-4 font-medium;
+}
+h5 {
+  @apply text-lg font-medium;
 }
 .float-visible {
   display: flex;

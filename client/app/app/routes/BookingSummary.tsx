@@ -98,7 +98,7 @@ export default function BookingSummary({ loaderData }) {
       </div>
       <div className="index-container-1">
         <div className="h-[1px] bg-gray-warm w-full mb-4"></div>
-        <div className="grid grid-cols-10 gap-y-1 font-sans capitalize">
+        <div className="grid grid-cols-10 font-sans capitalize">
           <div className=" md:col-span-2 col-span-3 font-light">
             {t("date") + ":"}
           </div>
@@ -112,7 +112,7 @@ export default function BookingSummary({ loaderData }) {
           <div className=" md:col-span-10 col-span-3 font-light">
             {t("rooms") + ":"}
           </div>
-          <ol className="list-decimal col-span-10 grid grid-cols-subgrid gap-y-3">
+          <ol className="list-decimal col-span-10 gap-y-3 grid grid-cols-[repeat(auto-fill,minmax(300px,300px))]">
             {rooms.map((room: Room) => {
               const guestsSelected = guestsInfo.find(
                 (r) => r.slug === room.slug,
@@ -134,8 +134,8 @@ export default function BookingSummary({ loaderData }) {
         <p className="text-gray-warm-mid text-sm font-sans my-6">
           {t("booking summary paragraph")}
         </p>
-        <Form method="post" className="flex flex-col gap-3 w-[210px]">
-          <div>
+        <Form method="post" className="flex flex-col gap-5 w-[210px]">
+          <div className="flex flex-col gap-1">
             <label htmlFor="email-input" className="font-sans">
               {t("Email")}
             </label>
@@ -149,7 +149,7 @@ export default function BookingSummary({ loaderData }) {
               name="email"
             ></input>
           </div>
-          <div>
+          <div className="flex flex-col gap-1">
             <label htmlFor="guest-name-input" className="font-sans">
               {t("Guest name")}
             </label>
@@ -163,7 +163,7 @@ export default function BookingSummary({ loaderData }) {
               name="guest-name"
             ></input>
           </div>
-          <div>
+          <div className="flex flex-col gap-1">
             <label htmlFor="guest-name-input" className="font-sans">
               {t("Message")}
             </label>
@@ -181,7 +181,7 @@ export default function BookingSummary({ loaderData }) {
           </div>
           <button
             type="submit"
-            className="w-[120px] text-lg font-medium bg-peach capitalize rounded font-sans text-white mt-2 cursor-pointer hover:bg-peach-accent"
+            className="w-[120px] text-lg font-semibold bg-peach capitalize rounded font-sans text-white mt-6 cursor-pointer hover:bg-peach-accent"
           >
             {navigation.state === "idle" ? t("confirm") : t("submitting")}
           </button>

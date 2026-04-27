@@ -52,11 +52,11 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
     "children",
     "nights",
   ]);
-  useEffect(() => {
-    if (actionData && Object.keys(actionData).length > 0) {
-      context.setErrorState(actionData);
-    }
-  }, [actionData, context]);
+  // useEffect(() => {
+  //   if (actionData && Object.keys(actionData).length > 0) {
+  //     context.setErrors(actionData);
+  //   }
+  // }, [actionData, context]);
   return (
     <Form
       method="post"
@@ -67,7 +67,7 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
           <label className="font-light" htmlFor="checkin-date-input">
             {t("Check-in date") + ":"}
           </label>
-          <div className="h-[25px] border-b w-[132px] border-line-light">
+          <div className="w-[132px]">
             <DatePicker
               maxDate={today.set("year", today.get("year") + 1)}
               defaultValue={today}
@@ -116,7 +116,7 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
           </label>
           <div className="flex h-full w-[132px] justify-center items-center">
             <input
-              className="text-center font-medium w-6 placeholder:text-center placeholder:text-[#4c3b3350] placeholder:italic focus:placeholder:text-gray-400 border-b-1 border-line-light"
+              className="h-[26px] text-center font-medium w-6 placeholder:text-center placeholder:text-[#4c3b3350] placeholder:italic focus:placeholder:text-gray-400 border-b-1 border-line-light"
               name="nights"
               defaultValue={Number(searchParams.nights)}
               type="text"
@@ -129,16 +129,16 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
           </div>
         </div>
       </div>
-      {context.errorState ? (
-        <div className="absolute top-[106px]">
-          <ErrorPanel></ErrorPanel>
+      {context.errors ? (
+        <div className="absolute top-[108px]">
+          <ErrorPanel errors={actionData}></ErrorPanel>
         </div>
       ) : (
         ""
       )}
       <button
         type="submit"
-        className="px-3 bg-peach rounded-sm text-white font-medium font-sans mt-2 cursor-pointer "
+        className="px-3 bg-bg underline rounded-sm text-text-main font-semibold font-sans mt-2 cursor-pointer "
       >
         {t("Show available rooms")}
       </button>

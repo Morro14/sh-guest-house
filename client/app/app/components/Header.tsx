@@ -18,17 +18,17 @@ export default function Header() {
           <Link to="/" className="w-[140px] text-lg font-sans">
             {t("Site name")}
           </Link>
-          <div className="md:flex gap-5 hidden justify-between text font-sc underline ">
-            <Link to="contacts" className="">
+          <div className="md:flex gap-5 hidden justify-between text-lg font-sc ">
+            <Link to="contacts" className="hover:underline ">
               {t("About")}
             </Link>
-            <Link to="contacts" className="capitalize">
+            <Link to="contacts" className="capitalize hover:underline ">
               {t("Rooms")}
             </Link>
-            <Link to="contacts" className="">
+            <Link to="contacts" className=" hover:underline ">
               {t("Contacts")}
             </Link>
-            <Link to="contacts" className="">
+            <Link to="contacts" className="hover:underline ">
               {t("Location")}
             </Link>
           </div>

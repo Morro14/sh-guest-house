@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from "react";
+import React, { useEffect, useRef, type ReactNode, RefObject } from "react";
 import { useMapContextProvider } from "./MapContextProvider.tsx";
 import { useCloseOnClick } from "~/utils/components.ts";
 import { useState } from "react";
@@ -11,9 +11,9 @@ export default function MapMediaFullView({
 }) {
   const context = useMapContextProvider();
   const [opacity, setOpacity] = useState(0);
-  const contentRef = useRef(null);
+  const contentRef = useRef<null | HTMLDivElement>(null);
 
-  const outsideContentFieldRef = useRef(null);
+  const outsideContentFieldRef = useRef<null | HTMLDivElement>(null);
   useCloseOnClick(contentRef, () => {
     setOpacity(0);
     setTimeout(context.setFullView, 300, false);
@@ -21,11 +21,12 @@ export default function MapMediaFullView({
   useEffect(() => {
     if (context.fullView) {
       requestAnimationFrame(() => setOpacity(100));
-      // return () => context.setItemSelected()
+      contentRef.current.addEventListener('mousedown', (e) => e.stopImmediatePropagation())
     }
   }, [context.fullView]);
   return (
     <div
+      id="full-view-non-clickable"
       ref={outsideContentFieldRef}
       className={
         `fixed top-0 left-0 z-50 flex justify-center items-center w-screen h-screen bg-black-transparent transition duration-300 ` +

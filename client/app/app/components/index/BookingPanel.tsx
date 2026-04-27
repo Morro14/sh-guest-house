@@ -19,7 +19,7 @@ export default function BookingPannel() {
   return (
     <div className="md:flex sticky hidden top-0 bottom-0 z-30 w-full h-12 justify-center">
       <div className="size-full absolute bg-bg drop-shadow-sm"></div>
-      <div className="flex justify-center items-center size-full font-sans border-x border-accent-lighter">
+      <div className="flex justify-center items-center size-full font-source-sans border-x border-accent-lighter">
         <Form
           method="post"
           className={`flex z-40 justify-center h-12 items-center overflow-visible `}
@@ -60,7 +60,7 @@ export default function BookingPannel() {
 
           <SelectGuests layout={IndexFormLayout} />
 
-          <div className="flex h-10 w-40 justify-center items-center">
+          <div className="flex h-full w-40 justify-center items-center">
             <input
               className="peer text-center border-b w-6 -ml-6 border-accent-light"
               name="nights"
@@ -83,7 +83,7 @@ export default function BookingPannel() {
         </Form>
       </div>
       <div className="absolute top-10">
-        <ErrorPanel></ErrorPanel>
+        <ErrorPanel errors={context.errors}></ErrorPanel>
       </div>
     </div>
   );

@@ -12,8 +12,8 @@ i18n
   .init({
     fallbackLng: "en",
     supportedLngs: ["en", "ru"],
-    debug: import.meta.env.VITE_DEBUG === "true",
-    // debug: true,
+    // debug: import.meta.env.VITE_DEBUG === "true",
+    debug: false,
 
     detection: {
       order: ["navigator"],

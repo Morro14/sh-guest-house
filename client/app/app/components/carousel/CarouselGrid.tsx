@@ -10,11 +10,12 @@ import { ImageLoading } from "../ImageLoading";
 import { useNavContextProvider } from "../nav/NavContextProvider";
 import { useTranslation } from "react-i18next";
 import CarouselGridNav from "./CarouselGridNav";
+import { useEffect, useState } from "react";
 
 const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 
 export default function CarouselGrid({ name }: { name: string }) {
-  const { fetchedData } = useFetchV3("content/grid-images/house");
+  const { fetchedData } = useFetchV3("content/grid-images");
   const images = fetchedData?.data?.data as GridImage[];
   // test
   const imagesConcat = images ? images.concat(images).concat(images) : images;
@@ -50,14 +51,17 @@ export default function CarouselGrid({ name }: { name: string }) {
   });
   const gridContext = useCarouselGridContextProvider();
   const navContext = useNavContextProvider();
-  const { t } = useTranslation();
+  useEffect(() => {
+    gridContext.setSideGridsVisible(gridContext.showMoreImages);
+  }, [gridContext.showMoreImages]);
   return (
-    <div className="flex flex-col items-center gap-12">
+    <div className="flex flex-col items-center gap-11">
       <div className="embla" ref={emblaRef}>
         <div className="embla__container">
           {gridElements.map((grid, i) => (
             <div
-              className="embla__slide mx-1.5 shrink-0"
+              // ${!gridContext.showMoreImages && i > 0 ? "hidden" : "block"}
+              className={`embla__slide mx-1.5 shrink-0 ${i > 0 && gridContext.showMoreImages ? "block" : i > 0 && !gridContext.sideGridsDelayedShow ? "hidden" : "block"} ${i > 0 && !gridContext.sideGridsVisible ? "opacity-0" : "opacity-100"} transition-opacity duration-300 ease-out`}
               key={`carousel-${name}-image-grid-${i}`}
             >
               {grid}

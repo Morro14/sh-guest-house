@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import type { Room } from "~/types/booking.tsx";
 
-const BASE_URL = import.meta.env.VITE_SERVER_URL;
+const MEDIA_BASE_URL = import.meta.env.VITE_MEDIA_BASE_URL
 
 export default function BookingSummaryRoom(
   room: Room,
@@ -10,44 +10,28 @@ export default function BookingSummaryRoom(
   const { t } = useTranslation();
   return (
     <div
-      className="grid md:grid-cols-5 md:col-span-5 col-span-10 grid-cols-1 gap-y-2 pl-4"
+      className="flex flex-col gap-2"
       key={`summary-room-${room.slug}`}
     >
-      <li className="col-span-5 text-sm ml-4 text-gray-warm-mid font-serif">
+      <li className="text-lg ml-4 mt-3 text-text-main font-serif">
         {room.name}
       </li>
-      <div className="col-span-5 mt-1 w-[172px] h-[98px] overflow-clip border-2 border-peach">
+      <div className="w-[172px] h-[98px] overflow-clip border-2 border-peach">
         <img
-          src={room.images[0].variants.small}
+          src={`${MEDIA_BASE_URL}${room.images[0].variants.small}`}
           className="object-cover size-full"
         />
       </div>
-      <ul className="list-disc pl-8 pt-2 col-span-5 text-sm truncate grid grid-cols-8">
-        <li className="col-span-3 text-sm text-gray-warm-mid">
-          {t("Maximum guests") + ":"}
+      <ul className="list-disc pt-2 text-sm truncate grid">
+        <li className="text-sm">
+          {`${t("Maximum guests")} : ${room.adults_num + room.children_num}`}
         </li>
-        <div className="col-span-4 ">{room.adults_num + room.children_num}</div>
-        <li className="col-span-7 text-sm text-gray-warm-mid">
-          {t("Selected guests") + ":"}
+        <li className="text-sm ">
+          {`${t("Selected guests")}: ${t("adults")} `}<b>{guests.adults}</b>{` ${t("children")} `}<b>{guests.children}</b>
         </li>
-        <div className="col-span-2 ">
-          <span className="text-sm text-gray-warm-mid">
-            {t("Adults") + ": "}
-          </span>
-          <span>{guests.adults}</span>
-        </div>
-        <div className="col-span-3 ">
-          <span className="text-sm text-gray-warm-mid">
-            {t("Children") + ": "}
-          </span>
-          <span>{guests.children}</span>
-        </div>
-        <li className=" col-span-7 text-sm text-gray-warm-mid">
-          {t("Beds") + ":"}
+        <li className="text-sm text-wrap max-w-48 max-h-12">
+          {`${t("Beds")}: ${room.beds}`}
         </li>
-        <div className="col-span-7 truncate overflow-hidden text-sm text-gray-warm-mid">
-          {room.beds}
-        </div>
       </ul>
     </div>
   );

@@ -35,7 +35,7 @@ export default function MapPlaceComponent({
       onMouseDown={(e: React.MouseEvent) => {
         mousePosOnClick = { x: e.clientX, y: e.clientY }
       }}
-      className={`${optionsMerged.position} flex flex-col items-center font-semibold hover:underline hover:cursor-pointer`}
+      className={`${optionsMerged.position} flex flex-col items-center hover:underline hover:cursor-pointer`}
       style={{
         top: `${optionsMerged.offsets.topOffset}px`,
         left: `${optionsMerged.offsets.leftOffset}px`,

@@ -16,8 +16,9 @@ type RequestAvailableRoomsContext = {
   nightsCount: number;
   setNightsCount: React.Dispatch<SetStateAction<number>>;
   errors: null | ValidationErrors;
-  errorState: null | ValidationErrors;
-  setErrorState: React.Dispatch<SetStateAction<null | ValidationErrors>>;
+  setErrors: React.Dispatch<SetStateAction<ValidationErrors>>;
+  // errorState: null | ValidationErrors;
+  // setErrorState: React.Dispatch<SetStateAction<null | ValidationErrors>>;
   formChange: boolean;
   setFormChange: React.Dispatch<SetStateAction<boolean>>;
   blockClick: boolean;
@@ -33,8 +34,9 @@ export default function RequestAvailableRoomsContextProvider({
   const [guestsSelect, setGuestsSelect] = useState({ adults: 2, children: 0 });
   const [displaySelect, setDisplaySelect] = useState(false);
   const [nightsCount, setNightsCount] = useState(1);
-  const errors: ValidationErrors = params.errors;
-  const [errorState, setErrorState] = useState<null | ValidationErrors>(errors);
+  // const errors: ValidationErrors = params.errors;
+  const [errors, setErrors] = useState(params.errors)
+  // const [errorState, setErrorState] = useState<null | ValidationErrors>(errors);
   const [formChange, setFormChange] = useState(false);
   const [blockClick, setBlockClick] = useState(false);
   return (
@@ -46,9 +48,10 @@ export default function RequestAvailableRoomsContextProvider({
         setDisplaySelect,
         nightsCount,
         setNightsCount,
-        errorState,
-        setErrorState,
+        // errorState,
+        // setErrorState,
         errors,
+        setErrors,
         formChange,
         setFormChange,
         blockClick,

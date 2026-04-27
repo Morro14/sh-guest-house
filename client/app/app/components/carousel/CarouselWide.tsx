@@ -57,10 +57,9 @@ export default function CarouselWide({ tag }: { tag: string }) {
             }
             imageAttrs={{
               className: "h-full object-cover",
-              src: images[context.itemSelected]["variants"]["original"],
-              alt: `${images[context.itemSelected].alt_text}-${
-                context.itemSelected
-              }-full`,
+              src: `${MEDIA_URL_BASE}${images[context.itemSelected]["variants"]["original"]}`,
+              alt: `${images[context.itemSelected].alt_text}-${context.itemSelected
+                }-full`,
             }}
           ></ImageLoading>
         </MediaFullView>

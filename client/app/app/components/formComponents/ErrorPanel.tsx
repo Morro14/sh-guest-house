@@ -1,19 +1,14 @@
-import { useContextProvider } from "../RequestAvailableRoomsContextProvider";
 import { useRef } from "react";
 import type { ValidationErrors } from "./validate";
 
-export default function ErrorPanel() {
+export default function ErrorPanel({ errors }: { errors: ValidationErrors }) {
   const pannelRef = useRef<HTMLDivElement>(null);
-  const context = useContextProvider();
-  const errors: ValidationErrors = context.errors;
-  const errorState = context.errorState;
-  const style = errors || errorState ? "h-7 flex" : "h-0 overflow-hidden";
+  console.log(errors)
+  const style = errors ? "h-7 flex" : "h-0 overflow-hidden";
   const errorArray =
     errors && Object.keys(errors).length > 0
       ? Object.entries(errors)
-      : errorState && Object.keys(errorState).length > 0
-        ? Object.entries(errorState)
-        : [];
+      : [];
   const errorMessage = errorArray.length > 0 ? errorArray[0][1].message : "";
   return (
     <div

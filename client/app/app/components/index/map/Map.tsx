@@ -35,6 +35,7 @@ export default function Map() {
     mapContent.current.style.top = `${mapContentOffsets.y}px`;
     mapContent.current.style.left = `${mapContentOffsets.x}px`;
   });
+  const context = useMapContextProvider();
   useEffect(() => {
     if (!mapSurface.current || !mapContainer.current) {
       return;
@@ -63,6 +64,8 @@ export default function Map() {
     const move = (e: MouseEvent) => {
       // console.log("mouse down", mouseDownX, mouseDownY);
       // console.log(mapSurface.current);
+      // const nonClickableArea = document.getElementById("full-view-non-clickable") as Node
+      canvas.current.style.cursor = "grabbing"
       const limits = {
         top: mapSurface.current.offsetTop > thresholds.top,
         bottom: mapSurface.current.offsetTop < thresholds.bottom,
@@ -91,20 +94,31 @@ export default function Map() {
         mapSurface.current.style.top = `${mapOffsetY + e.clientY - mouseDownY}px`;
       }
     };
-    mapSurface.current.addEventListener("mousedown", (e) => {
+    const registerMouseDown = (e: MouseEvent) => {
+      const target = e.target as Element
+      if (target.id !== 'map-canvas') {
+        return
+      }
       mouseDownX = e.clientX;
       mouseDownY = e.clientY;
       document.addEventListener("mousemove", move);
       document.addEventListener(
         "mouseup",
         () => {
+          canvas.current.style.cursor = "grab"
           document.removeEventListener("mousemove", move);
           mapOffsetX = mapSurface.current.offsetLeft;
           mapOffsetY = mapSurface.current.offsetTop;
         },
         { once: true },
       );
-    });
+    }
+    if (!context.fullView) {
+      mapSurface.current.addEventListener("mousedown", registerMouseDown);
+    } else {
+      mapSurface.current.removeEventListener("mousedown", registerMouseDown)
+    }
+
   }, [mapSurface]);
 
   const canvas = useRef(null);
@@ -118,14 +132,13 @@ export default function Map() {
     canvas.current.height = canvasSize.h;
     draw(canvas);
   }, [canvas]);
-  const context = useMapContextProvider();
   return (
     <div
       className="index-container-1 relative h-[md:1180px] overflow-clip border border-text-main"
       ref={mapContainer}
     >
-      <div className="w-400 h-400 relative" ref={mapSurface}>
-        <canvas ref={canvas} className="w-400 h-400"></canvas>
+      <div id="map-surface" className="w-400 h-400 relative" ref={mapSurface}>
+        <canvas id="map-canvas" ref={canvas} className="w-400 h-400"></canvas>
         {placesObj ? (
           <div>
             {context.fullView ? (

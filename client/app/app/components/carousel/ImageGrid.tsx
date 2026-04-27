@@ -50,7 +50,7 @@ export default function ImageGrid({
     >
       <div className={`col-span-4 h-92`}>{genImageNode("wide", 0)}</div>
       {gridContext.showMoreImages ? (
-        <div className="col-span-4 grid grid-cols-subgrid gap-y-3">
+        <div className={`col-span-4 grid grid-cols-subgrid gap-y-3`}>
           <div className="col-span-2 row-span-2">
             {genImageNode("medium", 0)}
           </div>

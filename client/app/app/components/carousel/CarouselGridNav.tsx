@@ -2,6 +2,7 @@ import type { EmblaCarouselType } from "embla-carousel";
 import arrowRight from "root/src/assets/grid-nav-arrow.svg";
 import { useCarouselGridContextProvider } from "./CarouselGridContext";
 import { useTranslation } from "react-i18next";
+import { flushSync } from "react-dom";
 
 export default function CarouselGridNav({
   emblaApi,
@@ -28,9 +29,17 @@ export default function CarouselGridNav({
       <div>
         <button
           className="text-gray-warm-mid text-sm font-sans hover:cursor-pointer underline"
-          onClick={() =>
-            gridContext.setShowMoreImages(!gridContext.showMoreImages)
-          }
+          onClick={() => {
+            flushSync(() => {
+              gridContext.setShowMoreImages(!gridContext.showMoreImages);
+              if (!gridContext.showMoreImages) {
+                gridContext.setSideGridsDelayedShow(true);
+              }
+            });
+            if (gridContext.showMoreImages) {
+              setTimeout(() => gridContext.setSideGridsDelayedShow(false), 300);
+            }
+          }}
         >
           {gridContext.showMoreImages
             ? t("Show less images")

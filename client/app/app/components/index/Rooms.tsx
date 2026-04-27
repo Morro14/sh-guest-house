@@ -72,7 +72,6 @@ export default function RoomsPreview() {
       })
       .catch((r) => logError(r));
   }, [showMoreRooms, extraRooms]);
-
   return !rooms || loading ? (
     <div className="flex justify-center items-center text-center w-full h-96 bg-gray-warm-light text-gray-500 font-sans rounded-xl">
       <span>
@@ -81,7 +80,7 @@ export default function RoomsPreview() {
     </div>
   ) : (
     <div
-      className={`flex flex-col md:items-center 2xl:items-start w-full ${expandContainer ? "2xl:h-420" : "2xl:h-144"} 2xl:justify-between relative transition-[height] duration-300`}
+      className={`flex flex-col md:items-center 2xl:items-start w-full ${expandContainer ? `md:h-[1218px] h-[2436px]` : `md:h-[576px] h-[864px]`} 2xl:justify-between relative transition-[height] duration-300`}
     >
       {context.fullImageView ? (
         <MediaFullView>
@@ -103,9 +102,9 @@ export default function RoomsPreview() {
         {rooms.map((room, i) => genRoomCard(room, i))}
         {showMoreRooms && extraRooms
           ? rooms.concat(extraRooms).map((room, i) => {
-              if (i < 3) return "";
-              return genRoomCard(room, i);
-            })
+            if (i < 3) return "";
+            return genRoomCard(room, i);
+          })
           : ""}
         <button
           className="font-medium underline cursor-pointer"

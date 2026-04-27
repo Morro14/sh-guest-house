@@ -7,7 +7,7 @@ export default function Reviews() {
   return !reviews ? (
     ""
   ) : (
-    <div className="flex gap-28 index-container-1 m-4">
+    <div className="flex gap-28 index-container-1 mt-11 h-70 pt-5 pb-8 border-t border-b border-gray-warm-light">
       {reviews.map((review, i) => {
         return (
           <div
@@ -15,7 +15,9 @@ export default function Reviews() {
             className="flex flex-col items-center w-[calc(100%/3)]"
           >
             <h5 className="mb-3">{review.date}</h5>
-            <div className="text-center">{review.content}</div>
+            <div className="text-center font-sans font-light max-h-48 overflow-hidden">
+              {review.content}
+            </div>
           </div>
         );
       })}

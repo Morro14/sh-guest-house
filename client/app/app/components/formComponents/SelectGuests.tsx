@@ -75,7 +75,7 @@ export default function SelectGuests({
         ref={checkboxRef}
       ></input>
       <label
-        className="text-center pt-0.5 flex items-center cursor-pointer justify-center border-accent-light"
+        className="text-center flex items-center cursor-pointer justify-center border-accent-light"
         htmlFor="guests-checkbox"
       >
         {getGuestSelectLabelText(
