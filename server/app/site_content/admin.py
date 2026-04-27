@@ -7,6 +7,7 @@ from .models import (
     PlaceImage,
     WideImage,
     ImageTag,
+    GridImage,
 )
 
 from modeltranslation.admin import TabbedTranslationAdmin
@@ -16,6 +17,11 @@ from django.utils.html import format_html
 @admin.register(WideImage)
 class WideImageAmin(admin.ModelAdmin):
     fields = ["alt_text", "order", "image_full", "tag"]
+
+
+@admin.register(GridImage)
+class GridImageAmin(admin.ModelAdmin):
+    fields = ["alt_text", "order", "image_full", "tag", "format_in_grid"]
 
 
 @admin.register(PlaceImage)

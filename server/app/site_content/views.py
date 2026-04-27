@@ -40,8 +40,12 @@ class GridImageSet(APIView):
     permission_classes = []
     authentication_classes = []
 
-    def get(self, request, tag):
-        images = GridImage.objects.filter(tag__name=tag)
+    def get(self, request):
+        tag = request.GET.get("tag")
+        if tag:
+            images = GridImage.objects.filter(tag__name=tag)
+        else:
+            images = GridImage.objects.all()
         print("grid images", images)
         serializer = ImageGridSerializer(images, many=True)
         return Response({"data": serializer.data})
