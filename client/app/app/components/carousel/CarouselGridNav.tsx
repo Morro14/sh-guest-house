@@ -11,7 +11,24 @@ export default function CarouselGridNav({
 }) {
   const gridContext = useCarouselGridContextProvider();
   const { t } = useTranslation();
+
+  const showMoreImages = () => {
+    flushSync(() => {
+      gridContext.setShowMoreImages(!gridContext.showMoreImages);
+      if (!gridContext.showMoreImages) {
+        gridContext.setSideGridsDelayedShow(true);
+      }
+    });
+    if (gridContext.showMoreImages) {
+      setTimeout(() => gridContext.setSideGridsDelayedShow(false), 300);
+    }
+  };
+
   const arrowFunc = (direction: "left" | "right") => {
+    if (!gridContext.showMoreImages) {
+      showMoreImages();
+      return;
+    }
     if (direction === "left") {
       emblaApi.goToPrev();
     } else {
@@ -29,17 +46,7 @@ export default function CarouselGridNav({
       <div>
         <button
           className="text-gray-warm-mid text-sm font-sans hover:cursor-pointer underline"
-          onClick={() => {
-            flushSync(() => {
-              gridContext.setShowMoreImages(!gridContext.showMoreImages);
-              if (!gridContext.showMoreImages) {
-                gridContext.setSideGridsDelayedShow(true);
-              }
-            });
-            if (gridContext.showMoreImages) {
-              setTimeout(() => gridContext.setSideGridsDelayedShow(false), 300);
-            }
-          }}
+          onClick={showMoreImages}
         >
           {gridContext.showMoreImages
             ? t("Show less images")

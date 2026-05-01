@@ -30,7 +30,7 @@ export const desktopDatePickerTheme = createTheme({
   components: {
     MuiInputBase: {
       styleOverrides: {
-        root: { color: "#4c3b33", fontFamily: "Source Sans 3" },
+        root: { color: "#4c3b33", fontFamily: `"Source Sans 3"` },
       },
     },
     MuiSvgIcon: {
@@ -64,7 +64,7 @@ export const desktopDatePickerSx = {
     paddingTop: "7px",
   },
   "& .MuiPickersInputBase-sectionContent": {
-    fontFamily: "Source Sans 3",
+    fontFamily: `"Source Sans 3"`,
     color: "#4c3b33",
     paddingBottom: "0",
   },

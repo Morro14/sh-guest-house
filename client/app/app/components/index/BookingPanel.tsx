@@ -18,7 +18,7 @@ export default function BookingPannel() {
   const context = useContextProvider();
   return (
     <div className="md:flex sticky hidden top-0 bottom-0 z-30 w-full h-12 justify-center">
-      <div className="size-full absolute bg-bg drop-shadow-sm"></div>
+      <div className="size-full absolute bg-bg border-b-2 border-primary"></div>
       <div className="flex justify-center items-center size-full font-source-sans border-x border-accent-lighter">
         <Form
           method="post"
@@ -74,12 +74,15 @@ export default function BookingPannel() {
               {t("Nights", { count: context.nightsCount })}
             </label>
           </div>
-          <div className="flex flex-col items-center justify-center -mb-2">
-            <button type="submit" className="capitalize mx-8 cursor-pointer">
-              {t("Continue")}
-            </button>
-            {underline}
-          </div>
+          <button type="submit" className="capitalize mx-8 cursor-pointer">
+            {t("Continue")}
+          </button>
+          {/* <div className="flex flex-col items-center justify-center -mb-2"> */}
+          {/*   <button type="submit" className="capitalize mx-8 cursor-pointer"> */}
+          {/*     {t("Continue")} */}
+          {/*   </button> */}
+          {/* {underline} */}
+          {/* </div> */}
         </Form>
       </div>
       <div className="absolute top-10">

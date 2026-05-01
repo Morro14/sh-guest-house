@@ -77,6 +77,7 @@ export default function CarouselGrid({ name }: { name: string }) {
           <ImageLoading
             imageAttrs={{
               src: `${MEDIA_URL}${gridContext.fullView.variants.original}`,
+              className: "h-full object-contain",
             }}
           ></ImageLoading>
         </MediaFullView>

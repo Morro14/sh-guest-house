@@ -22,18 +22,21 @@ export default function MapPlaceComponent({
   const { t } = useTranslation();
   const dot = <div className="size-2.5 rounded-[5px] bg-text-main mt-2"></div>;
   const context = useMapContextProvider();
-  let mousePosOnClick = { x: 0, y: 0 }
+  let mousePosOnClick = { x: 0, y: 0 };
   return (
     <div
       onClick={(e: React.MouseEvent) => {
-        if (mousePosOnClick.x !== e.clientX && mousePosOnClick.y !== e.clientY) {
-          return
+        if (
+          mousePosOnClick.x !== e.clientX &&
+          mousePosOnClick.y !== e.clientY
+        ) {
+          return;
         }
         context.setPlaceSelected(place);
         context.setFullView(true);
       }}
       onMouseDown={(e: React.MouseEvent) => {
-        mousePosOnClick = { x: e.clientX, y: e.clientY }
+        mousePosOnClick = { x: e.clientX, y: e.clientY };
       }}
       className={`${optionsMerged.position} flex flex-col items-center hover:underline hover:cursor-pointer`}
       style={{
@@ -45,7 +48,7 @@ export default function MapPlaceComponent({
         ? dot
         : ""}
 
-      <div className="text-lg">{place.name}</div>
+      <div className="text-lg font-medium">{place.name}</div>
       <div className="text-sm">{`${place.distance} ${t("km", { context: "distance" })}`}</div>
       {optionsMerged.contentPosition === "top" && optionsMerged.dot ? dot : ""}
     </div>
