@@ -21,7 +21,7 @@ export function boundMapPos(mapSize: Size, containerSize: Size, newPos: Size) {
   return { x: offsetX, y: offsetY };
 }
 export function getMapCenteredOffsets(state: ZoomState) {
-  console.log("state", state);
+  // console.log("state", state);
   const centerRatio = {
     x:
       (-state.mapOffsets.x + state.containerSize.x / 2) /
@@ -31,21 +31,21 @@ export function getMapCenteredOffsets(state: ZoomState) {
       (-state.mapOffsets.y + state.containerSize.y / 2) /
       (MAP_SIZE_INIT.y * state.zoomCurrent),
   };
-  console.log("ratio", centerRatio);
+  // console.log("ratio", centerRatio);
   const newOffsets = {
     x:
-      MAP_SIZE_INIT.x * state.zoomCurrent * centerRatio.x -
+      MAP_SIZE_INIT.x * state.zoomNew * centerRatio.x -
       state.containerSize.x / 2,
     y:
-      MAP_SIZE_INIT.y * state.zoomCurrent * centerRatio.y -
+      MAP_SIZE_INIT.y * state.zoomNew * centerRatio.y -
       state.containerSize.y / 2,
   };
-  console.log("newOffsets", newOffsets);
+  // console.log("newOffsets", newOffsets);
   const boundOffsets = boundMapPos(
     { x: MAP_SIZE_INIT.x * state.zoomNew, y: MAP_SIZE_INIT.y * state.zoomNew },
     state.containerSize,
     newOffsets,
   );
-  console.log("bound", boundOffsets);
+  // console.log("bound", boundOffsets);
   return boundOffsets;
 }

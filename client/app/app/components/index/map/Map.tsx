@@ -55,6 +55,7 @@ export default function Map() {
           {/* ></canvas> */}
           <img
             draggable="false"
+            aria-disabled
             id="map-img"
             className="size-full object-none"
             src={paths}
