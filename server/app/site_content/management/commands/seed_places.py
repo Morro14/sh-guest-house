@@ -106,6 +106,36 @@ class Command(BaseCommand):
                 "description": fake.text(),
                 "distance": 131,
             },
+            {
+                "name": "Church of the Holy Cross",
+                "slug": "surb_khach",
+                "description": fake.text(),
+                "distance": 10,
+            },
+            {
+                "name": "Gladzor museum",
+                "slug": "gladzor_museum",
+                "description": fake.text(),
+                "distance": 2.4,
+            },
+            {
+                "name": "Vayotz Sar vulcano",
+                "slug": "vayotz_sar",
+                "description": fake.text(),
+                "distance": 25,
+            },
+            {
+                "name": "Ulgyur",
+                "slug": "ulgyur",
+                "description": fake.text(),
+                "distance": 22,
+            },
+            {
+                "name": "Yeghegis",
+                "slug": "yeghegis",
+                "description": fake.text(),
+                "distance": 24,
+            },
         ]
 
         media_base_dir = settings.BASE_DIR / "media/"

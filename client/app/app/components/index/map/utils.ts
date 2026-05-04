@@ -1,4 +1,14 @@
-export const MAP_SIZE_INIT = { x: 2200, y: 1600 };
+import type { Coords, MapOptions, MapPlaceData } from "~/types/map";
+import { placeLabelsData } from "./placeLabels";
+
+export const MAP_OPTIONS: MapOptions = {
+  mapContentSize: { x: 2043, y: 1420 },
+  mapPadding: 200,
+};
+const MAP_SIZE_INIT = {
+  x: MAP_OPTIONS.mapPadding + MAP_OPTIONS.mapContentSize.x,
+  y: MAP_OPTIONS.mapPadding + MAP_OPTIONS.mapContentSize.y,
+};
 
 export interface Size {
   x: number;
@@ -48,4 +58,19 @@ export function getMapCenteredOffsets(state: ZoomState) {
   );
   // console.log("bound", boundOffsets);
   return boundOffsets;
+}
+
+export async function writePlaceLabelData(placeName: string, offsets: Coords) {
+  const labelData = placeLabelsData.find((item) => item.name === placeName);
+  labelData.options.offsets = offsets;
+  try {
+    const response = await fetch("api/save-map-labels-data", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(labelData),
+    });
+    if (response.ok) console.log("✔️ Coordinates written to JSON file");
+  } catch (err) {
+    console.error("❌ Save failed:", err);
+  }
 }

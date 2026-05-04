@@ -1,14 +1,17 @@
 import { useTranslation } from "react-i18next";
-import type { MapPlaceData, MapPlaceOptions } from "~/types/map";
+import type { Coords, MapPlaceData, MapLabelOptions } from "~/types/map";
 import { useMapContextProvider } from "./MapContextProvider";
 import type React from "react";
+import { useEffect } from "react";
+import useMoveMap, { useMovePlaceLabel } from "./move";
 
-const defaultOptions: MapPlaceOptions = {
-  offsets: { topOffset: 0, leftOffset: 0 },
+const defaultOptions: MapLabelOptions = {
+  offsets: { x: 0, y: 0 },
   position: "absolute",
   contentPosition: "top",
   iconPosition: "top",
   dot: true,
+  grouped: false,
 };
 
 export default function MapPlaceComponent({
@@ -16,15 +19,37 @@ export default function MapPlaceComponent({
   options = defaultOptions,
 }: {
   place: MapPlaceData;
-  options?: MapPlaceOptions;
+  options?: MapLabelOptions;
 }) {
   const optionsMerged = { ...defaultOptions, ...options };
   const { t } = useTranslation();
-  const dot = <div className="size-2.5 rounded-[5px] bg-text-main mt-2"></div>;
+  const dot = (
+    <div className="size-2.5 rounded-[5px] bg-text-main mt-2 mb-1"></div>
+  );
   const context = useMapContextProvider();
   let mousePosOnClick = { x: 0, y: 0 };
+  const scaleLabelOffsets = (zoom: number, offsets: Coords) => {
+    const newX = Math.floor(offsets.x * zoom);
+    const newY = Math.floor(offsets.y * zoom);
+    return { x: newX, y: newY };
+  };
+  const coordsScaled = scaleLabelOffsets(context.zoom, optionsMerged.offsets);
+  // move
+  // useEffect(() => {
+  //   if (!place) {
+  //     return;
+  //   }
+  //
+  //   const labelEl = document.getElementById(place.slug) as HTMLDivElement;
+  //   const container = document.getElementById(
+  //     "map-container",
+  //   ) as HTMLDivElement;
+  //   useMovePlaceLabel(container, labelEl, optionsMerged, { moveEnabled: true });
+  // }, [place]);
   return (
     <div
+      id={`${place.slug}`}
+      key={`${place.slug}`}
       onClick={(e: React.MouseEvent) => {
         if (
           mousePosOnClick.x !== e.clientX &&
@@ -38,10 +63,10 @@ export default function MapPlaceComponent({
       onMouseDown={(e: React.MouseEvent) => {
         mousePosOnClick = { x: e.clientX, y: e.clientY };
       }}
-      className={`${optionsMerged.position} flex flex-col items-center hover:underline hover:cursor-pointer`}
+      className={`${optionsMerged.position} flex flex-col items-center hover:underline hover:cursor-pointer ${!optionsMerged.grouped ? "-translate-x-1/2" : ""} ${optionsMerged.contentPosition === "top" && !optionsMerged.grouped ? "-translate-y-9/10" : !optionsMerged.grouped ? "-translate-y-[7px]" : ""}`}
       style={{
-        top: `${optionsMerged.offsets.topOffset}px`,
-        left: `${optionsMerged.offsets.leftOffset}px`,
+        left: `${coordsScaled.x}px`,
+        top: `${coordsScaled.y}px`,
       }}
     >
       {optionsMerged.contentPosition === "bottom" && optionsMerged.dot

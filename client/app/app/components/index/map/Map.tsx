@@ -1,4 +1,9 @@
-import type { MapPlaceData } from "~/types/map";
+import type {
+  MapPlaceData,
+  MapOptions,
+  MapLabelOptions,
+  MapLabelPosData,
+} from "~/types/map";
 import { useFetchV3 } from "~/utils/fetchHook";
 import { useEffect, useRef } from "react";
 import MapPlaceComponent from "./Place";
@@ -7,8 +12,13 @@ import MapMediaFullView from "./MapMediaFullView";
 import MapPlaceDetails from "./MapPlaceDetails";
 import MapNav from "./MapNav";
 import paths from "src/assets/map-paths.svg";
-import useMoveMap from "./move";
+import useMoveMap, { useMovePlaceLabel } from "./move";
+// import { placeLabelsData } from "./placeLabels";
+import placeLabelsData from "src/data/map-labels-data.json";
+import { MAP_OPTIONS } from "./utils";
+import MapLabelGroup from "./MapLabelGroup";
 
+export const options = MAP_OPTIONS;
 export default function Map() {
   const { fetchedData } = useFetchV3("content/places");
   const placesData = fetchedData?.data?.data as MapPlaceData[];
@@ -21,6 +31,9 @@ export default function Map() {
     : null;
   const mapSurface = useRef<HTMLDivElement | null>(null);
   const mapContainer = useRef<HTMLDivElement | null>(null);
+  const mapImage = useRef<HTMLImageElement | null>(null);
+  const mapLabels = useRef<HTMLDivElement | null>(null);
+  const mapContent = useRef<HTMLDivElement | null>(null);
   const context = useMapContextProvider();
 
   useEffect(() => {
@@ -36,140 +49,116 @@ export default function Map() {
       moveEnabled: !context.fullView,
     });
   }, [mapSurface]);
+  // get coords on click
+  // useEffect(() => {
+  //   if (!mapContent.current) {
+  //     return;
+  //   }
+  //   const onMousedown = (e) => {
+  //     const mapBox = mapContent.current.getBoundingClientRect();
+  //     console.log(mapBox.left);
+  //     context.setMapPos({
+  //       x: Math.floor(e.clientX - mapBox.left),
+  //       y: Math.floor(e.clientY - mapBox.top),
+  //     });
+  //   };
+  //   mapSurface.current.onclick = (e) => onMousedown(e);
+  // });
+  const labelsSouthEast = ["goris", "tatev", "sisian", "jermuk"];
 
+  useEffect(() => {
+    if (!mapLabels.current) {
+      return;
+    }
+    mapLabels.current.style.scale = context.zoom;
+  }, [context.zoom]);
+  const placeLabelsDataTyped = placeLabelsData as MapLabelPosData[];
   return (
-    <div>
+    <div draggable="false" className="">
       <MapNav
         map={mapSurface.current}
         container={mapContainer.current}
+        mapImage={mapImage.current}
+        mapContent={mapContent.current}
       ></MapNav>
       <div
         className="index-container-1 relative h-[md:1180px] overflow-clip border border-text-main"
         ref={mapContainer}
+        draggable="false"
+        id="map-container"
       >
-        <div id="map-surface" className="absolute w-550 h-400" ref={mapSurface}>
-          {/* <canvas */}
-          {/*   id="map-canvas" */}
-          {/*   ref={canvas} */}
-          {/*   className="w-400 h-400 transition-all duration-150" */}
-          {/* ></canvas> */}
-          <img
-            draggable="false"
-            aria-disabled
-            id="map-img"
-            className="size-full object-none"
-            src={paths}
-          />
-          {placesObj ? (
-            <div>
-              {context.fullView ? (
-                <MapMediaFullView>
-                  <MapPlaceDetails
-                    place={context.placeSelected}
-                  ></MapPlaceDetails>
-                </MapMediaFullView>
-              ) : (
-                ""
-              )}
-              <MapPlaceComponent
-                place={placesObj["spitakavor"]}
-                options={{
-                  offsets: { leftOffset: 825, topOffset: 455 },
-                  contentPosition: "top",
-                }}
-              ></MapPlaceComponent>
-              <MapPlaceComponent
-                place={placesObj["dadal"]}
-                options={{
-                  offsets: { leftOffset: 690, topOffset: 1060 },
-                  contentPosition: "bottom",
-                }}
-              ></MapPlaceComponent>
-              <MapPlaceComponent
-                place={placesObj["noravank"]}
-                options={{
-                  offsets: { leftOffset: 444, topOffset: 1210 },
-                  contentPosition: "bottom",
-                }}
-              ></MapPlaceComponent>
-
-              <MapPlaceComponent
-                place={placesObj["areni"]}
-                options={{
-                  offsets: { leftOffset: 515, topOffset: 930 },
-                  contentPosition: "top",
-                }}
-              ></MapPlaceComponent>
-              <MapPlaceComponent
-                place={placesObj["yegheg museum"]}
-                options={{
-                  offsets: { leftOffset: 798, topOffset: 936 },
-                  contentPosition: "bottom",
-                }}
-              ></MapPlaceComponent>
-              <MapPlaceComponent
-                place={placesObj["tanaat"]}
-                options={{
-                  offsets: { leftOffset: 1154, topOffset: 538 },
-                  contentPosition: "top",
-                }}
-              ></MapPlaceComponent>
-              <MapPlaceComponent
-                place={placesObj["tsahats"]}
-                options={{
-                  offsets: { leftOffset: 638, topOffset: 316 },
-                  contentPosition: "top",
-                }}
-              ></MapPlaceComponent>
-              <MapPlaceComponent
-                place={placesObj["yerevan"]}
-                options={{
-                  offsets: { leftOffset: 312, topOffset: 880 },
-                  contentPosition: "top",
-                }}
-              ></MapPlaceComponent>
-              <div
-                className="absolute flex flex-col gap-2"
-                style={{ left: `${1260}px`, top: `${1080}px` }}
-              >
-                <MapPlaceComponent
-                  place={placesObj["jermuk"]}
-                  options={{
-                    position: "relative",
-                    contentPosition: "top",
-                    dot: false,
-                  }}
-                ></MapPlaceComponent>
-                <MapPlaceComponent
-                  place={placesObj["sisian"]}
-                  options={{
-                    position: "relative",
-                    contentPosition: "top",
-                    dot: false,
-                  }}
-                ></MapPlaceComponent>
-                <MapPlaceComponent
-                  place={placesObj["goris"]}
-                  options={{
-                    position: "relative",
-                    contentPosition: "top",
-                    dot: false,
-                  }}
-                ></MapPlaceComponent>
-                <MapPlaceComponent
-                  place={placesObj["tatev"]}
-                  options={{
-                    position: "relative",
-                    contentPosition: "top",
-                    dot: false,
-                  }}
-                ></MapPlaceComponent>
+        <div
+          id="map-surface"
+          ref={mapSurface}
+          style={{
+            width: options.mapContentSize.x + options.mapPadding,
+            height: options.mapContentSize.y + options.mapPadding,
+          }}
+          className="absolute flex items-center justify-center "
+        >
+          <div
+            id="map-content"
+            className="absolute size-full"
+            ref={mapContent}
+            style={{
+              width: options.mapContentSize.x,
+              height: options.mapContentSize.y,
+            }}
+          >
+            {/* <div className="relative "> */}
+            <img
+              draggable="false"
+              aria-disabled
+              id="map-img"
+              className="object-contain select-none h-full"
+              src={paths}
+              ref={mapImage}
+            />
+            {placesObj && context.fullView ? (
+              <MapMediaFullView>
+                <MapPlaceDetails
+                  place={context.placeSelected}
+                ></MapPlaceDetails>
+              </MapMediaFullView>
+            ) : (
+              ""
+            )}
+            {/* top-[1064px] left-[1967px] */}
+            {placesObj ? (
+              <div className="" id="map-labels">
+                <MapLabelGroup offsets={{ x: 1971, y: 1071 }}>
+                  {placeLabelsDataTyped.map((item) => {
+                    if (labelsSouthEast.includes(item.name)) {
+                      return (
+                        <MapPlaceComponent
+                          place={placesObj[item.name]}
+                          options={{
+                            ...item.options,
+                            position: "relative",
+                            grouped: true,
+                          }}
+                        ></MapPlaceComponent>
+                      );
+                    }
+                  })}
+                </MapLabelGroup>
+                {placeLabelsDataTyped.map((item) => {
+                  if (!labelsSouthEast.includes(item.name)) {
+                    return (
+                      <MapPlaceComponent
+                        place={placesObj[item.name]}
+                        options={item.options}
+                      ></MapPlaceComponent>
+                    );
+                  }
+                })}
               </div>
-            </div>
-          ) : (
-            ""
-          )}
+            ) : (
+              ""
+            )}
+          </div>
         </div>
+        {/* </div> */}
       </div>
     </div>
   );

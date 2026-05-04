@@ -3,11 +3,84 @@ import tailwindcss from "@tailwindcss/vite";
 import { reactRouter } from "@react-router/dev/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import path from "path";
+import fs from "fs";
 
 // https://vite.dev/config/
 export default defineConfig({
   // base: "/static/frontend/",
-  plugins: [reactRouter(), tailwindcss(), tsconfigPaths()],
+  server: {
+    watch: {
+      ignored: ["**/src/data/map-labels-data.json"],
+    },
+  },
+  plugins: [
+    reactRouter(),
+    tailwindcss(),
+    tsconfigPaths(),
+
+    {
+      name: "map-saver",
+      configureServer(server) {
+        server.middlewares.use(
+          "/api/save-map-labels-data",
+          (req, res, next) => {
+            if (req.method === "POST") {
+              let body = "";
+
+              // Listen for data chunks coming from the frontend
+              req.on("data", (chunk) => {
+                body += chunk.toString();
+              });
+
+              // Once the full body is received
+              req.on("end", () => {
+                try {
+                  const payload = JSON.parse(body);
+                  const filePath = path.resolve(
+                    __dirname,
+                    "src/data/map-labels-data.json",
+                  );
+                  // 1. Read
+                  let existingData = [];
+                  if (fs.existsSync(filePath)) {
+                    const fileContent = fs.readFileSync(filePath, "utf-8");
+                    existingData = JSON.parse(fileContent || "[]");
+                  }
+                  // 2. Modify (with simple "upsert" logic to prevent duplicates)
+                  const newData = Array.isArray(payload) ? payload : [payload];
+
+                  newData.forEach((newItem) => {
+                    const index = existingData.findIndex(
+                      (item) => item.name === newItem.name,
+                    );
+                    if (index > -1) {
+                      existingData[index] = newItem; // Update existing
+                    } else {
+                      existingData.push(newItem); // Add new
+                    }
+                  });
+
+                  // 3. Write
+                  fs.writeFileSync(
+                    filePath,
+                    JSON.stringify(existingData, null, 4),
+                  );
+
+                  res.statusCode = 200;
+                  res.end("Updated successfully");
+                } catch (err) {
+                  res.statusCode = 500;
+                  res.end("JSON Parse Error");
+                }
+              });
+            } else {
+              next();
+            }
+          },
+        );
+      },
+    },
+  ],
   resolve: {
     alias: {
       "~": path.resolve(__dirname, "app"),

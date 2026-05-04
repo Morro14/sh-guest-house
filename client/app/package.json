@@ -21,6 +21,7 @@
     "@react-router/node": "^7.9.1",
     "@react-router/serve": "^7.9.1",
     "axios": "^1.11.0",
+    "connect": "^3.7.0",
     "dayjs": "^1.11.19",
     "embla-carousel-react": "^9.0.0-rc01",
     "i18next": "^25.6.0",
