@@ -37,9 +37,9 @@ class ContentPage(models.Model):
 
 
 class Image(models.Model):
-    blur_res = (20, 13)
-    small_res = (600, 400)
-    main_res = (1280, 853)
+    blur_res = (100, 100)
+    small_res = (600, 600)
+    main_res = (1280, 1280)
 
     alt_text = models.CharField(max_length=255, blank=True)
     order = models.PositiveBigIntegerField(default=0)
@@ -51,7 +51,7 @@ class Image(models.Model):
     def get_variant_url(self, size, box=None, quality=80, blur=False):
         options = {
             "size": size,
-            "crop": True,
+            "crop": False,
             "detail": True,
             "quality": quality,
         }
@@ -66,9 +66,9 @@ class Image(models.Model):
     @property
     def variants(self):
         results = {
-            "blur": self.get_variant_url(self.blur_res, self.cropping_blur, blur=True),
-            "small": self.get_variant_url(self.small_res, self.cropping_small),
-            "main": self.get_variant_url(self.main_res, self.cropping_main),
+            "blur": self.get_variant_url(self.blur_res, blur=True),
+            "small": self.get_variant_url(self.small_res),
+            "main": self.get_variant_url(self.main_res),
             "original": self.image_full.url,
         }
         return results
@@ -100,8 +100,8 @@ class GridImage(Image):
         "portrait": _("Protrait medium"),
         "small": _("Album small"),
     }
-    main_res = (2054, 736)
-    small_res = (1200, 368)
+    # main_res = (2054, 736)
+    # small_res = (1200, 368)
 
     tag = models.ManyToManyField(to="ImageTag", blank=True)
 
