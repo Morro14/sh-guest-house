@@ -3,9 +3,10 @@ import type {
   MapOptions,
   MapLabelOptions,
   MapLabelPosData,
+  Coords,
 } from "~/types/map";
 import { useFetchV3 } from "~/utils/fetchHook";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import MapPlaceComponent from "./Place";
 import { useMapContextProvider } from "./MapContextProvider";
 import MapMediaFullView from "./MapMediaFullView";
@@ -64,8 +65,28 @@ export default function Map() {
   //   };
   //   mapSurface.current.onclick = (e) => onMousedown(e);
   // });
+  const [mapOffsetInit, setMapOffsetInit] = useState<null | Coords>(null);
+  // init offsets
+  useEffect(() => {
+    if (!mapOffsetInit && mapSurface.current) {
+      const initOffsets = {
+        x: Math.floor(
+          (mapContainer.current.clientWidth - mapSurface.current.clientWidth) /
+            2,
+        ),
+        y: Math.floor(
+          (mapContainer.current.clientHeight -
+            mapSurface.current.clientHeight) /
+            2,
+        ),
+      };
+      setMapOffsetInit(initOffsets);
+      mapSurface.current.style.left = `${initOffsets.x}px`;
+      mapSurface.current.style.top = `${initOffsets.y}px`;
+    }
+  }, []);
   const labelsSouthEast = ["goris", "tatev", "sisian", "jermuk"];
-
+  //scale label offsets
   useEffect(() => {
     if (!mapLabels.current) {
       return;
@@ -126,7 +147,7 @@ export default function Map() {
             {/* top-[1064px] left-[1967px] */}
             {placesObj ? (
               <div className="" id="map-labels">
-                <MapLabelGroup offsets={{ x: 1971, y: 1071 }}>
+                <MapLabelGroup offsets={{ x: 1965, y: 1256 }}>
                   {placeLabelsDataTyped.map((item) => {
                     if (labelsSouthEast.includes(item.name)) {
                       return (

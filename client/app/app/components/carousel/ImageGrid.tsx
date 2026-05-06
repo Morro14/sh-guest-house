@@ -29,11 +29,17 @@ export default function ImageGrid({
     if (!targetImage) {
       return ImagePlacesholder;
     }
+    const imgRes = {
+      wide: "main",
+      medium: "small",
+      portrait: "small",
+      small: "small",
+    };
     return (
       <ImageLoading
         imageAttrs={{
-          className: "object-cover hover:cursor-pointer size-full",
-          src: `${MEDIA_URL}${targetImage.variants.small}`,
+          className: "object-cover hover:cursor-pointer size-full select-none",
+          src: `${MEDIA_URL}${targetImage.variants[imgRes[format]]}`,
           alt: `grid-${gridIndex}-image-${format}-${index}`,
           onClick: () => {
             navContext.setFullImageView(true);
@@ -44,19 +50,31 @@ export default function ImageGrid({
       ></ImageLoading>
     );
   }
+  const heightGridFull = `2xl:h-187 md:h-112 h-56`;
+  const heightRow = `2xl:h-92 md:h-55 h-27`;
+  const heightHalfRow = `2xl:h-45 md:h-26.5 h-13`;
+  const gap = "2xl:gap-3 md:gap-2 gap-1 ";
   return (
     <div
-      className={`index-container-1 gap-3 grid grid-cols-4 ${gridContext.showMoreImages ? "h-208" : "h-92"} transition-all duration-300 overflow-hidden`}
+      className={`index-container-1 ${gap} grid grid-cols-4 ${gridContext.showMoreImages ? heightGridFull : heightRow} transition-all duration-300 overflow-hidden`}
     >
-      <div className={`col-span-4 h-92`}>{genImageNode("wide", 0)}</div>
+      <div className={`col-span-4 ${heightRow}`}>{genImageNode("wide", 0)}</div>
       {gridContext.showMoreImages ? (
-        <div className={`col-span-4 grid grid-cols-subgrid gap-y-3`}>
-          <div className="col-span-2 row-span-2">
+        <div
+          className={`grid col-span-4 grid-cols-subgrid ${gap} ${heightRow}`}
+        >
+          <div className={`col-span-2 row-span-2 ${heightRow}`}>
             {genImageNode("medium", 0)}
           </div>
-          <div className="row-span-2">{genImageNode("portrait", 0)}</div>
-          <div className="h-55">{genImageNode("small", 0)}</div>
-          <div className="h-55">{genImageNode("small", 1)}</div>
+          <div className={`row-span-2 ${heightRow}`}>
+            {genImageNode("portrait", 0)}
+          </div>
+          <div className={`${heightHalfRow} row-span-1`}>
+            {genImageNode("small", 0)}
+          </div>
+          <div className={`${heightHalfRow} row-span-1`}>
+            {genImageNode("small", 1)}
+          </div>
         </div>
       ) : (
         ""

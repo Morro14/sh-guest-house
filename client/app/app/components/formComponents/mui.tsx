@@ -61,7 +61,7 @@ export const desktopDatePickerSx = {
   "& .MuiPickersInputBase-root": {
     width: "142px",
     fontSize: "16px",
-    paddingTop: "7px",
+    paddingTop: "0px",
   },
   "& .MuiPickersInputBase-sectionContent": {
     fontFamily: `"Source Sans 3"`,

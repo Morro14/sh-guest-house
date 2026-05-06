@@ -1,4 +1,4 @@
-import { Form } from "react-router";
+import { Form, useNavigation } from "react-router";
 import SelectGuestsMobile from "~/components/formComponents/SelectGuestsMobile";
 import { useContextProvider } from "~/components/RequestAvailableRoomsContextProvider";
 import { useTranslation } from "react-i18next";
@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import TextField from "@mui/material/TextField";
 import dayjs from "dayjs";
+import Spinner from "../status/Spinner";
 
 export default function BookingPannelMobile() {
   const { t } = useTranslation();
@@ -14,21 +15,10 @@ export default function BookingPannelMobile() {
   const [formDisplay, setFormDisplay] = useState(false);
   const today = dayjs();
   const [date, setDate] = useState(today);
+  const navigation = useNavigation();
   const handleFormLabelClick = () => {
     setFormDisplay(!formDisplay);
   };
-  // visualViewport
-  // const [viewPortOffset, setViewPortOffset] = useState<number>(0);
-  // console.log("viewport offset", viewPortOffset, "form display", formDisplay);
-  // useEffect(() => {
-  //   if (!window) return;
-  //   window.visualViewport.addEventListener("resize", () => {
-  //     const offset =
-  //       Math.floor(window.innerHeight) -
-  //       Math.floor(window.visualViewport.height);
-  //     setViewPortOffset(offset > 50 ? offset : 0);
-  //   });
-  // });
   return (
     <div className="md:hidden fixed bottom-0 z-30  w-full">
       <div
@@ -90,15 +80,19 @@ export default function BookingPannelMobile() {
               ></TextField>
             </div>
           </div>
-          <button
-            type="submit"
-            className="font-medium underline mx-8 cursor-pointer"
-          >
-            {t("Continue")}
-          </button>
+          {navigation.state === "submitting" ? (
+            <Spinner></Spinner>
+          ) : (
+            <button
+              type="submit"
+              className="font-medium underline mx-9 cursor-pointer"
+            >
+              {t("Continue")}
+            </button>
+          )}
         </Form>
       </div>
-      <div className="relative bottom-0 flex justify-center z-100 items-center bg-peach-light size-full font-sans h-10">
+      <div className="relative bottom-0 flex justify-center z-100 items-center bg-primary size-full font-sans h-10">
         <div className="flex flex-col justify-center h-10 w-full">
           <div
             onClick={handleFormLabelClick}

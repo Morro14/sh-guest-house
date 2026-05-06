@@ -97,3 +97,12 @@ h5 {
 .button-primary {
   @apply bg-peach text-white rounded-sm cursor-pointer font-sans font-medium flex justify-center items-center pt-1;
 }
+
+/* @keyframes spin { */
+/*   from { transform: rotate(0deg); } */
+/*   to { transform: rotate(360deg); } */
+/* } */
+/* .spinner-fast { */
+/*   animation: spin 2s linear infinite; */
+/* } */
+/**/

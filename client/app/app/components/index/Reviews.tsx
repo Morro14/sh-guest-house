@@ -7,7 +7,7 @@ export default function Reviews() {
   return !reviews ? (
     ""
   ) : (
-    <div className="flex gap-28 index-container-1 mt-11 h-70 pt-5 pb-8 border-t border-b border-gray-warm-light">
+    <div className="flex md:gap-x-20 index-container-1 mt-11 h-70 pt-5 pb-8 border-t border-b border-gray-warm-light">
       {reviews.map((review, i) => {
         return (
           <div

@@ -61,7 +61,7 @@ export default function CarouselGrid({ name }: { name: string }) {
           {gridElements.map((grid, i) => (
             <div
               // ${!gridContext.showMoreImages && i > 0 ? "hidden" : "block"}
-              className={`embla__slide mx-1.5 shrink-0 ${i > 0 && gridContext.showMoreImages ? "block" : i > 0 && !gridContext.sideGridsDelayedShow ? "hidden" : "block"} ${i > 0 && !gridContext.sideGridsVisible ? "opacity-0" : "opacity-100"} transition-opacity duration-300 ease-out`}
+              className={`embla__slide 2xl:mx-1.5 md:mx-1 mx-0.5 shrink-0 transition-opacity duration-300 ease-out`}
               key={`carousel-${name}-image-grid-${i}`}
             >
               {grid}

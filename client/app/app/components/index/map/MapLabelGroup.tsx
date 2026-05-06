@@ -17,7 +17,7 @@ export default function MapLabelGroup({
   const offsetsScaled = scaleLabelGroupOffsets(context.zoom, offsets);
   return (
     <div
-      className="absolute flex flex-col items-center w-fit"
+      className={`absolute flex flex-col items-center w-fit -translate-y-full`}
       style={{ left: offsetsScaled.x, top: offsetsScaled.y }}
     >
       {children}

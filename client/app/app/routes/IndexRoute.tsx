@@ -31,6 +31,10 @@ export interface BookingForm {
   date: string;
 }
 export async function clientAction({ request }: Route.ClientActionArgs) {
+  // test spinner
+  console.log("timer started");
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+
   const formData = await request.formData();
   const formDataObject = formDataToObject(formData);
   const errors: ValidationErrors = validate(formDataObject);
@@ -42,6 +46,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     formDataObj[k] = v.toString();
   }
   const params = new URLSearchParams(formDataObj);
+
   return redirect(`booking?${params}`);
 }
 
