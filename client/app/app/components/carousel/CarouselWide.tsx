@@ -25,7 +25,7 @@ export default function CarouselWide({ tag }: { tag: string }) {
     <WideImagePlaceholder />
   ) : (
     <div>
-      <div className="embla" ref={emblaRef}>
+      <div className="embla max-w-screen" ref={emblaRef}>
         <div className="embla__container">
           {images.concat(images).map((img, i) => (
             <div
@@ -58,8 +58,9 @@ export default function CarouselWide({ tag }: { tag: string }) {
             imageAttrs={{
               className: "h-full object-cover",
               src: `${MEDIA_URL_BASE}${images[context.itemSelected]["variants"]["original"]}`,
-              alt: `${images[context.itemSelected].alt_text}-${context.itemSelected
-                }-full`,
+              alt: `${images[context.itemSelected].alt_text}-${
+                context.itemSelected
+              }-full`,
             }}
           ></ImageLoading>
         </MediaFullView>

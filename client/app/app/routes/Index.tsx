@@ -3,18 +3,15 @@ import LocationMain from "~/components/index/Location";
 import Paragraph from "~/components/index/Paragraph";
 import RoomsPreview from "~/components/index/Rooms";
 import NavContextProvider from "~/components/nav/NavContextProvider";
-import Places from "~/components/index/Places";
 import CarouselWide from "~/components/carousel/CarouselWide";
 import { useFetchV3 } from "~/utils/fetchHook";
 import { formatPageContentData } from "~/utils/format";
 import CarouselGrid from "~/components/carousel/CarouselGrid";
 import CarouselGridContextProvider from "~/components/carousel/CarouselGridContext";
-import Reviews from "~/components/index/Reviews";
 import Map from "~/components/index/map/Map";
 import MapContextProvider from "~/components/index/map/MapContextProvider";
 import NavHorizontal from "~/components/index/NavHorizontal";
-import ContentCard from "~/components/index/ContentCard";
-import Spinner from "~/components/status/Spinner";
+import CarouselReviews from "~/components/carousel/CarouselReviews";
 
 export default function Index() {
   const { t } = useTranslation();
@@ -28,15 +25,12 @@ export default function Index() {
       <div className="flex flex-col items-center">
         <h1 className="mt-14 mb-3 tracking-wide">{t("index-title")}</h1>
         <h2 className="mb-14!">{t("Some subtitle")}</h2>
-        <div className="my-4">
-          <Spinner></Spinner>
-        </div>
         <NavContextProvider>
           <CarouselGridContextProvider>
             <CarouselGrid name="index"></CarouselGrid>
           </CarouselGridContextProvider>
         </NavContextProvider>
-        <Reviews></Reviews>
+        <CarouselReviews></CarouselReviews>
         <NavHorizontal></NavHorizontal>
       </div>
       <div className="flex flex-col items-center">

@@ -56,7 +56,7 @@ export default function CarouselGrid({ name }: { name: string }) {
   }, [gridContext.showMoreImages]);
   return (
     <div className="flex flex-col items-center gap-11">
-      <div className="embla" ref={emblaRef}>
+      <div className="embla max-w-screen " ref={emblaRef}>
         <div className="embla__container">
           {gridElements.map((grid, i) => (
             <div
