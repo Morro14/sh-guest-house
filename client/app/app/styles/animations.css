@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+.dot-1-animate {
+  background-color: #73706f;
+  scale: 1.2;
+  animation: dotOneTransitions 2.1s ease-in infinite running;
+}
+.dot-2-animate {
+  background-color: #73706f;
+  scale: 1.2;
+  animation: dotOneTransitions 2.1s ease-in 0.7s infinite running;
+}
+.dot-3-animate {
+  background-color: #73706f;
+  scale: 1.2;
+  animation: dotOneTransitions 2.1s ease-in 1.4s infinite running;
+}
+
+@keyframes dotOneTransitions {
+  0% { background-color: #73706f; scale: 1.2}
+  33% { background-color: #d9d9d9; scale: 1}
+  66% { background-color: #d9d9d9; scale: 1}
+}

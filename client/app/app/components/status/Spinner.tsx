@@ -1,14 +1,15 @@
-import enternityMain from "src/assets/eternity-main.png";
-import enternityAccent from "src/assets/eternity-accent.png";
+import eternityMain from "src/assets/eternity-main.png";
+import eternityAccent from "src/assets/eternity-accent.png";
+import eternityGrayMid from "src/assets/eternity-gray-mid.png";
 
 export default function Spinner({
   variation = "main",
   size = 32,
   speed = "normal",
 }: {
-  variation: "main" | "accent";
-  size: number;
-  speed: "slow" | "normal" | "fast";
+  variation?: "main" | "accent" | "grayMid";
+  size?: number;
+  speed?: "slow" | "normal" | "fast";
 }) {
   const speedStyles = {
     slow: "animate-[spin_4s_linear_infinite]",
@@ -16,8 +17,9 @@ export default function Spinner({
     fast: "animate-[spin_0.5s_linear_infinite]",
   };
   const spinnerImg = {
-    main: enternityMain,
-    accent: enternityAccent,
+    main: eternityMain,
+    accent: eternityAccent,
+    grayMid: eternityGrayMid,
   };
   return (
     <div

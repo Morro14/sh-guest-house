@@ -1,4 +1,4 @@
-import { Form } from "react-router";
+import { Form, useNavigation } from "react-router";
 import SelectGuests from "~/components/formComponents/SelectGuests";
 import { useContextProvider } from "~/components/RequestAvailableRoomsContextProvider";
 import { useTranslation } from "react-i18next";
@@ -10,16 +10,23 @@ import { ThemeProvider } from "@mui/material";
 import { desktopDatePickerTheme } from "../formComponents/mui.tsx";
 import { desktopDatePickerSx } from "../formComponents/mui.tsx";
 import { IndexFormLayout } from "../formComponents/SelectGuestsLayouts.tsx";
+import Spinner from "../status/Spinner.tsx";
+import BookingPanelButton from "./BookingPanelButton.tsx";
+import BookingPanelButtonTest from "./BookingPanelButtonTest.tsx";
 
 export default function BookingPannel() {
   const today = dayjs();
   const [date, setDate] = useState(today);
   const { t } = useTranslation();
   const context = useContextProvider();
+  const navigation = useNavigation();
+  console.log("navigation.state", navigation.state);
   return (
     <div className="md:flex sticky hidden top-0 bottom-0 z-30 w-full h-12 justify-center">
       {/* <div className="absolute w-full h-24 blur-lg bg-linear-to-b from-bg to-[#00000000]"></div> */}
-      <div className="size-full absolute bg-bg border-b-2  border-primary "></div>
+      <div
+        className={`size-full absolute bg-bg border-b-2  border-primary ${navigation.state === "submitting" ? "" : ""} transition-colors duration-300`}
+      ></div>
       <div className="flex justify-center items-center size-full font-source-sans border-x border-accent-lighter">
         <Form
           method="post"
@@ -75,9 +82,12 @@ export default function BookingPannel() {
               {t("Nights", { count: context.nightsCount })}
             </label>
           </div>
-          <button type="submit" className="capitalize mx-8 cursor-pointer">
-            {t("Continue")}
-          </button>
+          <BookingPanelButton
+            containerProps="w-30"
+            state={navigation.state}
+            label={t("Check availability")}
+          ></BookingPanelButton>
+          {/* <BookingPanelButtonTest></BookingPanelButtonTest> */}
           {/* <div className="flex flex-col items-center justify-center -mb-2"> */}
           {/*   <button type="submit" className="capitalize mx-8 cursor-pointer"> */}
           {/*     {t("Continue")} */}
