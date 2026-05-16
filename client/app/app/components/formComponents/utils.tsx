@@ -1,18 +1,22 @@
 import { useEffect, type RefObject } from "react";
 import type { Room } from "~/types/booking";
 
-export function useCloseOnClick<T extends any[]>(
-  wrapperRef: RefObject<HTMLElement>,
-  switcherRef: RefObject<HTMLInputElement> | null = null,
+export function useCloseOnClickWithSwitcher<T extends any[]>(
+  nonClickableRef: RefObject<HTMLElement>,
+  switcherRef: RefObject<HTMLInputElement>,
   callback: (...args: any) => any | null = null,
   callBackArgs: T | [] = [],
 ) {
   const handleClickOutside = (e: MouseEvent) => {
     if (!switcherRef.current?.checked) return;
     const target = e.target as Node;
-    if (wrapperRef.current && !wrapperRef.current.contains(target)) {
+    // console.log("close", nonClickableRef, switcherRef);
+    if (nonClickableRef.current && !nonClickableRef.current.contains(target)) {
+      e.preventDefault();
       e.stopPropagation();
-      if (switcherRef?.current) switcherRef.current.checked = false;
+      if (switcherRef?.current) {
+        switcherRef.current.checked = false;
+      }
       if (callback) {
         callback(...callBackArgs);
       }
@@ -22,11 +26,11 @@ export function useCloseOnClick<T extends any[]>(
   useEffect(() => {
     if (!switcherRef.current) return;
 
-    document.addEventListener("mousedown", handleClickOutside, true);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("click", handleClickOutside, true);
+    return () => document.removeEventListener("click", handleClickOutside);
   });
 }
-export function useCloseOnClickV2<T extends any[]>(
+export function useCloseOnClick<T extends any[]>(
   nonClickableRef: RefObject<null | HTMLDivElement>,
   callback: (...args: any) => any | null = null,
   callBackArgs: T | [] = [],

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 .carousel-wide-image {
-  @apply 2xl:basis-[1130px] md:basis-[728px] basis-[375px];
+  @apply 2xl:basis-[1280px] md:basis-[728px] basis-[375px];
 }
 .index-container-1 {
   @apply 2xl:w-[1280px] md:w-[698px] w-[352px];
@@ -10,7 +10,7 @@
   @apply md:w-[688px] md:h-[388px] overflow-hidden;
 }
 .media-full-view {
-  @apply w-[150vh] h-[90vh];
+  @apply max-w-[100vw] h-[75vh];
 }
 .carousel-small {
   @apply md:w-[688px] w-[375px] md:h-[388px] h-[250px];
@@ -19,7 +19,7 @@
   @apply md:w-[688px];
 }
 .booking-floating-panel {
-  @apply lg:w-[1000px] md:w-[600px] sm:w-[540px] min-w-[395px];
+  @apply 2xl:w-[1300px] md:w-[720px] w-[395px];
 }
 .vertical-line-decor {
   @apply md:block hidden;

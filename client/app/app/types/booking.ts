@@ -17,6 +17,7 @@ export interface Room {
   images: Array<Image>;
   price: number;
   beds: string;
+  description: string;
 }
 
 export type Currency = "AMD" | "USD" | "EUR" | "RUB";

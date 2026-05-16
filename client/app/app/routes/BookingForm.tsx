@@ -1,5 +1,5 @@
-import { Form } from "react-router";
-import { useContextProvider } from "../components/RequestAvailableRoomsContextProvider";
+import { Form, useNavigation } from "react-router";
+import { useIndexBookingContextProvider } from "../components/booking/IndexBookingContextProvider.tsx";
 import SelectGuests from "../components/formComponents/SelectGuests";
 import { useTranslation } from "react-i18next";
 import { validate } from "~/components/formComponents/validate";
@@ -18,6 +18,7 @@ import { desktopDatePickerSx } from "../components/formComponents/mui.tsx";
 import dayjs from "dayjs";
 import { FormChangeLayout } from "~/components/formComponents/SelectGuestsLayouts.tsx";
 import ErrorPanel from "~/components/formComponents/ErrorPanel.tsx";
+import Spinner from "~/components/status/Spinner.tsx";
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -27,6 +28,9 @@ export function ErrorBoundary() {
   return <ErrorFallback />;
 }
 export async function clientAction({ request }: Route.ClientActionArgs) {
+  // test spinner
+  console.log("timer started");
+  await new Promise((resolve) => setTimeout(resolve, 500));
   const formData = await request.formData();
   const formDataObject = formDataToObject(formData);
   const errors: ValidationErrors = validate(formDataObject);
@@ -42,7 +46,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 }
 
 export default function BookingForm({ actionData }: Route.ComponentProps) {
-  const context = useContextProvider();
+  const context = useIndexBookingContextProvider();
   const today = dayjs();
   const [date, setDate] = useState(today);
   const { t } = useTranslation();
@@ -52,22 +56,19 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
     "children",
     "nights",
   ]);
-  // useEffect(() => {
-  //   if (actionData && Object.keys(actionData).length > 0) {
-  //     context.setErrors(actionData);
-  //   }
-  // }, [actionData, context]);
+  const navigation = useNavigation();
+  console.log("actionData", actionData);
   return (
-    <Form
-      method="post"
-      className="relative flex flex-col gap-3 items-center size-full"
-    >
-      <div className="flex justify-between w-full items-center overflow-visible font-sans">
-        <div className="flex flex-col items-center gap-3">
-          <label className="font-light" htmlFor="checkin-date-input">
-            {t("Check-in date") + ":"}
+    <Form method="post" className="relative flex flex-col gap-5 items-center">
+      <div className="flex md:flex-row flex-col md:justify-between max-md:gap-5 w-full items-center overflow-visible font-sans">
+        <div className="flex flex-col items-center md:gap-3 gap-2">
+          <label
+            className="font-medium text-gray-warm-mid"
+            htmlFor="checkin-date-input"
+          >
+            {t("Check-in date")}
           </label>
-          <div className="w-[132px]">
+          <div className="w-33">
             <DatePicker
               maxDate={today.set("year", today.get("year") + 1)}
               defaultValue={today}
@@ -81,7 +82,7 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
                   size: "small",
                   endAdornment: false,
                   InputProps: {
-                    disableUnderline: true,
+                    disableUnderline: false,
                   },
                   sx: desktopDatePickerSx,
                 },
@@ -97,9 +98,12 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
           </div>
         </div>
 
-        <div className="flex flex-col items-center gap-3 border-b border-b-line-light">
-          <label className="font-light" htmlFor="checkin-date-input">
-            {t("Check-in date") + ":"}
+        <div className="flex flex-col items-center md:gap-3 gap-2 border-b border-b-line-light">
+          <label
+            className="font-medium text-gray-warm-mid"
+            htmlFor="checkin-date-input"
+          >
+            {t("Guests")}
           </label>
           <SelectGuests
             layout={FormChangeLayout}
@@ -111,37 +115,44 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
         </div>
 
         <div className="flex flex-col items-center gap-3">
-          <label className="font-light" htmlFor="checkin-date-input">
-            {t("Check-in date") + ":"}
+          <label
+            className="font-medium text-gray-warm-mid"
+            htmlFor="checkin-date-input"
+          >
+            {t("Nights")}
           </label>
           <div className="flex h-full w-[132px] justify-center items-center">
             <input
-              className="h-[26px] text-center font-medium w-6 placeholder:text-center placeholder:text-[#4c3b3350] placeholder:italic focus:placeholder:text-gray-400 border-b-1 border-line-light"
+              className={`h-[26px] text-center font-medium w-6 placeholder:text-center placeholder:text-[#4c3b3350] placeholder:italic focus:placeholder:text-gray-400 border-b-1 ${actionData?.nights ? "border-red-error" : "border-line-light"} `}
               name="nights"
               defaultValue={Number(searchParams.nights)}
               type="text"
               maxLength={2}
               onChange={(e) => context.setNightsCount(Number(e.target.value))}
             />
-            <div className="w-[25px] ml-2">
-              {t("nights", { count: context.nightsCount })}
-            </div>
           </div>
         </div>
       </div>
-      {context.errors ? (
-        <div className="absolute top-[108px]">
-          <ErrorPanel errors={actionData}></ErrorPanel>
-        </div>
-      ) : (
-        ""
-      )}
-      <button
-        type="submit"
-        className="px-3 bg-bg underline rounded-sm text-text-main font-semibold font-sans mt-2 cursor-pointer "
-      >
-        {t("Show available rooms")}
-      </button>
+      <div className="h-8">
+        {navigation.state === "idle" ? (
+          <button
+            type="submit"
+            className="text-text-main transition-colors duration-150 underline font-source-sans text-lg cursor-pointer "
+          >
+            {t("Show available rooms")}
+          </button>
+        ) : (
+          <Spinner variation="grayMid"></Spinner>
+        )}
+
+        {context.errors ? (
+          <div className="my-2">
+            <ErrorPanel errors={actionData}></ErrorPanel>
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
     </Form>
   );
 }

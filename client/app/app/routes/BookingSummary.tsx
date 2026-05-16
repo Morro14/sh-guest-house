@@ -64,8 +64,9 @@ interface LoaderData {
     nights: string;
   };
 }
-export async function clientLoader() {
-  const response = await axiosInstance.get("booking/request-summary");
+export async function clientLoader({ request }) {
+  const response = await axiosInstance.get(`booking/request-summary`);
+  // const response = await axiosInstance.get("booking/request-summary");
   return response;
 }
 export default function BookingSummary({ loaderData }) {

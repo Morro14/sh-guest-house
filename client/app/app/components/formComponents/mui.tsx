@@ -4,10 +4,10 @@ import { enUS, ruRU } from "@mui/x-date-pickers/locales";
 export const datePickerTheme = createTheme({
   palette: {
     primary: {
-      main: "#efa76a",
-      light: "#ffe5b6",
-      dark: "#efa76a",
-      contrastText: "#fefdfc",
+      main: "#fb966e",
+      light: "#F6A889",
+      dark: "#fb966e",
+      contrastText: "#ffffff",
     },
   },
   components: {
@@ -45,18 +45,18 @@ export const desktopDatePickerTheme = createTheme({
 
 export const desktopDatePickerSx = {
   "& .MuiPickersInputBase-root::before": {
-    borderColor: "#ba876f",
+    borderColor: "#cccccc",
   },
   "& .MuiPickersInputBase-root::after": {
-    borderColor: "#ba876f",
+    borderColor: "#efa76a",
   },
   "& .MuiPickersInputBase-root:hover:not(.Mui-disabled, .Mui-error)::before": {
     borderColor: "#764c38",
-    borderBottom: "1px solid #764c38",
+    borderBottom: "1px solid #efa76a",
   },
   "& .MuiPickersInputBase-root:hover:not(.Mui-disabled, .Mui-error)::after": {
     borderColor: "#764c38",
-    borderBottom: "1px solid #764c38",
+    borderBottom: "1px solid #efa76a",
   },
   "& .MuiPickersInputBase-root": {
     width: "142px",
@@ -64,7 +64,7 @@ export const desktopDatePickerSx = {
     paddingTop: "0px",
   },
   "& .MuiPickersInputBase-sectionContent": {
-    fontFamily: `"Source Sans 3"`,
+    fontFamily: `"Zen Kaku Gothic Antique"`,
     color: "#4c3b33",
     paddingBottom: "0",
   },

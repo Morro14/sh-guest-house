@@ -1,6 +1,6 @@
 import { Form, useNavigation } from "react-router";
 import SelectGuestsMobile from "~/components/formComponents/SelectGuestsMobile";
-import { useContextProvider } from "~/components/RequestAvailableRoomsContextProvider";
+import { useIndexBookingContextProvider } from "~/components/booking/IndexBookingContextProvider";
 import { useTranslation } from "react-i18next";
 import { useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -10,7 +10,7 @@ import Spinner from "../status/Spinner";
 
 export default function BookingPannelMobile() {
   const { t } = useTranslation();
-  const context = useContextProvider();
+  const context = useIndexBookingContextProvider();
   const formRef = useRef(null);
   const [formDisplay, setFormDisplay] = useState(false);
   const today = dayjs();
@@ -20,7 +20,7 @@ export default function BookingPannelMobile() {
     setFormDisplay(!formDisplay);
   };
   return (
-    <div className="md:hidden fixed bottom-0 z-30  w-full">
+    <div className="xl:hidden fixed bottom-0 z-30  w-full">
       <div
         className={`md:hidden w-screen bg-black  ${formDisplay ? "opacity-50 h-screen" : "opacity-0 h-0"} transition-opacity duration-500`}
         onClick={() => setFormDisplay(false)}
@@ -105,9 +105,9 @@ export default function BookingPannelMobile() {
               {!formDisplay ? t("book") : t("close")}
             </button>
             {formDisplay ? (
-              <button className="cursor-pointer">{closeCross}</button>
+              <button className="cursor-pointer w-5 h-5">{closeCross}</button>
             ) : (
-              <div className="w-[21px]"></div>
+              <div className="w-[20px]"></div>
             )}
           </div>
         </div>
@@ -118,8 +118,8 @@ export default function BookingPannelMobile() {
 
 const closeCross = (
   <svg
-    width="21"
-    height="21"
+    width="16"
+    height="16"
     viewBox="0 0 21 21"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

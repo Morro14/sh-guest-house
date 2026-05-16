@@ -43,6 +43,7 @@ class Command(BaseCommand):
                         adults_num=random.randint(2, 4),
                         children_num=random.randint(0, 2),
                         beds=fake.text(),
+                        description=fake.text(100),
                         price=random.choice(
                             [
                                 5000,

@@ -1,3 +1,5 @@
+localhost-key.pem
+localhost.pem
 __pycache__
 keys
 credentials.json

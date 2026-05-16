@@ -15,7 +15,6 @@ export default function AvailableRooms({ rooms }) {
   const formRef = useRef(null);
   const formContext = useBookingRoomSelectContextProvider();
   const [URLSearchParams] = useSearchParams();
-  const location = useLocation();
   useEffect(() => {
     // reset form context states if new search params
     formContext.setGuestPool({
@@ -23,6 +22,7 @@ export default function AvailableRooms({ rooms }) {
       children: Number(URLSearchParams.get("children")),
     });
   }, [URLSearchParams]);
+
   const fetcher = useFetcher({ key: "price_preview" });
   const handleFormChange = (e: ChangeEvent<HTMLFormElement>) => {
     const formData = new FormData(e.currentTarget);
@@ -32,7 +32,10 @@ export default function AvailableRooms({ rooms }) {
     });
   };
   return (
-    <div id="available-rooms" className="flex flex-col items-center pt-10">
+    <div
+      id="available-rooms"
+      className={`flex flex-col items-center ${formContext.er}`}
+    >
       {rooms.length === 0 ? (
         <div className="mt-5">
           <Fallback
@@ -42,7 +45,10 @@ export default function AvailableRooms({ rooms }) {
           ></Fallback>
         </div>
       ) : (
-        <div id="available-rooms" className="flex flex-col items-center pt-12">
+        <div
+          id="available-rooms"
+          className="flex flex-col items-center pt-12 index-container-1"
+        >
           <h3 className="text-center text-nowrap">{t("Available rooms")}</h3>
           {context.fullImageView ? (
             <MediaFullView>

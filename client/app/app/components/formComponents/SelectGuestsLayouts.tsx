@@ -1,6 +1,15 @@
-export function FormChangeLayout({ children }: { children: React.ReactNode }) {
+export function FormChangeLayout({
+  children,
+  ref,
+}: {
+  children: React.ReactNode;
+  ref: React.RefObject<HTMLDivElement>;
+}) {
   return (
-    <div className="relative w-48 h-full flex justify-center items-center">
+    <div
+      ref={ref}
+      className="relative md:w-48 h-full flex justify-center items-center"
+    >
       {children}
     </div>
   );

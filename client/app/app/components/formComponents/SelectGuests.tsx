@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useRef, useState } from "react";
-import { useCloseOnClick } from "./utils";
+import { useCloseOnClickWithSwitcher } from "./utils";
 
 const DEFAULT_PARAMS = {
   adults: "2",
@@ -28,7 +28,7 @@ export default function SelectGuests({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const checkboxRef = useRef<HTMLInputElement>(null);
 
-  useCloseOnClick(wrapperRef, checkboxRef, null, []);
+  useCloseOnClickWithSwitcher(wrapperRef, checkboxRef, null, []);
 
   const genGuestOptions = (num: number, guestType: "adults" | "children") => {
     const guestNum = guestType === "children" ? num + 1 : num;
@@ -84,7 +84,7 @@ export default function SelectGuests({
         )}
       </label>
 
-      <div className="absolute shadow-sm top-10 z-50 h-0 overflow-hidden peer-checked:h-[180px] w-full transition-all duration-200">
+      <div className="absolute shadow-sm top-10 z-50 h-0 overflow-hidden peer-checked:h-[180px] w-[200px] transition-all duration-200">
         <div className="flex flex-col p-4 bg-bg gap-4 h-full">
           <div className="flex flex-col items-center">
             <label className="text-sm" htmlFor="select-adults">

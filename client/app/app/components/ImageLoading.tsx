@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Dots from "./status/Dots";
+import Spinner from "./status/Spinner";
 
 interface ImageProps {
   src: string;
@@ -6,7 +8,7 @@ interface ImageProps {
 
 export function ImageLoading({
   imageAttrs,
-  placeholder = ImagePlacesholder,
+  placeholder = ImagePlacesholderDefault,
 }: {
   imageAttrs: ImageProps & React.ImgHTMLAttributes<HTMLImageElement>;
   placeholder?: React.ReactNode;
@@ -20,9 +22,13 @@ export function ImageLoading({
         className={`${className ? className : ""} ${loaded ? "block" : "hidden"}`}
         onLoad={() => setLoaded(true)}
       ></img>
-      <div className={!loaded ? "block" : "hidden"}>{placeholder}</div>
+      <div
+        className={`${!loaded ? "block" : "hidden"} size-full flex items-center justify-center`}
+      >
+        {placeholder}
+      </div>
     </div>
   );
 }
 
-const ImagePlacesholder = <div className="bg-gray-warm-light size-full"></div>;
+const ImagePlacesholderDefault = <Dots></Dots>;

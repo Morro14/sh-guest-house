@@ -3,29 +3,69 @@ import type { Review as ReviewType } from "~/types";
 import { useFetchV3 } from "~/utils/fetchHook";
 import Review from "../index/Review";
 import Placeholder from "../Placeholder";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function CarouselReviews() {
-  const [emblaRef, emblaApi] = useEmblaCarousel();
-
-  const { fetchedData } = useFetchV3("content/reviews?limit=3");
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 40 });
+  const { t } = useTranslation();
+  const { fetchedData } = useFetchV3("content/reviews?limit=5");
   const reviews: ReviewType[] | undefined = fetchedData?.data?.results;
+
+  // autoplay
+  const [autoScroll, setAutoScroll] = useState<NodeJS.Timeout | null>(null);
+  useEffect(() => {
+    if (!emblaApi || autoScroll) {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      emblaApi.goToNext();
+    }, 6000);
+    emblaApi.on("pointerdown", () => {
+      clearInterval(interval);
+    });
+    setAutoScroll(interval);
+  }, [autoScroll, emblaApi]);
   return (
-    <div className="index-container-1 my-11">
-      <div className={`"embla__viewport overflow-hidden`} ref={emblaRef}>
-        <div className={`embla__container`}>
-          {reviews ? (
-            reviews.map((item, i) => (
-              <div
-                key={`review-slide-${i}`}
-                className="embla__slide shrink-0 basis-full"
-              >
-                <Review review={item} index={i}></Review>
-              </div>
-            ))
-          ) : (
-            <Placeholder></Placeholder>
-          )}
+    <div className="">
+      <div className="index-container-1 border-t border-b border-gray-warm-light pb-2">
+        <div className={`"embla__viewport overflow-hidden`} ref={emblaRef}>
+          <div className={`embla__container`}>
+            {reviews ? (
+              reviews.map((item, i) => (
+                <div
+                  key={`review-slide-${i}`}
+                  className="embla__slide shrink-0 basis-full 2xl:basis-[calc(100%/3-32px)] mx-4 "
+                >
+                  <Review review={item} index={i}></Review>
+                </div>
+              ))
+            ) : (
+              <Placeholder></Placeholder>
+            )}
+          </div>
         </div>
+      </div>
+      <div className="flex w-full justify-between px-4 pt-2">
+        <button
+          className="text-sm text-gray-warm-mid"
+          onClick={() => {
+            clearInterval(autoScroll);
+            emblaApi.goToPrev();
+          }}
+        >
+          {t("prev")}
+        </button>
+        <button
+          className="text-sm text-gray-warm-mid"
+          onClick={() => {
+            clearInterval(autoScroll);
+            emblaApi.goToNext();
+          }}
+        >
+          {t("next")}
+        </button>
       </div>
     </div>
   );

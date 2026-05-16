@@ -4,9 +4,9 @@ import {
   useState,
   type SetStateAction,
 } from "react";
-import type { ValidationErrors } from "./formComponents/validate";
+import type { ValidationErrors } from "~/components/formComponents/validate";
 
-type RequestAvailableRoomsContext = {
+type IndexBookingContext = {
   guestsSelect: { adults: number; children: number };
   setGuestsSelect: React.Dispatch<
     SetStateAction<{ adults: number; children: number }>
@@ -24,23 +24,19 @@ type RequestAvailableRoomsContext = {
   blockClick: boolean;
   setBlockClick: React.Dispatch<SetStateAction<boolean>>;
 };
-const RequestAvailableRoomsContext =
-  createContext<RequestAvailableRoomsContext | null>(null);
+const IndexBookingContext = createContext<IndexBookingContext | null>(null);
 
-export default function RequestAvailableRoomsContextProvider({
-  children,
-  params,
-}) {
+export default function IndexBookingContextProvider({ children, params }) {
   const [guestsSelect, setGuestsSelect] = useState({ adults: 2, children: 0 });
   const [displaySelect, setDisplaySelect] = useState(false);
   const [nightsCount, setNightsCount] = useState(1);
   // const errors: ValidationErrors = params.errors;
-  const [errors, setErrors] = useState(params.errors)
+  const [errors, setErrors] = useState(params.errors);
   // const [errorState, setErrorState] = useState<null | ValidationErrors>(errors);
   const [formChange, setFormChange] = useState(false);
   const [blockClick, setBlockClick] = useState(false);
   return (
-    <RequestAvailableRoomsContext
+    <IndexBookingContext
       value={{
         guestsSelect,
         setGuestsSelect,
@@ -59,9 +55,9 @@ export default function RequestAvailableRoomsContextProvider({
       }}
     >
       {children}
-    </RequestAvailableRoomsContext>
+    </IndexBookingContext>
   );
 }
-export const useContextProvider = () => {
-  return useContext(RequestAvailableRoomsContext);
+export const useIndexBookingContextProvider = () => {
+  return useContext(IndexBookingContext);
 };

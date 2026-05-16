@@ -1,4 +1,4 @@
-import RequestAvailableRoomsContextProvider from "~/components/RequestAvailableRoomsContextProvider";
+import IndexBookingContextProvider from "~/components/booking/IndexBookingContextProvider";
 import type { Route } from "./+types/IndexRoute";
 import { validate } from "~/components/formComponents/validate";
 import { redirect } from "react-router";
@@ -32,8 +32,7 @@ export interface BookingForm {
 }
 export async function clientAction({ request }: Route.ClientActionArgs) {
   // test spinner
-  console.log("timer started");
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+  // await new Promise((resolve) => setTimeout(resolve, 3000));
 
   const formData = await request.formData();
   const formDataObject = formDataToObject(formData);
@@ -54,11 +53,11 @@ export default function IndexRoute({ actionData }: Route.ComponentProps) {
   const errors = actionData;
   return (
     <div className="flex flex-col min-h-screen min-w-screen text-text-main relative">
-      <RequestAvailableRoomsContextProvider params={{ errors: errors }}>
+      <IndexBookingContextProvider params={{ errors: errors }}>
         <BookingPannel></BookingPannel>
         <BookingPannelMobile></BookingPannelMobile>
-      </RequestAvailableRoomsContextProvider>
-      <Index></Index>
+        <Index></Index>
+      </IndexBookingContextProvider>
     </div>
   );
 }

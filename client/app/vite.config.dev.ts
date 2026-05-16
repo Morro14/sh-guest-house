@@ -12,6 +12,22 @@ export default defineConfig({
     watch: {
       ignored: ["**/src/data/map-labels-data.json"],
     },
+    port: 5173,
+    host: "frontend.test",
+    strictPort: true,
+    allowedHosts: ["frontend.test"],
+    proxy: {
+      "/api": {
+        target: "http://backend.test:8000",
+        changeOrigin: true,
+        secure: false,
+      },
+      "/media": {
+        target: "http://backend.test:8000",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   },
   plugins: [
     reactRouter(),

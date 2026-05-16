@@ -23,28 +23,30 @@ export default function RequestInfo() {
   });
   const dateString = dateF.format(dateObj);
   return (
-    <div className="flex flex-col items-center w-full gap-2">
-      <div className="text-center flex justify-between items-center w-full font-sans">
-        <div className="flex flex-col items-center gap-3">
-          <span className="font-light">{t("Check-in date") + ":"}</span>
-          <p className={`${blockWidth} font-serif text-lg`}>{dateString}</p>
+    <div className="flex flex-col items-center w-full md:gap-2 gap-3 mb-5">
+      <div className="flex md:flex-row flex-col max-md:gap-3 text-center justify-between items-center w-full font-sans">
+        <div className="flex flex-col items-center md:gap-3 gap-0">
+          <span className="text-gray-warm-mid md:text-base">
+            {t("Check-in date")}
+          </span>
+          <p className={`${blockWidth} font-sans text-lg`}>{dateString}</p>
         </div>
-        <div className="flex flex-col items-center gap-3">
-          <span className="font-light">{t("Number of guests") + ":"}</span>
-          <p className={`${blockWidth} font-serif text-lg`}>{guests}</p>
+        <div className="flex flex-col items-center md:gap-3 gap-0">
+          <span className="text-gray-warm-mid md:text-base">
+            {t("Number of guests")}
+          </span>
+          <p className={`${blockWidth} font-sans text-lg`}>{guests}</p>
         </div>
-        <div className="flex flex-col items-center gap-3">
-          <span className="font-light">{t("Nights") + ":"}</span>
-          <p className={`${blockWidth} font-serif text-lg`}>{nights}</p>
+        <div className="flex flex-col items-center md:gap-3 gap-0">
+          <span className="text-gray-warm-mid md:text-base">{t("Nights")}</span>
+          <p className={`${blockWidth} font-sans text-lg`}>{nights}</p>
         </div>
       </div>
       <Link
-        className="underline
-      font-sans
-      font-light text-sm cursor-pointer"
+        className="underline font-source-sans font-light text-sm cursor-pointer"
         to={formUrl}
       >
-        change
+        {t("change")}
       </Link>
     </div>
   );

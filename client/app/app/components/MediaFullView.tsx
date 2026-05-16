@@ -1,6 +1,6 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { useNavContextProvider } from "./nav/NavContextProvider";
-import { useCloseOnClickV2 } from "./formComponents/utils";
+import { useCloseOnClick } from "./formComponents/utils";
 import { useState } from "react";
 import closeButton from "root/src/assets/close-button.svg";
 
@@ -10,7 +10,7 @@ export default function MediaFullView({ children }: { children: ReactNode }) {
   const contentRef = useRef(null);
 
   const outsideContentFieldRef = useRef(null);
-  useCloseOnClickV2(contentRef, () => {
+  useCloseOnClick(contentRef, () => {
     setOpacity(0);
     setTimeout(context.setFullImageView, 300, false);
   });

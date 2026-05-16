@@ -34,19 +34,11 @@ class Reservation(models.Model):
 
     class ConfirmedReservationManager(models.Manager):
         def get_queryset(self):
-            return (
-                super()
-                .get_queryset()
-                .filter(status=Reservation.Status.CONFIRMED)
-            )
+            return super().get_queryset().filter(status=Reservation.Status.CONFIRMED)
 
     class ValidatedReservationManager(models.Manager):
         def get_queryset(self):
-            return (
-                super()
-                .get_queryset()
-                .filter(status=Reservation.Status.VALIDATED)
-            )
+            return super().get_queryset().filter(status=Reservation.Status.VALIDATED)
 
     created_at = models.DateTimeField(
         verbose_name=_("created at"),
@@ -90,9 +82,7 @@ class Reservation(models.Model):
     def clean(self):
         # date validation
         if self.check_in >= self.check_out:
-            raise ValidationError(
-                "Check-out date must be after check-in date."
-            )
+            raise ValidationError("Check-out date must be after check-in date.")
 
     def validate_no_overlap(self):
         for room in self.rooms_reserved.all():
@@ -106,9 +96,7 @@ class Reservation(models.Model):
                 .exists()
             )
             if overlap:
-                raise ValidationError(
-                    f"Room '{room.name}' is already booked."
-                )
+                raise ValidationError(f"Room '{room.name}' is already booked.")
                 log.warning("validate_no_overlap fails")
             self.status = self.Status.VALIDATED
             self.save()
@@ -145,6 +133,7 @@ class Room(models.Model):
     )
     beds = models.TextField(max_length=255, default="")
     price = models.IntegerField(default=5000)
+    description = models.TextField(max_length=255, default="")
 
     class Meta:
         verbose_name = _("Room")
@@ -161,9 +150,7 @@ class RoomReserved(models.Model):
     def __str__(self):
         return self.room.name
 
-    adults = models.IntegerField(
-        verbose_name=_("adult places reserved"), default=0
-    )
+    adults = models.IntegerField(verbose_name=_("adult places reserved"), default=0)
     children = models.IntegerField(
         verbose_name=_("children places reserved"), default=0
     )

@@ -25,10 +25,10 @@ export default function CarouselGridNav({
   };
 
   const arrowFunc = (direction: "left" | "right") => {
-    if (!gridContext.showMoreImages) {
-      showMoreImages();
-      return;
-    }
+    // if (!gridContext.showMoreImages) {
+    //   showMoreImages();
+    //   return;
+    // }
     if (direction === "left") {
       emblaApi.goToPrev();
     } else {
@@ -45,7 +45,7 @@ export default function CarouselGridNav({
       </div>
       <div>
         <button
-          className="text-gray-warm-mid text-sm font-sans hover:cursor-pointer underline"
+          className="text-gray-warm-mid text-base font-sans hover:cursor-pointer underline"
           onClick={showMoreImages}
         >
           {gridContext.showMoreImages

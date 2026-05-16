@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import { ImageLoading } from "../ImageLoading";
 import type { Image } from "~/types/booking";
 import { Grid } from "~/types/grid.ts";
@@ -20,10 +19,8 @@ export default function ImageGrid({
   grid: Grid;
   gridIndex: number;
 }) {
-  const { t } = useTranslation();
   const gridContext = useCarouselGridContextProvider();
   const navContext = useNavContextProvider();
-  // const [displayMore, setDisplayMore] = useState(false);
   function genImageNode(format: GridFormats, index: number) {
     const targetImage = grid[format].images[index];
     if (!targetImage) {
@@ -38,7 +35,8 @@ export default function ImageGrid({
     return (
       <ImageLoading
         imageAttrs={{
-          className: "object-cover hover:cursor-pointer size-full select-none",
+          className:
+            "object-cover hover:cursor-pointer size-full select-none hover:scale-102 transition-scale duration-600 origin-center",
           src: `${MEDIA_URL}${targetImage.variants[imgRes[format]]}`,
           alt: `grid-${gridIndex}-image-${format}-${index}`,
           onClick: () => {
@@ -58,21 +56,23 @@ export default function ImageGrid({
     <div
       className={`index-container-1 ${gap} grid grid-cols-4 ${gridContext.showMoreImages ? heightGridFull : heightRow} transition-all duration-300 overflow-hidden`}
     >
-      <div className={`col-span-4 ${heightRow}`}>{genImageNode("wide", 0)}</div>
+      <div className={`col-span-4 overflow-hidden ${heightRow}`}>
+        {genImageNode("wide", 0)}
+      </div>
       {gridContext.showMoreImages ? (
         <div
           className={`grid col-span-4 grid-cols-subgrid ${gap} ${heightRow}`}
         >
-          <div className={`col-span-2 row-span-2 ${heightRow}`}>
+          <div className={`col-span-2 row-span-2 overflow-hidden ${heightRow}`}>
             {genImageNode("medium", 0)}
           </div>
-          <div className={`row-span-2 ${heightRow}`}>
+          <div className={`row-span-2 overflow-hidden ${heightRow}`}>
             {genImageNode("portrait", 0)}
           </div>
-          <div className={`${heightHalfRow} row-span-1`}>
+          <div className={`${heightHalfRow} overflow-hidden row-span-1`}>
             {genImageNode("small", 0)}
           </div>
-          <div className={`${heightHalfRow} row-span-1`}>
+          <div className={`${heightHalfRow} overflow-hidden row-span-1`}>
             {genImageNode("small", 1)}
           </div>
         </div>

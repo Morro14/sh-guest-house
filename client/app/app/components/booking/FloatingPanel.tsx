@@ -47,42 +47,48 @@ export default function FloatingPanel() {
   };
   const price = context.priceFetcher.data?.reservation_price || 0;
   const priceStatus = context.priceFetcher.state;
+  console.log(priceStatus);
   return (
     <div
-      className={`${panelOffScreen ? "fixed top-4" : "absolute top-4"} z-20 top-0 w-full flex flex-col items-center justify-start font-sans`}
+      className={`${panelOffScreen ? "fixed top-4" : "absolute top-4"} z-20 top-0 flex flex-col items-center justify-start font-sans`}
     >
       <div
-        className={`absolute booking-floating-panel border-t border-gray-warm-inactive ${moreRoomsRequired ? "h-15.5" : "h-[38px]"} transition-all duration-200 bg-bg rounded-sm shadow-md`}
+        className={`absolute booking-floating-panel ${moreRoomsRequired ? "h-[64px]" : "h-[42px]"} transition-all duration-200 bg-bg outline-2 -outline-offset-4 outline-primary rounded shadow-md`}
       ></div>
-      <div className="flex flex-col justify-start items-center w-full">
-        <div
-          className={`z-10 flex justify-between items-center  px-6 mt-2 lg:h-6 h-full booking-floating-panel`}
-        >
-          <div className="w-16"></div>
-          <div className={`flex lg:gap-7 gap-6 font-[350]`}>
+      <div
+        className={`flex flex-col justify-start items-start w-full mt-2.5 booking-floating-panel px-4`}
+      >
+        <div className={`z-10 flex justify-between items-center size-full`}>
+          <div className="w-16 overflow-visible text-nowrap text-gray-warm-mid 2xl:block hidden">
+            {t("Your reservation")}:
+          </div>
+          <div className={`flex gap-6 items-center`}>
             <div
-              className={`${panelOffScreen ? "block" : "max-lg:hidden"} lg:col-start-2 lg:block hidden `}
+              className={`${panelOffScreen ? "block" : "max-2xl:hidden"} 2xl:block hidden `}
             >{`${dateString}`}</div>
             <div
-              className={`${panelOffScreen ? "block" : "max-lg:hidden"} lg:col-start-3  lg:block hidden`}
+              className={`${panelOffScreen ? "block" : "max-2xl:hidden"} 2xl:block hidden`}
             >
               {`${t("guests")}: ${params.adults}` +
                 (children > 0 ? " + " + children : "")}
             </div>
             <div
-              className={`${panelOffScreen ? "block" : "max-lg:hidden"} lg:col-start-4 lg:block hidden `}
+              className={`${panelOffScreen ? "block" : "max-2xl:hidden"} 2xl:block hidden `}
             >{`${t("nights")}: ${params.nights}`}</div>
-            <div className="overflow-visible text-nowrap lg:col-start-5 ">
-              {`Price: ${priceStatus === "idle" ? formatPrice(price, CURRENCY) : "..."}`}
+            <div className={`flex overflow-visible w-30 space-x-1`}>
+              <span className="text-nowrap">{`${t("Total price")}:`}</span>
+              <span
+                className={`${priceStatus !== "idle" ? "opacity-0" : "opacity-100"} transition-opacity duration-150 text-nowrap`}
+              >{`${formatPrice(price, CURRENCY)}`}</span>
             </div>
           </div>
           <button
             disabled={moreRoomsRequired}
             onClick={handleBookClick}
-            className="px-2 lg:col-start-6 w-16 flex justify-end cursor-pointer "
+            className="px-2 w-16 flex cursor-pointer "
           >
             <div
-              className={`px-2  ${moreRoomsRequired ? "border-0 text-gray-warm-inactive" : "border-b-2 border-peach text-text-main"} font-medium`}
+              className={`${moreRoomsRequired ? "border-0 text-gray-warm-inactive" : "underline font-sans font-medium text-text-main"}`}
             >
               {t("Continue")}
             </div>

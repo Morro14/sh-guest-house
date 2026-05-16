@@ -1,13 +1,14 @@
 import eternityMain from "src/assets/eternity-main.png";
 import eternityAccent from "src/assets/eternity-accent.png";
 import eternityGrayMid from "src/assets/eternity-gray-mid.png";
+import eternityWhite from "src/assets/eternity-white.png";
 
 export default function Spinner({
   variation = "main",
   size = 32,
   speed = "normal",
 }: {
-  variation?: "main" | "accent" | "grayMid";
+  variation?: "main" | "accent" | "grayMid" | "white";
   size?: number;
   speed?: "slow" | "normal" | "fast";
 }) {
@@ -20,6 +21,7 @@ export default function Spinner({
     main: eternityMain,
     accent: eternityAccent,
     grayMid: eternityGrayMid,
+    white: eternityWhite,
   };
   return (
     <div

@@ -92,7 +92,7 @@ class BookingRequestValidateView(APIView):
         token_data.update({"request_validated": True, "user_email": email})
         token = CustomJWT(
             content=token_data,
-            expires_in=60 * 2,
+            expires_in=60 * 15,
             jti=jti,
         ).get_token()
         response = Response()
@@ -100,10 +100,10 @@ class BookingRequestValidateView(APIView):
             key="booking_request_token",
             value=token,
             httponly=True,
-            samesite="None",
-            secure=True,
+            # samesite="None",
+            # secure=True,
             path="/api/booking",
-            max_age=60 * 2,
+            max_age=60 * 15,
         )
         response.data = {"request_validated": True, "user_email": email}
         log.info("request_validated", user_email=email)
@@ -120,7 +120,6 @@ class BookingRequestSummaryView(APIView):
             for k, v in request.auth.items()
             if k in ["date", "nights", "adults", "children"]
         }
-
         jti = request.auth["jti"]
         rooms_guests = request.auth["rooms_selected"]
         selected_room_slugs = [room["slug"] for room in request.auth["rooms_selected"]]
@@ -170,8 +169,8 @@ class BookingRequestSummaryView(APIView):
             key="booking_request_token",
             value=token_updated,
             httponly=True,
-            samesite="None",
-            secure=True,
+            # samesite="None",
+            # secure=True,
             path="/api/booking",
             max_age=60 * 15,
         )
@@ -217,8 +216,8 @@ class BookingRoomsRequestView(APIView):
             key="booking_request_token",
             value=token,
             httponly=True,
-            samesite="None",
-            secure=True,
+            # samesite="Lax",
+            # secure=True,
             path="/api/booking",
             max_age=20 * 60,
         )
@@ -239,12 +238,12 @@ class BookingRoomsRequestView(APIView):
 
 @api_view(["POST"])
 @authentication_classes([SessionAuthentication])
+# @authentication_classes([])
 @permission_classes([])
 def reservation_price_view(request):
     if request.method == "POST":
         rooms_guests = parse_rooms_selected(request)
         nights = request.auth["nights"]
-
         selected_room_slugs = [room["slug"] for room in rooms_guests]
         rooms = Room.objects.filter(slug__in=selected_room_slugs)
         reservation_price_total = get_reservation_price_total(

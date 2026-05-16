@@ -1,4 +1,8 @@
-import { axiosInstance, getLanguagePathParam } from "~/utils/general.ts";
+import {
+  axiosInstance,
+  getLanguagePathParam,
+  getUrlSearchParams,
+} from "~/utils/general.ts";
 import type { Route } from "./+types/Booking";
 import {
   isRouteErrorResponse,
@@ -11,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import AvailableRooms from "~/components/booking/AvailableRooms";
 import type { Room } from "~/types/booking";
 import NavContextProvider from "~/components/nav/NavContextProvider";
-import RequestAvailableRoomsContextProvider from "~/components/RequestAvailableRoomsContextProvider";
+import IndexBookingContextProvider from "~/components/booking/IndexBookingContextProvider";
 import FloatingPanel from "~/components/booking/FloatingPanel";
 import BookingRoomSelectContext from "~/components/booking/BookingRoomSelectContext";
 import { getDefaultSearchParams } from "~/utils/general";
@@ -78,6 +82,7 @@ export async function clientLoader({ request }) {
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
   if (formData.get("_intent") === "price_preview") {
+    await new Promise((resolve) => setTimeout(resolve, 500));
     const response = await axiosInstance.post(
       `booking/reservation-price`,
       formData,
@@ -97,7 +102,7 @@ export default function Booking({ loaderData }: Route.ComponentProps) {
   const location = useLocation();
   return (
     <div className="bg-bg text-text-main min-h-screen min-w-screen">
-      <RequestAvailableRoomsContextProvider params={{ errors: [] }}>
+      <IndexBookingContextProvider params={{ errors: [] }}>
         <div
           id="request-info-block"
           className="flex flex-col items-center mt-8.5"
@@ -107,7 +112,7 @@ export default function Booking({ loaderData }: Route.ComponentProps) {
           {/* <Line /> */}
           <div className="flex md:pb-4 flex-col gap-3 items-center text-center md:w-150">
             <div
-              className={`${location.pathname.split("/").at(-1) === "booking" ? "md:h-22.5" : "h-28 mb-4"} w-full transition-all duration-200`}
+              className={`${location.pathname.split("/").at(-1) === "booking" ? "md:h-22.5" : "md:h-22.5 h-70 mb-4"} w-full transition-all duration-200`}
             >
               <Outlet></Outlet>
             </div>
@@ -115,7 +120,7 @@ export default function Booking({ loaderData }: Route.ComponentProps) {
           {/* <Line /> */}
         </div>
         <div
-          className={`relative transition-all ${location.pathname.split("/").at(-1) === "change-request-info" ? "grayscale opacity-50 pointer-events-none" : ""}`}
+          className={`relative flex justify-center transition-all ${location.pathname.split("/").at(-1) === "change-request-info" ? "grayscale opacity-50 pointer-events-none" : ""}`}
         >
           <BookingRoomSelectContext priceFetcher={fetcher}>
             <FloatingPanel></FloatingPanel>
@@ -124,7 +129,7 @@ export default function Booking({ loaderData }: Route.ComponentProps) {
             </NavContextProvider>
           </BookingRoomSelectContext>
         </div>
-      </RequestAvailableRoomsContextProvider>
+      </IndexBookingContextProvider>
     </div>
   );
 }

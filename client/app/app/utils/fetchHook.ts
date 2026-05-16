@@ -5,7 +5,6 @@ import { logError } from "./logging";
 export function useFetchV3(url: string, valid = true, timeout = 0) {
   const [loading, setLoading] = useState(true);
   const [fetchedData, setFetchedData] = useState(undefined);
-
   useEffect(() => {
     if (!valid) {
       setLoading(false);

@@ -38,7 +38,6 @@ export default function Map() {
   const context = useMapContextProvider();
 
   useEffect(() => {
-    console.log("useEffect move");
     if (!mapSurface.current && !mapContainer.current) {
       return;
     }

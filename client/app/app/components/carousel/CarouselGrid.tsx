@@ -8,9 +8,9 @@ import { useCarouselGridContextProvider } from "./CarouselGridContext";
 import MediaFullView from "../MediaFullView";
 import { ImageLoading } from "../ImageLoading";
 import { useNavContextProvider } from "../nav/NavContextProvider";
-import { useTranslation } from "react-i18next";
 import CarouselGridNav from "./CarouselGridNav";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import Spinner from "../status/Spinner";
 
 const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 
@@ -22,8 +22,6 @@ export default function CarouselGrid({ name }: { name: string }) {
   function distImagesIntoGrids(images: GridImage[]) {
     const gridInit = new Grid();
     const grids: Grid[] = [gridInit];
-    // console.log("grids", grids);
-    // console.log("images", images);
     if (!images) {
       return grids;
     }
@@ -55,7 +53,7 @@ export default function CarouselGrid({ name }: { name: string }) {
     gridContext.setSideGridsVisible(gridContext.showMoreImages);
   }, [gridContext.showMoreImages]);
   return (
-    <div className="flex flex-col items-center gap-11">
+    <div className="flex flex-col items-center md:gap-11 gap-6">
       <div className="embla max-w-screen " ref={emblaRef}>
         <div className="embla__container">
           {gridElements.map((grid, i) => (
@@ -75,6 +73,7 @@ export default function CarouselGrid({ name }: { name: string }) {
       {navContext.fullImageView && gridContext.fullView ? (
         <MediaFullView>
           <ImageLoading
+            placeholder={<Spinner variation="white"></Spinner>}
             imageAttrs={{
               src: `${MEDIA_URL}${gridContext.fullView.variants.original}`,
               className: "h-full object-contain",

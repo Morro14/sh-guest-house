@@ -39,13 +39,20 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 ON_RENDER = os.environ.get("RENDER") == "true"
 DEBUG = os.environ.get("DEBUG") == "True"
 AUTH_USER_MODEL = "auth_app.User"
-
+if DEBUG:
+    SESSION_COOKIE_DOMAIN = "backend.test"
 ALLOWED_HOSTS = []
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 else:
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+    ALLOWED_HOSTS = [
+        "localhost",
+        "127.0.0.1",
+        "192.168.11.67",
+        "127.0.0.2",
+        "backend.test",
+    ]
 
 CSRF_TRUSTED_ORIGINS = []
 if RENDER_EXTERNAL_HOSTNAME:
@@ -58,7 +65,7 @@ SITE_NAME = os.environ.get("SITE_NAME")
 if ON_RENDER:
     SITE_DOMAIN = RENDER_EXTERNAL_HOSTNAME
 else:
-    SITE_DOMAIN = os.environ.get("SITE_DOMAIN")
+    SITE_DOMAIN = ["http://backend.test"]
 
 # Application definition
 INSTALLED_APPS = [

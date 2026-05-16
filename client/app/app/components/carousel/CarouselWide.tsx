@@ -5,7 +5,7 @@ import type { Image } from "~/types/booking";
 import type { ImageRes } from "~/types/general";
 import useEmblaCarousel from "embla-carousel-react";
 import { ImageLoading } from "../ImageLoading";
-import { useTranslation } from "react-i18next";
+import Spinner from "../status/Spinner";
 
 const localDev = import.meta.env.VITE_DEBUG === "true";
 const MEDIA_URL_BASE = import.meta.env.VITE_SERVER_URL;
@@ -13,38 +13,41 @@ const MEDIA_URL_BASE = import.meta.env.VITE_SERVER_URL;
 export default function CarouselWide({ tag }: { tag: string }) {
   const { fetchedData, loading } = useFetchV3("content/wide-images/" + tag);
   const images = fetchedData?.data?.data as Array<Image>;
+  const imagesDefault = images ? images : [];
   const context = useNavContextProvider();
   const [emblaRef] = useEmblaCarousel({
     startSnap: 1,
     align: "center",
     loop: true,
   });
-  const { t } = useTranslation();
   const imageRes: ImageRes = "main";
-  return loading || !images ? (
-    <WideImagePlaceholder />
-  ) : (
+  return (
     <div>
       <div className="embla max-w-screen" ref={emblaRef}>
         <div className="embla__container">
-          {images.concat(images).map((img, i) => (
+          {imagesDefault.map((img, i) => (
             <div
               key={`img-wide-${i}`}
-              className="embla__slide shrink-0 mr-3 carousel-wide-image"
+              className="embla__slide shrink-0 mr-3 carousel-wide-image 2xl:h-[388px] md:h-[220px] h-[110px] w-full overflow-hidden"
             >
-              <img
-                className="object-cover hover:cursor-pointer"
-                src={
-                  localDev
-                    ? MEDIA_URL_BASE + img.variants[imageRes]
-                    : img.variants[imageRes]
-                }
-                alt={"photo" + "-" + i}
-                onClick={() => {
-                  context.setFullImageView(true);
-                  context.setItemSelected(i % 3);
+              <ImageLoading
+                imageAttrs={{
+                  className:
+                    "object-cover hover:cursor-pointer size-full hover:scale-102 origin-center transition-scale duration-600",
+                  src: `${
+                    localDev
+                      ? MEDIA_URL_BASE + img.variants[imageRes]
+                      : img.variants[imageRes]
+                  }`,
+                  alt: `img-place-wide-${i}`,
+
+                  onClick: () => {
+                    context.setFullImageView(true);
+                    context.setItemSelected(i % 3);
+                  },
                 }}
-              />
+                placeholder={ImagePlacesholder}
+              ></ImageLoading>
             </div>
           ))}
         </div>
@@ -52,11 +55,9 @@ export default function CarouselWide({ tag }: { tag: string }) {
       {context.fullImageView ? (
         <MediaFullView>
           <ImageLoading
-            placeholder={
-              <span className="text-white font-sans">{t("loading...")}</span>
-            }
+            placeholder={<Spinner variation="white"></Spinner>}
             imageAttrs={{
-              className: "h-full object-cover",
+              className: "h-full object-contain",
               src: `${MEDIA_URL_BASE}${images[context.itemSelected]["variants"]["original"]}`,
               alt: `${images[context.itemSelected].alt_text}-${
                 context.itemSelected
@@ -71,12 +72,4 @@ export default function CarouselWide({ tag }: { tag: string }) {
   );
 }
 
-function WideImagePlaceholder() {
-  return (
-    <div className="flex gap-5 overflow-hidden w-screen">
-      <div className="2xl:w-[1052px] 2xl:h-[368px] bg-gray-warm"></div>
-      <div className="2xl:w-[1052px] 2xl:h-[368px] bg-gray-warm"></div>
-      <div className="2xl:w-[1052px] 2xl:h-[368px] bg-gray-warm"></div>
-    </div>
-  );
-}
+const ImagePlacesholder = <div className="bg-gray-warm-light size-full"></div>;

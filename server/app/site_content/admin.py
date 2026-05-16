@@ -8,10 +8,17 @@ from .models import (
     WideImage,
     ImageTag,
     GridImage,
+    Review,
 )
 
 from modeltranslation.admin import TabbedTranslationAdmin
 from django.utils.html import format_html
+
+
+@admin.register(Review)
+class ReviewAmin(admin.ModelAdmin):
+    list_display = ("date", "rating", "content")
+    pass
 
 
 @admin.register(WideImage)

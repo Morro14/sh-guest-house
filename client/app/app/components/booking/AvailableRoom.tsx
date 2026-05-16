@@ -7,7 +7,7 @@ import { useState } from "react";
 
 const CURRENCY = import.meta.env.VITE_CURRENCY;
 
-const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL
+const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 
 export default function AvailableRoom({
   room,
@@ -22,10 +22,10 @@ export default function AvailableRoom({
   const navContext = useNavContextProvider();
   const formContext = useBookingRoomSelectContextProvider();
   const { t } = useTranslation();
-  const [roomGuestsAvailable, setRoomGuestsAvailable] = useState({
+  const roomGuestsAvailable = {
     adults: room.adults_num,
     children: room.children_num + room.adults_num,
-  });
+  };
   const [currentGuestSelect, setCurrentGuestSelect] = useState({
     adults: 0,
     children: 0,
@@ -63,11 +63,8 @@ export default function AvailableRoom({
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = Number(e.target.value);
-    const priceChange = 0;
 
     if (e.target.name === `[${room.slug}][adults]`) {
-      const guestNumberChange = value - currentGuestSelect.adults;
-      // priceChange += guestNumberChange * room.price;
       setCurrentGuestSelect({ ...currentGuestSelect, adults: value });
 
       formContext.setGuestPool({
@@ -76,8 +73,6 @@ export default function AvailableRoom({
           formContext.guestPool.adults + (currentGuestSelect.adults - value),
       });
     } else if (e.target.name === `[${room.slug}][children]`) {
-      const guestNumberChange = value - currentGuestSelect.children;
-      // priceChange += guestNumberChange * room.price;
       setCurrentGuestSelect({ ...currentGuestSelect, children: value });
       formContext.setGuestPool({
         ...formContext.guestPool,
@@ -86,7 +81,6 @@ export default function AvailableRoom({
           (currentGuestSelect.children - value),
       });
     }
-    // formContext.setTotalPrice(formContext.totalPrice + priceChange);
   };
   const roomSelected =
     currentGuestSelect.adults !== 0 || currentGuestSelect.children !== 0;
@@ -102,20 +96,15 @@ export default function AvailableRoom({
         }}
       />
       <div className="flex flex-col gap-2 mt-2 px-2">
-        <h4 className="mb-0!">{room.name}</h4>
-        <div className="font-sans grid grid-cols-10 gap-y-2 sm:gap-y-0 text-base">
-          <span className="flex font-light sm:col-span-4 col-span-10 ">
-            {t("Maximum guests")}
-          </span>
-          <span className="font-light pl-2 sm:col-span-6 col-span-10">
-            {getGuestsString()}
-          </span>
-          <span className="font-light flex sm:col-span-4 col-span-10">
-            {t("Select number of guests")}
-          </span>
-          <div className="pl-2 sm:col-span-6 col-span-10  grid sm:gap-y-0 gap-y-1 grid-cols-6">
-            <div className="sm:col-span-3 col-span-10 flex items-center gap-2">
-              <label className="sm:w-auto w-16">{t("adults")}</label>
+        <h4 className="mb-0! font-sans">{room.name}</h4>
+        <div className="flex flex-col font-sans">
+          <span>{room.description}</span>
+          <span className="text-sm text-gray-warm-mid">{t("Beds")}</span>
+          <span className="">{room.beds.slice(0, 20)}</span>
+          <span className="">{t("Select number of guests")}</span>
+          <div className="">
+            <div className="">
+              <label className="">{t("adults")}</label>
               <select
                 name={`[${room.slug}][adults]`}
                 onChange={handleChange}
@@ -124,8 +113,8 @@ export default function AvailableRoom({
                 {genSelectOptions("adults")}
               </select>
             </div>
-            <div className="sm:col-span-3 col-span-10 flex gap-2">
-              <label className="sm:w-auto w-16">{t("children")}</label>
+            <div className="">
+              <label className="">{t("children")}</label>
               <select
                 name={`[${room.slug}][children]`}
                 onChange={handleChange}
@@ -135,14 +124,8 @@ export default function AvailableRoom({
               </select>
             </div>
           </div>
-          <span className="flex sm:col-span-4 col-span-10 font-light">
-            {t("Beds")}
-          </span>
-          <span className="pl-2 flex sm:col-span-6 col-span-10 font-light">
-            {room.beds.slice(0, 20)}
-          </span>
         </div>
-        <div className="flex items-end gap-32">
+        <div className="flex">
           <div className="flex flex-col">
             <div className="font-sans text-base">{t("For one night")}:</div>
             <span className="font-sans text-green-warm text-xl -mt-1">{`${formatPrice(room.price, CURRENCY)}`}</span>
@@ -164,7 +147,7 @@ export default function AvailableRoom({
         <span
           className={`size-full flex items-center justify-center font-sans font-light text-center transition-all duration-200 ${roomSelected ? "" : "text-gray-warm-inactive"}`}
         >
-          {!roomSelected ? t("Select guests") : t("Room selected")}
+          {!roomSelected ? "" : t("Selected")}
         </span>
       </div>
     </fieldset>
