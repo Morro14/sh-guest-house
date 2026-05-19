@@ -8,12 +8,30 @@ export default function NavHorizontal() {
   const { t, i18n } = useTranslation();
   const context = useIndexBookingContextProvider();
   return (
-    <div className="flex 2xl:flex-row flex-col justify-center items-center 2xl:w-full 2xl:gap-0 gap-3 font-serif text-xl ">
+    <div className="flex 2xl:flex-row flex-col justify-center items-center 2xl:w-full 2xl:gap-5 gap-3 font-serif text-xl">
+      <button
+        onClick={() => {
+          const el = document.getElementById("points-of-interest");
+          el.scrollIntoView({ behavior: "smooth" });
+        }}
+        className="text-center hover:cursor-pointer"
+      >
+        <span className="px-3 pt-1 ">{t("About")}</span>
+      </button>
+      <button
+        onClick={() => {
+          const el = document.getElementById("points-of-interest");
+          el.scrollIntoView({ behavior: "smooth" });
+        }}
+        className="text-center hover:cursor-pointer"
+      >
+        <span className="px-3 pt-1 ">{t("Contact")}</span>
+      </button>
       <Link
         to={`/${i18n.language}/booking`}
-        className="2xl:w-3/12 text-center hover:cursor-pointer "
+        className="text-end hover:cursor-pointer "
       >
-        <span className="underline px-3 pt-1 rounded">{t("Book")}</span>
+        <span className=" px-3 pt-1 rounded">{t("Book")}</span>
       </Link>
       {/* <div className="max-2xl:hidden h-5 w-0.5 bg-gray-warm-light"></div> */}
       <button
@@ -21,13 +39,13 @@ export default function NavHorizontal() {
           const el = document.getElementById("points-of-interest");
           el.scrollIntoView({ behavior: "smooth" });
         }}
-        className="2xl:w-3/12 text-center hover:cursor-pointer"
+        className="text-center hover:cursor-pointer"
       >
-        <span className="px-3 pt-1 underline">{t("Points of interest")}</span>
+        <span className="px-3 pt-1 ">{t("Points of interest")}</span>
       </button>
       {/* <div className="max-2xl:hidden h-5 w-0.5 bg-gray-warm-light"></div> */}
-      <Link className="2xl:w-3/12 flex justify-center gap-3">
-        <div className="flex items-center gap-1 px-4 pt-2 pb-1 rounded underline">
+      <Link to="" className="flex justify-start gap-3">
+        <div className="flex items-center gap-1 ">
           <div className="hover:cursor-pointer text-nowrap ">
             {t("Booking reviews")}
           </div>

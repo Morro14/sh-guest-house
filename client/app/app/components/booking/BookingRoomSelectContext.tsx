@@ -13,6 +13,7 @@ export default function BookingRoomSelectContextProvider({
     adults: Number(params.adults),
     children: Number(params.children),
   });
+  const moreRoomsRequired = guestPool.adults !== 0 || guestPool.children !== 0;
   const [totalPrice, setTotalPrice] = useState<number | undefined>(0);
 
   return (
@@ -25,6 +26,7 @@ export default function BookingRoomSelectContextProvider({
         guestPool,
         setGuestPool,
         priceFetcher,
+        moreRoomsRequired,
       }}
     >
       {children}

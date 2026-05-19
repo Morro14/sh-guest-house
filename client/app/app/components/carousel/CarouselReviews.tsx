@@ -29,7 +29,7 @@ export default function CarouselReviews() {
   }, [autoScroll, emblaApi]);
   return (
     <div className="">
-      <div className="index-container-1 border-t border-b border-gray-warm-light pb-2">
+      <div className="index-container-1 pb-2">
         <div className={`"embla__viewport overflow-hidden`} ref={emblaRef}>
           <div className={`embla__container`}>
             {reviews ? (
@@ -47,26 +47,26 @@ export default function CarouselReviews() {
           </div>
         </div>
       </div>
-      <div className="flex w-full justify-between px-4 pt-2">
-        <button
-          className="text-sm text-gray-warm-mid"
-          onClick={() => {
-            clearInterval(autoScroll);
-            emblaApi.goToPrev();
-          }}
-        >
-          {t("prev")}
-        </button>
-        <button
-          className="text-sm text-gray-warm-mid"
-          onClick={() => {
-            clearInterval(autoScroll);
-            emblaApi.goToNext();
-          }}
-        >
-          {t("next")}
-        </button>
-      </div>
+      {/* <div className="flex w-full justify-between px-4 pt-2"> */}
+      {/*   <button */}
+      {/*     className="text-sm text-gray-warm-mid" */}
+      {/*     onClick={() => { */}
+      {/*       clearInterval(autoScroll); */}
+      {/*       emblaApi.goToPrev(); */}
+      {/*     }} */}
+      {/*   > */}
+      {/*     {t("prev")} */}
+      {/*   </button> */}
+      {/*   <button */}
+      {/*     className="text-sm text-gray-warm-mid" */}
+      {/*     onClick={() => { */}
+      {/*       clearInterval(autoScroll); */}
+      {/*       emblaApi.goToNext(); */}
+      {/*     }} */}
+      {/*   > */}
+      {/*     {t("next")} */}
+      {/*   </button> */}
+      {/* </div> */}
     </div>
   );
 }

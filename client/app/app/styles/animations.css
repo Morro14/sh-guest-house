@@ -3,17 +3,17 @@
 .dot-1-animate {
   background-color: #73706f;
   scale: 1.2;
-  animation: dotOneTransitions 2.1s ease-in infinite running;
+  animation: dotOneTransitions 1.5s ease-in infinite running;
 }
 .dot-2-animate {
   background-color: #73706f;
   scale: 1.2;
-  animation: dotOneTransitions 2.1s ease-in 0.7s infinite running;
+  animation: dotOneTransitions 1.5s ease-in 0.5s infinite running;
 }
 .dot-3-animate {
   background-color: #73706f;
   scale: 1.2;
-  animation: dotOneTransitions 2.1s ease-in 1.4s infinite running;
+  animation: dotOneTransitions 1.5s ease-in 1.0s infinite running;
 }
 
 @keyframes dotOneTransitions {

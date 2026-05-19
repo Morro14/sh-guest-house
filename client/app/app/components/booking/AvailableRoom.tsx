@@ -85,70 +85,80 @@ export default function AvailableRoom({
   const roomSelected =
     currentGuestSelect.adults !== 0 || currentGuestSelect.children !== 0;
   return (
-    <fieldset key={room.name} className={`drop-shadow-sm bg-bg`}>
+    <fieldset
+      key={room.name}
+      className={`drop-shadow-sm bg-bg flex flex-col items-center w-[352px] md:w-[330px] pb-3 h-[500px]`}
+    >
       <legend className="sr-only">{room.name}</legend>
       <img
-        className="border-2 border-peach object-cover sm:w-[482px] w-[360px] md:h-[272px] h-[203px] hover:cursor-pointer"
+        className="border-2 border-peach object-cover w-[336px] md:w-[314px] md:h-[190px] h-[203px] hover:cursor-pointer mt-2"
         src={`${MEDIA_URL}${room.images[0].variants.small}`}
         onClick={() => {
           navContext.setFullImageView(true);
           navContext.setItemSelected(index);
         }}
       />
-      <div className="flex flex-col gap-2 mt-2 px-2">
+      <div className="flex flex-col gap-3 mt-3 px-2 w-full h-full">
         <h4 className="mb-0! font-sans">{room.name}</h4>
-        <div className="flex flex-col font-sans">
-          <span>{room.description}</span>
-          <span className="text-sm text-gray-warm-mid">{t("Beds")}</span>
-          <span className="">{room.beds.slice(0, 20)}</span>
-          <span className="">{t("Select number of guests")}</span>
-          <div className="">
-            <div className="">
-              <label className="">{t("adults")}</label>
-              <select
-                name={`[${room.slug}][adults]`}
-                onChange={handleChange}
-                className={`${currentGuestSelect.adults > 0 ? "text-peach-dark" : "text-accent"} h-6 border-1 rounded-sm px-1`}
-              >
-                {genSelectOptions("adults")}
-              </select>
-            </div>
-            <div className="">
-              <label className="">{t("children")}</label>
-              <select
-                name={`[${room.slug}][children]`}
-                onChange={handleChange}
-                className={`${currentGuestSelect.children > 0 ? "text-peach-dark" : "text-accent"} h-6 border-1 rounded-sm px-1`}
-              >
-                {genSelectOptions("children")}
-              </select>
-            </div>
-          </div>
-        </div>
-        <div className="flex">
+        <div className="flex flex-col font-sans gap-3 h-full w-full">
+          <span className="text-ellipsis h-12 overflow-hidden">
+            {room.description}
+          </span>
           <div className="flex flex-col">
-            <div className="font-sans text-base">{t("For one night")}:</div>
-            <span className="font-sans text-green-warm text-xl -mt-1">{`${formatPrice(room.price, CURRENCY)}`}</span>
+            <span className="text-sm text-gray-warm-mid">{t("Beds")}</span>
+            <span className="">{room.beds.slice(0, 20)}</span>
           </div>
-          {nightsNum > 1 ? (
-            <div className="flex flex-col">
-              <div className="font-sans text-base font-light">{`For ${nightsNum} nights:`}</div>
-              <div className="flex items-end">
-                <span className="font-sans text-green-warm text-xl -mt-1">{`${formatPrice(room.price * nightsNum, CURRENCY)}`}</span>
+          <div className="flex flex-col gap-0.5">
+            <span className="text-sm text-warning">
+              {t("Select number of guests")}
+            </span>
+            <div className="flex gap-4">
+              <div className="space-x-2">
+                <label className="">{t("adults")}</label>
+                <select
+                  name={`[${room.slug}][adults]`}
+                  onChange={handleChange}
+                  className={`${currentGuestSelect.adults > 0 ? "text-peach-dark" : "text-accent"} h-6 border-b px-1`}
+                >
+                  {genSelectOptions("adults")}
+                </select>
+              </div>
+              <div className="space-x-2">
+                <label className="">{t("children")}</label>
+                <select
+                  name={`[${room.slug}][children]`}
+                  onChange={handleChange}
+                  className={`${currentGuestSelect.children > 0 ? "text-peach-dark" : "text-accent"} h-6 border-b px-1`}
+                >
+                  {genSelectOptions("children")}
+                </select>
               </div>
             </div>
-          ) : (
-            ""
-          )}
+          </div>
+          <div className="flex items-end justify-between">
+            <div className="flex flex-col w-1/3">
+              <div className="font-sans text-sm text-gray-warm-mid">
+                {t("For one night")}:
+              </div>
+              <span className="font-sans text-xl">{`${formatPrice(room.price, CURRENCY)}${nightsNum > 1 ? ` ${formatPrice(room.price * 2, CURRENCY)}` : ""}`}</span>
+            </div>
+            {/* {nightsNum > 1 ? ( */}
+            {/*   <div className="flex flex-col w-1/3"> */}
+            {/*     <div className="font-sans text-sm text-gray-warm-mid">{`For ${nightsNum} nights:`}</div> */}
+            {/*     <div className="flex items-end"> */}
+            {/*       <span className="font-sans text-xl">{`${formatPrice(room.price * nightsNum, CURRENCY)}`}</span> */}
+            {/*     </div> */}
+            {/*   </div> */}
+            {/* ) : ( */}
+            {/*   "" */}
+            {/* )} */}
+            <span
+              className={` ${roomSelected ? "block" : "hidden"} text-lg text-accent w-1/3`}
+            >
+              {!roomSelected ? "" : t("Selected")}
+            </span>
+          </div>
         </div>
-      </div>
-      <div className="flex justify-center items-center mt-4 border-y-1 border-gray-warm h-8">
-        {/* <input name={`room-${index}`} value={room.slug} onChange={() => formContext.setSelectedRooms(getSelectedRooms(formRef?.current))} id={`room-checkbox-${index}`} className="absolute opacity-0 pointer-events-none peer" type="checkbox"></input> */}
-        <span
-          className={`size-full flex items-center justify-center font-sans font-light text-center transition-all duration-200 ${roomSelected ? "" : "text-gray-warm-inactive"}`}
-        >
-          {!roomSelected ? "" : t("Selected")}
-        </span>
       </div>
     </fieldset>
   );

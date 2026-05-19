@@ -12,7 +12,7 @@ import i18n from "root/src/i18n/i18n";
 
 export default function LayoutMain() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen text-text-main">
       <ReactErrorBoundary>
         <ThemeProvider theme={datePickerTheme}>
           <LocalizationProvider

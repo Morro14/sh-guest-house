@@ -34,7 +34,7 @@ export default function AvailableRooms({ rooms }) {
   return (
     <div
       id="available-rooms"
-      className={`flex flex-col items-center ${formContext.er}`}
+      className={`flex flex-col items-center mt-[82px] transition-all`}
     >
       {rooms.length === 0 ? (
         <div className="mt-5">
@@ -47,7 +47,7 @@ export default function AvailableRooms({ rooms }) {
       ) : (
         <div
           id="available-rooms"
-          className="flex flex-col items-center pt-12 index-container-1"
+          className="flex flex-col items-center index-container-1"
         >
           <h3 className="text-center text-nowrap">{t("Available rooms")}</h3>
           {context.fullImageView ? (
@@ -72,7 +72,7 @@ export default function AvailableRooms({ rooms }) {
             }}
             key={URLSearchParams.toString()}
             id="room-select-form"
-            className="grid lg:grid-cols-2 grid-cols-1  xl:gap-x-10 gap-x-7 xl:gap-y-14 gap-y-10"
+            className="grid md:grid-cols-2 2xl:grid-cols-3 grid-cols-1 2xl:gap-x-6 gap-x-4 2xl:gap-y-8 gap-y-8"
           >
             {rooms.map((room: Room, index: number) => {
               return (

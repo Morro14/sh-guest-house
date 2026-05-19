@@ -110,7 +110,7 @@ export default function Booking({ loaderData }: Route.ComponentProps) {
           <h2 className="  ">{t("Your booking request")}</h2>
 
           {/* <Line /> */}
-          <div className="flex md:pb-4 flex-col gap-3 items-center text-center md:w-150">
+          <div className="flex md:mb-8 flex-col gap-3 items-center text-center md:w-150">
             <div
               className={`${location.pathname.split("/").at(-1) === "booking" ? "md:h-22.5" : "md:h-22.5 h-70 mb-4"} w-full transition-all duration-200`}
             >

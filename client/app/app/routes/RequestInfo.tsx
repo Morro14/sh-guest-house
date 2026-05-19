@@ -23,7 +23,7 @@ export default function RequestInfo() {
   });
   const dateString = dateF.format(dateObj);
   return (
-    <div className="flex flex-col items-center w-full md:gap-2 gap-3 mb-5">
+    <div className="flex flex-col items-center w-full md:gap-2 gap-3">
       <div className="flex md:flex-row flex-col max-md:gap-3 text-center justify-between items-center w-full font-sans">
         <div className="flex flex-col items-center md:gap-3 gap-0">
           <span className="text-gray-warm-mid md:text-base">

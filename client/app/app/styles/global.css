@@ -51,6 +51,7 @@ body {
   --color-green-warm: #699a57;
   --color-green-warm-light: #a6cd98;
   --color-black-transparent: #000000bf;
+  --color-warning: #FF4800;
   --font-sans: "Source Sans 3", sans-serif;
   --font-source-sans: "Source Sans 3", sans-serif;
   --font-serif: "Ysabeau", serif;
@@ -64,7 +65,7 @@ h2 {
   @apply md:text-3xl text-2xl mb-9 font-medium;
 }
 h3 {
-  @apply md:text-2xl text-xl mb-6 font-medium;
+  @apply md:text-[22px] text-xl mb-5 font-medium;
 }
 h4 {
   @apply text-xl mb-4 font-medium;

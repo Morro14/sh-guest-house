@@ -93,45 +93,61 @@ export default function BookingSummary({ loaderData }) {
   });
 
   return (
-    <div className="flex flex-col items-center min-h-screen min-w-screen text-text-main">
-      <div id="request-info-block" className="flex flex-col items-center mt-6">
-        <h3>{t("Your booking request")}</h3>
-      </div>
-      <div className="index-container-1">
-        <div className="h-[1px] bg-gray-warm w-full mb-4"></div>
-        <div className="grid grid-cols-10 font-sans capitalize">
-          <div className=" md:col-span-2 col-span-3 font-light">
-            {t("date") + ":"}
-          </div>
-          <div className="md:col-span-8 col-span-7">{`${formatDate(dateStart)} - ${formatDate(dateEnd)}`}</div>
-          <div className=" md:col-span-2 col-span-3 font-light">
-            {t("total price") + ":"}
-          </div>
-          <div className="md:col-span-8 col-span-7">
-            {formatPrice(price, "AMD")}
-          </div>
-          <div className=" md:col-span-10 col-span-3 font-light">
-            {t("rooms") + ":"}
-          </div>
-          <ol className="list-decimal col-span-10 gap-y-3 grid grid-cols-[repeat(auto-fill,minmax(300px,300px))]">
-            {rooms.map((room: Room) => {
-              const guestsSelected = guestsInfo.find(
-                (r) => r.slug === room.slug,
-              );
-              return BookingSummaryRoom(room, guestsSelected.guests);
-            })}
-          </ol>
-        </div>
-        <div className="h-[1px] bg-gray-warm w-full my-6"></div>
-        <Link
-          to={`/${getLanguagePathParam()}/booking?${reservationSearchParams}`}
-          className="flex gap-3"
+    <div className="flex flex-col gap-8 items-center min-h-screen min-w-screen font-sans">
+      <section>
+        <div
+          id="request-info-block"
+          className="flex flex-col items-center mt-6"
         >
-          <img src={backArrow} />
-          <span className="font-sans font-light underline hover:cursor-pointer">
-            {t("edit reservation")}
-          </span>
-        </Link>
+          <h3>{t("Your booking request")}</h3>
+        </div>
+        <div className="index-container-1">
+          <div className="h-[1px] bg-gray-warm w-full mb-4"></div>
+          <div className="capitalize space-y-2">
+            <div>
+              <div className="text-gray-warm-mid text-sm">
+                {t("date") + ":"}
+              </div>
+              <div className="text-lg">{`${formatDate(dateStart)} - ${formatDate(dateEnd)}`}</div>
+            </div>
+            <div>
+              <div className="text-gray-warm-mid text-sm">
+                {t("total price") + ":"}
+              </div>
+              <div className="text-lg">{formatPrice(price, "AMD")}</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-gray-warm-mid text-sm">
+                {t("rooms") + ":"}
+              </div>
+              <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(300px,max-content))]">
+                {rooms.map((room: Room) => {
+                  const guestsSelected = guestsInfo.find(
+                    (r) => r.slug === room.slug,
+                  );
+                  return BookingSummaryRoom(room, guestsSelected.guests);
+                })}
+              </div>
+            </div>
+          </div>
+          <div className="h-[1px] bg-gray-warm w-full my-6"></div>
+          <Link
+            to={`/${getLanguagePathParam()}/booking?${reservationSearchParams}`}
+            className="flex gap-3"
+          >
+            <img src={backArrow} />
+            <span className="font-sans  underline hover:cursor-pointer">
+              {t("edit reservation")}
+            </span>
+          </Link>
+        </div>
+      </section>
+      <section className="index-container-1">
+        <h4>
+          {t(
+            "Please, provide your contact information to submit booking request",
+          )}
+        </h4>
         <p className="text-gray-warm-mid text-sm font-sans my-6">
           {t("booking summary paragraph")}
         </p>
@@ -187,7 +203,7 @@ export default function BookingSummary({ loaderData }) {
             {navigation.state === "idle" ? t("confirm") : t("submitting")}
           </button>
         </Form>
-      </div>
+      </section>
     </div>
   );
 }

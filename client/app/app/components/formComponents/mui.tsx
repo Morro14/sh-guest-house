@@ -64,7 +64,7 @@ export const desktopDatePickerSx = {
     paddingTop: "0px",
   },
   "& .MuiPickersInputBase-sectionContent": {
-    fontFamily: `"Zen Kaku Gothic Antique"`,
+    fontFamily: `"Source Sans 3"`,
     color: "#4c3b33",
     paddingBottom: "0",
   },
