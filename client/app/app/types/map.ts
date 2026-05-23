@@ -49,3 +49,12 @@ export interface Size {
   x: number;
   y: number;
 }
+export interface MapZoomArgs {
+  container: HTMLDivElement;
+  mapSurface: HTMLDivElement;
+  mapContent: HTMLDivElement;
+  currentZoom: number;
+  newZoom: number;
+  pinchCenter?: Coords;
+}
+export type MapZoom = (args: MapZoomArgs) => void;

@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import type { Coords } from "~/types/map";
 import { useMapContextProvider } from "./MapContextProvider";
 export default function MapLabelGroup({

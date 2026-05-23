@@ -1,14 +1,14 @@
 import { MAP_OPTIONS } from "./utils";
 import { useMapContextProvider } from "./MapContextProvider";
-import { getMapCenteredOffsets, type Size, type ZoomState } from "./utils";
+import { zoomMap } from "./zoom";
 
 export default function MapNav({
-  map,
+  mapSurface,
   container,
   mapImage,
   mapContent,
 }: {
-  map: HTMLDivElement;
+  mapSurface: HTMLDivElement;
   container: HTMLDivElement;
   mapContent: HTMLDivElement;
   mapImage: HTMLImageElement;
@@ -20,13 +20,13 @@ export default function MapNav({
   const setMapZoomed = (offsets: Size, zoom: number) => {
     console.log("map zoom", zoom);
     // mapImage.style.scale = `${zoom}`;
-    map.style.left = `${offsets.x}px`;
-    map.style.top = `${offsets.y}px`;
-    map.style.width = `${(mapOptions.mapContentSize.x + mapOptions.mapPadding) * zoom}px`;
-    map.style.height = `${(mapOptions.mapContentSize.y + mapOptions.mapPadding) * zoom}px`;
+    mapSurface.style.left = `${offsets.x}px`;
+    mapSurface.style.top = `${offsets.y}px`;
+    mapSurface.style.width = `${(mapOptions.mapContentSize.x + mapOptions.mapPadding) * zoom}px`;
+    mapSurface.style.height = `${(mapOptions.mapContentSize.y + mapOptions.mapPadding) * zoom}px`;
     mapContent.style.height = `${mapOptions.mapContentSize.y * zoom}px`;
     mapContent.style.width = `${mapOptions.mapContentSize.x * zoom}px`;
-    // map.style.scale = `${zoom}`;
+    // mapSurface.style.scale = `${zoom}`;
   };
   return (
     <div className="">
@@ -42,17 +42,13 @@ export default function MapNav({
               return;
             }
             const newZoom = currentZoom - zoomFactor;
-            const state: ZoomState = {
-              mapOffsets: { x: map.offsetLeft, y: map.offsetTop },
-              containerSize: {
-                x: container.clientWidth,
-                y: container.clientHeight,
-              },
-              zoomCurrent: currentZoom,
-              zoomNew: newZoom,
-            };
-            const centeredOffsets = getMapCenteredOffsets(state);
-            setMapZoomed(centeredOffsets, newZoom);
+            zoomMap({
+              container,
+              mapSurface,
+              mapContent,
+              currentZoom,
+              newZoom,
+            });
             context.setZoom(newZoom);
           }}
         >
@@ -64,17 +60,13 @@ export default function MapNav({
               return;
             }
             const newZoom = currentZoom + zoomFactor;
-            const state: ZoomState = {
-              mapOffsets: { x: map.offsetLeft, y: map.offsetTop },
-              containerSize: {
-                x: container.clientWidth,
-                y: container.clientHeight,
-              },
-              zoomCurrent: currentZoom,
-              zoomNew: newZoom,
-            };
-            const centeredOffsets = getMapCenteredOffsets(state);
-            setMapZoomed(centeredOffsets, newZoom);
+            zoomMap({
+              container,
+              mapSurface,
+              mapContent,
+              currentZoom,
+              newZoom,
+            });
             context.setZoom(newZoom);
           }}
         >

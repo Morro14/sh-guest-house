@@ -2,8 +2,7 @@ import { useTranslation } from "react-i18next";
 import type { Coords, MapPlaceData, MapLabelOptions } from "~/types/map";
 import { useMapContextProvider } from "./MapContextProvider";
 import type React from "react";
-import { useEffect } from "react";
-import useMoveMap, { useMovePlaceLabel } from "./move";
+import { useEffect, useRef } from "react";
 
 const defaultOptions: MapLabelOptions = {
   offsets: { x: 0, y: 0 },
@@ -21,6 +20,7 @@ export default function MapPlaceComponent({
   place: MapPlaceData;
   options?: MapLabelOptions;
 }) {
+  const ref = useRef<null | HTMLDivElement>(null);
   const optionsMerged = { ...defaultOptions, ...options };
   const { t } = useTranslation();
   const dot = (
@@ -46,24 +46,42 @@ export default function MapPlaceComponent({
   //   ) as HTMLDivElement;
   //   useMovePlaceLabel(container, labelEl, optionsMerged, { moveEnabled: true });
   // }, [place]);
+  useEffect(() => {
+    const element = ref.current;
+    if (!ref.current) {
+      return;
+    }
+    const handlePointerDown = (e: PointerEvent) => {
+      console.log("place pointerdown");
+      e.preventDefault();
+      mousePosOnClick = { x: e.clientX, y: e.clientY };
+      e.stopPropagation();
+    };
+    const handlePointerUp = (e: PointerEvent) => {
+      console.log("place pointerup");
+      if (mousePosOnClick.x !== e.clientX || mousePosOnClick.y !== e.clientY) {
+        return;
+      }
+      console.log("opening place details");
+      context.setPlaceSelected(place);
+      context.setFullView(true);
+    };
+
+    element.addEventListener("pointerdown", handlePointerDown);
+    element.addEventListener("pointerdown", handlePointerUp);
+    return () => {
+      element.removeEventListener("pointerdown", handlePointerDown);
+      element.removeEventListener("pointerup", handlePointerUp);
+    };
+  });
+  //
+  //
   return (
     <div
       id={`${place.slug}`}
       key={`${place.slug}`}
-      onClick={(e: React.MouseEvent) => {
-        if (
-          mousePosOnClick.x !== e.clientX &&
-          mousePosOnClick.y !== e.clientY
-        ) {
-          return;
-        }
-        context.setPlaceSelected(place);
-        context.setFullView(true);
-      }}
-      onMouseDown={(e: React.MouseEvent) => {
-        mousePosOnClick = { x: e.clientX, y: e.clientY };
-      }}
-      className={`${optionsMerged.position} flex flex-col items-center hover:underline hover:cursor-pointer ${!optionsMerged.grouped ? "-translate-x-1/2" : ""} ${optionsMerged.contentPosition === "top" && !optionsMerged.grouped ? "-translate-y-9/10" : !optionsMerged.grouped ? "-translate-y-[7px]" : ""}`}
+      ref={ref}
+      className={`${optionsMerged.position} place flex flex-col items-center hover:underline hover:cursor-pointer ${!optionsMerged.grouped ? "-translate-x-1/2" : ""} ${optionsMerged.contentPosition === "top" && !optionsMerged.grouped ? "-translate-y-9/10" : !optionsMerged.grouped ? "-translate-y-[7px]" : ""}`}
       style={{
         left: `${coordsScaled.x}px`,
         top: `${coordsScaled.y}px`,

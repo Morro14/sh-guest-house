@@ -4,7 +4,7 @@ import { writePlaceLabelData } from "./utils";
 interface Options {
   moveEnabled: boolean;
 }
-export default function useMoveMap(
+export default function getMapMoveHandlers(
   container: HTMLDivElement,
   map: HTMLDivElement,
   options: Options,
@@ -15,8 +15,17 @@ export default function useMoveMap(
   let mouseDownX: number, mouseDownY: number;
   let mapOffsetX: number = map.offsetLeft;
   let mapOffsetY: number = map.offsetTop;
+  const activePointers = new Map();
+  let isMovable = false;
 
-  const move = (e: MouseEvent) => {
+  const handleMove = (e: PointerEvent) => {
+    // if (activePointers.size > 1) {
+    //   return;
+    // }
+    console.log("handleMove");
+    if (!isMovable) {
+      return;
+    }
     map.style.cursor = "grabbing";
     const deltaX = e.clientX - mouseDownX;
     const deltaY = e.clientY - mouseDownY;
@@ -32,40 +41,26 @@ export default function useMoveMap(
     map.style.left = `${newX}px`;
     map.style.top = `${newY}px`;
   };
-  const registerMouseDown = (e: MouseEvent) => {
-    const target = e.target as Element;
-    const includesMapElements = [
-      "map-surface",
-      "map-img",
-      "map-labels",
-      "map-content",
-    ].includes(target.id);
-    if (!includesMapElements) {
-      return;
-    }
-    const currentSelection = window.getSelection();
-    currentSelection.empty();
+  const handlePointerDown = (e: PointerEvent) => {
+    // add pointers
+    activePointers.set(e.pointerId, e);
+    console.log("move pointerdown");
+    isMovable = true;
     mouseDownX = e.clientX;
     mouseDownY = e.clientY;
     mapOffsetX = map.offsetLeft;
     mapOffsetY = map.offsetTop;
-    document.addEventListener("mousemove", move);
-    document.addEventListener(
-      "mouseup",
-      () => {
-        map.style.cursor = "default";
-        document.removeEventListener("mousemove", move);
-        mapOffsetX = map.offsetLeft;
-        mapOffsetY = map.offsetTop;
-      },
-      { once: true },
-    );
   };
-  if (options.moveEnabled) {
-    map.addEventListener("mousedown", registerMouseDown);
-  } else {
-    map.removeEventListener("mousedown", registerMouseDown);
-  }
+  const handlePointerUp = (e: PointerEvent) => {
+    isMovable = false;
+    map.style.cursor = "default";
+    mapOffsetX = map.offsetLeft;
+    mapOffsetY = map.offsetTop;
+    // clear pointers
+    activePointers.delete(e.pointerId);
+    map.releasePointerCapture(e.pointerId);
+  };
+  return { handleMove, handlePointerDown, handlePointerUp };
 }
 
 export function useMovePlaceLabel(

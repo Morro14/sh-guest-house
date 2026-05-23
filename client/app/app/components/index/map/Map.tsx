@@ -12,12 +12,14 @@ import { useMapContextProvider } from "./MapContextProvider";
 import MapMediaFullView from "./MapMediaFullView";
 import MapPlaceDetails from "./MapPlaceDetails";
 import MapNav from "./MapNav";
-import paths from "src/assets/map-paths.svg";
-import useMoveMap, { useMovePlaceLabel } from "./move";
+import paths from "src/assets/map-bg.svg";
+import getMapMoveHandlers, { useMovePlaceLabel } from "./move";
 // import { placeLabelsData } from "./placeLabels";
 import placeLabelsData from "src/data/map-labels-data.json";
 import { MAP_OPTIONS } from "./utils";
 import MapLabelGroup from "./MapLabelGroup";
+import { usePinchZoom } from "./pinchZoom";
+import { zoomMap } from "./zoom";
 
 export const options = MAP_OPTIONS;
 export default function Map() {
@@ -36,19 +38,42 @@ export default function Map() {
   const mapLabels = useRef<HTMLDivElement | null>(null);
   const mapContent = useRef<HTMLDivElement | null>(null);
   const context = useMapContextProvider();
+  const [handlers, setHandlers] = useState<any>();
 
   useEffect(() => {
-    if (!mapSurface.current && !mapContainer.current) {
+    if (!mapSurface.current && !mapContainer.current && !mapContent.current) {
       return;
     }
-
-    const map = mapSurface.current;
-    const container = mapContainer.current;
-
-    useMoveMap(container, map, {
-      moveEnabled: !context.fullView,
-    });
-  }, [mapSurface]);
+    const { handleMove, handlePointerDown, handlePointerUp } =
+      getMapMoveHandlers(mapContainer.current, mapSurface.current, {
+        moveEnabled: !context.fullView,
+      });
+    setHandlers({ handleMove, handlePointerDown, handlePointerUp });
+    // usePinchZoom({
+    //   mapSurface: mapSurface.current,
+    //   mapContent: mapContent.current,
+    //   container: mapContainer.current,
+    //   currentZoom: context.zoom,
+    //   callback: zoomMap,
+    //   setZoom: context.setZoom,
+    // });
+    console.log(context.fullView);
+    if (!context.fullView) {
+      mapSurface.current.addEventListener("pointerdown", handlePointerDown);
+      document.addEventListener("pointermove", handleMove);
+    } else {
+      mapSurface.current.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("pointermove", handleMove);
+    }
+    document.addEventListener("pointerup", handlePointerUp);
+    document.addEventListener("pointercancel", handlePointerUp);
+    return () => {
+      document.removeEventListener("pointermove", handleMove);
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("pointerup", handlePointerUp);
+      document.removeEventListener("pointercancel", handlePointerUp);
+    };
+  }, [mapSurface, context.fullView]);
   // get coords on click
   // useEffect(() => {
   //   if (!mapContent.current) {
@@ -94,15 +119,15 @@ export default function Map() {
   }, [context.zoom]);
   const placeLabelsDataTyped = placeLabelsData as MapLabelPosData[];
   return (
-    <div draggable="false" className="">
+    <div draggable="false" className="touch-none">
       <MapNav
-        map={mapSurface.current}
+        mapSurface={mapSurface.current}
         container={mapContainer.current}
         mapImage={mapImage.current}
         mapContent={mapContent.current}
       ></MapNav>
       <div
-        className="index-container-1 relative h-[md:1180px] overflow-clip border border-text-main"
+        className="index-container-1 relative md:h-[1000px] h-[720px] overflow-clip border border-text-main touch-none"
         ref={mapContainer}
         draggable="false"
         id="map-container"
@@ -118,7 +143,7 @@ export default function Map() {
         >
           <div
             id="map-content"
-            className="absolute size-full"
+            className="absolute size-full touch-none"
             ref={mapContent}
             style={{
               width: options.mapContentSize.x,
@@ -130,7 +155,7 @@ export default function Map() {
               draggable="false"
               aria-disabled
               id="map-img"
-              className="object-contain select-none h-full"
+              className="object-contain select-none h-full touch-none"
               src={paths}
               ref={mapImage}
             />
