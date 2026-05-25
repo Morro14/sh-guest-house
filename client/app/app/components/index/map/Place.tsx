@@ -27,7 +27,7 @@ export default function MapPlaceComponent({
     <div className="size-2.5 rounded-[5px] bg-text-main mt-2 mb-1"></div>
   );
   const context = useMapContextProvider();
-  let mousePosOnClick = { x: 0, y: 0 };
+  const startPos = { x: 0, y: 0 };
   const scaleLabelOffsets = (zoom: number, offsets: Coords) => {
     const newX = Math.floor(offsets.x * zoom);
     const newY = Math.floor(offsets.y * zoom);
@@ -54,12 +54,16 @@ export default function MapPlaceComponent({
     const handlePointerDown = (e: PointerEvent) => {
       console.log("place pointerdown");
       e.preventDefault();
-      mousePosOnClick = { x: e.clientX, y: e.clientY };
-      e.stopPropagation();
+      startPos.x = e.clientX;
+      startPos.y = e.clientY;
+      // e.stopPropagation();
     };
     const handlePointerUp = (e: PointerEvent) => {
       console.log("place pointerup");
-      if (mousePosOnClick.x !== e.clientX || mousePosOnClick.y !== e.clientY) {
+      const moved =
+        Math.abs(startPos.x - e.clientX) > 5 ||
+        Math.abs(startPos.y - e.clientY) > 5;
+      if (moved) {
         return;
       }
       console.log("opening place details");
@@ -68,7 +72,7 @@ export default function MapPlaceComponent({
     };
 
     element.addEventListener("pointerdown", handlePointerDown);
-    element.addEventListener("pointerdown", handlePointerUp);
+    element.addEventListener("pointerup", handlePointerUp);
     return () => {
       element.removeEventListener("pointerdown", handlePointerDown);
       element.removeEventListener("pointerup", handlePointerUp);

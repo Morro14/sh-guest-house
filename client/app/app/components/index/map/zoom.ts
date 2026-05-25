@@ -19,6 +19,8 @@ export function zoomMap({
     },
     zoomCurrent: currentZoom,
     zoomNew: newZoom,
+    pinchCenter: pinchCenter,
+    mapRect: mapSurface.getBoundingClientRect(),
   };
   let centeredOffsets = { x: 0, y: 0 };
   if (pinchCenter) {

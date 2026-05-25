@@ -6,20 +6,18 @@ import type {
   Coords,
 } from "~/types/map";
 import { useFetchV3 } from "~/utils/fetchHook";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import MapPlaceComponent from "./Place";
 import { useMapContextProvider } from "./MapContextProvider";
 import MapMediaFullView from "./MapMediaFullView";
 import MapPlaceDetails from "./MapPlaceDetails";
 import MapNav from "./MapNav";
 import paths from "src/assets/map-bg.svg";
-import getMapMoveHandlers, { useMovePlaceLabel } from "./move";
 // import { placeLabelsData } from "./placeLabels";
 import placeLabelsData from "src/data/map-labels-data.json";
 import { MAP_OPTIONS } from "./utils";
 import MapLabelGroup from "./MapLabelGroup";
-import { usePinchZoom } from "./pinchZoom";
-import { zoomMap } from "./zoom";
+import { getMapHandlers } from "./handlers";
 
 export const options = MAP_OPTIONS;
 export default function Map() {
@@ -38,42 +36,48 @@ export default function Map() {
   const mapLabels = useRef<HTMLDivElement | null>(null);
   const mapContent = useRef<HTMLDivElement | null>(null);
   const context = useMapContextProvider();
-  const [handlers, setHandlers] = useState<any>();
-
+  const getMapHandlersCached = useCallback(getMapHandlers, []);
   useEffect(() => {
-    if (!mapSurface.current && !mapContainer.current && !mapContent.current) {
+    if (!mapSurface.current || !mapContainer.current || !mapContent.current) {
       return;
     }
-    const { handleMove, handlePointerDown, handlePointerUp } =
-      getMapMoveHandlers(mapContainer.current, mapSurface.current, {
-        moveEnabled: !context.fullView,
-      });
-    setHandlers({ handleMove, handlePointerDown, handlePointerUp });
-    // usePinchZoom({
-    //   mapSurface: mapSurface.current,
-    //   mapContent: mapContent.current,
-    //   container: mapContainer.current,
-    //   currentZoom: context.zoom,
-    //   callback: zoomMap,
-    //   setZoom: context.setZoom,
-    // });
-    console.log(context.fullView);
-    if (!context.fullView) {
-      mapSurface.current.addEventListener("pointerdown", handlePointerDown);
-      document.addEventListener("pointermove", handleMove);
-    } else {
-      mapSurface.current.removeEventListener("pointerdown", handlePointerDown);
-      document.removeEventListener("pointermove", handleMove);
-    }
-    document.addEventListener("pointerup", handlePointerUp);
-    document.addEventListener("pointercancel", handlePointerUp);
-    return () => {
-      document.removeEventListener("pointermove", handleMove);
-      document.removeEventListener("pointerdown", handlePointerDown);
-      document.removeEventListener("pointerup", handlePointerUp);
-      document.removeEventListener("pointercancel", handlePointerUp);
+    console.log("mapSurface", mapSurface.current);
+    const map = mapSurface.current;
+    const {
+      handlePointerDown,
+      handlePinchMove,
+      handleMapMove,
+      handleMapPointerUp,
+      handlePinchPointerUp,
+    } = getMapHandlersCached(
+      {
+        mapSurface: mapSurface.current,
+        mapContent: mapContent.current,
+        mapContainer: mapContainer.current,
+      },
+      context,
+    );
+    const removeEventListeners = () => {
+      document.removeEventListener("pointermove", handleMapMove);
+      document.removeEventListener("pointerup", handleMapPointerUp);
+      map.removeEventListener("pointerdown", handlePointerDown);
+      map.removeEventListener("pointermove", handlePinchMove);
+      map.removeEventListener("pointerup", handlePinchPointerUp);
     };
-  }, [mapSurface, context.fullView]);
+
+    if (!context.fullView) {
+      console.log("adding listeners");
+      document.addEventListener("pointermove", handleMapMove);
+      document.addEventListener("pointerup", handleMapPointerUp);
+      map.addEventListener("pointerdown", handlePointerDown);
+      map.addEventListener("pointermove", handlePinchMove);
+      map.addEventListener("pointerup", handlePinchPointerUp);
+    } else {
+      removeEventListeners();
+    }
+
+    return () => removeEventListeners();
+  }, [context.fullView]);
   // get coords on click
   // useEffect(() => {
   //   if (!mapContent.current) {
@@ -134,6 +138,7 @@ export default function Map() {
       >
         <div
           id="map-surface"
+          onPointerDown={() => {}}
           ref={mapSurface}
           style={{
             width: options.mapContentSize.x + options.mapPadding,

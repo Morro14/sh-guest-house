@@ -58,3 +58,9 @@ export interface MapZoomArgs {
   pinchCenter?: Coords;
 }
 export type MapZoom = (args: MapZoomArgs) => void;
+
+export interface MapElements {
+  mapSurface: HTMLDivElement;
+  mapContainer: HTMLDivElement;
+  mapContent: HTMLDivElement;
+}

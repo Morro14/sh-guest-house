@@ -1,27 +1,25 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { MapZoom } from "~/types/map";
+import { zoomMap } from "./zoom";
 
 export function usePinchZoom({
   mapSurface,
   mapContent,
   container,
   currentZoom,
-  callback,
   setZoom,
 }: {
   mapSurface: HTMLDivElement;
   mapContent: HTMLDivElement;
   container: HTMLDivElement;
   currentZoom: number;
-  callback: MapZoom;
   setZoom: Dispatch<SetStateAction<number>>;
 }) {
   const activePointers = new Map();
   let initPointers = new Map();
   let initDistance = 1;
   let prevDistance = -1;
-
-  mapSurface.addEventListener("pointerdown", (e) => {
+  const handlePointerDown = (e) => {
     activePointers.set(e.pointerId, e);
     mapSurface.setPointerCapture(e.pointerId);
     if (activePointers.size === 2) {
@@ -29,13 +27,12 @@ export function usePinchZoom({
 
       const dx = p1.clientX - p2.clientX;
       const dy = p1.clientY - p2.clientY;
-      // initPointers.set(p1, { x: e.clientX, y: e.clientY });
-      // initPointers.set(p2, { x: e.clientX, y: e.clientY });
+      initPointers.set(p1, { x: e.clientX, y: e.clientY });
+      initPointers.set(p2, { x: e.clientX, y: e.clientY });
       initDistance = Math.sqrt(dx * dx + dy * dy);
     }
-  });
-
-  mapSurface.addEventListener("pointermove", (e) => {
+  };
+  const handleMove = (e) => {
     if (!activePointers.has(e.pointerId)) return;
     // activePointers.set(e.pointerId, e);
     // test with pointer size 2 instead of 1
@@ -55,19 +52,28 @@ export function usePinchZoom({
         if (currentDistance > prevDistance) {
           console.log("Pinching Out (Zooming In)");
           const newZoom = currentZoom * scaleMultiplier;
-          callback({
+          zoomMap({
             container: container,
             mapSurface: mapSurface,
             mapContent: mapContent,
             currentZoom: currentZoom,
             newZoom: newZoom,
+            // TODO get relative center
             pinchCenter: pinchCenter,
           });
           setZoom(newZoom);
         } else if (currentDistance < prevDistance) {
           const newZoom = currentZoom * scaleMultiplier;
-          callback({ container, mapSurface, mapContent, currentZoom, newZoom });
           console.log("Pinching In (Zooming Out)");
+          zoomMap({
+            container: container,
+            mapSurface: mapSurface,
+            mapContent: mapContent,
+            currentZoom: currentZoom,
+            newZoom: newZoom,
+            // TODO get relative center
+            pinchCenter: pinchCenter,
+          });
           setZoom(newZoom);
         }
 
@@ -78,7 +84,7 @@ export function usePinchZoom({
 
       prevDistance = currentDistance;
     }
-  });
+  };
 
   const stopTracking = (e: PointerEvent) => {
     // test
@@ -93,6 +99,12 @@ export function usePinchZoom({
     }
   };
 
-  mapSurface.addEventListener("pointerup", stopTracking);
-  mapSurface.addEventListener("pointercancel", stopTracking);
+  // mapSurface.addEventListener("pointerup", stopTracking);
+  // mapSurface.addEventListener("pointercancel", stopTracking);
+  console.log("returning pinch handlers", {
+    stopTracking,
+    handleMove,
+    handlePointerDown,
+  });
+  return { stopTracking, handleMove, handlePointerDown };
 }

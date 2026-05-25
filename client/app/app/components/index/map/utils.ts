@@ -1,4 +1,9 @@
-import type { Coords, MapOptions, MapPlaceData } from "~/types/map";
+import type {
+  Coords,
+  MapElements,
+  MapOptions,
+  MapPlaceData,
+} from "~/types/map";
 import { placeLabelsData } from "./placeLabels";
 
 export const MAP_OPTIONS: MapOptions = {
@@ -19,6 +24,8 @@ export interface ZoomState {
   containerSize: Size;
   zoomCurrent: number;
   zoomNew: number;
+  pinchCenter?: Coords;
+  mapRect?: DOMRect;
 }
 
 export function boundMapPos(mapSize: Size, containerSize: Size, newPos: Size) {
@@ -32,13 +39,18 @@ export function boundMapPos(mapSize: Size, containerSize: Size, newPos: Size) {
 }
 export function getMapCenteredOffsets(state: ZoomState) {
   // console.log("state", state);
+  const mapOffsets = structuredClone(state.mapOffsets);
+  if (state.pinchCenter) {
+    mapOffsets.x = state.pinchCenter.x - state.mapRect.left;
+    mapOffsets.y = state.pinchCenter.y - state.mapRect.top;
+  }
   const centerRatio = {
     x:
-      (-state.mapOffsets.x + state.containerSize.x / 2) /
+      (-mapOffsets.x + state.containerSize.x / 2) /
       (MAP_SIZE_INIT.x * state.zoomCurrent),
 
     y:
-      (-state.mapOffsets.y + state.containerSize.y / 2) /
+      (-mapOffsets.y + state.containerSize.y / 2) /
       (MAP_SIZE_INIT.y * state.zoomCurrent),
   };
   // console.log("ratio", centerRatio);
