@@ -1,0 +1,98 @@
+[
+    {
+        "name": "agavnadzor",
+        "offsets": {
+            "x": 387,
+            "y": 799
+        },
+        "type": "townLabel"
+    },
+    {
+        "name": "horbategh",
+        "offsets": {
+            "x": 853,
+            "y": 11
+        },
+        "type": "townLabel"
+    },
+    {
+        "name": "artabuynk",
+        "offsets": {
+            "x": 791,
+            "y": 195
+        },
+        "type": "townLabel"
+    },
+    {
+        "name": "shatin",
+        "offsets": {
+            "x": 669,
+            "y": 401
+        },
+        "type": "townLabel"
+    },
+    {
+        "name": "malishka",
+        "offsets": {
+            "x": 1143,
+            "y": 1045
+        },
+        "type": "townLabel"
+    },
+    {
+        "name": "agarakadzor",
+        "offsets": {
+            "x": 917,
+            "y": 1070
+        },
+        "type": "townLabel"
+    },
+    {
+        "name": "vernashen",
+        "offsets": {
+            "x": 1024,
+            "y": 732
+        },
+        "type": "townLabel"
+    },
+    {
+        "name": "yeghegnadzor",
+        "offsets": {
+            "x": 911,
+            "y": 940
+        },
+        "type": "townLabel"
+    },
+    {
+        "name": "areni",
+        "offsets": {
+            "x": 164,
+            "y": 1083
+        },
+        "type": "townLabel"
+    },
+    {
+        "name": "arpi",
+        "offsets": {
+            "x": 535,
+            "y": 1020
+        },
+        "type": "townLabel"
+    },
+    {
+        "name": "getap",
+        "offsets": {
+            "x": 739,
+            "y": 864
+        },
+        "type": "townLabel"
+    },
+    {
+        "name": "gladzor",
+        "offsets": {
+            "x": 966,
+            "y": 793
+        },
+        "type": "townLabel"
+    }
+]

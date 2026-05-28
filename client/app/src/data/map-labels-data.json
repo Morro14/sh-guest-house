@@ -1,140 +1,132 @@
 [
     {
         "name": "ulgyur",
+        "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 287,
-                "y": 701
+                "x": 268,
+                "y": 553
             }
         }
     },
     {
         "name": "yerevan",
+        "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 0,
-                "y": 988
-            },
-            "dot": false
+                "x": 14,
+                "y": 917
+            }
         }
     },
     {
         "name": "areni",
+        "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 184,
-                "y": 1056
+                "x": 290,
+                "y": 1766
             }
         }
     },
     {
         "name": "noravank",
+        "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 161,
-                "y": 1313
-            },
-            "contentPosition": "bottom"
+                "x": 661,
+                "y": 2169
+            }
         }
     },
     {
         "name": "dadal",
+        "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 906,
-                "y": 1033
-            },
-            "contentPosition": "bottom"
+                "x": 1369,
+                "y": 1664
+            }
         }
     },
     {
         "name": "yegheg museum",
+        "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 922,
-                "y": 878
-            },
-            "contentPosition": "bottom"
+                "x": 944,
+                "y": 908
+            }
         }
     },
     {
         "name": "surb_khach",
+        "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 1504,
-                "y": 570
+                "x": 1340,
+                "y": 779
             }
         }
     },
     {
         "name": "vayotz_sar",
+        "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 1888,
-                "y": 448
+                "x": 1734,
+                "y": 642
             }
         }
     },
     {
         "name": "tanaat",
+        "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 1168,
-                "y": 584
+                "x": 1183,
+                "y": 761
             }
         }
     },
     {
         "name": "spitakavor",
+        "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 906,
-                "y": 463
+                "x": 1048,
+                "y": 448
             }
         }
     },
     {
         "name": "yeghegis",
+        "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 944,
-                "y": 154
+                "x": 1019,
+                "y": 172
             }
         }
     },
     {
         "name": "tsahats",
+        "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 904,
-                "y": 27
+                "x": 996,
+                "y": 57
             }
         }
     },
     {
         "name": "sevan",
+        "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 659,
-                "y": 0
-            },
-            "dot": false
+                "x": 564,
+                "y": 59
+            }
         }
-    },
-    {
-      "name": "goris",
-      "options": { "offsets": { "x": 0, "y": 0 }, "dot": false }
-    },
-    {
-      "name": "tatev",
-      "options": { "offsets": { "x": 0, "y": 0 }, "dot": false }
-    },
-    {
-      "name": "sisian",
-      "options": { "offsets": { "x": 0, "y": 0 }, "dot": false }
-    },
-    {
-      "name": "jermuk",
-      "options": { "offsets": { "x": 0, "y": 0 }, "dot": false }
     }
 ]

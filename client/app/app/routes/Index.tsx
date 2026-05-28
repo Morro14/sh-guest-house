@@ -23,7 +23,7 @@ export default function Index() {
     : null;
   return (
     <div className="flex grow flex-col items-stretch text-text-main bg-bg min-h-screen ">
-      <div className="flex flex-col items-center md:gap-11 gap-6">
+      <div className="flex flex-col items-center md:gap-8 gap-6">
         <div className="flex flex-col items-center">
           <h1 className="mt-11 mb-3 tracking-wide">{t("index-title")}</h1>
           <h2 className="mb-0!">{t("Some subtitle")}</h2>
@@ -37,9 +37,9 @@ export default function Index() {
       </div>
       <div className="flex flex-col items-center gap-15">
         <div className="index-container-1 relative flex flex-col items-center gap-8">
-          <div className="mt-11 w-full space-y-3">
+          <div className="mt-8 w-full space-y-3">
             <NavHorizontal></NavHorizontal>
-            {line}
+            {/* {line} */}
           </div>
           <div className="w-8 h-8 md:mt-4 md:mb-2">
             <img src={eternity} />
@@ -67,7 +67,7 @@ export default function Index() {
             />
             <LocationMain></LocationMain>
           </div>
-          <div className="w-8 h-8 md:mb-15 mb-10 md:mt-4 mt-1">
+          <div className="w-8 h-8 mb-10 md:mt-10 mt-8">
             <img src={eternity} />
           </div>
         </div>
@@ -91,7 +91,7 @@ export default function Index() {
       </div>
 
       <section id="places" className="flex flex-col items-center">
-        <div className="index-container-1 flex flex-col grow gap-12 2xl:w-[1000px] mt-11 relative">
+        <div className="index-container-1 flex flex-col grow gap-8 2xl:w-[1000px] mt-11 relative">
           <Paragraph
             content={pageContentObj?.places}
             titleSize="h3"

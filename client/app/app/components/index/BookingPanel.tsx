@@ -22,7 +22,7 @@ export default function BookingPanel() {
     <div className="xl:flex sticky hidden top-0 bottom-0 z-30 w-full h-12 justify-center">
       {/* <div className="absolute w-full h-24 blur-lg bg-linear-to-b from-bg to-[#00000000]"></div> */}
       <div
-        className={`size-full absolute bg-bg border-b-2  border-primary ${navigation.state === "submitting" ? "" : ""} transition-colors duration-300`}
+        className={`size-full absolute bg-bg drop-shadow ${navigation.state === "submitting" ? "" : ""} transition-colors duration-300`}
       ></div>
       <div className="flex justify-center items-center size-full font-source-sans border-x border-accent-lighter">
         <Form

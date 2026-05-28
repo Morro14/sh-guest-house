@@ -1,10 +1,9 @@
 import type {
   Coords,
-  MapElements,
+  MapLabelPosData,
   MapOptions,
-  MapPlaceData,
+  TownLabelPosData,
 } from "~/types/map";
-import { placeLabelsData } from "./placeLabels";
 
 export const MAP_OPTIONS: MapOptions = {
   mapContentSize: { x: 2043, y: 1420 },
@@ -72,9 +71,29 @@ export function getMapCenteredOffsets(state: ZoomState) {
   return boundOffsets;
 }
 
-export async function writePlaceLabelData(placeName: string, offsets: Coords) {
-  const labelData = placeLabelsData.find((item) => item.name === placeName);
-  labelData.options.offsets = offsets;
+export async function writeLabelData(
+  labelName: string,
+  offsets: Coords,
+  type: "placeLabel" | "townLabel",
+) {
+  let labelData = null;
+  if (type === "placeLabel") {
+    const placeData: MapLabelPosData = {
+      name: labelName,
+      type: type,
+      options: { offsets: offsets },
+    };
+    placeData.options.offsets = offsets;
+    labelData = placeData;
+  } else if (type === "townLabel") {
+    const townData: TownLabelPosData = {
+      name: labelName,
+      offsets: offsets,
+      type: type,
+    };
+    townData.offsets = offsets;
+    labelData = townData;
+  }
   try {
     const response = await fetch("api/save-map-labels-data", {
       method: "POST",
@@ -86,3 +105,18 @@ export async function writePlaceLabelData(placeName: string, offsets: Coords) {
     console.error("❌ Save failed:", err);
   }
 }
+// export async function writeTownNameData(townName: string, offsets: Coords) {
+//   const labelData = townLabelsData.find((item) => item.name === townName);
+//   labelData["type"] = "townLabel";
+//   labelData.offsets = offsets;
+//   try {
+//     const response = await fetch("api/save-map-labels-data", {
+//       method: "POST",
+//       headers: { "Content-type": "application/json" },
+//       body: JSON.stringify(labelData),
+//     });
+//     if (response.ok) console.log("✔️ Coordinates written to JSON file");
+//   } catch (err) {
+//     console.error("❌ Save failed:", err);
+//   }
+// }

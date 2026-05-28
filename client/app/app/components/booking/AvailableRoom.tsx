@@ -87,11 +87,11 @@ export default function AvailableRoom({
   return (
     <fieldset
       key={room.name}
-      className={`drop-shadow-sm bg-bg flex flex-col items-center w-[352px] md:w-[330px] pb-3 h-[500px]`}
+      className={`drop-shadow-sm bg-bg flex flex-col items-center w-[352px] md:w-[330px] pb-3 ${nightsNum > 1 ? "h-[528px]" : "h-[480px]"} ${roomSelected ? "outline-2 outline-primary-light drop-shadow-none" : ""}`}
     >
       <legend className="sr-only">{room.name}</legend>
       <img
-        className="border-2 border-peach object-cover w-[336px] md:w-[314px] md:h-[190px] h-[203px] hover:cursor-pointer mt-2"
+        className="border-2 border-primary-light object-cover w-[336px] md:w-[314px] h-[190px] hover:cursor-pointer mt-2"
         src={`${MEDIA_URL}${room.images[0].variants.small}`}
         onClick={() => {
           navContext.setFullImageView(true);
@@ -118,7 +118,7 @@ export default function AvailableRoom({
                 <select
                   name={`[${room.slug}][adults]`}
                   onChange={handleChange}
-                  className={`${currentGuestSelect.adults > 0 ? "text-peach-dark" : "text-accent"} h-6 border-b px-1`}
+                  className={`${currentGuestSelect.adults > 0 ? "text-accent" : "text-text-main"} h-6 border-b px-1`}
                 >
                   {genSelectOptions("adults")}
                 </select>
@@ -128,32 +128,38 @@ export default function AvailableRoom({
                 <select
                   name={`[${room.slug}][children]`}
                   onChange={handleChange}
-                  className={`${currentGuestSelect.children > 0 ? "text-peach-dark" : "text-accent"} h-6 border-b px-1`}
+                  className={`${currentGuestSelect.children > 0 ? "text-accent" : "text-text-main"} h-6 border-b px-1`}
                 >
                   {genSelectOptions("children")}
                 </select>
               </div>
             </div>
           </div>
-          <div className="flex items-end justify-between">
-            <div className="flex flex-col w-1/3">
+          <div
+            className={`${nightsNum > 1 ? "grid grid-cols-2" : "flex justify-between"}`}
+          >
+            <div className="flex flex-col col-span-2">
               <div className="font-sans text-sm text-gray-warm-mid">
-                {t("For one night")}:
+                {t("For {{count}} night", { count: 1 })}
               </div>
-              <span className="font-sans text-xl">{`${formatPrice(room.price, CURRENCY)}${nightsNum > 1 ? ` ${formatPrice(room.price * 2, CURRENCY)}` : ""}`}</span>
+              <span className="font-sans text-xl">
+                {formatPrice(room.price, CURRENCY)}
+              </span>
             </div>
-            {/* {nightsNum > 1 ? ( */}
-            {/*   <div className="flex flex-col w-1/3"> */}
-            {/*     <div className="font-sans text-sm text-gray-warm-mid">{`For ${nightsNum} nights:`}</div> */}
-            {/*     <div className="flex items-end"> */}
-            {/*       <span className="font-sans text-xl">{`${formatPrice(room.price * nightsNum, CURRENCY)}`}</span> */}
-            {/*     </div> */}
-            {/*   </div> */}
-            {/* ) : ( */}
-            {/*   "" */}
-            {/* )} */}
+            {nightsNum > 1 ? (
+              <div className="flex flex-col">
+                <div className="font-sans text-sm text-gray-warm-mid">
+                  {t(`For {{count}} nights`, { count: nightsNum })}
+                </div>
+                <div className="flex items-end">
+                  <span className="font-sans text-xl">{`${formatPrice(room.price * nightsNum, CURRENCY)}`}</span>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
             <span
-              className={` ${roomSelected ? "block" : "hidden"} text-lg text-accent w-1/3`}
+              className={` ${roomSelected ? "block" : "hidden"} text-lg text-primary text-end flex items-end justify-end`}
             >
               {!roomSelected ? "" : t("Selected")}
             </span>

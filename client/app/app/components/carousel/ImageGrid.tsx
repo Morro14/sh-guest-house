@@ -48,15 +48,16 @@ export default function ImageGrid({
       ></ImageLoading>
     );
   }
-  const heightGridFull = `2xl:h-187 md:h-112 h-56`;
+  const heightFirstRow = `2xl:h-92 md:h-66 h-35`;
+  const heightGridFull = `2xl:h-187 md:h-123 h-63`;
   const heightRow = `2xl:h-92 md:h-55 h-27`;
   const heightHalfRow = `2xl:h-45 md:h-26.5 h-13`;
   const gap = "2xl:gap-3 md:gap-2 gap-1 ";
   return (
     <div
-      className={`index-container-1 ${gap} grid grid-cols-4 ${gridContext.showMoreImages ? heightGridFull : heightRow} transition-all duration-300 overflow-hidden`}
+      className={`index-container-1 ${gap} grid grid-cols-4 ${gridContext.showMoreImages ? heightGridFull : heightFirstRow} transition-all duration-300 overflow-hidden`}
     >
-      <div className={`col-span-4 overflow-hidden ${heightRow}`}>
+      <div className={`col-span-4 overflow-hidden ${heightFirstRow}`}>
         {genImageNode("wide", 0)}
       </div>
       {gridContext.showMoreImages ? (

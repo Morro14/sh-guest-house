@@ -9,6 +9,7 @@ export default function BookingRoomSelectContextProvider({
 }) {
   const params = getUrlSearchParams(["adults", "children"]);
   const [form, setForm] = useState();
+  const [roomsFormFetcher, setRoomsFormFetcher] = useState();
   const [guestPool, setGuestPool] = useState({
     adults: Number(params.adults),
     children: Number(params.children),
@@ -26,6 +27,8 @@ export default function BookingRoomSelectContextProvider({
         guestPool,
         setGuestPool,
         priceFetcher,
+        roomsFormFetcher,
+        setRoomsFormFetcher,
         moreRoomsRequired,
       }}
     >

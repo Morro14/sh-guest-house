@@ -1,4 +1,4 @@
-import { Form, useNavigation } from "react-router";
+import { Form, useFetcher, useNavigation } from "react-router";
 import { useIndexBookingContextProvider } from "../components/booking/IndexBookingContextProvider.tsx";
 import SelectGuests from "../components/formComponents/SelectGuests";
 import { useTranslation } from "react-i18next";
@@ -18,7 +18,6 @@ import { desktopDatePickerSx } from "../components/formComponents/mui.tsx";
 import dayjs from "dayjs";
 import { FormChangeLayout } from "~/components/formComponents/SelectGuestsLayouts.tsx";
 import ErrorPanel from "~/components/formComponents/ErrorPanel.tsx";
-import Spinner from "~/components/status/Spinner.tsx";
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -29,8 +28,7 @@ export function ErrorBoundary() {
 }
 export async function clientAction({ request }: Route.ClientActionArgs) {
   // test spinner
-  console.log("timer started");
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  // await new Promise((resolve) => setTimeout(resolve, 500));
   const formData = await request.formData();
   const formDataObject = formDataToObject(formData);
   const errors: ValidationErrors = validate(formDataObject);
@@ -57,9 +55,13 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
     "nights",
   ]);
   const navigation = useNavigation();
-  console.log("actionData", actionData);
+  const fetcher = useFetcher();
+  const isSubmitting = fetcher.state !== "idle";
   return (
-    <Form method="post" className="relative flex flex-col gap-5 items-center">
+    <fetcher.Form
+      method="post"
+      className="relative flex flex-col gap-5 items-center"
+    >
       <div className="flex md:flex-row flex-col md:justify-between max-md:gap-5 w-full items-center overflow-visible font-sans">
         <div className="flex flex-col items-center md:gap-3 gap-2">
           <label
@@ -134,16 +136,12 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
         </div>
       </div>
       <div className="h-8">
-        {navigation.state === "idle" ? (
-          <button
-            type="submit"
-            className="text-text-main transition-colors duration-150 underline font-source-sans text-lg cursor-pointer "
-          >
-            {t("Show available rooms")}
-          </button>
-        ) : (
-          <Spinner variation="grayMid"></Spinner>
-        )}
+        <button
+          type="submit"
+          className="text-text-main transition-colors duration-150 underline font-source-sans text-lg cursor-pointer "
+        >
+          {isSubmitting ? t("loading...") : t("Show available rooms")}
+        </button>
 
         {context.errors ? (
           <div className="my-2">
@@ -153,6 +151,6 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
           ""
         )}
       </div>
-    </Form>
+    </fetcher.Form>
   );
 }

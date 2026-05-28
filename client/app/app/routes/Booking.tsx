@@ -80,6 +80,7 @@ export async function clientLoader({ request }) {
 }
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
+  await new Promise((resolve) => setTimeout(resolve, 500));
   const formData = await request.formData();
   if (formData.get("_intent") === "price_preview") {
     await new Promise((resolve) => setTimeout(resolve, 500));
@@ -105,12 +106,12 @@ export default function Booking({ loaderData }: Route.ComponentProps) {
       <IndexBookingContextProvider params={{ errors: [] }}>
         <div
           id="request-info-block"
-          className="flex flex-col items-center mt-8.5"
+          className="flex flex-col items-center md:mt-8.5 mt-7"
         >
-          <h2 className="  ">{t("Your booking request")}</h2>
+          <h2 className="max-md:mb-7!">{t("Your booking request")}</h2>
 
           {/* <Line /> */}
-          <div className="flex md:mb-8 flex-col gap-3 items-center text-center md:w-150">
+          <div className="flex mb-7 flex-col gap-3 items-center text-center md:w-150">
             <div
               className={`${location.pathname.split("/").at(-1) === "booking" ? "md:h-22.5" : "md:h-22.5 h-70 mb-4"} w-full transition-all duration-200`}
             >

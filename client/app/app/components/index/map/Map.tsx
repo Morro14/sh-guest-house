@@ -1,9 +1,8 @@
 import type {
   MapPlaceData,
-  MapOptions,
-  MapLabelOptions,
   MapLabelPosData,
   Coords,
+  TownLabelPosData,
 } from "~/types/map";
 import { useFetchV3 } from "~/utils/fetchHook";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -12,12 +11,13 @@ import { useMapContextProvider } from "./MapContextProvider";
 import MapMediaFullView from "./MapMediaFullView";
 import MapPlaceDetails from "./MapPlaceDetails";
 import MapNav from "./MapNav";
-import paths from "src/assets/map-bg.svg";
-// import { placeLabelsData } from "./placeLabels";
+import paths from "src/assets/map-paths.svg";
 import placeLabelsData from "src/data/map-labels-data.json";
 import { MAP_OPTIONS } from "./utils";
 import MapLabelGroup from "./MapLabelGroup";
 import { getMapHandlers } from "./handlers";
+import townLabelsData from "src/data/town-labels.json";
+import TownLabel from "./TownLabel";
 
 export const options = MAP_OPTIONS;
 export default function Map() {
@@ -41,7 +41,6 @@ export default function Map() {
     if (!mapSurface.current || !mapContainer.current || !mapContent.current) {
       return;
     }
-    console.log("mapSurface", mapSurface.current);
     const map = mapSurface.current;
     const {
       handlePointerDown,
@@ -66,7 +65,6 @@ export default function Map() {
     };
 
     if (!context.fullView) {
-      console.log("adding listeners");
       document.addEventListener("pointermove", handleMapMove);
       document.addEventListener("pointerup", handleMapPointerUp);
       map.addEventListener("pointerdown", handlePointerDown);
@@ -121,7 +119,9 @@ export default function Map() {
     }
     mapLabels.current.style.scale = context.zoom;
   }, [context.zoom]);
+  // const townLabels = townLabelsData;
   const placeLabelsDataTyped = placeLabelsData as MapLabelPosData[];
+  const townLabelsDataTyped = townLabelsData as TownLabelPosData[];
   return (
     <div draggable="false" className="touch-none">
       <MapNav
@@ -201,6 +201,19 @@ export default function Map() {
                       ></MapPlaceComponent>
                     );
                   }
+                })}
+              </div>
+            ) : (
+              ""
+            )}
+            {townLabelsDataTyped ? (
+              <div id="town-labels">
+                {townLabelsDataTyped.map((item) => {
+                  return (
+                    <TownLabel
+                      townLabel={{ name: item.name, offsets: item.offsets }}
+                    ></TownLabel>
+                  );
                 })}
               </div>
             ) : (

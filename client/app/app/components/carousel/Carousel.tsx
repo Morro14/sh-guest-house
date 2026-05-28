@@ -5,7 +5,7 @@ import { useNavContextProvider } from "../nav/NavContextProvider";
 import CarouselDotsFullView from "./CarouselDotsFullView";
 import { ImageLoading } from "../ImageLoading";
 
-const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL
+const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 
 export function Carousel({
   name,
@@ -38,7 +38,7 @@ export function Carousel({
     }
   };
   return fullView ? (
-    <div className="flex flex-col gap-5 items-center justify-end shrink size-full">
+    <div className="flex flex-col gap-5 items-center justify-end shrink h-full max-w-[80vw] md:max-w-[70vw] xl:max-w-[65vw] 2xl:max-w-[60vw]">
       <div className="embla bg-black-transparent border-2 border-peach size-full">
         <div className="embla__viewport size-full" ref={emblaRef}>
           <div className={`embla__container  size-full`}>

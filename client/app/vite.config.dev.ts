@@ -10,7 +10,10 @@ export default defineConfig({
   // base: "/static/frontend/",
   server: {
     watch: {
-      ignored: ["**/src/data/map-labels-data.json"],
+      ignored: [
+        "**/src/data/map-labels-data.json",
+        "**/src/data/town-labels.json",
+      ],
     },
     port: 5173,
     host: "frontend.test",
@@ -52,10 +55,13 @@ export default defineConfig({
               req.on("end", () => {
                 try {
                   const payload = JSON.parse(body);
-                  const filePath = path.resolve(
-                    __dirname,
-                    "src/data/map-labels-data.json",
-                  );
+                  const payloadType = payload.type;
+                  const paths = {
+                    townLabel: "src/data/town-labels.json",
+                    placeLabel: "src/data/map-labels-data.json",
+                  };
+                  const filePath = path.resolve(__dirname, paths[payloadType]);
+                  console.log("filePath", filePath);
                   // 1. Read
                   let existingData = [];
                   if (fs.existsSync(filePath)) {

@@ -45,7 +45,7 @@ export default function CarouselGridNav({
       </div>
       <div>
         <button
-          className="text-gray-warm-mid text-base font-sans hover:cursor-pointer underline"
+          className="text-gray-warm-mid text-sm font-sans hover:cursor-pointer underline hover:text-accent transition-colors"
           onClick={showMoreImages}
         >
           {gridContext.showMoreImages

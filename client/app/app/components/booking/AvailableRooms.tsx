@@ -15,13 +15,17 @@ export default function AvailableRooms({ rooms }) {
   const formRef = useRef(null);
   const formContext = useBookingRoomSelectContextProvider();
   const [URLSearchParams] = useSearchParams();
+  const roomsFormFetcher = useFetcher();
   useEffect(() => {
     // reset form context states if new search params
     formContext.setGuestPool({
       adults: Number(URLSearchParams.get("adults")),
       children: Number(URLSearchParams.get("children")),
     });
-  }, [URLSearchParams]);
+
+    console.log(roomsFormFetcher);
+    formContext.setRoomsFormFetcher(roomsFormFetcher);
+  }, [URLSearchParams, roomsFormFetcher]);
 
   const fetcher = useFetcher({ key: "price_preview" });
   const handleFormChange = (e: ChangeEvent<HTMLFormElement>) => {
@@ -31,6 +35,7 @@ export default function AvailableRooms({ rooms }) {
       method: "POST",
     });
   };
+
   return (
     <div
       id="available-rooms"
@@ -63,7 +68,7 @@ export default function AvailableRooms({ rooms }) {
           ) : (
             ""
           )}
-          <Form
+          <roomsFormFetcher.Form
             method="post"
             onChange={handleFormChange}
             ref={(node) => {
@@ -84,7 +89,7 @@ export default function AvailableRooms({ rooms }) {
                 ></AvailableRoom>
               );
             })}
-          </Form>
+          </roomsFormFetcher.Form>
         </div>
       )}
     </div>

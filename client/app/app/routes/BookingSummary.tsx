@@ -1,5 +1,11 @@
 import { useTranslation } from "react-i18next";
-import { createSearchParams, Form, redirect, Link } from "react-router";
+import {
+  createSearchParams,
+  Form,
+  redirect,
+  Link,
+  useFetcher,
+} from "react-router";
 import {
   formatPrice,
   axiosInstance,
@@ -37,6 +43,8 @@ export function ErrorBoundary() {
 }
 
 export async function clientAction({ request }) {
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  return;
   const formData = await request.formData();
   const response = (await axiosInstance.post(
     "booking/validate",
@@ -70,7 +78,7 @@ export async function clientLoader({ request }) {
   return response;
 }
 export default function BookingSummary({ loaderData }) {
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   const loaderDataClean: LoaderData = loaderData.data;
   const { t, i18n } = useTranslation();
   const {
@@ -91,7 +99,7 @@ export default function BookingSummary({ loaderData }) {
     adults: requestInfo.adults,
     children: requestInfo.children,
   });
-
+  const fetcher = useFetcher();
   return (
     <div className="flex flex-col gap-8 items-center min-h-screen min-w-screen font-sans">
       <section>
@@ -151,7 +159,7 @@ export default function BookingSummary({ loaderData }) {
         <p className="text-gray-warm-mid text-sm font-sans my-6">
           {t("booking summary paragraph")}
         </p>
-        <Form method="post" className="flex flex-col gap-5 w-[210px]">
+        <fetcher.Form method="post" className="flex flex-col gap-5 w-[210px]">
           <div className="flex flex-col gap-1">
             <label htmlFor="email-input" className="font-sans">
               {t("Email")}
@@ -198,11 +206,11 @@ export default function BookingSummary({ loaderData }) {
           </div>
           <button
             type="submit"
-            className="w-[120px] text-lg font-semibold bg-peach capitalize rounded font-sans text-white mt-6 cursor-pointer hover:bg-peach-accent"
+            className="min-w-[120px] text-lg font-medium bg-primary capitalize rounded font-serif text-text-main mt-6 cursor-pointer hover:bg-primary-light"
           >
-            {navigation.state === "idle" ? t("confirm") : t("submitting")}
+            {fetcher.state === "idle" ? t("confirm") : t("submitting...")}
           </button>
-        </Form>
+        </fetcher.Form>
       </section>
     </div>
   );

@@ -28,7 +28,7 @@ export default function CarouselReviews() {
     setAutoScroll(interval);
   }, [autoScroll, emblaApi]);
   return (
-    <div className="">
+    <div className="border-t border-b border-gray-warm-light">
       <div className="index-container-1 pb-2">
         <div className={`"embla__viewport overflow-hidden`} ref={emblaRef}>
           <div className={`embla__container`}>

@@ -21,17 +21,24 @@ export interface MapPlaceData {
 //   group?: string;
 // }
 export interface MapLabelOptions {
-  offsets?: { x: number; y: number };
+  offsets?: Coords;
   position?: "absolute" | "relative" | "static";
   contentPosition?: "top" | "bottom";
   iconPosition?: "left" | "right" | "top" | "bottom";
   dot?: boolean;
-  grouped: boolean;
+  grouped?: boolean;
+  group?: string;
 }
 
 export interface MapLabelPosData {
   name: string;
   options: MapLabelOptions;
+  type?: "placeLabel";
+}
+export interface TownLabelPosData {
+  name: string;
+  offsets: Coords;
+  type?: "townLabel";
 }
 
 export interface MapOptions {

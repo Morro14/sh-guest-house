@@ -1,14 +1,12 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
-import { useIndexBookingContextProvider } from "~/components/booking/IndexBookingContextProvider";
 
 const RATING = 9.8;
 
 export default function NavHorizontal() {
   const { t, i18n } = useTranslation();
-  const context = useIndexBookingContextProvider();
   return (
-    <div className="flex 2xl:flex-row flex-col justify-center items-center 2xl:w-full 2xl:gap-5 gap-3 font-serif text-xl">
+    <div className="flex 2xl:flex-row flex-col justify-center items-center 2xl:w-full 2xl:gap-5 gap-1 font-serif text-lg underline">
       <button
         onClick={() => {
           const el = document.getElementById("points-of-interest");
@@ -50,7 +48,7 @@ export default function NavHorizontal() {
             {t("Booking reviews")}
           </div>
           <div className="flex items-center gap-1">
-            <div>{star}</div>
+            <div className="">{star}</div>
             <div className="font-serif">{RATING}</div>
           </div>
         </div>
@@ -61,8 +59,8 @@ export default function NavHorizontal() {
 
 const star = (
   <svg
-    width="26"
-    height="25"
+    width="22"
+    height="21"
     viewBox="0 0 26 25"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

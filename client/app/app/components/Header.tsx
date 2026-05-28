@@ -21,18 +21,21 @@ export default function Header() {
           <Link to="/" className="w-[140px] text-lg font-sans">
             {t("Site name")}
           </Link>
-          <div className="md:flex gap-5 2xl:gap-10 hidden justify-between font-sans underline">
+          <div className="md:flex gap-5 2xl:gap-10 hidden justify-between font-serif underline font-light">
             <Link to="contacts" className="hover:underline ">
               {t("About")}
-            </Link>
-            <Link to="contacts" className="capitalize hover:underline ">
-              {t("Rooms")}
             </Link>
             <Link to="contacts" className=" hover:underline ">
               {t("Contacts")}
             </Link>
             <Link to="contacts" className="hover:underline ">
               {t("Location")}
+            </Link>
+            <Link to="contacts" className="capitalize hover:underline ">
+              {t("Book")}
+            </Link>
+            <Link to="contacts" className="hover:underline ">
+              {t("Points of interest")}
             </Link>
           </div>
           <div className="flex items-center text-sm font-sans gap-7">

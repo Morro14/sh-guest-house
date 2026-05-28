@@ -2,7 +2,7 @@ import { formatPrice, getUrlSearchParams } from "~/utils/general";
 import { useBookingRoomSelectContextProvider } from "./BookingRoomSelectContext";
 import { useEffect, useState, type SyntheticEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { useSubmit } from "react-router";
+import { useFetcher, useSubmit } from "react-router";
 import Dots from "../status/Dots";
 
 const CURRENCY = import.meta.env.VITE_CURRENCY;
@@ -34,21 +34,23 @@ export default function FloatingPanel() {
     intersectionObserver.observe(document.getElementById("request-info-block"));
   }, []);
 
-  const submit = useSubmit();
+  // const submit = useSubmit();
   const date = new Date(params.date);
   const dateF = new Intl.DateTimeFormat([lang, "en"], { dateStyle: "medium" });
   const dateString = dateF.format(date);
+  const fetcher = useFetcher();
 
   const handleBookClick = (e: SyntheticEvent) => {
     e.preventDefault();
     if (!formContext.form) {
       return;
     }
-    submit(formContext.form, { method: "post" });
+    fetcher.submit(formContext.form, { method: "post" });
   };
   const price = context.priceFetcher.data?.reservation_price || 0;
   const priceStatus = context.priceFetcher.state;
-  console.log(priceStatus);
+  const submittingRoomsState = fetcher?.state;
+  console.log("form state", submittingRoomsState);
   return (
     <div
       className={`${panelOffScreen ? "fixed top-0" : "absolute top-0"} z-20 top-0 flex flex-col items-center justify-start font-sans`}
@@ -57,7 +59,7 @@ export default function FloatingPanel() {
         className={`absolute w-screen ${moreRoomsRequired ? "h-[64px]" : "h-[42px]"} transition-all duration-200 bg-bg border-t border-gray-warm-light shadow-md`}
       ></div>
       <div
-        className={`flex flex-col 2xl:items-center justify-start items-start mt-2.5 booking-floating-panel 2xl:w-[1038px]! px-4`}
+        className={`flex flex-col 2xl:items-center justify-start items-start mt-2.5 index-container-1 2xl:w-[1038px]! px-4`}
       >
         <div className={`z-10 flex justify-between items-center size-full`}>
           <div className="w-16 overflow-visible text-nowrap text-gray-warm-mid 2xl:block hidden">
@@ -96,12 +98,14 @@ export default function FloatingPanel() {
             <div
               className={`${moreRoomsRequired ? "border-0 text-gray-warm-inactive" : "underline font-sans font-medium text-text-main"}`}
             >
-              {t("Continue")}
+              {submittingRoomsState === "idle"
+                ? t("Continue")
+                : t("loading...")}
             </div>
           </button>
         </div>
         <div
-          className={`z-10 text-red-error text-center ${moreRoomsRequired ? "block" : "hidden opacity-0"} transition-discrete transition-all duration-200`}
+          className={`z-10 text-red-error text-center text-sm ${moreRoomsRequired ? "block" : "hidden opacity-0"} transition-discrete transition-all duration-200`}
         >{`Select more rooms to accommodate ${guests} guests`}</div>
       </div>
     </div>

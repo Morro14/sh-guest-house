@@ -1,5 +1,4 @@
-import type { MapLabelOptions } from "~/types/map";
-import { writePlaceLabelData } from "./utils";
+import { writeLabelData } from "./utils";
 
 interface Options {
   moveEnabled: boolean;
@@ -63,10 +62,10 @@ export default function getMapMoveHandlers(
   return { handleMove, handlePointerDown, handlePointerUp };
 }
 
-export function useMovePlaceLabel(
+export function useMoveLabel(
   container: HTMLDivElement,
   label: HTMLDivElement,
-  labelOptions: MapLabelOptions,
+  type: "placeLabel" | "townLabel",
   options: Options,
 ) {
   if (!label || !container) {
@@ -76,7 +75,8 @@ export function useMovePlaceLabel(
   let labelOffsetX: number = label.offsetLeft;
   let labelOffsetY: number = label.offsetTop;
 
-  const moveLabel = (e: MouseEvent) => {
+  const moveLabel = (e: PointerEvent) => {
+    e.stopPropagation();
     label.style.cursor = "grabbing";
     const deltaX = e.clientX - mouseDownX;
     const deltaY = e.clientY - mouseDownY;
@@ -93,9 +93,10 @@ export function useMovePlaceLabel(
     label.style.top = `${newY}px`;
   };
   // console.log("useMovePlaceLabel", label, labelOptions, container);
-  const registerMouseDownLabel = (e: MouseEvent) => {
-    const target = e.target as Element;
-    console.log(target);
+  const registerMouseDownLabel = (e: PointerEvent) => {
+    console.log("move label pointer down");
+    e.stopPropagation();
+    // const target = e.target as Element;
     // const includeslabelElements = [label.id].includes(target.id);
     // if (!target.contains(label)) {
     //   console.log("not included");
@@ -108,23 +109,22 @@ export function useMovePlaceLabel(
     mouseDownY = e.clientY;
     labelOffsetX = label.offsetLeft;
     labelOffsetY = label.offsetTop;
-    document.addEventListener("mousemove", moveLabel);
+    document.addEventListener("pointermove", moveLabel);
     document.addEventListener(
-      "mouseup",
+      "pointerup",
       () => {
         label.style.cursor = "default";
-        console.log("move label mouse up");
-        document.removeEventListener("mousemove", moveLabel);
+        document.removeEventListener("pointermove", moveLabel);
         labelOffsetX = label.offsetLeft;
         labelOffsetY = label.offsetTop;
-        writePlaceLabelData(label.id, { x: labelOffsetX, y: labelOffsetY });
+        writeLabelData(label.id, { x: labelOffsetX, y: labelOffsetY }, type);
       },
       { once: true },
     );
   };
   if (options.moveEnabled) {
-    label.addEventListener("mousedown", registerMouseDownLabel);
+    label.addEventListener("pointerdown", registerMouseDownLabel);
   } else {
-    label.removeEventListener("mousedown", registerMouseDownLabel);
+    label.removeEventListener("pointerdown", registerMouseDownLabel);
   }
 }

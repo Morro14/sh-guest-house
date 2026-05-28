@@ -23,12 +23,16 @@ export function zoomMap({
     mapRect: mapSurface.getBoundingClientRect(),
   };
   let centeredOffsets = { x: 0, y: 0 };
+  console.log("pinchCenter", pinchCenter);
   if (pinchCenter) {
     centeredOffsets = pinchCenter;
   } else {
     centeredOffsets = getMapCenteredOffsets(state);
   }
-
+  console.log(newZoom);
+  if (newZoom < 0.5 || newZoom > 2) {
+    return;
+  }
   setMapZoomed(mapSurface, mapContent, centeredOffsets, newZoom);
 }
 export const setMapZoomed = (

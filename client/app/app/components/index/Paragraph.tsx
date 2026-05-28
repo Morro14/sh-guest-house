@@ -30,11 +30,11 @@ export default function Paragraph({
     >
       <div
         ref={ref}
-        className={`md:w-[780px] relative transition-all duration-800 ease-out ${inView ? "opacity-100" : "opacity-0"}`}
+        className={`max-w-[698px] md:max-w-[880px] relative transition-all duration-800 ease-out ${inView ? "opacity-100" : "opacity-0"}`}
       >
         {content.title.length > 0 ? <TitleTag>{content.title}</TitleTag> : ""}
         {subtitle ? <h3>{subtitle}</h3> : ""}
-        <p className="font-sans font-[350] md:text-base text-pretty">
+        <p className="font-sans font-[350] md:text-base text-pretty w-full">
           {content.body}
         </p>
       </div>

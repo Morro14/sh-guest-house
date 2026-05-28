@@ -1,5 +1,11 @@
 import { useTranslation } from "react-i18next";
-import { Link, useParams, useSearchParams } from "react-router";
+import {
+  Link,
+  NavLink,
+  useNavigation,
+  useParams,
+  useSearchParams,
+} from "react-router";
 import { getUrlSearchParams } from "~/utils/general";
 
 export default function RequestInfo() {
@@ -26,28 +32,30 @@ export default function RequestInfo() {
     <div className="flex flex-col items-center w-full md:gap-2 gap-3">
       <div className="flex md:flex-row flex-col max-md:gap-3 text-center justify-between items-center w-full font-sans">
         <div className="flex flex-col items-center md:gap-3 gap-0">
-          <span className="text-gray-warm-mid md:text-base">
+          <span className="text-gray-warm-mid text-sm">
             {t("Check-in date")}
           </span>
           <p className={`${blockWidth} font-sans text-lg`}>{dateString}</p>
         </div>
         <div className="flex flex-col items-center md:gap-3 gap-0">
-          <span className="text-gray-warm-mid md:text-base">
+          <span className="text-gray-warm-mid text-sm">
             {t("Number of guests")}
           </span>
           <p className={`${blockWidth} font-sans text-lg`}>{guests}</p>
         </div>
         <div className="flex flex-col items-center md:gap-3 gap-0">
-          <span className="text-gray-warm-mid md:text-base">{t("Nights")}</span>
+          <span className="text-gray-warm-mid text-sm">{t("Nights")}</span>
           <p className={`${blockWidth} font-sans text-lg`}>{nights}</p>
         </div>
       </div>
-      <Link
-        className="underline font-source-sans font-light text-sm cursor-pointer"
+      <NavLink
+        className={`underline font-source-sans font-light text-sm cursor-pointer`}
         to={formUrl}
       >
-        {t("change")}
-      </Link>
+        {({ isPending }) => (
+          <span>{isPending ? t("loading...") : t("change")}</span>
+        )}
+      </NavLink>
     </div>
   );
 }

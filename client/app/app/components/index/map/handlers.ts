@@ -16,7 +16,7 @@ export function getMapHandlers(elements: MapElements, context: any) {
 
   function handlePointerDown(e: PointerEvent) {
     // map pointer down
-    console.log("move pointerdown");
+    console.log("map pointer down");
     isMovable = true;
     mouseDownX = e.clientX;
     mouseDownY = e.clientY;
@@ -24,7 +24,7 @@ export function getMapHandlers(elements: MapElements, context: any) {
     mapOffsetY = mapSurface.offsetTop;
     // pinch
     activePointers.set(e.pointerId, e);
-    if (activePointers.size >= 2) {
+    if (activePointers.size === 2) {
       const [p1, p2] = Array.from(activePointers.values());
       const dx = p1.clientX - p2.clientX;
       const dy = p1.clientY - p2.clientY;
@@ -36,8 +36,7 @@ export function getMapHandlers(elements: MapElements, context: any) {
       return;
     }
     // const [p1] = Array.from(activePointers.keys());
-    console.log("active pointers", activePointers);
-    console.log("primary", e.isPrimary);
+    // console.log("move");
     if (!e.isPrimary) {
       return;
     }
@@ -61,26 +60,35 @@ export function getMapHandlers(elements: MapElements, context: any) {
     if (!isMovable) {
       return;
     }
+    // console.log("pinch move");
     const currentZoom = context.zoom;
     const setZoom = context.setZoom;
-    // if (!activePointers.has(e.pointerId)) {
-    //   return;
-    // }
-    if (activePointers.size >= 2) {
+    if (!activePointers.has(e.pointerId)) {
+      return;
+    }
+
+    activePointers.set(e.pointerId, e);
+    if (activePointers.size === 2) {
       const [p1, p2] = Array.from(activePointers.values());
 
       const dx = p1.clientX - p2.clientX;
       const dy = p1.clientY - p2.clientY;
       const currentDistance = Math.sqrt(dx * dx + dy * dy);
+      console.log("pointer", p1);
       const pinchCenter = {
         x: Math.floor(p1.clientX + dx / 2),
         y: Math.floor(p1.clientY + dy / 2),
       };
       // const zoomFactor = 0.1;
       const scaleMultiplier = currentDistance / initDistance;
+      // console.log(
+      //   "initDistance",
+      //   initDistance,
+      //   "currentDistance",
+      //   currentDistance,
+      // );
       if (prevDistance > 0) {
         if (currentDistance > prevDistance) {
-          console.log("Pinching Out (Zooming In)");
           const newZoom = currentZoom * scaleMultiplier;
           zoomMap({
             container: mapContainer,
@@ -93,7 +101,6 @@ export function getMapHandlers(elements: MapElements, context: any) {
           setZoom(newZoom);
         } else if (currentDistance < prevDistance) {
           const newZoom = currentZoom * scaleMultiplier;
-          console.log("Pinching In (Zooming Out)");
           zoomMap({
             container: mapContainer,
             mapSurface: mapSurface,
