@@ -1,7 +1,9 @@
 import type {
   Coords,
+  MapItemPosData,
   MapLabelPosData,
   MapOptions,
+  MovableItem,
   TownLabelPosData,
 } from "~/types/map";
 
@@ -71,34 +73,34 @@ export function getMapCenteredOffsets(state: ZoomState) {
   return boundOffsets;
 }
 
-export async function writeLabelData(
-  labelName: string,
+export async function writeMapItemPosData(
+  itemName: string,
   offsets: Coords,
-  type: "placeLabel" | "townLabel",
+  type: MovableItem,
 ) {
-  let labelData = null;
+  let itemData = null;
   if (type === "placeLabel") {
     const placeData: MapLabelPosData = {
-      name: labelName,
+      name: itemName,
       type: type,
       options: { offsets: offsets },
     };
     placeData.options.offsets = offsets;
-    labelData = placeData;
-  } else if (type === "townLabel") {
-    const townData: TownLabelPosData = {
-      name: labelName,
+    itemData = placeData;
+  } else if (["townLabel", "placeDot"].includes(type)) {
+    const itemData_: MapItemPosData = {
+      name: itemName,
       offsets: offsets,
       type: type,
     };
-    townData.offsets = offsets;
-    labelData = townData;
+    itemData_.offsets = offsets;
+    itemData = itemData_;
   }
   try {
     const response = await fetch("api/save-map-labels-data", {
       method: "POST",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify(labelData),
+      body: JSON.stringify(itemData),
     });
     if (response.ok) console.log("✔️ Coordinates written to JSON file");
   } catch (err) {

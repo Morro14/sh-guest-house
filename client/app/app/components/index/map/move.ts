@@ -1,4 +1,5 @@
-import { writeLabelData } from "./utils";
+import type { MovableItem } from "~/types/map";
+import { writeMapItemPosData } from "./utils";
 
 interface Options {
   moveEnabled: boolean;
@@ -16,7 +17,6 @@ export default function getMapMoveHandlers(
   let mapOffsetY: number = map.offsetTop;
   const activePointers = new Map();
   let isMovable = false;
-
   const handleMove = (e: PointerEvent) => {
     // if (activePointers.size > 1) {
     //   return;
@@ -64,31 +64,30 @@ export default function getMapMoveHandlers(
 
 export function useMoveLabel(
   container: HTMLDivElement,
-  label: HTMLDivElement,
-  type: "placeLabel" | "townLabel",
+  label: HTMLElement,
+  type: MovableItem,
   options: Options,
 ) {
-  if (!label || !container) {
+  if (!label || !container || !options.moveEnabled) {
     return;
   }
   let mouseDownX: number, mouseDownY: number;
   let labelOffsetX: number = label.offsetLeft;
   let labelOffsetY: number = label.offsetTop;
-
   const moveLabel = (e: PointerEvent) => {
     e.stopPropagation();
     label.style.cursor = "grabbing";
     const deltaX = e.clientX - mouseDownX;
     const deltaY = e.clientY - mouseDownY;
 
-    const minX = 0;
-    const minY = 0;
+    const minX = -50;
+    const minY = -50;
 
     let newX = labelOffsetX + deltaX;
     let newY = labelOffsetY + deltaY;
 
-    newX = Math.max(Math.max(newX, minX), 0);
-    newY = Math.max(Math.max(newY, minY), 0);
+    newX = Math.max(Math.max(newX, minX), -50);
+    newY = Math.max(Math.max(newY, minY), -50);
     label.style.left = `${newX}px`;
     label.style.top = `${newY}px`;
   };
@@ -117,7 +116,12 @@ export function useMoveLabel(
         document.removeEventListener("pointermove", moveLabel);
         labelOffsetX = label.offsetLeft;
         labelOffsetY = label.offsetTop;
-        writeLabelData(label.id, { x: labelOffsetX, y: labelOffsetY }, type);
+        console.log(labelOffsetX);
+        writeMapItemPosData(
+          label.dataset.slug,
+          { x: labelOffsetX, y: labelOffsetY },
+          type,
+        );
       },
       { once: true },
     );

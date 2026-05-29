@@ -1,0 +1,106 @@
+[
+    {
+        "name": "spitakavor",
+        "offsets": {
+            "x": 30,
+            "y": 51
+        },
+        "type": "placeDot"
+    },
+    {
+        "name": "surb_khach",
+        "offsets": {
+            "x": 74,
+            "y": 74
+        },
+        "type": "placeDot"
+    },
+    {
+        "name": "tanaat",
+        "offsets": {
+            "x": 19,
+            "y": 59
+        },
+        "type": "placeDot"
+    },
+    {
+        "name": "vayotz_sar",
+        "offsets": {
+            "x": 68,
+            "y": 64
+        },
+        "type": "placeDot"
+    },
+    {
+        "name": "areni",
+        "offsets": {
+            "x": 17,
+            "y": 58
+        },
+        "type": "placeDot"
+    },
+    {
+        "name": "yerevan",
+        "offsets": {
+            "x": 25,
+            "y": 58
+        },
+        "type": "placeDot"
+    },
+    {
+        "name": "noravank",
+        "offsets": {
+            "x": 71,
+            "y": 90
+        },
+        "type": "placeDot"
+    },
+    {
+        "name": "dadal",
+        "offsets": {
+            "x": 49,
+            "y": -17
+        },
+        "type": "placeDot"
+    },
+    {
+        "name": "yegheg museum",
+        "offsets": {
+            "x": 75,
+            "y": 52
+        },
+        "type": "placeDot"
+    },
+    {
+        "name": "ulgyur",
+        "offsets": {
+            "x": 28,
+            "y": 60
+        },
+        "type": "placeDot"
+    },
+    {
+        "name": "sevan",
+        "offsets": {
+            "x": 20,
+            "y": 61
+        },
+        "type": "placeDot"
+    },
+    {
+        "name": "tsahats",
+        "offsets": {
+            "x": 33,
+            "y": 51
+        },
+        "type": "placeDot"
+    },
+    {
+        "name": "yeghegis",
+        "offsets": {
+            "x": -5,
+            "y": 45
+        },
+        "type": "placeDot"
+    }
+]

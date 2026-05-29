@@ -35,6 +35,11 @@ export interface MapLabelPosData {
   options: MapLabelOptions;
   type?: "placeLabel";
 }
+export interface MapItemPosData {
+  name: string;
+  offsets: Coords;
+  type?: "townLabel" | "placeDot";
+}
 export interface TownLabelPosData {
   name: string;
   offsets: Coords;
@@ -71,3 +76,6 @@ export interface MapElements {
   mapContainer: HTMLDivElement;
   mapContent: HTMLDivElement;
 }
+
+const movableItems = ["placeLabel", "townLabel", "placeDot"] as const;
+export type MovableItem = (typeof movableItems)[number];

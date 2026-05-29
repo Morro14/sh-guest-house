@@ -42,8 +42,8 @@
     {
         "name": "agarakadzor",
         "offsets": {
-            "x": 917,
-            "y": 1070
+            "x": 921,
+            "y": 1067
         },
         "type": "townLabel"
     },
@@ -58,16 +58,16 @@
     {
         "name": "yeghegnadzor",
         "offsets": {
-            "x": 911,
-            "y": 940
+            "x": 916,
+            "y": 896
         },
         "type": "townLabel"
     },
     {
         "name": "areni",
         "offsets": {
-            "x": 164,
-            "y": 1083
+            "x": 114,
+            "y": 1169
         },
         "type": "townLabel"
     },

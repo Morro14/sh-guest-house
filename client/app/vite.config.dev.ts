@@ -59,6 +59,7 @@ export default defineConfig({
                   const paths = {
                     townLabel: "src/data/town-labels.json",
                     placeLabel: "src/data/map-labels-data.json",
+                    placeDot: "src/data/place-dots-data.json",
                   };
                   const filePath = path.resolve(__dirname, paths[payloadType]);
                   console.log("filePath", filePath);

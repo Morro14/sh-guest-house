@@ -122,6 +122,7 @@ export default function Map() {
   // const townLabels = townLabelsData;
   const placeLabelsDataTyped = placeLabelsData as MapLabelPosData[];
   const townLabelsDataTyped = townLabelsData as TownLabelPosData[];
+  console.log("Map places", placesData);
   return (
     <div draggable="false" className="touch-none">
       <MapNav

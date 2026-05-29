@@ -4,8 +4,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 268,
-                "y": 553
+                "x": 259,
+                "y": 532
             }
         }
     },
@@ -15,7 +15,7 @@
         "options": {
             "offsets": {
                 "x": 14,
-                "y": 917
+                "y": 893
             }
         }
     },
@@ -24,8 +24,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 290,
-                "y": 1766
+                "x": 179,
+                "y": 1083
             }
         }
     },
@@ -34,8 +34,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 661,
-                "y": 2169
+                "x": 411,
+                "y": 1367
             }
         }
     },
@@ -44,8 +44,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 1369,
-                "y": 1664
+                "x": 849,
+                "y": 1103
             }
         }
     },
@@ -54,8 +54,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 944,
-                "y": 908
+                "x": 880,
+                "y": 884
             }
         }
     },
@@ -64,8 +64,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 1340,
-                "y": 779
+                "x": 1336,
+                "y": 755
             }
         }
     },
@@ -74,8 +74,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 1734,
-                "y": 642
+                "x": 1731,
+                "y": 621
             }
         }
     },
@@ -84,8 +84,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 1183,
-                "y": 761
+                "x": 1181,
+                "y": 737
             }
         }
     },
@@ -94,8 +94,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 1048,
-                "y": 448
+                "x": 1049,
+                "y": 428
             }
         }
     },
@@ -104,8 +104,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 1019,
-                "y": 172
+                "x": 1047,
+                "y": 161
             }
         }
     },
@@ -114,8 +114,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 996,
-                "y": 57
+                "x": 995,
+                "y": 37
             }
         }
     },
@@ -124,8 +124,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 564,
-                "y": 59
+                "x": 562,
+                "y": 39
             }
         }
     }
