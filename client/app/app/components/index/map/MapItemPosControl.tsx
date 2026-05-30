@@ -1,4 +1,5 @@
 import { useState, type RefObject } from "react";
+import { writeMapItemPosData } from "./utils";
 
 export default function MapItemPosControl({
   itemElRef,
@@ -19,7 +20,13 @@ export default function MapItemPosControl({
         <div className="flex flex-col text-nowrap text-left items-start">
           <button
             onClick={() => {
-              dotEl.style.left = `${Math.floor(itemEl.clientWidth / 2 - 5)}px`;
+              const newOffset = Math.floor(itemEl.clientWidth / 2 - 5);
+              dotEl.style.left = `${newOffset}px`;
+              writeMapItemPosData(
+                itemEl.dataset.slug,
+                { x: newOffset, y: dotEl.offsetTop },
+                "placeDot",
+              );
             }}
           >
             center hor
@@ -31,7 +38,13 @@ export default function MapItemPosControl({
                 dotEl.offsetTop / lineHeight,
               );
               const lineSnapTo = offsetToLineHeight;
-              dotEl.style.top = `${lineSnapTo * lineHeight - lineHeight + 9}px`;
+              const newOffset = lineSnapTo * lineHeight - lineHeight + 9;
+              dotEl.style.top = `${newOffset}px`;
+              writeMapItemPosData(
+                itemEl.dataset.slug,
+                { x: dotEl.offsetLeft, y: newOffset },
+                "placeDot",
+              );
             }}
           >
             1 line up
@@ -43,21 +56,39 @@ export default function MapItemPosControl({
                 dotEl.offsetTop / lineHeight,
               );
               const lineSnapTo = offsetToLineHeight;
-              dotEl.style.top = `${lineSnapTo * lineHeight + lineHeight + 9}px`;
+              const newOffset = lineSnapTo * lineHeight + lineHeight + 9;
+              dotEl.style.top = `${newOffset}px`;
+              writeMapItemPosData(
+                itemEl.dataset.slug,
+                { x: dotEl.offsetLeft, y: newOffset },
+                "placeDot",
+              );
             }}
           >
             1 line down
           </button>
           <button
             onClick={() => {
-              dotEl.style.top = `${dotEl.offsetTop - 1}px`;
+              const newOffset = dotEl.offsetTop - 1;
+              dotEl.style.top = `${newOffset}px`;
+              writeMapItemPosData(
+                itemEl.dataset.slug,
+                { x: dotEl.offsetLeft, y: newOffset },
+                "placeDot",
+              );
             }}
           >
             move up
           </button>
           <button
             onClick={() => {
-              dotEl.style.top = `${dotEl.offsetTop + 1}px`;
+              const newOffset = dotEl.offsetTop + 1;
+              dotEl.style.top = `${newOffset}px`;
+              writeMapItemPosData(
+                itemEl.dataset.slug,
+                { x: dotEl.offsetLeft, y: newOffset },
+                "placeDot",
+              );
             }}
           >
             move down
