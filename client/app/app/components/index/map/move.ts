@@ -80,14 +80,14 @@ export function useMoveLabel(
     const deltaX = e.clientX - mouseDownX;
     const deltaY = e.clientY - mouseDownY;
 
-    const minX = -50;
-    const minY = -50;
+    const minX = -150;
+    const minY = -150;
 
     let newX = labelOffsetX + deltaX;
     let newY = labelOffsetY + deltaY;
 
-    newX = Math.max(Math.max(newX, minX), -50);
-    newY = Math.max(Math.max(newY, minY), -50);
+    newX = Math.max(Math.max(newX, minX), -150);
+    newY = Math.max(Math.max(newY, minY), -150);
     label.style.left = `${newX}px`;
     label.style.top = `${newY}px`;
   };

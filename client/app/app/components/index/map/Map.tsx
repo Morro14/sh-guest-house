@@ -3,6 +3,7 @@ import type {
   MapLabelPosData,
   Coords,
   TownLabelPosData,
+  MapLabelGroupData,
 } from "~/types/map";
 import { useFetchV3 } from "~/utils/fetchHook";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -13,10 +14,12 @@ import MapPlaceDetails from "./MapPlaceDetails";
 import MapNav from "./MapNav";
 import paths from "src/assets/map-paths.svg";
 import placeLabelsData from "src/data/map-labels-data.json";
-import { MAP_OPTIONS } from "./utils";
+import { MAP_OPTIONS, writeMapItemPosData } from "./utils";
 import MapLabelGroup from "./MapLabelGroup";
 import { getMapHandlers } from "./handlers";
 import townLabelsData from "src/data/town-labels.json";
+import placeDotsPosData from "src/data/place-dots-data.json";
+import labelGroupsData from "src/data/label-groups-data.json";
 import TownLabel from "./TownLabel";
 
 export const options = MAP_OPTIONS;
@@ -119,10 +122,26 @@ export default function Map() {
     }
     mapLabels.current.style.scale = context.zoom;
   }, [context.zoom]);
+  //add initial place labels data
+  useEffect(() => {
+    if (!placesData) {
+      return;
+    }
+    placesData.forEach((place) => {
+      if (!placeLabelsData.find((labelData) => labelData.name === place.slug)) {
+        writeMapItemPosData(place.slug, { x: 0, y: 0 }, "placeLabel");
+      }
+      if (
+        !placeDotsPosData.find((labelData) => labelData.name === place.slug)
+      ) {
+        writeMapItemPosData(place.slug, { x: 0, y: 0 }, "placeDot");
+      }
+    });
+  }, [placesData]);
   // const townLabels = townLabelsData;
   const placeLabelsDataTyped = placeLabelsData as MapLabelPosData[];
   const townLabelsDataTyped = townLabelsData as TownLabelPosData[];
-  console.log("Map places", placesData);
+  const labelGroupsDataTyped = labelGroupsData as MapLabelGroupData[];
   return (
     <div draggable="false" className="touch-none">
       <MapNav
@@ -149,7 +168,7 @@ export default function Map() {
         >
           <div
             id="map-content"
-            className="absolute size-full touch-none"
+            className="relative size-full touch-none"
             ref={mapContent}
             style={{
               width: options.mapContentSize.x,
@@ -164,6 +183,7 @@ export default function Map() {
               className="object-contain select-none h-full touch-none"
               src={paths}
               ref={mapImage}
+              style={{ vectorEffect: "non-scaling-stroke" }}
             />
             {placesObj && context.fullView ? (
               <MapMediaFullView>
@@ -177,22 +197,17 @@ export default function Map() {
             {/* top-[1064px] left-[1967px] */}
             {placesObj ? (
               <div className="" id="map-labels">
-                <MapLabelGroup offsets={{ x: 1965, y: 1256 }}>
-                  {placeLabelsDataTyped.map((item) => {
-                    if (labelsSouthEast.includes(item.name)) {
-                      return (
-                        <MapPlaceComponent
-                          place={placesObj[item.name]}
-                          options={{
-                            ...item.options,
-                            position: "relative",
-                            grouped: true,
-                          }}
-                        ></MapPlaceComponent>
-                      );
-                    }
-                  })}
-                </MapLabelGroup>
+                {labelGroupsData.map((labelGroup) => {
+                  const places = placesData.filter((item) =>
+                    labelGroup.places.includes(item.slug),
+                  );
+                  return (
+                    <MapLabelGroup
+                      labels={places}
+                      offsets={{ x: 1534, y: 1358 }}
+                    ></MapLabelGroup>
+                  );
+                })}
                 {placeLabelsDataTyped.map((item) => {
                   if (!labelsSouthEast.includes(item.name)) {
                     return (

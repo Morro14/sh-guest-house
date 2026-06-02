@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, type ReactNode, RefObject } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { useMapContextProvider } from "./MapContextProvider.tsx";
 import { useCloseOnClick } from "~/utils/components.ts";
 import { useState } from "react";
@@ -21,7 +21,9 @@ export default function MapMediaFullView({
   useEffect(() => {
     if (context.fullView) {
       requestAnimationFrame(() => setOpacity(100));
-      contentRef.current.addEventListener('mousedown', (e) => e.stopImmediatePropagation())
+      contentRef.current.addEventListener("mousedown", (e) =>
+        e.stopImmediatePropagation(),
+      );
     }
   }, [context.fullView]);
   return (
@@ -38,9 +40,12 @@ export default function MapMediaFullView({
         className="relative flex justify-center items-center"
       >
         {children}
-        <img onClick={() => context.setFullView(false)} src={closeButton} className="absolute top-0 -right-12 z-60 cursor-pointer" />
+        <img
+          onClick={() => context.setFullView(false)}
+          src={closeButton}
+          className="absolute -top-12 right-0 z-60 cursor-pointer"
+        />
       </div>
-
     </div>
   );
 }

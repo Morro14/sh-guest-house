@@ -94,5 +94,12 @@
             "y": 793
         },
         "type": "townLabel"
+    },
+    {
+        "offsets": {
+            "x": 941,
+            "y": 823
+        },
+        "type": "townLabel"
     }
 ]

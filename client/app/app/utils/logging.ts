@@ -1,4 +1,4 @@
-import { axiosInstance } from "./general";
+import { getAxiosInstance } from "./general";
 import { isRouteErrorResponse } from "react-router";
 import { isAxiosError } from "axios";
 import type { AxiosError } from "axios";
@@ -6,6 +6,7 @@ import type { ErrorResponse } from "react-router";
 
 type ErrorGeneral = Error | ErrorResponse | AxiosError | unknown;
 
+const axiosInstance = getAxiosInstance();
 export function logError(error: ErrorGeneral, info: React.ErrorInfo = null) {
   const logData = {
     data: JSON.stringify({

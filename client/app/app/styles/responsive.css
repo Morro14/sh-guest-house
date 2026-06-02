@@ -24,3 +24,6 @@
 .vertical-line-decor {
   @apply md:block hidden;
 }
+.place-details {
+  @apply 2xl:w-250 md:w-150 w-full
+}

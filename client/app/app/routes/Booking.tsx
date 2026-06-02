@@ -1,5 +1,5 @@
 import {
-  axiosInstance,
+  getAxiosInstance,
   getLanguagePathParam,
   getUrlSearchParams,
 } from "~/utils/general.ts";
@@ -75,6 +75,7 @@ export async function clientLoader({ request }) {
       `/${getLanguagePathParam(url.pathname)}/booking?${defaultParams}`,
     );
   }
+  const axiosInstance = getAxiosInstance();
   const response = await axiosInstance.get(`booking/request${url.search}`);
   return response as AxiosResponse;
 }
@@ -82,6 +83,7 @@ export async function clientLoader({ request }) {
 export async function clientAction({ request }: Route.ClientActionArgs) {
   await new Promise((resolve) => setTimeout(resolve, 500));
   const formData = await request.formData();
+  const axiosInstance = getAxiosInstance();
   if (formData.get("_intent") === "price_preview") {
     await new Promise((resolve) => setTimeout(resolve, 500));
     const response = await axiosInstance.post(

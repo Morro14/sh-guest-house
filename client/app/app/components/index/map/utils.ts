@@ -1,3 +1,4 @@
+import type { PointerEvent } from "react";
 import type {
   Coords,
   MapItemPosData,
@@ -65,7 +66,10 @@ export function getMapCenteredOffsets(state: ZoomState) {
   };
   // console.log("newOffsets", newOffsets);
   const boundOffsets = boundMapPos(
-    { x: MAP_SIZE_INIT.x * state.zoomNew, y: MAP_SIZE_INIT.y * state.zoomNew },
+    {
+      x: MAP_SIZE_INIT.x * state.zoomNew,
+      y: MAP_SIZE_INIT.y * state.zoomNew,
+    },
     state.containerSize,
     newOffsets,
   );
@@ -122,3 +126,16 @@ export async function writeMapItemPosData(
 //     console.error("❌ Save failed:", err);
 //   }
 // }
+export const isClickNotDrag = (
+  posInit: Coords,
+  leeway: number,
+  e: PointerEvent<HTMLDivElement>,
+) => {
+  if (
+    Math.abs(posInit.x - e.clientX) > leeway &&
+    Math.abs(posInit.y - e.clientY) > leeway
+  ) {
+    return false;
+  }
+  return true;
+};

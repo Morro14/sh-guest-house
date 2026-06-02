@@ -8,7 +8,7 @@ import {
 } from "react-router";
 import {
   formatPrice,
-  axiosInstance,
+  getAxiosInstance,
   getLanguagePathParam,
 } from "~/utils/general.ts";
 import { Temporal } from "@js-temporal/polyfill";
@@ -73,6 +73,7 @@ interface LoaderData {
   };
 }
 export async function clientLoader({ request }) {
+  const axiosInstance = getAxiosInstance();
   const response = await axiosInstance.get(`booking/request-summary`);
   // const response = await axiosInstance.get("booking/request-summary");
   return response;

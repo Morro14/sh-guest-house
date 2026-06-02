@@ -19,15 +19,15 @@
         "name": "tanaat",
         "offsets": {
             "x": 17,
-            "y": 53
+            "y": 51
         },
         "type": "placeDot"
     },
     {
         "name": "vayotz_sar",
         "offsets": {
-            "x": 68,
-            "y": 64
+            "x": 58,
+            "y": 50
         },
         "type": "placeDot"
     },
@@ -35,23 +35,23 @@
         "name": "areni",
         "offsets": {
             "x": 17,
-            "y": 58
+            "y": 49
         },
         "type": "placeDot"
     },
     {
         "name": "yerevan",
         "offsets": {
-            "x": 25,
-            "y": 58
+            "x": 21,
+            "y": 51
         },
         "type": "placeDot"
     },
     {
         "name": "noravank",
         "offsets": {
-            "x": 71,
-            "y": 90
+            "x": 64,
+            "y": 51
         },
         "type": "placeDot"
     },
@@ -74,8 +74,8 @@
     {
         "name": "ulgyur",
         "offsets": {
-            "x": 28,
-            "y": 60
+            "x": 17,
+            "y": 52
         },
         "type": "placeDot"
     },
@@ -91,7 +91,7 @@
         "name": "tsahats",
         "offsets": {
             "x": 33,
-            "y": 51
+            "y": 49
         },
         "type": "placeDot"
     },
@@ -100,6 +100,53 @@
         "offsets": {
             "x": -5,
             "y": 45
+        },
+        "type": "placeDot"
+    },
+    {
+        "name": "jermuk",
+        "offsets": {
+            "x": 0,
+            "y": 0
+        },
+        "type": "placeDot"
+    },
+    {
+        "name": "sisian",
+        "offsets": {
+            "x": 0,
+            "y": 0
+        },
+        "type": "placeDot"
+    },
+    {
+        "name": "tatev",
+        "offsets": {
+            "x": 0,
+            "y": 0
+        },
+        "type": "placeDot"
+    },
+    {
+        "name": "goris",
+        "offsets": {
+            "x": 0,
+            "y": 0
+        },
+        "type": "placeDot"
+    },
+    {
+        "name": "gladzor_museum",
+        "offsets": {
+            "x": 114,
+            "y": 26
+        },
+        "type": "placeDot"
+    },
+    {
+        "offsets": {
+            "x": 0,
+            "y": 0
         },
         "type": "placeDot"
     }

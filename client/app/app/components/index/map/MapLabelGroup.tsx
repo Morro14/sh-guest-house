@@ -1,11 +1,11 @@
-import { useEffect, type ReactNode } from "react";
-import type { Coords } from "~/types/map";
+import type { Coords, MapPlaceData } from "~/types/map";
 import { useMapContextProvider } from "./MapContextProvider";
+import MapPlaceComponent from "./Place";
 export default function MapLabelGroup({
-  children,
+  labels,
   offsets,
 }: {
-  children: ReactNode;
+  labels: MapPlaceData[];
   offsets: Coords;
 }) {
   const context = useMapContextProvider();
@@ -20,7 +20,14 @@ export default function MapLabelGroup({
       className={`absolute flex flex-col items-center w-fit -translate-y-full`}
       style={{ left: offsetsScaled.x, top: offsetsScaled.y }}
     >
-      {children}
+      {labels.map((place) => {
+        return (
+          <MapPlaceComponent
+            place={place}
+            options={{ position: "relative", dot: false, grouped: true }}
+          ></MapPlaceComponent>
+        );
+      })}
     </div>
   );
 }

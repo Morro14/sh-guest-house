@@ -23,8 +23,6 @@ export interface MapPlaceData {
 export interface MapLabelOptions {
   offsets?: Coords;
   position?: "absolute" | "relative" | "static";
-  contentPosition?: "top" | "bottom";
-  iconPosition?: "left" | "right" | "top" | "bottom";
   dot?: boolean;
   grouped?: boolean;
   group?: string;
@@ -44,6 +42,16 @@ export interface TownLabelPosData {
   name: string;
   offsets: Coords;
   type?: "townLabel";
+}
+export interface MapLabelGroupPosData {
+  name: string;
+  offsets: Coords;
+}
+
+export interface MapLabelGroupData {
+  name: string;
+  places: string[];
+  offsets: Coords;
 }
 
 export interface MapOptions {

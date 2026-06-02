@@ -10,7 +10,6 @@ const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 export function Carousel({
   name,
   images,
-  imageSize = "small",
   imageRes,
   fullView = false,
   border = false,
@@ -18,7 +17,6 @@ export function Carousel({
 }: {
   name: string;
   images: Array<Image>;
-  imageSize: "small" | "main" | "full";
   imageRes: "small" | "blur" | "main" | "original";
   fullView?: boolean;
   border?: boolean;

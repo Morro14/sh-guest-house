@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { axiosInstance, getLanguagePathParam } from "~/utils/general.ts";
+import { getAxiosInstance, getLanguagePathParam } from "~/utils/general.ts";
 import ErrorFallback from "~/components/ErrorFallback";
 import Fallback from "~/components/Fallback";
 import { useRouteError, Link } from "react-router";
@@ -24,6 +24,7 @@ export function ErrorBoundary() {
   } else return <ErrorFallback />;
 }
 export async function clientLoader() {
+  const axiosInstance = getAxiosInstance();
   const response = await axiosInstance.get("booking/validate");
   return response;
 }

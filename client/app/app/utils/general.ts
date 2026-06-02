@@ -3,22 +3,24 @@ import { Temporal } from "@js-temporal/polyfill";
 import type { Currency } from "~/types/booking";
 import { data } from "react-router";
 import axios from "axios";
-import i18n from "root/src/i18n/i18n";
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
-axios.defaults.withCredentials = true;
-const axiosInstance = axios.create({
-  baseURL: SERVER_URL + "/api/",
-  // timeout: 10000,
-});
-axiosInstance.interceptors.request.use((config) => {
-  const lang = i18n.language;
-  if (lang) {
-    config.headers["X-language"] = lang.split("-")[0];
-  }
-  return config;
-});
-export { axiosInstance };
+export const getAxiosInstance = () => {
+  axios.defaults.withCredentials = true;
+  const axiosInstance = axios.create({
+    baseURL: SERVER_URL + "/api/",
+    // timeout: 10000,
+  });
+  axiosInstance.interceptors.request.use((config) => {
+    // const url = new URL(window.location.pathname);
+    const lang = getLanguagePathParam(window.location.pathname);
+    if (lang) {
+      config.headers["X-language"] = lang.split("-")[0];
+    }
+    return config;
+  });
+  return axiosInstance;
+};
 
 export function isDigit(s: string) {
   const regex = /^\d+$/;

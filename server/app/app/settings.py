@@ -49,7 +49,6 @@ else:
     ALLOWED_HOSTS = [
         "localhost",
         "127.0.0.1",
-        "192.168.11.67",
         "127.0.0.2",
         "backend.test",
     ]

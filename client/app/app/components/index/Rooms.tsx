@@ -4,7 +4,7 @@ import { Carousel } from "../carousel/Carousel";
 import type { Room } from "app/types/booking";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
-import { axiosInstance } from "~/utils/general";
+import { getAxiosInstance } from "~/utils/general";
 import { logError } from "~/utils/logging";
 
 const debug = import.meta.env.VITE_DEBUG === "true";
@@ -23,6 +23,7 @@ export default function RoomsPreview() {
 
   useEffect(() => {
     if (rooms) return;
+    const axiosInstance = getAxiosInstance();
     axiosInstance
       .get(`content/rooms/?limit=${ROOMS_NUMBER_SHOW_INIT}`)
       .then((response) => {
@@ -57,6 +58,7 @@ export default function RoomsPreview() {
 
   useEffect(() => {
     if (!showMoreRooms || extraRooms.length > 0) return;
+    const axiosInstance = getAxiosInstance();
     axiosInstance
       .get(
         `content/rooms/?limit=${ROOMS_NUMBER_SHOW_EXRA}&offset=${ROOMS_NUMBER_SHOW_INIT}`,
