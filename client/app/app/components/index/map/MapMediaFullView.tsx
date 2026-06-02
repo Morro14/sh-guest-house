@@ -2,7 +2,7 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { useMapContextProvider } from "./MapContextProvider.tsx";
 import { useCloseOnClick } from "~/utils/components.ts";
 import { useState } from "react";
-import closeButton from "root/src/assets/close-button.svg";
+// import closeButton from "root/src/assets/close-button.svg";
 
 export default function MapMediaFullView({
   children,
@@ -24,7 +24,11 @@ export default function MapMediaFullView({
       contentRef.current.addEventListener("mousedown", (e) =>
         e.stopImmediatePropagation(),
       );
+      document.body.style.overflow = "hidden";
     }
+    return () => {
+      document.body.style.overflow = "scroll";
+    };
   }, [context.fullView]);
   return (
     <div
@@ -40,12 +44,37 @@ export default function MapMediaFullView({
         className="relative flex justify-center items-center"
       >
         {children}
-        <img
+        <div
           onClick={() => context.setFullView(false)}
-          src={closeButton}
-          className="absolute -top-12 right-0 z-60 cursor-pointer"
-        />
+          className="absolute -top-8 right-0 z-60 cursor-pointer"
+        >
+          {closeButton}
+        </div>
       </div>
     </div>
   );
 }
+const closeButton = (
+  <svg
+    width="27"
+    height="27"
+    viewBox="0 0 27 27"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <line
+      x1="20.1526"
+      y1="20.1526"
+      x2="6.71752"
+      y2="6.71757"
+      stroke="#F1F1F1"
+    />
+    <line
+      x1="6.71749"
+      y1="20.1525"
+      x2="20.1525"
+      y2="6.71749"
+      stroke="#F1F1F1"
+    />
+  </svg>
+);

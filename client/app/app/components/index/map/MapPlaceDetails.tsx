@@ -1,16 +1,16 @@
 import type { MapPlaceData } from "~/types/map";
 import wikiLogo from "src/assets/wikipedia-logo.svg";
 import geolocIcon from "src/assets/google-map-icon.svg";
-import Placeholder from "~/components/Placeholder";
-import { ImageLoading } from "~/components/ImageLoading";
-import Spinner from "~/components/status/Spinner";
-import { Carousel } from "~/components/carousel/Carousel";
 import { CarouselSimple } from "~/components/carousel/CarouselSimple";
 
-const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 export default function MapPlaceDetails({ place }: { place: MapPlaceData }) {
   return (
-    <div className="flex flex-col gap-5 p-5 place-details h-[90vh] bg-bg ">
+    <div
+      className="flex flex-col gap-5 p-5 place-details h-[90vh] bg-bg overflow-y-scroll "
+      onScroll={(e) => {
+        e.stopPropagation();
+      }}
+    >
       <div className="h-[30vh] border-b border-gray-300 pb-5">
         <CarouselSimple
           name={`${place.slug}-carousel`}
@@ -42,7 +42,7 @@ export default function MapPlaceDetails({ place }: { place: MapPlaceData }) {
           </a>
         </div>
       </div>
-      <div className=" pb-5 overflow-y-scroll text-[17px] border-b  border-gray-300 whitespace-pre-wrap">
+      <div className=" pb-5 text-[17px] border-b  border-gray-300 whitespace-pre-wrap">
         {place.description}
       </div>
     </div>

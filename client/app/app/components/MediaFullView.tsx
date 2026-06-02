@@ -15,14 +15,19 @@ export default function MediaFullView({ children }: { children: ReactNode }) {
     setTimeout(context.setFullImageView, 300, false);
   });
   useEffect(() => {
-    if (context.fullImageView) {
-      requestAnimationFrame(() => setOpacity(100));
-      // return () => context.setItemSelected()
-    }
-  }, [context.fullImageView]);
+    requestAnimationFrame(() => setOpacity(100));
+    document.body.style.overflow = "hidden";
+    // return () => context.setItemSelected()
+    return () => {
+      document.body.style.overflow = "scroll";
+    };
+  }, []);
   return (
     <div
       ref={outsideContentFieldRef}
+      onScroll={(e) => {
+        e.stopPropagation();
+      }}
       className={
         `fixed top-0 left-0 z-50 flex justify-center items-center w-screen h-screen bg-black-transparent transition duration-300 ` +
         (!opacity ? "opacity-0" : "opacity-100")
