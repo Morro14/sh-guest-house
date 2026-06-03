@@ -33,13 +33,13 @@ export function CarouselSimple({
       className={`"embla__viewport overflow-hidden size-full ${border ? "border-2 border-peach" : ""}`}
       ref={emblaRef}
     >
-      <div className={`embla__container`}>
+      <div className={`embla__container size-full`}>
         {images.map((img, i) => (
           <div
             key={`${name}-slide-${i}`}
-            className="embla__slide shrink-0 basis-auto mx-2"
+            className="embla__slide shrink-0 basis-auto mx-2 select-none h-auto"
           >
-            <div className={`flex justify-center`}>
+            <div className={`flex justify-center h-full`}>
               <img
                 className={` object-contain w-full`}
                 src={img.variants[imageRes]}

@@ -21,6 +21,7 @@ import townLabelsData from "src/data/town-labels.json";
 import placeDotsPosData from "src/data/place-dots-data.json";
 import labelGroupsData from "src/data/label-groups-data.json";
 import TownLabel from "./TownLabel";
+import MapPaths from "./MapPaths";
 
 export const options = MAP_OPTIONS;
 export default function Map() {
@@ -169,13 +170,13 @@ export default function Map() {
           <div
             id="map-content"
             className="relative size-full touch-none"
+            aria-disabled
             ref={mapContent}
             style={{
               width: options.mapContentSize.x,
               height: options.mapContentSize.y,
             }}
           >
-            {/* <div className="relative "> */}
             <img
               draggable="false"
               aria-disabled
@@ -183,8 +184,16 @@ export default function Map() {
               className="object-contain select-none h-full touch-none"
               src={paths}
               ref={mapImage}
-              style={{ vectorEffect: "non-scaling-stroke" }}
             />
+            {/* <object */}
+            {/*   type="image/svg+xml" */}
+            {/*   data={paths} */}
+            {/*   className="object-contain select-none h-full touch-none" */}
+            {/*   ref={mapImage} */}
+            {/*   id="map-img" */}
+            {/*   draggable="false" */}
+            {/*   aria-disabled */}
+            {/* ></object> */}
             {placesObj && context.fullView ? (
               <MapMediaFullView>
                 <MapPlaceDetails
@@ -205,6 +214,8 @@ export default function Map() {
                     <MapLabelGroup
                       labels={places}
                       offsets={{ x: 1534, y: 1358 }}
+                      name={labelGroup.name}
+                      key={`labelgroup-${labelGroup.name}`}
                     ></MapLabelGroup>
                   );
                 })}
@@ -214,6 +225,7 @@ export default function Map() {
                       <MapPlaceComponent
                         place={placesObj[item.name]}
                         options={item.options}
+                        key={`placelabel-${item.name}`}
                       ></MapPlaceComponent>
                     );
                   }
@@ -228,6 +240,7 @@ export default function Map() {
                   return (
                     <TownLabel
                       townLabel={{ name: item.name, offsets: item.offsets }}
+                      key={`townlabel-${item.name}`}
                     ></TownLabel>
                   );
                 })}
@@ -237,8 +250,8 @@ export default function Map() {
             )}
           </div>
         </div>
-        {/* </div> */}
       </div>
     </div>
+    // </div>
   );
 }

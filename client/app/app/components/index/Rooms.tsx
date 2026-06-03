@@ -7,15 +7,14 @@ import { useEffect, useState } from "react";
 import { getAxiosInstance } from "~/utils/general";
 import { logError } from "~/utils/logging";
 
-const debug = import.meta.env.VITE_DEBUG === "true";
-const MEDIA_BASE_URL = debug ? import.meta.env.VITE_LOCAL_SERVER_URL : "";
+const MEDIA_BASE_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 const ROOMS_NUMBER_SHOW_INIT = 1;
 const ROOMS_NUMBER_SHOW_EXRA = 10;
 
 export default function RoomsPreview() {
   const { t } = useTranslation();
   const [rooms, setRooms] = useState(null);
-  const [roomCards, setRoomCards] = useState<React.ReactNode | null>(null);
+  const [roomCards, setRoomCards] = useState<React.ReactNode[] | null>(null);
   const context = useNavContextProvider();
   const [showMoreRooms, setShowMoreRooms] = useState(false);
   const [expandContainer, setExpandContainer] = useState(false);
@@ -72,7 +71,7 @@ export default function RoomsPreview() {
   }, [showMoreRooms, extraRooms]);
   let extraRoomsEl = null;
   if (extraRooms.length > 0) {
-    extraRoomsEl = extraRooms.map((room, i) => {
+    extraRoomsEl = extraRooms.map((room: Room, i: number) => {
       return genRoomCard(room, i + ROOMS_NUMBER_SHOW_INIT);
     });
   }
@@ -92,7 +91,6 @@ export default function RoomsPreview() {
             name="rooms"
             key={`room-carousel-${[...rooms, ...extraRooms][context.itemSelected].slug}`}
             images={[...rooms, ...extraRooms][context.itemSelected].images}
-            imageSize="full"
             imageRes="original"
             fullView={true}
           ></Carousel>
@@ -104,7 +102,7 @@ export default function RoomsPreview() {
         className={`grid gap-4 2xl:w-3/5 w-full grid-cols-2 transition-none duration-0`}
       >
         {roomCards
-          ? roomCards.map((room, i) => {
+          ? roomCards.map((room) => {
               return room;
             })
           : ""}

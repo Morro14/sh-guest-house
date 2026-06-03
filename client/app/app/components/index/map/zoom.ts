@@ -28,7 +28,6 @@ export function zoomMap({
   } else {
     centeredOffsets = getMapCenteredOffsets(state);
   }
-  console.log(newZoom);
   if (newZoom < 0.5 || newZoom > 2) {
     return;
   }

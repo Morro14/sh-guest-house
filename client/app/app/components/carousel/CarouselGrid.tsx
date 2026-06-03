@@ -15,7 +15,7 @@ import Spinner from "../status/Spinner";
 const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 
 export default function CarouselGrid({ name }: { name: string }) {
-  const { fetchedData } = useFetchV3("content/grid-images");
+  const { fetchedData } = useFetchV3("content/grid-images", "media");
   const images = fetchedData?.data?.data as GridImage[];
   // test
   const imagesConcat = images ? images.concat(images).concat(images) : images;

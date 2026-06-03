@@ -43,15 +43,15 @@ export default function MapNav({
     pin: { name: t("Point of interest"), icon: pinSVG, type: "icon" },
   };
   return (
-    <div className="flex justify-between mb-4">
+    <div className="flex justify-between mb-4 items-end ">
       {/* {context.mapPos ? ( */}
       {/*   <div className="font-sans">{`${context.mapPos.x} ${context.mapPos.y}`}</div> */}
       {/* ) : ( */}
       {/*   "" */}
       {/* )} */}
-      <div className="grid grid-flow-col gap-x-6 gap-y-1 grid-rows-[repeat(3,minmax(min-content,1fr))]">
+      <div className="grid 2xl:grid-flow-col md:grid-cols-2 gap-x-6 gap-y-1 2xl:grid-rows-[repeat(3,minmax(min-content,1fr))]">
         {Object.entries(LEGEND).map(([key, value]) => (
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4" key={`map-legend-${key}`}>
             {typeof value.icon !== "string" ? (
               <div className={`w-15 h-5 flex items-center justify-end`}>
                 {value.icon}
@@ -66,47 +66,48 @@ export default function MapNav({
         ))}
       </div>
 
-      <div className="space-x-8 text-5xl">
-        <button
-          className="bg-gray-warm-light size-12"
-          onClick={() => {
-            const newZoom = currentZoom - zoomFactor;
-            if (newZoom <= 1) {
-              return;
-            }
-            zoomMap({
-              container,
-              mapSurface,
-              mapContent,
-              currentZoom,
-              newZoom,
-            });
-            console.log(newZoom);
-            context.setZoom(newZoom);
-          }}
-        >
-          -
-        </button>
-        <button
-          className="bg-gray-warm-light size-12 rounded-lg"
-          onClick={() => {
-            const newZoom = currentZoom + zoomFactor;
-            if (newZoom > 2) {
-              return;
-            }
-            zoomMap({
-              container,
-              mapSurface,
-              mapContent,
-              currentZoom,
-              newZoom,
-            });
-            console.log(newZoom);
-            context.setZoom(newZoom);
-          }}
-        >
-          +
-        </button>
+      <div className="flex flex-col">
+        <span className="text-sm text-gray-warm-mid">{t("Zoom")}</span>
+        <div className="flex font-sans text-4xl text-left">
+          <button
+            className="size-6 rounded-lg"
+            onClick={() => {
+              const newZoom = currentZoom - zoomFactor;
+              if (newZoom <= 1) {
+                return;
+              }
+              zoomMap({
+                container,
+                mapSurface,
+                mapContent,
+                currentZoom,
+                newZoom,
+              });
+              context.setZoom(newZoom);
+            }}
+          >
+            -
+          </button>
+          <button
+            className="size-6 rounded-lg"
+            onClick={() => {
+              const newZoom = currentZoom + zoomFactor;
+              if (newZoom > 2) {
+                return;
+              }
+              zoomMap({
+                container,
+                mapSurface,
+                mapContent,
+                currentZoom,
+                newZoom,
+              });
+              context.setZoom(newZoom);
+            }}
+          >
+            +
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -119,7 +120,7 @@ const normalRoadSVG = (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <line y1="1" x2="60" y2="1" stroke="#4C3B33" stroke-width="2" />
+    <line y1="1" x2="60" y2="1" stroke="#4C3B33" strokeWidth="2" />
   </svg>
 );
 const dirtRoadSVG = (
@@ -136,8 +137,8 @@ const dirtRoadSVG = (
       x2="60"
       y2="0.999995"
       stroke="black"
-      stroke-width="2"
-      stroke-dasharray="8 3"
+      strokeWidth="2"
+      strokeDasharray="8 3"
     />
   </svg>
 );
@@ -155,8 +156,8 @@ const offRoadSVG = (
       x2="60"
       y2="0.999995"
       stroke="#FF4800"
-      stroke-width="2"
-      stroke-dasharray="8 3"
+      strokeWidth="2"
+      strokeDasharray="8 3"
     />
   </svg>
 );
@@ -174,9 +175,9 @@ const hikingTrailSVG = (
       x2="58.5"
       y2="1.49999"
       stroke="#4C3B33"
-      stroke-width="3"
-      stroke-linecap="round"
-      stroke-dasharray="0.1 7"
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeDasharray="0.1 7"
     />
   </svg>
 );
@@ -188,7 +189,7 @@ const riverSVG = (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <line y1="3" x2="60" y2="3" stroke="#94E3FF" stroke-width="6" />
+    <line y1="3" x2="60" y2="3" stroke="#94E3FF" strokeWidth="6" />
   </svg>
 );
 const mainRoadSVG = (
@@ -199,7 +200,7 @@ const mainRoadSVG = (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <line y1="1.5" x2="60" y2="1.5" stroke="#FFC400" stroke-width="3" />
+    <line y1="1.5" x2="60" y2="1.5" stroke="#FFC400" strokeWidth="3" />
   </svg>
 );
 const pinSVG = (

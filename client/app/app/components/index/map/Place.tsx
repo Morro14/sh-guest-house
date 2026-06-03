@@ -91,7 +91,6 @@ export default function MapPlaceComponent({
     <div
       id={`${place.slug}-place-label`}
       data-slug={place.slug}
-      key={`${place.slug}`}
       ref={ref}
       className={`select-none ${optionsMerged.position} text-shadow-2xs/100 text-shadow-white group text-black text-center
           font-medium place flex flex-col hover:cursor-pointer`}

@@ -2,9 +2,11 @@ import type { Coords, MapPlaceData } from "~/types/map";
 import { useMapContextProvider } from "./MapContextProvider";
 import MapPlaceComponent from "./Place";
 export default function MapLabelGroup({
+  name,
   labels,
   offsets,
 }: {
+  name: string;
   labels: MapPlaceData[];
   offsets: Coords;
 }) {

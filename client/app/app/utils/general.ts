@@ -4,11 +4,16 @@ import type { Currency } from "~/types/booking";
 import { data } from "react-router";
 import axios from "axios";
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 
-export const getAxiosInstance = () => {
+export const getAxiosInstance = (to: "media" | "api" = "api") => {
   axios.defaults.withCredentials = true;
+  const urls = {
+    media: MEDIA_URL,
+    api: SERVER_URL,
+  };
   const axiosInstance = axios.create({
-    baseURL: SERVER_URL + "/api/",
+    baseURL: urls[to] + "/api/",
     // timeout: 10000,
   });
   axiosInstance.interceptors.request.use((config) => {
