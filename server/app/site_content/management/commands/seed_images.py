@@ -8,9 +8,6 @@ from django.conf import settings
 
 tags = ["main", "place"]
 images_data = [
-    {"name": "wide-main-1", "tag": "main", "order": 0},
-    {"name": "wide-main-2", "tag": "main", "order": 1},
-    {"name": "wide-main-3", "tag": "main", "order": 2},
     {"name": "wide-place-1", "tag": "place", "order": 0},
     {"name": "wide-place-2", "tag": "place", "order": 1},
     {"name": "wide-place-3", "tag": "place", "order": 3},

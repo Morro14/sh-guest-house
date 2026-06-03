@@ -34,56 +34,47 @@ class Command(BaseCommand):
             )
             return
 
-        def add_rooms():
-            for i in range(options["rooms"]):
-                try:
-                    Room.objects.create(
-                        slug=f"room-{i}",
-                        name=f"Room {i}",
-                        adults_num=random.randint(2, 4),
-                        children_num=random.randint(0, 2),
-                        beds=fake.text(),
-                        description=fake.text(100),
-                        price=random.choice(
-                            [
-                                5000,
-                                5500,
-                                6000,
-                                6500,
-                            ]
-                        ),
-                    )
-                except IntegrityError:
-                    continue
+        for i in range(options["rooms"]):
+            try:
+                Room.objects.create(
+                    slug=f"room-{i}",
+                    name=f"Room {i}",
+                    adults_num=random.randint(2, 4),
+                    children_num=random.randint(0, 2),
+                    beds=fake.text(),
+                    description=fake.text(100),
+                    price=random.choice(
+                        [
+                            5000,
+                            5500,
+                            6000,
+                            6500,
+                        ]
+                    ),
+                )
+            except IntegrityError:
+                continue
 
-        add_rooms()
         media_base_dir = settings.BASE_DIR / "media/"
 
-        def add_room_images():
-            rooms = Room.objects.all()
-            for i in range(options["rooms"] or len(rooms)):
-                for j in range(random.randint(3, 5)):
-                    try:
-                        local_img_path = (
-                            f"demo/rooms/room-{random.randint(1, 10)}-1.webp"
-                        )
-                        instance = RoomImage.objects.create(
-                            room=rooms[i],
-                            image_full=os.path.join(local_img_path),
-                            order=j,
-                        )
-                        cloud_filename = local_img_path
-                        if settings.ON_RENDER:
-                            with open(
-                                os.path.join(media_base_dir, local_img_path),
-                                "rb",
-                            ) as f:
-                                instance.image_full.save(
-                                    cloud_filename, File(f), save=True
-                                )
-                    except IntegrityError:
-                        continue
-
-        add_room_images()
+        rooms = Room.objects.all()
+        for i in range(options["rooms"] or len(rooms)):
+            for j in range(random.randint(3, 5)):
+                try:
+                    local_img_path = f"demo/rooms/room-{random.randint(1, 10)}-1.webp"
+                    instance = RoomImage.objects.create(
+                        room=rooms[i],
+                        image_full=os.path.join(local_img_path),
+                        order=j,
+                    )
+                    cloud_filename = local_img_path
+                    if settings.ON_RENDER:
+                        with open(
+                            os.path.join(media_base_dir, local_img_path),
+                            "rb",
+                        ) as f:
+                            instance.image_full.save(cloud_filename, File(f), save=True)
+                except IntegrityError:
+                    continue
 
         self.stdout.write(self.style.SUCCESS("✅ Database seeded with fake data"))

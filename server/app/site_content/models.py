@@ -4,6 +4,7 @@ from easy_thumbnails.files import get_thumbnailer
 from image_cropping import ImageRatioField
 from .utils.images_util import size_to_str
 from .validators import validate_rating_value
+import os
 
 
 class ContentPage(models.Model):
@@ -36,6 +37,31 @@ class ContentPage(models.Model):
         return self.title
 
 
+def get_upload_path(instance, filename):
+    cat_folder_name = instance.__class__.__name__
+    cat_names = {
+        "GridImage": "grid_images",
+        "ImageWide": "wide_images",
+        "RoomImage": "room_images",
+        "PlaceImage": "place_images",
+    }
+    rel_fields = [
+        "place",
+        "room",
+    ]
+    without_rel_fields = ["WideImage", "GridImage"]
+    instance_folder_name = ""
+
+    if cat_folder_name in without_rel_fields:
+        return os.path.join("demo", cat_names[cat_folder_name], filename)
+    for field in rel_fields:
+        instance_folder_name = getattr(instance, field, None).slug
+        if instance_folder_name:
+            return os.path.join(
+                "demo", cat_names[cat_folder_name], instance_folder_name, filename
+            )
+
+
 class Image(models.Model):
     blur_res = (100, 100)
     small_res = (600, 600)
@@ -43,7 +69,7 @@ class Image(models.Model):
 
     alt_text = models.CharField(max_length=255, blank=True)
     order = models.PositiveBigIntegerField(default=0)
-    image_full = models.ImageField()
+    image_full = models.ImageField(upload_to=get_upload_path)
     cropping_main = ImageRatioField("image", size_to_str(main_res))
     cropping_small = ImageRatioField("image", size_to_str(small_res))
     cropping_blur = ImageRatioField("image", size_to_str(blur_res))

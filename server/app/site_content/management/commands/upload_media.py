@@ -21,7 +21,7 @@ class Command(BaseCommand):
 
                 cloud_filename = os.path.join("demo", relative_path)
 
-                if root == "rooms":
+                if root == "room_images":
                     # gen rooms
                     rand_room_id = random.randint(0, 6)
                     room_image_instance = RoomImage(
@@ -34,21 +34,13 @@ class Command(BaseCommand):
                         )
                         file_index += 1
 
-                elif root == "places":
-                    # gen places
+                elif root == "wide_images":
                     pass
-                elif root == "wide":
+                elif root == "grid_images":
                     # gen wide images
                     pass
-
                 with open(local_path, "rb") as f:
-                    place_instance = Place.objects.get(
-                        name=filename.split(".")[0]
-                    )
-                    place_instance.image.save(
-                        cloud_filename, File(f), save=True
-                    )
+                    place_instance = Place.objects.get(name=filename.split(".")[0])
+                    place_instance.image.save(cloud_filename, File(f), save=True)
 
-        self.stdout.write(
-            self.style.SUCCESS("Folder structure preserved in GCS!")
-        )
+        self.stdout.write(self.style.SUCCESS("Folder structure preserved in GCS!"))
