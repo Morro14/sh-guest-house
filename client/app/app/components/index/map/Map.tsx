@@ -21,7 +21,6 @@ import townLabelsData from "src/data/town-labels.json";
 import placeDotsPosData from "src/data/place-dots-data.json";
 import labelGroupsData from "src/data/label-groups-data.json";
 import TownLabel from "./TownLabel";
-import MapPaths from "./MapPaths";
 
 export const options = MAP_OPTIONS;
 export default function Map() {
@@ -185,15 +184,6 @@ export default function Map() {
               src={paths}
               ref={mapImage}
             />
-            {/* <object */}
-            {/*   type="image/svg+xml" */}
-            {/*   data={paths} */}
-            {/*   className="object-contain select-none h-full touch-none" */}
-            {/*   ref={mapImage} */}
-            {/*   id="map-img" */}
-            {/*   draggable="false" */}
-            {/*   aria-disabled */}
-            {/* ></object> */}
             {placesObj && context.fullView ? (
               <MapMediaFullView>
                 <MapPlaceDetails

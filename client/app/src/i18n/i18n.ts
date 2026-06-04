@@ -16,7 +16,7 @@ i18n
     debug: false,
 
     detection: {
-      order: ["navigator"],
+      order: ["path", "navigator"],
       lookupFromPathIndex: 0,
       caches: ["localStorage", "cookie"],
     },
