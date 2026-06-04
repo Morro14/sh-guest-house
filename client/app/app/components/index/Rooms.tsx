@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { getAxiosInstance } from "~/utils/general";
 import { logError } from "~/utils/logging";
+import Placeholder from "../Placeholder";
 
 const MEDIA_BASE_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 const ROOMS_NUMBER_SHOW_INIT = 1;
@@ -18,10 +19,12 @@ export default function RoomsPreview() {
   const context = useNavContextProvider();
   const [showMoreRooms, setShowMoreRooms] = useState(false);
   const [expandContainer, setExpandContainer] = useState(false);
-  const [extraRooms, setExtraRooms] = useState<Array<Room> | []>([]);
+  const [extraRooms, setExtraRooms] = useState<Array<Room> | null>(null);
+  const [loadingExtraRooms, setLoadingExtraRooms] = useState(false);
 
   useEffect(() => {
     if (rooms) return;
+    console.log(rooms);
     const axiosInstance = getAxiosInstance();
     axiosInstance
       .get(`content/rooms/?limit=${ROOMS_NUMBER_SHOW_INIT}`)
@@ -39,12 +42,20 @@ export default function RoomsPreview() {
   function genRoomCard(room: Room, i: number) {
     return (
       <div
-        className={`flex w-full md:h-67 h-34 flex-col items-center transition-all duration-300 starting:opacity-0 opacity-100`}
+        className={`flex w-full md:h-60 h-34 flex-col items-center transition-all duration-300 starting:opacity-0 opacity-100`}
         key={`room-card-${i}`}
       >
+        {/* <img */}
+        {/*   className="room-card object-cover border-2 h-full border-primary cursor-pointer drop-shadow-sm" */}
+        {/*   src={`${MEDIA_BASE_URL}${room.images[0].variants.small}`} */}
+        {/*   onClick={() => { */}
+        {/*     context.setItemSelected(i); */}
+        {/*     context.setFullImageView(true); */}
+        {/*   }} */}
+        {/* /> */}
         <img
-          className="object-cover border-2 md:h-57 h-29 w-full border-primary cursor-pointer drop-shadow-sm"
-          src={`${MEDIA_BASE_URL}${room.images[0].variants.small}`}
+          className="room-card object-cover border-2 size-full border-primary cursor-pointer drop-shadow-sm"
+          src="src/assets/map-paths.svg"
           onClick={() => {
             context.setItemSelected(i);
             context.setFullImageView(true);
@@ -56,13 +67,16 @@ export default function RoomsPreview() {
   }
 
   useEffect(() => {
-    if (!showMoreRooms || extraRooms.length > 0) return;
+    if (!showMoreRooms || extraRooms) return;
+    setLoadingExtraRooms(true);
+    new Promise(() => setTimeout(() => {}, 3000));
     const axiosInstance = getAxiosInstance();
     axiosInstance
       .get(
         `content/rooms/?limit=${ROOMS_NUMBER_SHOW_EXRA}&offset=${ROOMS_NUMBER_SHOW_INIT}`,
       )
       .then((response) => {
+        setLoadingExtraRooms(false);
         if (response.status === 200) {
           setExtraRooms(response.data.data.results);
         }
@@ -70,20 +84,43 @@ export default function RoomsPreview() {
       .catch((r) => logError(r));
   }, [showMoreRooms, extraRooms]);
   let extraRoomsEl = null;
-  if (extraRooms.length > 0) {
+  if (extraRooms) {
     extraRoomsEl = extraRooms.map((room: Room, i: number) => {
       return genRoomCard(room, i + ROOMS_NUMBER_SHOW_INIT);
     });
   }
+  const getContainerHeight = (
+    showMoreRooms: boolean,
+    extraRooms: number = 0,
+  ) => {
+    const roomCardEl = document.getElementsByClassName("room-card")[0];
+    if (!roomCardEl) {
+      return "auto";
+    }
+    const labelHeight = 28;
+    const rowHeight = roomCardEl.clientHeight;
+    if (!showMoreRooms) {
+      return rowHeight + labelHeight;
+    }
+    const gap = 16;
+    const rows = Math.ceil(extraRooms + 1);
+    const containerHeight =
+      rows * rowHeight + gap * (rows - 1) + labelHeight * rows;
+    return containerHeight;
+  };
   return !rooms ? (
-    <div className="flex justify-center items-center text-center w-full h-96 bg-gray-warm-light text-gray-500 font-sans rounded-xl">
-      <span>
-        {!rooms || rooms.length === 0 ? t("No data") : t("Loading...")}
-      </span>
-    </div>
+    <Placeholder
+      text={!rooms || rooms.length === 0 ? t("No data") : t("Loading...")}
+    ></Placeholder>
   ) : (
     <div
-      className={`flex justify-center w-full ${showMoreRooms ? `2xl:h-290 md:h-290 h-150` : "md:h-[270px] h-34"} relative transition-[height] duration-300`}
+      className={`flex justify-center w-full relative transition-[height] duration-300`}
+      style={{
+        height: getContainerHeight(
+          showMoreRooms,
+          extraRooms ? extraRooms.length : 0,
+        ),
+      }}
     >
       {context.fullImageView ? (
         <MediaFullView>
@@ -107,15 +144,21 @@ export default function RoomsPreview() {
             })
           : ""}
         {showMoreRooms && extraRoomsEl ? extraRoomsEl : ""}
-        <button
-          className="font-medium underline cursor-pointer"
-          onClick={() => {
-            setExpandContainer(!expandContainer);
-            setShowMoreRooms(!showMoreRooms);
-          }}
-        >
-          {!showMoreRooms ? t("More rooms...") : t("Show less rooms")}
-        </button>
+        <div className="flex items-center justify-center">
+          <button
+            className="font-medium underline cursor-pointer"
+            onClick={() => {
+              setExpandContainer(!expandContainer);
+              setShowMoreRooms(!showMoreRooms);
+            }}
+          >
+            {loadingExtraRooms
+              ? t("Loading...")
+              : !showMoreRooms
+                ? t("More rooms...")
+                : t("Show less rooms")}
+          </button>
+        </div>
       </div>
     </div>
   );

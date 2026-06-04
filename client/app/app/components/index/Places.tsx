@@ -63,8 +63,7 @@ export default function Places() {
       {context.fullImageView ? (
         <MediaFullView>
           <ImageLoading
-            attributes={{
-              key: `place-image-${context.imageSelected}-key`,
+            imageAttrs={{
               src: data[context.itemSelected].images[0]?.variants.original,
               className: `object-contain`,
               onClick: () => {

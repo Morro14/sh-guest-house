@@ -10,7 +10,6 @@ export function useCloseOnClickWithSwitcher<T extends any[]>(
   const handleClickOutside = (e: MouseEvent) => {
     if (!switcherRef.current?.checked) return;
     const target = e.target as Node;
-    // console.log("close", nonClickableRef, switcherRef);
     if (nonClickableRef.current && !nonClickableRef.current.contains(target)) {
       e.preventDefault();
       e.stopPropagation();

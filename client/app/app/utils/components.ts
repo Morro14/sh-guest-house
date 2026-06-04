@@ -6,15 +6,13 @@ export function useCloseOnClick<T extends any[]>(
   callback: (...args: any) => any | void = null,
   callBackArgs: T | [] = [],
 ) {
-  const context = useMapContextProvider()
+  const context = useMapContextProvider();
   useEffect(() => {
     if (!nonClickableRef.current) return;
     const handleClickOutside = (e: MouseEvent) => {
-
-      console.log("close on click mousedown")
       const target = e.target as Node;
       if (!nonClickableRef.current.contains(target)) {
-        e.stopImmediatePropagation()
+        e.stopImmediatePropagation();
         if (callback) {
           callback(...callBackArgs);
         }

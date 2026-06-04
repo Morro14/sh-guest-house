@@ -83,7 +83,7 @@ export default function MapPlaceComponent({
   const hasDot =
     !optionsMerged.grouped &&
     optionsMerged.dot &&
-    !LABELS_WITHOUT_DOT.includes(place.slug);
+    !LABELS_WITHOUT_DOT.includes(place?.slug);
   let pointerPosOnMouseDown = { x: 0, y: 0 };
   return !place ? (
     <></>
@@ -133,8 +133,6 @@ export default function MapPlaceComponent({
           onPointerUp={(e) => {
             // click leeway
             const isClick = isClickNotDrag(pointerPosOnMouseDown, 5, e);
-            console.log("click init", pointerPosOnMouseDown);
-            console.log("click", isClick);
             if (!isClick) {
               return;
             }

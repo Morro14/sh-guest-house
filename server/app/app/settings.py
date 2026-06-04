@@ -20,6 +20,7 @@ from dotenv import load_dotenv
 import structlog
 from dj_lite import sqlite_config
 from google.oauth2 import service_account
+from main.logging import shorten_exception
 
 # from django.core.management.utils import get_random_secret_key
 
@@ -40,7 +41,9 @@ ON_RENDER = os.environ.get("RENDER") == "true"
 DEBUG = os.environ.get("DEBUG") == "True"
 AUTH_USER_MODEL = "auth_app.User"
 if DEBUG:
-    SESSION_COOKIE_DOMAIN = "backend.test"
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    # SESSION_COOKIE_DOMAIN = "backend.test"
 ALLOWED_HOSTS = []
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if RENDER_EXTERNAL_HOSTNAME:
@@ -277,25 +280,6 @@ LOGGING = {
         "level": LOGGING_LEVEL,
     },
 }
-
-
-def shorten_exception(logger, method_name, event_dict):
-    """Replaces a full stack trace with a simple error summary."""
-    # Check if an exception was processed
-    print("SHORTEN EXCEPTION MSG")
-    if "exception" in event_dict:
-        # If format_exc_info ran, 'exception' is a long string.
-        # We can look at the actual sys.exc_info() if available,
-        # or just grab the first line of the formatted exception.
-        exc_lines = event_dict["exception"].strip().split("\n")
-        if exc_lines:
-            # The last line of a traceback usually contains "ErrorName: message"
-            event_dict["error_summary"] = exc_lines[-1]
-
-        # Drop the massive traceback
-        del event_dict["exception"]
-
-    return event_dict
 
 
 structlog.configure(

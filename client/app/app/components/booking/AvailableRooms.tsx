@@ -23,7 +23,6 @@ export default function AvailableRooms({ rooms }) {
       children: Number(URLSearchParams.get("children")),
     });
 
-    console.log(roomsFormFetcher);
     formContext.setRoomsFormFetcher(roomsFormFetcher);
   }, [URLSearchParams, roomsFormFetcher]);
 
@@ -61,7 +60,6 @@ export default function AvailableRooms({ rooms }) {
                 name="carousel-full-view"
                 images={rooms[context.itemSelected].images}
                 imageRes="original"
-                imageSize="full"
                 fullView={true}
               ></Carousel>
             </MediaFullView>

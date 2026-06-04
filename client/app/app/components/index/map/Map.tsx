@@ -210,15 +210,13 @@ export default function Map() {
                   );
                 })}
                 {placeLabelsDataTyped.map((item) => {
-                  if (!labelsSouthEast.includes(item.name)) {
-                    return (
-                      <MapPlaceComponent
-                        place={placesObj[item.name]}
-                        options={item.options}
-                        key={`placelabel-${item.name}`}
-                      ></MapPlaceComponent>
-                    );
-                  }
+                  return (
+                    <MapPlaceComponent
+                      place={placesObj[item.name]}
+                      options={item.options}
+                      key={`placelabel-${item.name}`}
+                    ></MapPlaceComponent>
+                  );
                 })}
               </div>
             ) : (

@@ -1,10 +1,10 @@
-import { useContextProvider } from "../booking/IndexBookingContextProvider";
+import { useIndexBookingContextProvider } from "../booking/IndexBookingContextProvider";
 import { useRef } from "react";
 import type { ValidationErrors } from "./validate";
 
 export default function ErrorPanelMobile() {
   const pannelRef = useRef<HTMLDivElement>(null);
-  const context = useContextProvider();
+  const context = useIndexBookingContextProvider();
   const errors: ValidationErrors = context.errors;
   const errorsExist = errors && Object.keys(errors).length > 0;
   const style = errorsExist ? "h-7 flex" : "h-0 overflow-hidden";

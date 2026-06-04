@@ -4,7 +4,6 @@ export default function draw(
   zoom: number = 1,
   size: { x: number; y: number },
 ) {
-  console.log("drawing");
   const ctx = canvas.getContext("2d");
   if (!ctx) {
     return;

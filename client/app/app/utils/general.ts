@@ -6,14 +6,14 @@ import axios from "axios";
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 
-export const getAxiosInstance = (to: "media" | "api" = "api") => {
+export const getAxiosInstance = (baseURL: "media" | "api" = "api") => {
   axios.defaults.withCredentials = true;
-  const urls = {
+  const baseURLs = {
     media: MEDIA_URL,
     api: SERVER_URL,
   };
   const axiosInstance = axios.create({
-    baseURL: urls[to] + "/api/",
+    baseURL: baseURLs[baseURL] + "/api/",
     // timeout: 10000,
   });
   axiosInstance.interceptors.request.use((config) => {

@@ -1,8 +1,9 @@
 import { getAxiosInstance } from "./general";
 import { isRouteErrorResponse } from "react-router";
 import { isAxiosError } from "axios";
-import type { AxiosError } from "axios";
+// import type { AxiosError } from "axios";
 import type { ErrorResponse } from "react-router";
+import { AxiosError } from "axios";
 
 type ErrorGeneral = Error | ErrorResponse | AxiosError | unknown;
 
@@ -30,6 +31,12 @@ export function logError(error: ErrorGeneral, info: React.ErrorInfo = null) {
 
 function serializeError(error: unknown) {
   if (isAxiosError(error)) {
+    const axiosError = error as AxiosError;
+    if (axiosError.code === AxiosError.ERR_NETWORK) {
+      return {
+        type: "network_error",
+      };
+    }
     return {
       type: "axios_response",
       status: error.response.status,

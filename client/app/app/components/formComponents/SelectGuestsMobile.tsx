@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useRef, useState } from "react";
-import { useCloseOnClick } from "./utils";
+import { useCloseOnClick, useCloseOnClickWithSwitcher } from "./utils";
 import {
   Select,
   MenuItem,
@@ -27,7 +27,7 @@ export default function SelectGuestsMobile({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const checkboxRef = useRef<HTMLInputElement>(null);
 
-  useCloseOnClick(wrapperRef, checkboxRef, null, []);
+  useCloseOnClickWithSwitcher(wrapperRef, checkboxRef, null, []);
 
   const genGuestOptions = (num: number, guestType: "adults" | "children") => {
     const guestNum = guestType === "children" ? num + 1 : num;

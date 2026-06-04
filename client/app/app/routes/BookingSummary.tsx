@@ -1,11 +1,5 @@
 import { useTranslation } from "react-i18next";
-import {
-  createSearchParams,
-  Form,
-  redirect,
-  Link,
-  useFetcher,
-} from "react-router";
+import { createSearchParams, redirect, Link, useFetcher } from "react-router";
 import {
   formatPrice,
   getAxiosInstance,
@@ -20,7 +14,6 @@ import Fallback from "~/components/Fallback";
 import ErrorFallback from "~/components/ErrorFallback";
 import { isAxiosError, type AxiosResponse } from "axios";
 import { logError } from "~/utils/logging";
-import { useNavigation } from "react-router";
 import { langCodes } from "~/utils/lang";
 
 export function ErrorBoundary() {
@@ -43,8 +36,9 @@ export function ErrorBoundary() {
 }
 
 export async function clientAction({ request }) {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  return;
+  // await new Promise((resolve) => setTimeout(resolve, 500));
+  // return;
+  const axiosInstance = getAxiosInstance();
   const formData = await request.formData();
   const response = (await axiosInstance.post(
     "booking/validate",
@@ -72,14 +66,12 @@ interface LoaderData {
     nights: string;
   };
 }
-export async function clientLoader({ request }) {
+export async function clientLoader() {
   const axiosInstance = getAxiosInstance();
   const response = await axiosInstance.get(`booking/request-summary`);
-  // const response = await axiosInstance.get("booking/request-summary");
   return response;
 }
 export default function BookingSummary({ loaderData }) {
-  // const navigation = useNavigation();
   const loaderDataClean: LoaderData = loaderData.data;
   const { t, i18n } = useTranslation();
   const {

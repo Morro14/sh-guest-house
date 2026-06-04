@@ -16,7 +16,6 @@ export function getMapHandlers(elements: MapElements, context: any) {
 
   function handlePointerDown(e: PointerEvent) {
     // map pointer down
-    console.log("map pointer down");
     isMovable = true;
     mouseDownX = e.clientX;
     mouseDownY = e.clientY;
@@ -74,7 +73,6 @@ export function getMapHandlers(elements: MapElements, context: any) {
       const dx = p1.clientX - p2.clientX;
       const dy = p1.clientY - p2.clientY;
       const currentDistance = Math.sqrt(dx * dx + dy * dy);
-      console.log("pointer", p1);
       const pinchCenter = {
         x: Math.floor(p1.clientX + dx / 2),
         y: Math.floor(p1.clientY + dy / 2),

@@ -50,7 +50,6 @@ export default function FloatingPanel() {
   const price = context.priceFetcher.data?.reservation_price || 0;
   const priceStatus = context.priceFetcher.state;
   const submittingRoomsState = fetcher?.state;
-  console.log("form state", submittingRoomsState);
   return (
     <div
       className={`${panelOffScreen ? "fixed top-0" : "absolute top-0"} z-20 top-0 flex flex-col items-center justify-start font-sans`}

@@ -50,7 +50,6 @@ export function usePinchZoom({
       const scaleMultiplier = currentDistance / initDistance;
       if (prevDistance > 0) {
         if (currentDistance > prevDistance) {
-          console.log("Pinching Out (Zooming In)");
           const newZoom = currentZoom * scaleMultiplier;
           zoomMap({
             container: container,
@@ -64,7 +63,6 @@ export function usePinchZoom({
           setZoom(newZoom);
         } else if (currentDistance < prevDistance) {
           const newZoom = currentZoom * scaleMultiplier;
-          console.log("Pinching In (Zooming Out)");
           zoomMap({
             container: container,
             mapSurface: mapSurface,
@@ -101,10 +99,5 @@ export function usePinchZoom({
 
   // mapSurface.addEventListener("pointerup", stopTracking);
   // mapSurface.addEventListener("pointercancel", stopTracking);
-  console.log("returning pinch handlers", {
-    stopTracking,
-    handleMove,
-    handlePointerDown,
-  });
   return { stopTracking, handleMove, handlePointerDown };
 }

@@ -15,7 +15,6 @@ export default function TownLabel({
       const labelEl = ref.current;
       const currentOffsets = { x: labelEl.offsetLeft, y: labelEl.offsetTop };
       if (townLabel.name === "getap") {
-        console.log("currentOffsets", currentOffsets);
       }
       return { x: currentOffsets.x * zoom, y: currentOffsets.y * zoom };
     }

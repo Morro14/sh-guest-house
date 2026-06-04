@@ -55,8 +55,9 @@ def get_upload_path(instance, filename):
     if cat_folder_name in without_rel_fields:
         return os.path.join("demo", cat_names[cat_folder_name], filename)
     for field in rel_fields:
-        instance_folder_name = getattr(instance, field, None).slug
-        if instance_folder_name:
+        field = getattr(instance, field, None)
+        if field:
+            instance_folder_name = field.slug
             return os.path.join(
                 "demo", cat_names[cat_folder_name], instance_folder_name, filename
             )

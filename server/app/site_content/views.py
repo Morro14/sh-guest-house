@@ -46,7 +46,6 @@ class GridImageSet(APIView):
             images = GridImage.objects.filter(tag__name=tag)
         else:
             images = GridImage.objects.all()
-        print("grid images", images)
         serializer = ImageGridSerializer(images, many=True)
         return Response({"data": serializer.data})
 

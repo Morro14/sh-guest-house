@@ -21,7 +21,6 @@ export default function getMapMoveHandlers(
     // if (activePointers.size > 1) {
     //   return;
     // }
-    console.log("handleMove");
     if (!isMovable) {
       return;
     }
@@ -43,7 +42,6 @@ export default function getMapMoveHandlers(
   const handlePointerDown = (e: PointerEvent) => {
     // add pointers
     activePointers.set(e.pointerId, e);
-    console.log("move pointerdown");
     isMovable = true;
     mouseDownX = e.clientX;
     mouseDownY = e.clientY;
@@ -93,7 +91,6 @@ export function useMoveLabel(
   };
   // console.log("useMovePlaceLabel", label, labelOptions, container);
   const registerMouseDownLabel = (e: PointerEvent) => {
-    console.log("move label pointer down");
     e.stopPropagation();
     // const target = e.target as Element;
     // const includeslabelElements = [label.id].includes(target.id);
@@ -116,7 +113,6 @@ export function useMoveLabel(
         document.removeEventListener("pointermove", moveLabel);
         labelOffsetX = label.offsetLeft;
         labelOffsetY = label.offsetTop;
-        console.log(labelOffsetX);
         writeMapItemPosData(
           label.dataset.slug,
           { x: labelOffsetX, y: labelOffsetY },

@@ -13,7 +13,6 @@ class DropRequestInfoLogs(logging.Filter):
 def shorten_exception(logger, method_name, event_dict):
     """Replaces a full stack trace with a simple error summary."""
     # Check if an exception was processed
-    print("SHORTEN EXCEPTION MSG")
     if "exception" in event_dict:
         # If format_exc_info ran, 'exception' is a long string.
         # We can look at the actual sys.exc_info() if available,

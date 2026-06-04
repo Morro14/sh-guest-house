@@ -62,7 +62,6 @@ export default defineConfig({
                     placeDot: "src/data/place-dots-data.json",
                   };
                   const filePath = path.resolve(__dirname, paths[payloadType]);
-                  console.log("filePath", filePath);
                   // 1. Read
                   let existingData = [];
                   if (fs.existsSync(filePath)) {
