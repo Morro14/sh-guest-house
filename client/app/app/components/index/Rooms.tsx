@@ -3,7 +3,7 @@ import MediaFullView from "../MediaFullView";
 import { Carousel } from "../carousel/Carousel";
 import type { Room } from "app/types/booking";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { getAxiosInstance } from "~/utils/general";
 import { logError } from "~/utils/logging";
 import Placeholder from "../Placeholder";
@@ -45,17 +45,9 @@ export default function RoomsPreview() {
         className={`flex w-full md:h-60 h-34 flex-col items-center transition-all duration-300 starting:opacity-0 opacity-100`}
         key={`room-card-${i}`}
       >
-        {/* <img */}
-        {/*   className="room-card object-cover border-2 h-full border-primary cursor-pointer drop-shadow-sm" */}
-        {/*   src={`${MEDIA_BASE_URL}${room.images[0].variants.small}`} */}
-        {/*   onClick={() => { */}
-        {/*     context.setItemSelected(i); */}
-        {/*     context.setFullImageView(true); */}
-        {/*   }} */}
-        {/* /> */}
         <img
           className="room-card object-cover border-2 size-full border-primary cursor-pointer drop-shadow-sm"
-          src="src/assets/map-paths.svg"
+          src={`${MEDIA_BASE_URL}${room.images[0].variants.small}`}
           onClick={() => {
             context.setItemSelected(i);
             context.setFullImageView(true);
@@ -83,12 +75,14 @@ export default function RoomsPreview() {
       })
       .catch((r) => logError(r));
   }, [showMoreRooms, extraRooms]);
-  let extraRoomsEl = null;
-  if (extraRooms) {
-    extraRoomsEl = extraRooms.map((room: Room, i: number) => {
+  let extraRoomsCards = useMemo(() => {
+    if (!extraRooms) {
+      return;
+    }
+    return extraRooms.map((room: Room, i: number) => {
       return genRoomCard(room, i + ROOMS_NUMBER_SHOW_INIT);
     });
-  }
+  }, [extraRooms]);
   const getContainerHeight = (
     showMoreRooms: boolean,
     extraRooms: number = 0,
@@ -143,7 +137,7 @@ export default function RoomsPreview() {
               return room;
             })
           : ""}
-        {showMoreRooms && extraRoomsEl ? extraRoomsEl : ""}
+        {showMoreRooms && extraRooms ? extraRoomsCards : ""}
         <div className="flex items-center justify-center">
           <button
             className="font-medium underline cursor-pointer"

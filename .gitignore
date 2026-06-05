@@ -12,6 +12,8 @@ venv
 /client_test
 build
 thumbnails
+/server/app/media/demo/
+/server/app/start.sh
 migrations
 collectstatic
 /server/app/cmd/
