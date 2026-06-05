@@ -23,7 +23,7 @@ export default function MapNav({
     normalRoad: { name: t("Normal road"), icon: normalRoadSVG, type: "line" },
     dirtRoad: { name: t("Dirt road"), icon: dirtRoadSVG, type: "line" },
     offRoad: {
-      name: t("Dirt road (off-road car required"),
+      name: t("Dirt road (off-road car required)"),
       icon: offRoadSVG,
       type: "line",
     },
@@ -35,7 +35,7 @@ export default function MapNav({
     mainRoad: { name: t("Republican road"), icon: mainRoadSVG, type: "line" },
     river: { name: t("River"), icon: riverSVG, type: "line" },
     mountains: {
-      name: t("Mountainous terain"),
+      name: t("Mountainous terrain"),
       icon: mountainsIcon,
       type: "line",
     },

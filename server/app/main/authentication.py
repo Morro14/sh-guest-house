@@ -12,16 +12,18 @@ class SessionAuthentication(BaseAuthentication):
         try:
             token = request.COOKIES.get("booking_request_token")
         except KeyError:
+            print("1")
             raise AuthenticationFailed("Session cookie missing or expired")
         if not token:
+            print("2")
             raise AuthenticationFailed("Session cookie missing or expired")
         try:
-            payload = jwt.decode(
-                token, os.environ.get("JWT_SECRET"), "HS256"
-            )
+            payload = jwt.decode(token, os.environ.get("JWT_SECRET"), "HS256")
         except jwt.ExpiredSignatureError:
+            print("3")
             raise AuthenticationFailed("Session token has expired")
         except jwt.InvalidTokenError:
+            print("4")
             raise AuthenticationFailed("Invalid token")
 
         if payload["jti"]:

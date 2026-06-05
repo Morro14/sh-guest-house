@@ -87,22 +87,20 @@ class TranslationView(APIView):
     authentication_classes = []
 
     def get(self, request, lng=None):
-        keys_path = os.path.join(settings.BASE_DIR, "site_content/translation.json")
-        keys = json.load(open(keys_path))
-
-        lang = request.LANGUAGE_CODE
+        lang = request.LANGUAGE_CODE.lower()[:2]
+        keys = list(json.load(open((f"locale/{lang}/frontend_keys.json"))))
         cache_key = f"translations_{lang}_{settings.TRANSLATION_VERSION}"
 
         cached = cache.get(key=cache_key)
         if cached:
+            print("sending chached translations")
             return Response(cached)
 
-        # translation.activate(lang)
-        get_lang_value = translation.get_language()
         translations = {key: _(key) for key in keys}
-
+        print(translations)
         response = Response(translations)
         cache.set(cache_key, translations, timeout=60 * 60 * 24)
+        print("sending fresh translations")
         return response
 
 

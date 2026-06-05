@@ -79,19 +79,21 @@ export default function BookingPanel() {
               {t("Nights", { count: context.nightsCount })}
             </label>
           </div>
-          <BookingPanelButton
-            containerProps="w-30"
-            state={navigation.state}
-            label={t("Check availability")}
-          ></BookingPanelButton>
           {/* <BookingPanelButtonTest></BookingPanelButtonTest> */}
           {/* <div className="flex flex-col items-center justify-center -mb-2"> */}
           {/*   <button type="submit" className="capitalize mx-8 cursor-pointer"> */}
           {/*     {t("Continue")} */}
           {/*   </button> */}
-          {/* {underline} */}
           {/* </div> */}
         </Form>
+        <div className="relative w-auto flex flex-col">
+          <BookingPanelButton
+            containerProps=""
+            state={navigation.state}
+            label={t("Check availability")}
+          ></BookingPanelButton>
+          {/* <div className="relative -bottom-2 left-0 w-full">{underline}</div> */}
+        </div>
       </div>
       <div className="absolute top-10">
         <ErrorPanel errors={context.errors}></ErrorPanel>

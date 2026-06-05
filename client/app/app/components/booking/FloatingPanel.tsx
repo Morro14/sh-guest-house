@@ -76,7 +76,7 @@ export default function FloatingPanel() {
             </div>
             <div
               className={`${panelOffScreen ? "block" : "max-2xl:hidden"} 2xl:block hidden `}
-            >{`${t("nights")}: ${params.nights}`}</div>
+            >{`${t("nightWithCount", { count: 6 })}: ${params.nights}`}</div>
             <div className={`flex overflow-visible w-30 space-x-1 relative`}>
               <span className="text-nowrap">{`${t("Total price")}:`}</span>
               <div

@@ -6,16 +6,19 @@ export default function LocationMain() {
   const { t } = useTranslation();
   return (
     <div className="flex md:flex-row flex-col items-center md:justify-center col-span-2 font-sans md:gap-5 gap-2 text">
-      <Link to="" className="flex gap-2 underline">
+      <a
+        href="https://maps.app.goo.gl/48eyX1Yuqn6haWYZ8"
+        className="flex gap-2 underline"
+      >
         <img className="w-3" src={googleMapsIcon} />
         <div>{t("Open in Google Maps")}</div>
-      </Link>
-      <Link to="" className="underline">
+      </a>
+      <span className="underline text-gray-warm-inactive" aria-disabled>
         {t("Open a written guide")}
-      </Link>
-      <Link to="" className="underline">
+      </span>
+      <span className="underline text-gray-warm-inactive" aria-disabled>
         {t("Shuttle from Yeghegnadzor")}
-      </Link>
+      </span>
     </div>
   );
 }

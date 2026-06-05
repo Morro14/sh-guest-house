@@ -24,7 +24,6 @@ class ContentPage(models.Model):
         max_length=255, verbose_name=_("Content page title"), blank=True
     )
     body = models.TextField(
-        help_text=_("Write the content in Markdown fromat."),
         verbose_name=_("Content page body"),
     )
     updated_at = models.DateTimeField(auto_now=True)

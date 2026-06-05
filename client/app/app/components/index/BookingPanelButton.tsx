@@ -20,7 +20,7 @@ export default function BookingPanelButton({
     >
       <button
         type="submit"
-        className={`capitalize absolute left-7 hover:text-accent cursor-pointer underline font-medium text-left text-nowrap ${state !== "idle" ? "opacity-0 hidden" : "opacity-100 block"} 
+        className={`capitalize hover:text-accent cursor-pointer font-medium text-left underline text-nowrap ${state !== "idle" ? "opacity-0 hidden" : "opacity-100 block"} 
           transition-all transition-discrete duration-150 ${buttonProps}`}
       >
         {label}

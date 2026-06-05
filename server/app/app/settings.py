@@ -40,10 +40,13 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 ON_RENDER = os.environ.get("RENDER") == "true"
 DEBUG = os.environ.get("DEBUG") == "True"
 AUTH_USER_MODEL = "auth_app.User"
-if DEBUG:
-    SESSION_COOKIE_SECURE = False
-    CSRF_COOKIE_SECURE = False
-    # SESSION_COOKIE_DOMAIN = "backend.test"
+print("debug", DEBUG)
+# if DEBUG:
+#     SESSION_COOKIE_SAMESITE = "None"
+#     CSRF_COOKIE_SAMESITE = "None"
+#     SESSION_COOKIE_SECURE = False
+#     CSRF_COOKIE_SECURE = False
+# SESSION_COOKIE_DOMAIN = "backend.test"
 ALLOWED_HOSTS = []
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if RENDER_EXTERNAL_HOSTNAME:
@@ -55,7 +58,10 @@ else:
         "127.0.0.2",
         "backend.test",
     ]
-
+CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = ["http://192.168.11.51:5173/:3000"]
+# SESSION_COOKIE_SAMESITE = None
 CSRF_TRUSTED_ORIGINS = []
 if RENDER_EXTERNAL_HOSTNAME:
     CSRF_TRUSTED_ORIGINS.append(f"https://{RENDER_EXTERNAL_HOSTNAME}")

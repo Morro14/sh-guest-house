@@ -149,7 +149,7 @@ export default function AvailableRoom({
             {nightsNum > 1 ? (
               <div className="flex flex-col">
                 <div className="font-sans text-sm text-gray-warm-mid">
-                  {t(`For {{count}} nights`, { count: nightsNum })}
+                  {t(`For {{count}} night`, { count: nightsNum })}
                 </div>
                 <div className="flex items-end">
                   <span className="font-sans text-xl">{`${formatPrice(room.price * nightsNum, CURRENCY)}`}</span>

@@ -101,12 +101,7 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
         </div>
 
         <div className="flex flex-col items-center md:gap-3 gap-2 border-b border-b-line-light">
-          <label
-            className="font-medium text-gray-warm-mid"
-            htmlFor="checkin-date-input"
-          >
-            {t("Guests")}
-          </label>
+          <span className="font-medium text-gray-warm-mid">{t("Guests")}</span>
           <SelectGuests
             layout={FormChangeLayout}
             defaultParams={{
@@ -119,7 +114,7 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
         <div className="flex flex-col items-center gap-3">
           <label
             className="font-medium text-gray-warm-mid"
-            htmlFor="checkin-date-input"
+            htmlFor="nights-input"
           >
             {t("Nights")}
           </label>
@@ -131,6 +126,7 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
               type="text"
               maxLength={2}
               onChange={(e) => context.setNightsCount(Number(e.target.value))}
+              id="nights-input"
             />
           </div>
         </div>

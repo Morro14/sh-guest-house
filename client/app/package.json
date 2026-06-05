@@ -9,8 +9,7 @@
     "build": "react-router typegen && tsc -b && react-router build",
     "start": "react-router-serve ./build/server/index.js",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "makemessages": "i18next --config i18next-parser.config.cjs"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
