@@ -40,7 +40,7 @@ def get_upload_path(instance, filename):
     cat_folder_name = instance.__class__.__name__
     cat_names = {
         "GridImage": "grid_images",
-        "ImageWide": "wide_images",
+        "WideImage": "wide_images",
         "RoomImage": "room_images",
         "PlaceImage": "place_images",
     }
