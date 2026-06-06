@@ -10,7 +10,7 @@
   @apply md:w-[688px] md:h-[388px] overflow-hidden;
 }
 .media-full-view {
-  @apply max-w-[100vw] h-[75vh];
+  @apply max-w-[100vw] min-w-[60vw] h-[75vh];
 }
 .carousel-small {
   @apply md:w-[688px] w-[375px] md:h-[388px] h-[250px];
@@ -26,4 +26,8 @@
 }
 .place-details {
   @apply 2xl:w-250 md:w-150 w-full
+}
+
+.carousel-full {
+  @apply max-w-[80vw] min-w-[40vw] md:max-w-[70vw] md:min-w-[40vw] xl:max-w-[65vw] xl:min-w-[40vw] 2xl:max-w-[60vw] 2xl:min-w-[40vw]
 }

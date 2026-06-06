@@ -36,8 +36,8 @@ export function Carousel({
     }
   };
   return fullView ? (
-    <div className="flex flex-col gap-5 items-center justify-end shrink h-full max-w-[80vw] md:max-w-[70vw] xl:max-w-[65vw] 2xl:max-w-[60vw]">
-      <div className="embla bg-black-transparent border-2 border-peach size-full">
+    <div className="flex flex-col gap-5 items-center justify-end shrink h-full carousel-full">
+      <div className="embla bg-black-transparent border-2 border-primary size-full">
         <div className="embla__viewport size-full" ref={emblaRef}>
           <div className={`embla__container  size-full`}>
             {images.map((img, i) => (
@@ -60,10 +60,14 @@ export function Carousel({
       </div>
       <div className="sticky">
         {/* <CarouselDots emblaRef={emblaRef} emblaApi={emblaApi}></CarouselDots> */}
-        <CarouselDotsFullView
-          emblaApi={emblaApi}
-          snapListLen={images.length}
-        ></CarouselDotsFullView>
+        {images.length > 1 ? (
+          <CarouselDotsFullView
+            emblaApi={emblaApi}
+            snapListLen={images.length}
+          ></CarouselDotsFullView>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   ) : (
@@ -71,7 +75,7 @@ export function Carousel({
       className={`embla ${display ? "flex" : "hidden"} flex-col gap-5 2xl:w-full md:w-[688px]`}
     >
       <div
-        className={`"embla__viewport overflow-hidden carousel-small ${border ? "border-2 border-peach" : ""}`}
+        className={`"embla__viewport overflow-hidden carousel-small ${border ? "border-2 border-primary" : ""}`}
         ref={emblaRef}
       >
         <div className={`embla__container`}>

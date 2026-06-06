@@ -119,8 +119,12 @@ export default function RoomsPreview() {
         <MediaFullView>
           <Carousel
             name="rooms"
-            key={`room-carousel-${[...rooms, ...extraRooms][context.itemSelected].slug}`}
-            images={[...rooms, ...extraRooms][context.itemSelected].images}
+            key={`room-carousel-${extraRooms ? [...rooms, ...extraRooms][context.itemSelected].slug : rooms[context.itemSelected].slug}`}
+            images={
+              extraRooms
+                ? [...rooms, ...extraRooms][context.itemSelected].images
+                : rooms[context.itemSelected].images
+            }
             imageRes="original"
             fullView={true}
           ></Carousel>
