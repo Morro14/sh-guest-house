@@ -2,6 +2,7 @@ import type { Image } from "~/types/booking";
 import useEmblaCarousel from "embla-carousel-react";
 import { useEffect, useState } from "react";
 
+const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 export function CarouselSimple({
   name,
   images,
@@ -42,7 +43,7 @@ export function CarouselSimple({
             <div className={`flex justify-center h-full`}>
               <img
                 className={` object-contain w-full`}
-                src={img.variants[imageRes]}
+                src={MEDIA_URL + img.variants[imageRes]}
                 alt={`${name}-${i}`}
                 loading="lazy"
               />

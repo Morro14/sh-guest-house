@@ -21,6 +21,7 @@ interface Place {
   info_link: string;
 }
 
+const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 export default function Places() {
   const { fetchedData, loading } = useFetchV3("content/places");
   const data = fetchedData?.data?.data as Array<Place>;
@@ -33,7 +34,7 @@ export default function Places() {
               <img
                 key={`place-image-${index}-key`}
                 className={`z-10 relative object-contain hover:cursor-pointer ${index === context.itemSelected ? "block" : "hidden"}`}
-                src={place.images[0]?.variants.small}
+                src={MEDIA_URL + place.images[0]?.variants.small}
                 onClick={() => {
                   context.setFullImageView(true);
                 }}

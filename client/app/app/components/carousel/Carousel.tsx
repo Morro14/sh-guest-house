@@ -87,7 +87,7 @@ export function Carousel({
               <div className={`flex justify-center carousel-small `}>
                 <img
                   className={` object-cover w-full hover:cursor-pointer`}
-                  src={img.variants[imageRes]}
+                  src={MEDIA_URL + img.variants[imageRes]}
                   alt={`${name}-${i}`}
                   loading="lazy"
                   onClick={() => imageOnClick(i)}
