@@ -87,15 +87,24 @@ class Image(models.Model):
             options["filters"] = ["blur"]
             options["quality"] = 30
         thumb = get_thumbnailer(self.image_full).get_thumbnail(options)
+        media_baseurl = os.environ.get("MEDIA_BASE_URL")
+        if media_baseurl in thumb.url:
+            print("media base included", thumb.url)
+            base, pathname = thumb.url.split(sep=media_baseurl)
+            return pathname
+        print("media base not included", thumb.url)
         return thumb.url
 
     @property
     def variants(self):
+        media_baseurl = os.environ.get("MEDIA_BASE_URL")
+        if media_baseurl in self.image_full.url:
+            base, pathname = self.image_full.url.split(sep=media_baseurl)
         results = {
             "blur": self.get_variant_url(self.blur_res, blur=True),
             "small": self.get_variant_url(self.small_res),
             "main": self.get_variant_url(self.main_res),
-            "original": self.image_full.url,
+            "original": pathname,
         }
         return results
 
