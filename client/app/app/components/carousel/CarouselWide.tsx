@@ -7,7 +7,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { ImageLoading } from "../ImageLoading";
 import Spinner from "../status/Spinner";
 
-const MEDIA_URL_BASE = import.meta.env.VITE_SERVER_URL;
+const MEDIA_URL_BASE = import.meta.env.VITE_MEDIA_BASE_URL;
 
 export default function CarouselWide({ tag }: { tag: string }) {
   const { fetchedData, loading } = useFetchV3("content/wide-images/" + tag);
