@@ -4,7 +4,7 @@ import Paragraph from "~/components/index/Paragraph";
 import RoomsPreview from "~/components/index/Rooms";
 import NavContextProvider from "~/components/nav/NavContextProvider";
 import CarouselWide from "~/components/carousel/CarouselWide";
-import { useFetchV3 } from "~/utils/fetchHook";
+import { useFetchWithTranslation } from "~/utils/fetchHook";
 import { formatPageContentData } from "~/utils/format";
 import CarouselGrid from "~/components/carousel/CarouselGrid";
 import CarouselGridContextProvider from "~/components/carousel/CarouselGridContext";
@@ -15,8 +15,11 @@ import CarouselReviews from "~/components/carousel/CarouselReviews";
 import eternity from "src/assets/eternity-main.png";
 
 export default function Index() {
-  const { t } = useTranslation();
-  const { fetchedData } = useFetchV3("content/page-content");
+  const { t, i18n } = useTranslation();
+  const { fetchedData } = useFetchWithTranslation({
+    pathname: "content/page-content",
+    dependencies: [i18n.language],
+  });
   const pageContent = fetchedData?.data?.data;
   const pageContentObj = pageContent
     ? formatPageContentData(pageContent)

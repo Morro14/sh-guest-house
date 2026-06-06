@@ -3,6 +3,7 @@ import { Temporal } from "@js-temporal/polyfill";
 import type { Currency } from "~/types/booking";
 import { data } from "react-router";
 import axios from "axios";
+import i18n from "root/src/i18n/i18n";
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 
@@ -18,7 +19,8 @@ export const getAxiosInstance = (baseURL: "media" | "api" = "api") => {
   });
   axiosInstance.interceptors.request.use((config) => {
     // const url = new URL(window.location.pathname);
-    const lang = getLanguagePathParam(window.location.pathname);
+    const lang =
+      i18n.language || getLanguagePathParam(window.location.pathname);
     if (lang) {
       config.headers["X-language"] = lang.split("-")[0];
     }

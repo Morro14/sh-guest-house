@@ -1,4 +1,4 @@
-import { useFetchV3 } from "~/utils/fetchHook.ts";
+import { useFetchV3, useFetchWithTranslation } from "~/utils/fetchHook.ts";
 import Nav from "../nav/Nav.tsx";
 import { useNavContextProvider } from "../nav/NavContextProvider.tsx";
 import type { Image } from "~/types/booking.ts";
@@ -23,7 +23,11 @@ interface Place {
 
 const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 export default function Places() {
-  const { fetchedData, loading } = useFetchV3("content/places");
+  const { t, i18n } = useTranslation();
+  const { fetchedData, loading } = useFetchWithTranslation({
+    pathname: "content/places",
+    dependencies: [i18n.language],
+  });
   const data = fetchedData?.data?.data as Array<Place>;
   const context = useNavContextProvider();
   const images =
@@ -47,7 +51,6 @@ export default function Places() {
   const currentImage = data ? imagesCached[context.itemSelected] : null;
   const currentPlace = data ? data[context.itemSelected] : undefined;
   const [opacity, setOpacity] = useState(100);
-  const { t } = useTranslation();
   // context.preStateChangeCallback = (callback: () => void) => {
   //   setOpacity(0);
   //   setTimeout(() => {

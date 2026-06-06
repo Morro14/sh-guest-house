@@ -1,6 +1,6 @@
 import useEmblaCarousel from "embla-carousel-react";
 import type { Review as ReviewType } from "~/types";
-import { useFetchV3 } from "~/utils/fetchHook";
+import { useFetchWithTranslation } from "~/utils/fetchHook";
 import Review from "../index/Review";
 import Placeholder from "../Placeholder";
 import { useEffect, useState } from "react";
@@ -8,8 +8,11 @@ import { useTranslation } from "react-i18next";
 
 export default function CarouselReviews() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 40 });
-  const { t } = useTranslation();
-  const { fetchedData } = useFetchV3("content/reviews?limit=5");
+  const { t, i18n } = useTranslation();
+  const { fetchedData } = useFetchWithTranslation({
+    pathname: "content/reviews?limit=5",
+    dependencies: [i18n.language],
+  });
   const reviews: ReviewType[] | undefined = fetchedData?.data?.results;
 
   // autoplay
