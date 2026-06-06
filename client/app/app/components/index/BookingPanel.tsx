@@ -85,15 +85,15 @@ export default function BookingPanel() {
           {/*     {t("Continue")} */}
           {/*   </button> */}
           {/* </div> */}
+          <div className="relative w-auto flex flex-col">
+            <BookingPanelButton
+              containerProps=""
+              state={navigation.state}
+              label={t("Check availability")}
+            ></BookingPanelButton>
+            {/* <div className="relative -bottom-2 left-0 w-full">{underline}</div> */}
+          </div>
         </Form>
-        <div className="relative w-auto flex flex-col">
-          <BookingPanelButton
-            containerProps=""
-            state={navigation.state}
-            label={t("Check availability")}
-          ></BookingPanelButton>
-          {/* <div className="relative -bottom-2 left-0 w-full">{underline}</div> */}
-        </div>
       </div>
       <div className="absolute top-10">
         <ErrorPanel errors={context.errors}></ErrorPanel>

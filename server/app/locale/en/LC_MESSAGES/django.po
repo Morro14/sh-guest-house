@@ -407,31 +407,23 @@ msgstr "Nights must be a number."
 
 #: site_content/front_translations/en/frontend_translations.py:54
 #: site_content/front_translations/ru/frontend_translations.py:60
-#, fuzzy
-#| msgid "NightWithCount_one"
 msgid "Nights_one"
-msgstr "{{count}} night"
+msgstr "night"
 
 #: site_content/front_translations/en/frontend_translations.py:55
 #: site_content/front_translations/ru/frontend_translations.py:63
-#, fuzzy
-#| msgid "NightWithCount_other"
 msgid "Nights_other"
-msgstr "{{count}} nights"
+msgstr "nights"
 
 #: site_content/front_translations/en/frontend_translations.py:56
 #: site_content/front_translations/ru/frontend_translations.py:64
-#, fuzzy
-#| msgid "adultsWithCount_one"
 msgid "nightWithCount_one"
-msgstr "{{count}} adult"
+msgstr "{{count}} night"
 
 #: site_content/front_translations/en/frontend_translations.py:57
 #: site_content/front_translations/ru/frontend_translations.py:67
-#, fuzzy
-#| msgid "adultsWithCount_other"
 msgid "nightWithCount_other"
-msgstr "{{count}} adults"
+msgstr "{{count}} nights"
 
 #: site_content/front_translations/en/frontend_translations.py:58
 #: site_content/front_translations/ru/frontend_translations.py:68
@@ -574,10 +566,8 @@ msgstr "Shuttle from Yeghegnadzor"
 
 #: site_content/front_translations/en/frontend_translations.py:85
 #: site_content/front_translations/ru/frontend_translations.py:95
-#, fuzzy
-#| msgid "Room_name"
 msgid "Site name"
-msgstr "Site name"
+msgstr "Shushan guest-house"
 
 #: site_content/front_translations/en/frontend_translations.py:86
 #: site_content/front_translations/ru/frontend_translations.py:96
@@ -606,8 +596,6 @@ msgstr "Please enter the full name of the main guest."
 
 #: site_content/front_translations/en/frontend_translations.py:91
 #: site_content/front_translations/ru/frontend_translations.py:101
-#, fuzzy
-#| msgid "There must be at least 1 guest"
 msgid "There must be at least 1 guest."
 msgstr "There must be at least 1 guest."
 
@@ -653,8 +641,6 @@ msgstr "Your booking request has been submitted!"
 
 #: site_content/front_translations/en/frontend_translations.py:100
 #: site_content/front_translations/ru/frontend_translations.py:110
-#, fuzzy
-#| msgid "create_reservation"
 msgid "Your reservation"
 msgstr "Your reservation"
 
@@ -669,86 +655,58 @@ msgid "Zoom"
 msgstr "Zoom"
 
 #: site_content/front_translations/ru/frontend_translations.py:6
-#, fuzzy
-#| msgid "adultsWithCount_one"
 msgid "adultsWithCount_few"
 msgstr "{{count}} adult"
 
 #: site_content/front_translations/ru/frontend_translations.py:7
-#, fuzzy
-#| msgid "adultsWithCount_one"
 msgid "adultsWithCount_many"
 msgstr "{{count}} adult"
 
 #: site_content/front_translations/ru/frontend_translations.py:24
-#, fuzzy
-#| msgid "childrenWithCount_one"
 msgid "childrenWithCount_few"
 msgstr "{{count}} child"
 
 #: site_content/front_translations/ru/frontend_translations.py:25
-#, fuzzy
-#| msgid "childrenWithCount_one"
 msgid "childrenWithCount_many"
 msgstr "{{count}} child"
 
 #: site_content/front_translations/ru/frontend_translations.py:40
-#, fuzzy
-#| msgid "For {{count}} night_one"
 msgid "For {{count}} night_few"
 msgstr "For {{count}} night"
 
 #: site_content/front_translations/ru/frontend_translations.py:41
-#, fuzzy
-#| msgid "For {{count}} night_one"
 msgid "For {{count}} night_many"
 msgstr "For {{count}} night"
 
 #: site_content/front_translations/ru/frontend_translations.py:61
-#, fuzzy
-#| msgid "NightWithCount_one"
 msgid "Nights_few"
-msgstr "{{count}} night"
+msgstr "nights"
 
 #: site_content/front_translations/ru/frontend_translations.py:62
-#, fuzzy
-#| msgid "NightWithCount_one"
 msgid "Nights_many"
-msgstr "{{count}} night"
+msgstr "nights"
 
 #: site_content/front_translations/ru/frontend_translations.py:65
-#, fuzzy
-#| msgid "adultsWithCount_one"
 msgid "nightWithCount_few"
-msgstr "{{count}} adult"
+msgstr "{{count}} nights"
 
 #: site_content/front_translations/ru/frontend_translations.py:66
-#, fuzzy
-#| msgid "adultsWithCount_one"
 msgid "nightWithCount_many"
-msgstr "{{count}} adult"
+msgstr "{{count}} nights"
 
 #: site_content/models.py:24
-#, fuzzy
-#| msgid "Content_page_title"
 msgid "Content page title"
 msgstr "Content page title"
 
 #: site_content/models.py:27
-#, fuzzy
-#| msgid "Content_page_body"
 msgid "Content page body"
 msgstr "Content page body"
 
 #: site_content/models.py:32
-#, fuzzy
-#| msgid "Content_page"
 msgid "Content page"
 msgstr "Content page"
 
 #: site_content/models.py:33
-#, fuzzy
-#| msgid "Content_pages"
 msgid "Content pages"
 msgstr "Content pages"
 
@@ -797,8 +755,6 @@ msgid "room images"
 msgstr "room images"
 
 #: site_content/models.py:178
-#, fuzzy
-#| msgid "Room_name"
 msgid "name"
 msgstr "name"
 
@@ -1015,19 +971,3 @@ msgstr "Go back"
 #: templates/two_factor/core/otp_required.html:18
 msgid "Enable Two-Factor Authentication"
 msgstr "Enable Two-Factor Authentication"
-
-#~ msgid "For {{count}} nights_one"
-#~ msgstr "For {{count}} night"
-
-#~ msgid "For {{count}} nights_other"
-#~ msgstr "For {{count}} nights"
-
-#, fuzzy
-#~| msgid "For {{count}} nights_one"
-#~ msgid "For {{count}} nights_few"
-#~ msgstr "For {{count}} night"
-
-#, fuzzy
-#~| msgid "For {{count}} nights_one"
-#~ msgid "For {{count}} nights_many"
-#~ msgstr "For {{count}} night"

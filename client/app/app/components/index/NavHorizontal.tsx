@@ -9,7 +9,7 @@ export default function NavHorizontal() {
     <div className="flex 2xl:flex-row flex-col justify-center items-center 2xl:w-full 2xl:gap-5 gap-1 font-serif text-lg underline">
       <button
         onClick={() => {
-          const el = document.getElementById("points-of-interest");
+          const el = document.getElementById("about");
           el.scrollIntoView({ behavior: "smooth" });
         }}
         className="text-center hover:cursor-pointer"
@@ -18,7 +18,7 @@ export default function NavHorizontal() {
       </button>
       <button
         onClick={() => {
-          const el = document.getElementById("points-of-interest");
+          const el = document.getElementById("contacts");
           el.scrollIntoView({ behavior: "smooth" });
         }}
         className="text-center hover:cursor-pointer"

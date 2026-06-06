@@ -97,7 +97,6 @@ class TranslationView(APIView):
             return Response(cached)
 
         translations = {key: _(key) for key in keys}
-        print(translations)
         response = Response(translations)
         cache.set(cache_key, translations, timeout=60 * 60 * 24)
         print("sending fresh translations")

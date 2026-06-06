@@ -24,7 +24,6 @@ export default function RoomsPreview() {
 
   useEffect(() => {
     if (rooms) return;
-    console.log(rooms);
     const axiosInstance = getAxiosInstance();
     axiosInstance
       .get(`content/rooms/?limit=${ROOMS_NUMBER_SHOW_INIT}`)

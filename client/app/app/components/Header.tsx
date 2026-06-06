@@ -18,25 +18,49 @@ export default function Header() {
         <div
           className={`flex justify-between items-center w-full md:px-7 px-2 transition-all overflow-hidden `}
         >
-          <Link to="/" className="w-[140px] text-lg font-sans">
+          <Link
+            to="/"
+            className="w-[140px] overflow-visible text-nowrap text-lg font-serif font-medium"
+          >
             {t("Site name")}
           </Link>
           <div className="md:flex gap-5 2xl:gap-10 hidden justify-between font-serif underline font-light">
-            <Link to="contacts" className="hover:underline ">
+            <button
+              className="hover:underline "
+              onClick={() => {
+                const el = document.getElementById("about");
+                el.scrollIntoView({ behavior: "smooth" });
+              }}
+            >
               {t("About")}
-            </Link>
-            <Link to="contacts" className=" hover:underline ">
+            </button>
+            <button
+              className=" hover:underline "
+              onClick={() => {
+                const el = document.getElementById("contacts");
+                el.scrollIntoView({ behavior: "smooth" });
+              }}
+            >
               {t("Contacts")}
-            </Link>
-            <Link to="contacts" className="hover:underline ">
+            </button>
+            <button
+              className="hover:underline"
+              onClick={() => {
+                const el = document.getElementById("location");
+                el.scrollIntoView({ behavior: "smooth" });
+              }}
+            >
               {t("Location")}
-            </Link>
-            <Link to="contacts" className="capitalize hover:underline ">
-              {t("Book")}
-            </Link>
-            <Link to="contacts" className="hover:underline ">
+            </button>
+            <button
+              className="hover:underline "
+              onClick={() => {
+                const el = document.getElementById("points-of-interest");
+                el.scrollIntoView({ behavior: "smooth" });
+              }}
+            >
               {t("Points of interest")}
-            </Link>
+            </button>
           </div>
           <div className="flex items-center text-sm font-sans gap-7">
             <div className="flex justify-center">

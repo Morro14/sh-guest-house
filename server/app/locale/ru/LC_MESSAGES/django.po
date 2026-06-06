@@ -396,26 +396,22 @@ msgstr "Количество ночей должно быть числом."
 #: site_content/front_translations/en/frontend_translations.py:54
 #: site_content/front_translations/ru/frontend_translations.py:60
 msgid "Nights_one"
-msgstr "{{count}} ночь"
+msgstr "ночь"
 
 #: site_content/front_translations/en/frontend_translations.py:55
 #: site_content/front_translations/ru/frontend_translations.py:63
 msgid "Nights_other"
-msgstr "{{count}} ночей"
+msgstr "ночей"
 
 #: site_content/front_translations/en/frontend_translations.py:56
 #: site_content/front_translations/ru/frontend_translations.py:64
-#, fuzzy
-#| msgid "adultsWithCount_one"
 msgid "nightWithCount_one"
-msgstr "{{count}} взрослый"
+msgstr "{{count}} ночь"
 
 #: site_content/front_translations/en/frontend_translations.py:57
 #: site_content/front_translations/ru/frontend_translations.py:67
-#, fuzzy
-#| msgid "adultsWithCount_other"
 msgid "nightWithCount_other"
-msgstr "{{count}} взрослых"
+msgstr "{{count}} ночей"
 
 #: site_content/front_translations/en/frontend_translations.py:58
 #: site_content/front_translations/ru/frontend_translations.py:68
@@ -561,7 +557,7 @@ msgstr "Трансфер из Ехегнадзора"
 #: site_content/front_translations/en/frontend_translations.py:85
 #: site_content/front_translations/ru/frontend_translations.py:95
 msgid "Site name"
-msgstr "Название сайта"
+msgstr "Гостевой дом Шушан"
 
 #: site_content/front_translations/en/frontend_translations.py:86
 #: site_content/front_translations/ru/frontend_translations.py:96
@@ -650,60 +646,44 @@ msgid "Zoom"
 msgstr "Масштаб"
 
 #: site_content/front_translations/ru/frontend_translations.py:6
-#, fuzzy
-#| msgid "adultsWithCount_one"
 msgid "adultsWithCount_few"
-msgstr "{{count}} взрослый"
+msgstr "{{count}} взрослых"
 
 #: site_content/front_translations/ru/frontend_translations.py:7
 msgid "adultsWithCount_many"
 msgstr "{{count}} взрослых"
 
 #: site_content/front_translations/ru/frontend_translations.py:24
-#, fuzzy
-#| msgid "childrenWithCount_one"
 msgid "childrenWithCount_few"
-msgstr "{{count}} ребенок"
+msgstr "{{count}} детей"
 
 #: site_content/front_translations/ru/frontend_translations.py:25
-#, fuzzy
-#| msgid "childrenWithCount_one"
 msgid "childrenWithCount_many"
-msgstr "{{count}} ребенок"
+msgstr "{{count}} детей"
 
 #: site_content/front_translations/ru/frontend_translations.py:40
-#, fuzzy
-#| msgid "For {{count}} night_one"
 msgid "For {{count}} night_few"
-msgstr "На {{count}} ночь"
+msgstr "На {{count}} ночи"
 
 #: site_content/front_translations/ru/frontend_translations.py:41
-#, fuzzy
-#| msgid "For {{count}} night_one"
 msgid "For {{count}} night_many"
-msgstr "На {{count}} ночь"
+msgstr "На {{count}} ночей"
 
 #: site_content/front_translations/ru/frontend_translations.py:61
 msgid "Nights_few"
-msgstr "{{count}} ночи"
+msgstr "ночи"
 
 #: site_content/front_translations/ru/frontend_translations.py:62
-#, fuzzy
-#| msgid "Nights_one"
 msgid "Nights_many"
-msgstr "{{count}} ночей"
+msgstr "ночей"
 
 #: site_content/front_translations/ru/frontend_translations.py:65
-#, fuzzy
-#| msgid "adultsWithCount_one"
 msgid "nightWithCount_few"
-msgstr "{{count}} взрослый"
+msgstr "{{count}} ночи"
 
 #: site_content/front_translations/ru/frontend_translations.py:66
-#, fuzzy
-#| msgid "adultsWithCount_many"
 msgid "nightWithCount_many"
-msgstr "{{count}} взрослых"
+msgstr "{{count}} ночей"
 
 #: site_content/models.py:24
 msgid "Content page title"
@@ -982,19 +962,3 @@ msgstr "Вернуться"
 #: templates/two_factor/core/otp_required.html:18
 msgid "Enable Two-Factor Authentication"
 msgstr "Включить двухфакторную аутентификацию"
-
-#~ msgid "For {{count}} nights_one"
-#~ msgstr "На {{count}} ночь"
-
-#~ msgid "For {{count}} nights_other"
-#~ msgstr "На {{count}} ночей"
-
-#, fuzzy
-#~| msgid "For {{count}} nights_one"
-#~ msgid "For {{count}} nights_few"
-#~ msgstr "На {{count}} ночи"
-
-#, fuzzy
-#~| msgid "For {{count}} nights_one"
-#~ msgid "For {{count}} nights_many"
-#~ msgstr "На {{count}} ночей"

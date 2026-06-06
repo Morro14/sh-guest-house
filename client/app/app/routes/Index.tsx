@@ -44,11 +44,13 @@ export default function Index() {
           <div className="w-8 h-8 md:mt-4 md:mb-2">
             <img src={eternity} />
           </div>
-          <Paragraph
-            content={pageContentObj?.about}
-            titleSize="h3"
-            centered={true}
-          />
+          <div id="about">
+            <Paragraph
+              content={pageContentObj?.about}
+              titleSize="h3"
+              centered={true}
+            />
+          </div>
           <div className="w-full space-y-8">
             <Paragraph
               content={pageContentObj?.["rooms-preview"]}
@@ -59,7 +61,7 @@ export default function Index() {
               <RoomsPreview></RoomsPreview>
             </NavContextProvider>
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4" id="location">
             <Paragraph
               content={pageContentObj?.location}
               titleSize="h3"
@@ -67,6 +69,7 @@ export default function Index() {
             />
             <LocationMain></LocationMain>
           </div>
+          <div className="" id="contacts"></div>
           <div className="w-8 h-8 mb-10 md:mt-10 mt-8">
             <img src={eternity} />
           </div>
