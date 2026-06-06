@@ -52,13 +52,19 @@ def get_upload_path(instance, filename):
     instance_folder_name = ""
 
     if cat_folder_name in without_rel_fields:
-        return os.path.join("demo", cat_names[cat_folder_name], filename)
+        if os.environ.get("DEBUG") == "True":
+            return os.path.join("demo", cat_names[cat_folder_name], filename)
+        return os.path.join(cat_names[cat_folder_name], filename)
     for field in rel_fields:
         field = getattr(instance, field, None)
         if field:
             instance_folder_name = field.slug
+            if os.environ.get("DEBUG") == "True":
+                return os.path.join(
+                    "demo", cat_names[cat_folder_name], instance_folder_name, filename
+                )
             return os.path.join(
-                "demo", cat_names[cat_folder_name], instance_folder_name, filename
+                cat_names[cat_folder_name], instance_folder_name, filename
             )
 
 
