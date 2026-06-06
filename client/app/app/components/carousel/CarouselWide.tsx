@@ -7,7 +7,6 @@ import useEmblaCarousel from "embla-carousel-react";
 import { ImageLoading } from "../ImageLoading";
 import Spinner from "../status/Spinner";
 
-const localDev = import.meta.env.VITE_DEBUG === "true";
 const MEDIA_URL_BASE = import.meta.env.VITE_SERVER_URL;
 
 export default function CarouselWide({ tag }: { tag: string }) {
@@ -34,11 +33,7 @@ export default function CarouselWide({ tag }: { tag: string }) {
                 imageAttrs={{
                   className:
                     "object-cover hover:cursor-pointer size-full hover:scale-102 origin-center transition-scale duration-600",
-                  src: `${
-                    localDev
-                      ? MEDIA_URL_BASE + img.variants[imageRes]
-                      : img.variants[imageRes]
-                  }`,
+                  src: `${MEDIA_URL_BASE + img.variants[imageRes]}`,
                   alt: `img-place-wide-${i}`,
 
                   onClick: () => {
