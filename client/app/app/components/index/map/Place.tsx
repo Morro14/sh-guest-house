@@ -142,7 +142,9 @@ export default function MapPlaceComponent({
         >
           {place.name}
         </div>
-        <div className="text-sm">{`${place.distance} ${t("km", { context: "distance" })}`}</div>
+        <div className="text-sm">
+          {t("km", { context: "distance", count: place.distance })}
+        </div>
       </div>
     </div>
   );

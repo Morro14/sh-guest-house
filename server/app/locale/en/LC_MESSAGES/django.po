@@ -567,7 +567,7 @@ msgstr "Shuttle from Yeghegnadzor"
 #: site_content/front_translations/en/frontend_translations.py:85
 #: site_content/front_translations/ru/frontend_translations.py:95
 msgid "Site name"
-msgstr "Shushan guest-house"
+msgstr "Shushan GH"
 
 #: site_content/front_translations/en/frontend_translations.py:86
 #: site_content/front_translations/ru/frontend_translations.py:96
