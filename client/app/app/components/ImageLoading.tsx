@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Dots from "./status/Dots";
 import Spinner from "./status/Spinner";
+import Placeholder from "./Placeholder";
 
 interface ImageProps {
   src: string;
@@ -14,16 +15,24 @@ export function ImageLoading({
   placeholder?: React.ReactNode;
 }) {
   const [loaded, setLoaded] = useState(false);
-  const { className, ...rest } = imageAttrs;
+  const [loadedError, setLoadedError] = useState(false);
+  const { className, src, ...rest } = imageAttrs;
+  console.log(src);
   return (
     <div className="size-full flex justify-center">
-      <img
-        {...rest}
-        className={`${className ? className : ""} ${loaded ? "block" : "hidden"}`}
-        onLoad={() => setLoaded(true)}
-      ></img>
+      {src && !loadedError ? (
+        <img
+          {...rest}
+          src={src}
+          className={`${className ? className : ""} ${loaded ? "block" : "hidden"}`}
+          onLoad={() => setLoaded(true)}
+          onError={() => setLoadedError(true)}
+        ></img>
+      ) : (
+        <Placeholder></Placeholder>
+      )}
       <div
-        className={`${!loaded ? "block" : "hidden"} size-full flex items-center justify-center`}
+        className={`${!loaded && !loadedError ? "block" : "hidden"} size-full flex items-center justify-center`}
       >
         {placeholder}
       </div>

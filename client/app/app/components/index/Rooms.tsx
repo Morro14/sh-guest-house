@@ -7,6 +7,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { getAxiosInstance } from "~/utils/general";
 import { logError } from "~/utils/logging";
 import Placeholder from "../Placeholder";
+import { ImageLoading } from "../ImageLoading";
 
 const MEDIA_BASE_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 const ROOMS_NUMBER_SHOW_INIT = 1;
@@ -41,17 +42,23 @@ export default function RoomsPreview() {
   function genRoomCard(room: Room, i: number) {
     return (
       <div
-        className={`flex w-full md:h-60 h-34 flex-col items-center transition-all duration-300 starting:opacity-0 opacity-100`}
+        className={`room-card flex w-full md:h-60 h-34 flex-col items-center transition-all duration-300 starting:opacity-0 opacity-100`}
         key={`room-card-${i}`}
       >
-        <img
-          className="room-card object-cover border-2 size-full border-primary cursor-pointer drop-shadow-sm"
-          src={`${MEDIA_BASE_URL}${room.images[0].variants.small}`}
-          onClick={() => {
-            context.setItemSelected(i);
-            context.setFullImageView(true);
-          }}
-        />
+        <div className="h-5/6 w-full">
+          <ImageLoading
+            imageAttrs={{
+              src: `${MEDIA_BASE_URL}${room.images[0]?.variants.small}`,
+              className:
+                "object-cover border-2 size-full border-primary cursor-pointer drop-shadow-sm",
+              onClick: () => {
+                context.setItemSelected(i);
+                context.setFullImageView(true);
+              },
+              alt: `room-img-${room}-${i}`,
+            }}
+          ></ImageLoading>
+        </div>
         <span className="md:text-lg text-sm font-medium">{room.name}</span>
       </div>
     );
@@ -90,15 +97,19 @@ export default function RoomsPreview() {
     if (!roomCardEl) {
       return "auto";
     }
+    const showMoreButtonHeight = 32;
     const labelHeight = 28;
     const rowHeight = roomCardEl.clientHeight;
     if (!showMoreRooms) {
-      return rowHeight + labelHeight;
+      return rowHeight + labelHeight + showMoreButtonHeight;
     }
     const gap = 16;
-    const rows = Math.ceil(extraRooms + 1);
+    const rows = Math.ceil((extraRooms + 1) / 2);
     const containerHeight =
-      rows * rowHeight + gap * (rows - 1) + labelHeight * rows;
+      rows * rowHeight +
+      gap * (rows - 1) +
+      labelHeight * rows +
+      showMoreButtonHeight;
     return containerHeight;
   };
   return !rooms ? (
@@ -107,7 +118,7 @@ export default function RoomsPreview() {
     ></Placeholder>
   ) : (
     <div
-      className={`flex justify-center w-full relative transition-[height] duration-300`}
+      className={`flex flex-col items-center w-full relative transition-[height] duration-300`}
       style={{
         height: getContainerHeight(
           showMoreRooms,
@@ -132,30 +143,28 @@ export default function RoomsPreview() {
       ) : (
         ""
       )}
-      <div
-        className={`grid gap-4 2xl:w-3/5 w-full grid-cols-2 transition-none duration-0`}
-      >
+      <div className={`grid gap-4 2xl:w-1/2 w-full grid-cols-2`}>
         {roomCards
           ? roomCards.map((room) => {
               return room;
             })
           : ""}
         {showMoreRooms && extraRooms ? extraRoomsCards : ""}
-        <div className="flex items-center justify-center">
-          <button
-            className="font-medium underline cursor-pointer"
-            onClick={() => {
-              setExpandContainer(!expandContainer);
-              setShowMoreRooms(!showMoreRooms);
-            }}
-          >
-            {loadingExtraRooms
-              ? t("Loading...")
-              : !showMoreRooms
-                ? t("More rooms...")
-                : t("Show less rooms")}
-          </button>
-        </div>
+      </div>
+      <div className="flex items-center justify-center">
+        <button
+          className="font-medium underline cursor-pointer mt-2"
+          onClick={() => {
+            setExpandContainer(!expandContainer);
+            setShowMoreRooms(!showMoreRooms);
+          }}
+        >
+          {loadingExtraRooms
+            ? t("Loading...")
+            : !showMoreRooms
+              ? t("More rooms...")
+              : t("Show less rooms")}
+        </button>
       </div>
     </div>
   );

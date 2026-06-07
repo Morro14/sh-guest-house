@@ -72,7 +72,13 @@ export default function Index() {
             />
             <LocationMain></LocationMain>
           </div>
-          <div className="" id="contacts"></div>
+          <div className="" id="contacts">
+            <Paragraph
+              content={pageContentObj?.contacts}
+              titleSize="h3"
+              centered={true}
+            ></Paragraph>
+          </div>
           <div className="w-8 h-8 mb-10 md:mt-10 mt-8">
             <img src={eternity} />
           </div>
