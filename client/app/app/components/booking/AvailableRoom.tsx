@@ -4,6 +4,7 @@ import { isDigit, formatPrice, getUrlSearchParams } from "~/utils/general";
 import { useBookingRoomSelectContextProvider } from "./BookingRoomSelectContext";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import { ImageLoading } from "../ImageLoading";
 
 const CURRENCY = import.meta.env.VITE_CURRENCY;
 
@@ -90,14 +91,25 @@ export default function AvailableRoom({
       className={`drop-shadow-sm bg-bg flex flex-col items-center w-[352px] md:w-[330px] pb-3 ${nightsNum > 1 ? "h-[528px]" : "h-[480px]"} ${roomSelected ? "outline-2 outline-primary-light drop-shadow-none" : ""}`}
     >
       <legend className="sr-only">{room.name}</legend>
-      <img
-        className="border-2 border-primary-light object-cover w-[336px] md:w-[314px] h-[190px] hover:cursor-pointer mt-2"
-        src={`${MEDIA_URL}${room.images[0].variants.small}`}
-        onClick={() => {
-          navContext.setFullImageView(true);
-          navContext.setItemSelected(index);
+      <ImageLoading
+        imageAttrs={{
+          className:
+            "border-2 border-primary-light object-cover w-[336px] md:w-[314px] h-[190px] hover:cursor-pointer mt-2",
+          src: `${MEDIA_URL}${room?.images[0]?.variants?.small}`,
+          onClick: () => {
+            navContext.setFullImageView(true);
+            navContext.setItemSelected(index);
+          },
         }}
-      />
+      ></ImageLoading>
+      {/* <img */}
+      {/*   className="border-2 border-primary-light object-cover w-[336px] md:w-[314px] h-[190px] hover:cursor-pointer mt-2" */}
+      {/*   src={`${MEDIA_URL}${room.images[0].variants.small}`} */}
+      {/*   onClick={() => { */}
+      {/*     navContext.setFullImageView(true); */}
+      {/*     navContext.setItemSelected(index); */}
+      {/*   }} */}
+      {/* /> */}
       <div className="flex flex-col gap-3 mt-3 px-2 w-full h-full">
         <h4 className="mb-0! font-sans">{room.name}</h4>
         <div className="flex flex-col font-sans gap-3 h-full w-full">
