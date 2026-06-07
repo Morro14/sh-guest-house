@@ -126,7 +126,7 @@ export default function BookingSummary({ loaderData }) {
                   const guestsSelected = guestsInfo.find(
                     (r) => r.slug === room.slug,
                   );
-                  return BookingSummaryRoom(room, guestsSelected.guests);
+                  return BookingSummaryRoom(room);
                 })}
               </div>
             </div>
