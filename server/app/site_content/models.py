@@ -15,6 +15,7 @@ class ContentPage(models.Model):
             "location": "Location",
             "places": "Places of interest",
             "rooms-preview": "Rooms",
+            "contacts": "Contacts",
             "additional": "Additional",
         },
         default="additional",
