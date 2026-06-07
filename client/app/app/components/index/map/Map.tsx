@@ -143,7 +143,7 @@ export default function Map() {
   const townLabelsDataTyped = townLabelsData as TownLabelPosData[];
   const labelGroupsDataTyped = labelGroupsData as MapLabelGroupData[];
   return (
-    <div draggable="false" className="touch-none">
+    <div>
       <MapNav
         mapSurface={mapSurface.current}
         container={mapContainer.current}
