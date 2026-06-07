@@ -1,11 +1,10 @@
 import { useTranslation } from "react-i18next";
 import LocationMain from "~/components/index/Location";
-import Paragraph from "~/components/index/Paragraph";
+import Paragraph, { type ParagraphType } from "~/components/index/Paragraph";
 import RoomsPreview from "~/components/index/Rooms";
 import NavContextProvider from "~/components/nav/NavContextProvider";
 import CarouselWide from "~/components/carousel/CarouselWide";
 import { useFetchWithTranslation } from "~/utils/fetchHook";
-import { formatPageContentData } from "~/utils/format";
 import CarouselGrid from "~/components/carousel/CarouselGrid";
 import CarouselGridContextProvider from "~/components/carousel/CarouselGridContext";
 import Map from "~/components/index/map/Map";
@@ -20,10 +19,7 @@ export default function Index() {
     pathname: "content/page-content",
     dependencies: [i18n.language],
   });
-  const pageContent = fetchedData?.data?.data;
-  const pageContentObj = pageContent
-    ? formatPageContentData(pageContent)
-    : null;
+  const pageContent = (fetchedData?.data?.data as ParagraphType[]) || [];
   return (
     <div className="flex grow flex-col items-stretch text-text-main bg-bg min-h-screen ">
       <div className="flex flex-col items-center md:gap-8 gap-6">
@@ -49,16 +45,12 @@ export default function Index() {
           </div>
           <div id="about">
             <Paragraph
-              content={pageContentObj?.about}
-              titleSize="h3"
-              centered={true}
+              content={pageContent.find((item) => item.tag === "about")}
             />
           </div>
           <div className="w-full space-y-8">
             <Paragraph
-              content={pageContentObj?.["rooms-preview"]}
-              titleSize="h3"
-              centered={true}
+              content={pageContent.find((item) => item.tag === "rooms-preview")}
             />
             <NavContextProvider>
               <RoomsPreview></RoomsPreview>
@@ -66,18 +58,21 @@ export default function Index() {
           </div>
           <div className="flex flex-col gap-4" id="location">
             <Paragraph
-              content={pageContentObj?.location}
-              titleSize="h3"
-              centered={true}
+              content={pageContent.find((item) => item.tag === "location")}
             />
             <LocationMain></LocationMain>
           </div>
           <div className="" id="contacts">
             <Paragraph
-              content={pageContentObj?.contacts}
-              titleSize="h3"
-              centered={true}
+              content={pageContent.find((item) => item.tag === "contacts")}
             ></Paragraph>
+          </div>
+          <div id="additional-paragraphs">
+            {pageContent
+              .filter((item) => item.tag === "additional")
+              .map((item) => (
+                <Paragraph content={item}></Paragraph>
+              ))}
           </div>
           <div className="w-8 h-8 mb-10 md:mt-10 mt-8">
             <img src={eternity} />
@@ -105,9 +100,7 @@ export default function Index() {
       <section id="places" className="flex flex-col items-center">
         <div className="index-container-1 flex flex-col grow gap-8 2xl:w-[1000px] mt-11 relative">
           <Paragraph
-            content={pageContentObj?.places}
-            titleSize="h3"
-            centered={true}
+            content={pageContent.find((item) => item.tag === "places")}
           ></Paragraph>
           <MapContextProvider>
             <Map></Map>

@@ -1,18 +1,18 @@
 import { useOnInView, useInView } from "react-intersection-observer";
-export interface Paragraph {
-  slug: string;
+export interface ParagraphType {
+  tag: string;
   title: string;
   body: string;
 }
 
 export default function Paragraph({
   content,
-  titleSize,
-  centered,
+  titleSize = "h3",
+  centered = true,
   subtitle,
 }: {
-  content: Paragraph | null;
-  titleSize: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  content: ParagraphType | null;
+  titleSize?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   centered?: boolean;
   subtitle?: string;
 }) {
