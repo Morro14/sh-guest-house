@@ -6,7 +6,7 @@ from main.models import Room
 class ContentPageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContentPage
-        fields = ["slug", "title", "body"]
+        fields = ["tag", "title", "body"]
 
 
 class ImageSerializer(serializers.ModelSerializer):

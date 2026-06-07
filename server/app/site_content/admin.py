@@ -48,7 +48,7 @@ class ImageTagAdmin(admin.ModelAdmin):
 
 @admin.register(ContentPage)
 class ContentPageAdmin(TabbedTranslationAdmin):
-    list_display = ("slug",)
+    list_display = ("tag",)
 
 
 @admin.register(RoomImage)

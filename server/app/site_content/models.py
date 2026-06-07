@@ -8,17 +8,18 @@ import os
 
 
 class ContentPage(models.Model):
-    slug = models.SlugField(
+    tag = models.TextField(
         choices={
             "about": "About",
             "service": "Service",
             "location": "Location",
             "places": "Places of interest",
             "rooms-preview": "Rooms",
+            "additional": "Additional",
         },
-        unique=True,
-        verbose_name=_("slug"),
-        help_text=_("unique name (lower case without spaces)"),
+        default="additional",
+        verbose_name=_("tag"),
+        help_text=_("content tag to help udentify what it is for"),
     )
     title = models.CharField(
         max_length=255, verbose_name=_("Content page title"), blank=True

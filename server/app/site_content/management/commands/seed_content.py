@@ -6,27 +6,27 @@ fake = Faker()
 
 content_data = [
     {
-        "slug": "about",
+        "tag": "about",
         "title": "About the house",
         "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut at scelerisque ante. Morbi efficitur porta lacus eget commodo. Suspendisse facilisis et neque eget feugiat. Vestibulum et tincidunt ex, nec posuere justo. Phasellus mollis libero sed arcu malesuada, vel lobortis lorem aliquam. Phasellus ut nisl ut dui aliquam hendrerit eu pretium massa. Nunc a malesuada tortor. Vestibulum sit amet lectus nibh. Praesent sit amet lorem ac mi maximus vulputate. Sed ac pharetra lorem. Fusce convallis leo lacus, in vulputate nibh aliquam porttitor.",
     },
     {
-        "slug": "rooms-preview",
+        "tag": "rooms-preview",
         "title": "Rooms",
         "body": "Maecenas dui purus, tempus et tristique a, imperdiet eu quam. Mauris vitae elit sem. Integer tincidunt, nunc sit amet sodales molestie, elit metus laoreet augue, sit amet tristique risus risus nec magna.",
     },
     {
-        "slug": "places",
+        "tag": "places",
         "title": "Points of interest in the province",
         "body": "Cras tortor tellus, volutpat et odio ac, congue dignissim felis. In tempor odio vel ligula vehicula, a elementum orci dictum. Sed leo nulla, volutpat nec dapibus a, vulputate eu eros. Suspendisse semper ipsum id ipsum euismod porttitor. Curabitur mollis vel arcu vitae porta.",
     },
     {
-        "slug": "services",
+        "tag": "services",
         "title": "Services",
         "body": "Cras tortor tellus, volutpat et odio ac, congue dignissim felis. In tempor odio vel ligula vehicula, a elementum orci dictum. Sed leo nulla, volutpat nec dapibus a, vulputate eu eros. Suspendisse semper ipsum id ipsum euismod porttitor. Curabitur mollis vel arcu vitae porta.",
     },
     {
-        "slug": "location",
+        "tag": "location",
         "title": "How to get to us",
         "body": "Cras tincidunt nisl id velit bibendum tincidunt. Vivamus semper ex nibh, sit amet blandit est posuere vel. Morbi condimentum malesuada ex sed convallis. Maecenas felis urna, faucibus nec nulla pellentesque, tristique blandit ex. Mauris quis tempus velit. Etiam ut est ligula. Fusce sagittis sodales enim vel consectetur.",
     },
@@ -46,13 +46,11 @@ class Command(BaseCommand):
             return
         for c in content_data:
             ContentPage.objects.create(
-                slug=c["slug"],
+                tag=c["tag"],
                 title_en=c["title"],
                 body_en=c["body"],
             )
 
         self.stdout.write(
-            self.style.SUCCESS(
-                "✅ database seeded with fake ContentPage data"
-            )
+            self.style.SUCCESS("✅ database seeded with fake ContentPage data")
         )
