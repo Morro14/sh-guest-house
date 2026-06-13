@@ -13,7 +13,7 @@ export default function LangSelect() {
     segments[1] = e.target.value;
     i18n.changeLanguage(e.target.value);
     nav(segments.join("/"));
-    // window.location.assign(segments.join("/"));
+    window.location.assign(segments.join("/"));
   };
   return (
     <div className="w-[140px] flex justify-end">

@@ -17,7 +17,6 @@ export function ImageLoading({
   const [loaded, setLoaded] = useState(false);
   const [loadedError, setLoadedError] = useState(false);
   const { className, src, ...rest } = imageAttrs;
-  console.log(src);
   return (
     <div className="size-full flex justify-center">
       {src && !loadedError ? (

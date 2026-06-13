@@ -70,8 +70,11 @@ export default function Index() {
           <div id="additional-paragraphs">
             {pageContent
               .filter((item) => item.tag === "additional")
-              .map((item) => (
-                <Paragraph content={item}></Paragraph>
+              .map((item, i) => (
+                <Paragraph
+                  key={`additional-content-page-${i}`}
+                  content={item}
+                ></Paragraph>
               ))}
           </div>
           <div className="w-8 h-8 mb-10 md:mt-10 mt-8">

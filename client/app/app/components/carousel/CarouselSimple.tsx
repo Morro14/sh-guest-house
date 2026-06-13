@@ -17,17 +17,21 @@ export function CarouselSimple({
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
     loop: true,
+    duration: 50,
   });
-  const [autoScroll, setAutoScroll] = useState<NodeJS.Timeout | null>(null);
+  const [autoScroll, setAutoScroll] = useState(true);
   useEffect(() => {
-    if (!emblaApi || autoScroll) {
+    if (!emblaApi || !autoScroll) {
       return;
     }
 
     const interval = setInterval(() => {
       emblaApi.goToNext();
     }, 6000);
-    setAutoScroll(interval);
+    emblaApi.on("pointerup", () => {
+      clearInterval(interval);
+      setAutoScroll(false);
+    });
   }, [autoScroll, emblaApi]);
   return (
     <div
