@@ -5,6 +5,7 @@ from image_cropping import ImageRatioField
 from .utils.images_util import size_to_str
 from .validators import validate_rating_value
 import os
+from django.conf import settings
 
 
 class ContentPage(models.Model):
@@ -95,24 +96,26 @@ class Image(models.Model):
             options["filters"] = ["blur"]
             options["quality"] = 30
         thumb = get_thumbnailer(self.image_full).get_thumbnail(options)
-        media_baseurl = os.environ.get("MEDIA_BASE_URL")
-        if media_baseurl in thumb.url:
-            print("media base included", thumb.url)
+        media_baseurl = settings.MEDIA_BASE_URL
+        if settings.ON_RENDER and media_baseurl in thumb.url:
             base, pathname = thumb.url.split(sep=media_baseurl)
             return pathname
-        print("media base not included", thumb.url)
         return thumb.url
 
     @property
     def variants(self):
         media_baseurl = os.environ.get("MEDIA_BASE_URL")
-        if media_baseurl in self.image_full.url:
+        original_pathname = ""
+        if settings.ON_RENDER and media_baseurl in self.image_full.url:
             base, pathname = self.image_full.url.split(sep=media_baseurl)
+            original_pathname = pathname
+        else:
+            original_pathname = self.image_full.url
         results = {
             "blur": self.get_variant_url(self.blur_res, blur=True),
             "small": self.get_variant_url(self.small_res),
             "main": self.get_variant_url(self.main_res),
-            "original": pathname,
+            "original": original_pathname,
         }
         return results
 

@@ -38,6 +38,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 ON_RENDER = os.environ.get("RENDER") == "true"
+print("ON_RENDER", ON_RENDER)
 DEBUG = os.environ.get("DEBUG") == "True"
 AUTH_USER_MODEL = "auth_app.User"
 print("debug", DEBUG)
@@ -203,10 +204,13 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
+MEDIA_BASE_URL = os.environ.get("MEDIA_BASE_URL") if ON_RENDER else ""
+
 if ON_RENDER:
     MEDIA_URL = f"https://storage.googleapis.com/{os.environ.get("GOOGLE_CLOUD_STORAGE_BUCKET")}/media/"
 else:
     MEDIA_URL = "/media/"
+    print("MEDIA URL", MEDIA_URL)
     MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 STATIC_URL = "/static/"
@@ -311,19 +315,19 @@ else:
 
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(CREDENTIAL_PATH)
 
-# if ON_RENDER:
-STORAGE_BACKEND = "storages.backends.gcloud.GoogleCloudStorage"
-STORAGE_BACKEND_OPTIONS = {
-    "bucket_name": os.environ.get("GOOGLE_CLOUD_STORAGE_BUCKET"),
-    "project_id": os.environ.get("GOOGLE_CLOUD_PROJECT_NAME"),
-    "credentials": GS_CREDENTIALS,
-    "location": "media",
-    "default_acl": None,
-    "querystring_auth": False,
-}
-# else:
-#     STORAGE_BACKEND = "django.core.files.storage.FileSystemStorage"
-#     STORAGE_BACKEND_OPTIONS = {}
+if ON_RENDER:
+    STORAGE_BACKEND = "storages.backends.gcloud.GoogleCloudStorage"
+    STORAGE_BACKEND_OPTIONS = {
+        "bucket_name": os.environ.get("GOOGLE_CLOUD_STORAGE_BUCKET"),
+        "project_id": os.environ.get("GOOGLE_CLOUD_PROJECT_NAME"),
+        "credentials": GS_CREDENTIALS,
+        "location": "media",
+        "default_acl": None,
+        "querystring_auth": False,
+    }
+else:
+    STORAGE_BACKEND = "django.core.files.storage.FileSystemStorage"
+    STORAGE_BACKEND_OPTIONS = {}
 
 STORAGES = {
     "default": {

@@ -34,7 +34,7 @@ urlpatterns = [
     path("api-auth/", include("auth_app.urls")),
     # path("", include(tf_urls)),
     # path("", FrontendView.as_view()),
-    re_path(r"^(?!(?:admin|api|healthcheck))(?:.*)/?$", FrontendView.as_view()),
+    re_path(r"^(?!(?:admin|api|healthcheck|media))(?:.*)/?$", FrontendView.as_view()),
     re_path(r"^(ru|en)/.*$", FrontendView.as_view()),
     path("healthcheck", HealthCheckView.as_view()),
 ]
