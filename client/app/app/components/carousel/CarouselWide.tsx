@@ -55,9 +55,9 @@ export default function CarouselWide({ tag }: { tag: string }) {
       </div>
       {context.fullImageView ? (
         <MediaFullView>
-          <div className="h-[90vh]">
+          <div className="max-h-[90vh]">
             <ImageLoading
-              placeholder={<Spinner variation="white"></Spinner>}
+              placeholder={placeholder}
               imageAttrs={{
                 className: "h-full object-contain",
                 src: `${MEDIA_URL_BASE}${images[context.itemSelected]["variants"]["original"]}`,
@@ -74,3 +74,9 @@ export default function CarouselWide({ tag }: { tag: string }) {
     </div>
   );
 }
+
+const placeholder = (
+  <div className="w-screen h-[60vh] flex items-center justify-center border border-gray-warm-mid">
+    <Spinner variation="white"></Spinner>
+  </div>
+);
