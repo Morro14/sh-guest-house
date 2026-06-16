@@ -14,13 +14,27 @@ export default function NavArrow({
     left: direction === "left" && index > 0,
   };
   const styles = {
-    active: "stroke-peach hover:stroke-peach-light cursor-pointer",
+    active: "stroke-primary hover:stroke-primary-light cursor-pointer",
     inactive: "stroke-gray-warm",
   };
   const active = styleConditions[direction];
   const svgStyle = () => {
     return styles[active ? "active" : "inactive"];
   };
+  // return (
+  //   <div
+  //     onClick={func}
+  //     className={
+  //       "group " +
+  //       (direction === "left" ? "rotate-180 " : "") +
+  //       (active ? "cursor-pointer" : "") +
+  //       " transition-colors " +
+  //       svgStyle()
+  //     }
+  //   >
+  //     <img src={arrow} />
+  //   </div>
+  // );
   return (
     <svg
       onClick={func}

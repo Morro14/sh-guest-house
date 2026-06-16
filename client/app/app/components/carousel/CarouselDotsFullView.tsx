@@ -30,7 +30,7 @@ export default function CarouselDotsFullView({
             <div
               key={`room-dot-${currentDotsNum + i}`}
               onClick={() => emblaApi?.goTo(currentDotsNum + i)}
-              className="w-3.5 h-3.5 rounded-[7px] cursor-pointer hover:bg-peach-light bg-gray-warm"
+              className="w-3.5 h-3.5 rounded-[7px] cursor-pointer hover:bg-primary-light bg-gray-warm"
             ></div>
           );
         });
@@ -60,7 +60,7 @@ export default function CarouselDotsFullView({
       <div className="flex relative gap-[21px]">
         <div
           ref={selectorRef}
-          className="absolute w-3.5 h-3.5 rounded-[7px] bg-peach transition-all duration-500 ease-out pointer-event-none"
+          className="absolute w-3.5 h-3.5 rounded-[7px] bg-primary transition-all duration-500 ease-out pointer-event-none"
         ></div>
         {dots ? dots : ""}
       </div>

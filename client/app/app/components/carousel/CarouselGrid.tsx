@@ -72,13 +72,15 @@ export default function CarouselGrid({ name }: { name: string }) {
       </div>
       {navContext.fullImageView && gridContext.fullView ? (
         <MediaFullView>
-          <ImageLoading
-            placeholder={<Spinner variation="white"></Spinner>}
-            imageAttrs={{
-              src: `${MEDIA_URL}${gridContext.fullView.variants.original}`,
-              className: "h-full object-contain",
-            }}
-          ></ImageLoading>
+          <div className="h-[90vh]">
+            <ImageLoading
+              placeholder={<Spinner variation="white"></Spinner>}
+              imageAttrs={{
+                src: `${MEDIA_URL}${gridContext.fullView.variants.original}`,
+                className: "h-full object-contain",
+              }}
+            ></ImageLoading>
+          </div>
         </MediaFullView>
       ) : (
         ""

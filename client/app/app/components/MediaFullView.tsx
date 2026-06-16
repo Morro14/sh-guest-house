@@ -32,12 +32,14 @@ export default function MediaFullView({ children }: { children: ReactNode }) {
         (!opacity ? "opacity-0" : "opacity-100")
       }
     >
-      <div className="relative">
-        <div className="absolute -top-8 right-0 cursor-pointer">
-          {closeButton}
-        </div>
-        <div ref={contentRef} className="flex justify-center items-center">
-          {children}
+      <div className="flex justify-center items-center">
+        <div className="relative">
+          <div className="absolute -top-8 right-0 cursor-pointer">
+            {closeButton}
+          </div>
+          <div ref={contentRef} className="">
+            {children}
+          </div>
         </div>
       </div>
     </div>

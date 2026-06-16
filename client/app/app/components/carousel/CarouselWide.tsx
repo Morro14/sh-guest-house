@@ -20,6 +20,7 @@ export default function CarouselWide({ tag }: { tag: string }) {
     align: "center",
     loop: true,
   });
+  console.log("wide images", images);
   const imageRes: ImageRes = "main";
   return !images ? (
     <div className="index-container-1 mx-auto">
@@ -54,16 +55,18 @@ export default function CarouselWide({ tag }: { tag: string }) {
       </div>
       {context.fullImageView ? (
         <MediaFullView>
-          <ImageLoading
-            placeholder={<Spinner variation="white"></Spinner>}
-            imageAttrs={{
-              className: "h-full object-contain",
-              src: `${MEDIA_URL_BASE}${images[context.itemSelected]["variants"]["original"]}`,
-              alt: `${images[context.itemSelected].alt_text}-${
-                context.itemSelected
-              }-full`,
-            }}
-          ></ImageLoading>
+          <div className="h-[90vh]">
+            <ImageLoading
+              placeholder={<Spinner variation="white"></Spinner>}
+              imageAttrs={{
+                className: "h-full object-contain",
+                src: `${MEDIA_URL_BASE}${images[context.itemSelected]["variants"]["original"]}`,
+                alt: `${images[context.itemSelected].alt_text}-${
+                  context.itemSelected
+                }-full`,
+              }}
+            ></ImageLoading>
+          </div>
         </MediaFullView>
       ) : (
         ""

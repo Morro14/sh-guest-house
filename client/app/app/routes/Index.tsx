@@ -12,7 +12,6 @@ import MapContextProvider from "~/components/index/map/MapContextProvider";
 import NavHorizontal from "~/components/index/NavHorizontal";
 import CarouselReviews from "~/components/carousel/CarouselReviews";
 import eternity from "src/assets/eternity-main.png";
-import Placeholder from "~/components/Placeholder";
 
 export default function Index() {
   const { t, i18n } = useTranslation();
@@ -21,6 +20,9 @@ export default function Index() {
     dependencies: [i18n.language],
   });
   const pageContent = (fetchedData?.data?.data as ParagraphType[]) || [];
+  const extraPageContent = pageContent.filter(
+    (item) => item.tag === "additional",
+  );
   return (
     <div className="flex grow flex-col items-stretch text-text-main bg-bg min-h-screen ">
       <div className="flex flex-col items-center md:gap-8 gap-6">
@@ -68,18 +70,18 @@ export default function Index() {
               content={pageContent.find((item) => item.tag === "contacts")}
             ></Paragraph>
           </div>
-          <div id="additional-paragraphs w-full">
-            {pageContent
-              .filter((item) => item.tag === "additional")
-              .map((item, i) => {
-                return (
-                  <Paragraph
-                    key={`additional-content-page-${i}`}
-                    content={item}
-                  ></Paragraph>
-                );
-              })}
-          </div>
+          {extraPageContent.length > 0 ? (
+            <div id="additional-paragraphs w-full">
+              {extraPageContent.map((item, i) => (
+                <Paragraph
+                  key={`additional-content-page-${i}`}
+                  content={item}
+                ></Paragraph>
+              ))}
+            </div>
+          ) : (
+            ""
+          )}
           <div className="w-8 h-8 mb-10 md:mt-10 mt-8">
             <img src={eternity} />
           </div>
