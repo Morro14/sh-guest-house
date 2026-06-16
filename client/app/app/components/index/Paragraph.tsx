@@ -1,4 +1,5 @@
 import { useOnInView, useInView } from "react-intersection-observer";
+import Placeholder from "../Placeholder";
 export interface ParagraphType {
   tag: string;
   title: string;
@@ -21,9 +22,8 @@ export default function Paragraph({
     threshold: 0.1,
     // triggerOnce: true,
   });
-
   return !content ? (
-    <div className="w-full  h-10 bg-gray-warm-light"></div>
+    <Placeholder></Placeholder>
   ) : (
     <div
       className={`${centered ? "relative flex flex-col items-center text-center " : ""}`}

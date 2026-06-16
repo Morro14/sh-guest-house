@@ -36,7 +36,7 @@ export function Carousel({
     }
   };
   return fullView ? (
-    <div className="flex flex-col gap-5 items-center justify-end shrink h-full carousel-full">
+    <div className="flex flex-col gap-5 items-center justify-end shrink carousel-full">
       <div className="embla bg-black-transparent border-2 border-primary size-full">
         <div className="embla__viewport size-full" ref={emblaRef}>
           <div className={`embla__container  size-full`}>

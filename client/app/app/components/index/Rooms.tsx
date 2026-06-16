@@ -113,9 +113,7 @@ export default function RoomsPreview() {
     return containerHeight;
   };
   return !rooms ? (
-    <Placeholder
-      text={!rooms || rooms.length === 0 ? t("No data") : t("Loading...")}
-    ></Placeholder>
+    <Placeholder></Placeholder>
   ) : (
     <div
       className={`flex flex-col items-center w-full relative transition-[height] duration-300`}

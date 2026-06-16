@@ -6,11 +6,12 @@ import type { ImageRes } from "~/types/general";
 import useEmblaCarousel from "embla-carousel-react";
 import { ImageLoading } from "../ImageLoading";
 import Spinner from "../status/Spinner";
+import Placeholder from "../Placeholder";
 
 const MEDIA_URL_BASE = import.meta.env.VITE_MEDIA_BASE_URL;
 
 export default function CarouselWide({ tag }: { tag: string }) {
-  const { fetchedData, loading } = useFetchV3("content/wide-images/" + tag);
+  const { fetchedData } = useFetchV3("content/wide-images/" + tag);
   const images = fetchedData?.data?.data as Array<Image>;
   const imagesDefault = images ? images : [];
   const context = useNavContextProvider();
@@ -20,7 +21,11 @@ export default function CarouselWide({ tag }: { tag: string }) {
     loop: true,
   });
   const imageRes: ImageRes = "main";
-  return (
+  return !images ? (
+    <div className="index-container-1 mx-auto">
+      <Placeholder></Placeholder>
+    </div>
+  ) : (
     <div>
       <div className="embla max-w-screen" ref={emblaRef}>
         <div className="embla__container">
@@ -41,7 +46,7 @@ export default function CarouselWide({ tag }: { tag: string }) {
                     context.setItemSelected(i % 3);
                   },
                 }}
-                placeholder={ImagePlacesholder}
+                placeholder={<Placeholder></Placeholder>}
               ></ImageLoading>
             </div>
           ))}
@@ -66,5 +71,3 @@ export default function CarouselWide({ tag }: { tag: string }) {
     </div>
   );
 }
-
-const ImagePlacesholder = <div className="bg-gray-warm-light size-full"></div>;

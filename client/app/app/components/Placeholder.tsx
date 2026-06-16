@@ -1,11 +1,8 @@
-import { useTranslation } from "react-i18next";
-
 export default function Placeholder({ text }: { text?: string }) {
-  const { t } = useTranslation();
-  const DEFAULT_TEXT = t("No data");
+  const DEFAULT_TEXT = "";
   return (
     <div
-      className="size-full bg-gray-warm-light flex justify-center items-center text-gray-warm-inactive text-sm font-sans"
+      className="w-full max-h-full min-h-20 rounded-xl  bg-gray-warm-light flex justify-center items-center text-gray-warm-inactive text-sm font-sans"
       aria-disabled
     >
       {text || DEFAULT_TEXT}

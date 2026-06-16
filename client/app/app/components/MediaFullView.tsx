@@ -2,7 +2,6 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { useNavContextProvider } from "./nav/NavContextProvider";
 import { useCloseOnClick } from "./formComponents/utils";
 import { useState } from "react";
-import closeButton from "root/src/assets/close-button.svg";
 
 export default function MediaFullView({ children }: { children: ReactNode }) {
   const context = useNavContextProvider();
@@ -33,13 +32,40 @@ export default function MediaFullView({ children }: { children: ReactNode }) {
         (!opacity ? "opacity-0" : "opacity-100")
       }
     >
-      <div
-        ref={contentRef}
-        className="flex justify-center media-full-view items-center"
-      >
-        {children}
+      <div className="relative">
+        <div className="absolute -top-8 right-0 cursor-pointer">
+          {closeButton}
+        </div>
+        <div ref={contentRef} className="flex justify-center items-center">
+          {children}
+        </div>
       </div>
-      <img src={closeButton} className="fixed top-5 right-5 cursor-pointer" />
     </div>
   );
 }
+
+const closeButton = (
+  <svg
+    width="27"
+    height="27"
+    viewBox="0 0 27 27"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    strokeWidth="2px"
+  >
+    <line
+      x1="20.1526"
+      y1="20.1526"
+      x2="6.71752"
+      y2="6.71757"
+      stroke="#F1F1F1"
+    />
+    <line
+      x1="6.71749"
+      y1="20.1525"
+      x2="20.1525"
+      y2="6.71749"
+      stroke="#F1F1F1"
+    />
+  </svg>
+);
