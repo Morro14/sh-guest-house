@@ -34,6 +34,9 @@ class GridImageAmin(admin.ModelAdmin):
 @admin.register(PlaceImage)
 class PlaceImageAdmin(admin.ModelAdmin):
     fields = ["alt_text", "order", "image_full", "place"]
+    list_display = ("place", "order", "image_full")
+    list_filter = ["place__name"]
+    ordering = ("place", "order")
 
 
 @admin.register(Place)
