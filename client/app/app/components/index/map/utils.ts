@@ -11,6 +11,9 @@ import type {
 export const MAP_OPTIONS: MapOptions = {
   mapContentSize: { x: 2043, y: 1420 },
   mapPadding: 200,
+  zoomMin: 0.4,
+  zoomMax: 2,
+  zoomFactor: 0.2,
 };
 const MAP_SIZE_INIT = {
   x: MAP_OPTIONS.mapPadding + MAP_OPTIONS.mapContentSize.x,
@@ -31,14 +34,21 @@ export interface ZoomState {
 }
 
 export function boundMapPos(mapSize: Size, containerSize: Size, newPos: Size) {
-  const offsetX = Math.floor(
-    Math.min(Math.max(-newPos.x, containerSize.x - mapSize.x), 0),
-  );
-  const offsetY = Math.floor(
-    Math.min(Math.max(-newPos.y, containerSize.y - mapSize.y), 0),
-  );
+  console.log("newPos", newPos);
+
+  let offsetX = 0;
+  let offsetY = 0;
+  const maxY = Math.floor(containerSize.y / 2);
+  const minY = Math.floor(-mapSize.y + containerSize.y / 2);
+  offsetY = Math.max(Math.min(maxY, newPos.y), minY);
+  const maxX = Math.floor(containerSize.x / 2);
+  const minX = Math.floor(-mapSize.x + containerSize.x / 2);
+  offsetX = Math.max(Math.min(maxX, newPos.x), minX);
+
   return { x: offsetX, y: offsetY };
+  // return newPos;
 }
+
 export function getMapCenteredOffsets(state: ZoomState) {
   // console.log("state", state);
   const mapOffsets = structuredClone(state.mapOffsets);
@@ -55,25 +65,25 @@ export function getMapCenteredOffsets(state: ZoomState) {
       (-mapOffsets.y + state.containerSize.y / 2) /
       (MAP_SIZE_INIT.y * state.zoomCurrent),
   };
-  // console.log("ratio", centerRatio);
   const newOffsets = {
-    x:
+    x: -Math.floor(
       MAP_SIZE_INIT.x * state.zoomNew * centerRatio.x -
-      state.containerSize.x / 2,
-    y:
+        state.containerSize.x / 2,
+    ),
+    y: -Math.floor(
       MAP_SIZE_INIT.y * state.zoomNew * centerRatio.y -
-      state.containerSize.y / 2,
+        state.containerSize.y / 2,
+    ),
   };
-  // console.log("newOffsets", newOffsets);
+  // console.log("centered offsets", newOffsets);
   const boundOffsets = boundMapPos(
     {
-      x: MAP_SIZE_INIT.x * state.zoomNew,
-      y: MAP_SIZE_INIT.y * state.zoomNew,
+      x: Math.floor(MAP_SIZE_INIT.x * state.zoomNew),
+      y: Math.floor(MAP_SIZE_INIT.y * state.zoomNew),
     },
     state.containerSize,
     newOffsets,
   );
-  // console.log("bound", boundOffsets);
   return boundOffsets;
 }
 

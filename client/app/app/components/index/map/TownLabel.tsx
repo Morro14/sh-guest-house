@@ -11,13 +11,13 @@ export default function TownLabel({
   const context = useMapContextProvider();
   const ref = useRef(null);
   const scaleLabelOffsets = (zoom: number, offsets: Coords) => {
-    if (zoom < 0.5 || zoom > 2) {
-      const labelEl = ref.current;
-      const currentOffsets = { x: labelEl.offsetLeft, y: labelEl.offsetTop };
-      if (townLabel.name === "getap") {
-      }
-      return { x: currentOffsets.x * zoom, y: currentOffsets.y * zoom };
-    }
+    // if (zoom < 0.5 || zoom > 2) {
+    //   const labelEl = ref.current;
+    //   const currentOffsets = { x: labelEl.offsetLeft, y: labelEl.offsetTop };
+    //   if (townLabel.name === "getap") {
+    //   }
+    //   return { x: currentOffsets.x * zoom, y: currentOffsets.y * zoom };
+    // }
     const newX = Math.floor(offsets.x * zoom);
     const newY = Math.floor(offsets.y * zoom);
     return { x: newX, y: newY };
@@ -39,7 +39,11 @@ export default function TownLabel({
     <div
       ref={ref}
       id={townLabel.name}
-      style={{ left: coordsScaled.x, top: coordsScaled.y }}
+      style={{
+        left: coordsScaled.x,
+        top: coordsScaled.y,
+        textTransform: "capitalize",
+      }}
       className="absolute text-sm italic select-none capitalize"
     >
       {townLabel.name}

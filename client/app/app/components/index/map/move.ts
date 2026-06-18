@@ -4,61 +4,6 @@ import { writeMapItemPosData } from "./utils";
 interface Options {
   moveEnabled: boolean;
 }
-export default function getMapMoveHandlers(
-  container: HTMLDivElement,
-  map: HTMLDivElement,
-  options: Options,
-) {
-  if (!map || !container) {
-    return;
-  }
-  let mouseDownX: number, mouseDownY: number;
-  let mapOffsetX: number = map.offsetLeft;
-  let mapOffsetY: number = map.offsetTop;
-  const activePointers = new Map();
-  let isMovable = false;
-  const handleMove = (e: PointerEvent) => {
-    // if (activePointers.size > 1) {
-    //   return;
-    // }
-    if (!isMovable) {
-      return;
-    }
-    map.style.cursor = "grabbing";
-    const deltaX = e.clientX - mouseDownX;
-    const deltaY = e.clientY - mouseDownY;
-
-    const minX = container.clientWidth - map.clientWidth;
-    const minY = container.clientHeight - map.clientHeight;
-
-    let newX = mapOffsetX + deltaX;
-    let newY = mapOffsetY + deltaY;
-
-    newX = Math.min(Math.max(newX, minX), 0);
-    newY = Math.min(Math.max(newY, minY), 0);
-    map.style.left = `${newX}px`;
-    map.style.top = `${newY}px`;
-  };
-  const handlePointerDown = (e: PointerEvent) => {
-    // add pointers
-    activePointers.set(e.pointerId, e);
-    isMovable = true;
-    mouseDownX = e.clientX;
-    mouseDownY = e.clientY;
-    mapOffsetX = map.offsetLeft;
-    mapOffsetY = map.offsetTop;
-  };
-  const handlePointerUp = (e: PointerEvent) => {
-    isMovable = false;
-    map.style.cursor = "default";
-    mapOffsetX = map.offsetLeft;
-    mapOffsetY = map.offsetTop;
-    // clear pointers
-    activePointers.delete(e.pointerId);
-    map.releasePointerCapture(e.pointerId);
-  };
-  return { handleMove, handlePointerDown, handlePointerUp };
-}
 
 export function useMoveLabel(
   container: HTMLDivElement,

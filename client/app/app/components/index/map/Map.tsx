@@ -39,9 +39,23 @@ export default function Map() {
   const mapLabels = useRef<HTMLDivElement | null>(null);
   const mapContent = useRef<HTMLDivElement | null>(null);
   const context = useMapContextProvider();
-  const getMapHandlersCached = useCallback(getMapHandlers, []);
+
   useEffect(() => {
-    if (!mapSurface.current || !mapContainer.current || !mapContent.current) {
+    if (context.mapElements) {
+      return;
+    }
+    context.setMapElements({
+      mapSurface,
+      mapContainer,
+      mapImage,
+      mapLabels,
+      mapContent,
+    });
+  }, [context.mapElements]);
+  const getMapHandlersCached = useCallback(getMapHandlers, []);
+
+  useEffect(() => {
+    if (!context.mapElements) {
       return;
     }
     const map = mapSurface.current;
@@ -114,7 +128,6 @@ export default function Map() {
       mapSurface.current.style.top = `${initOffsets.y}px`;
     }
   }, []);
-  const labelsSouthEast = ["goris", "tatev", "sisian", "jermuk"];
   //scale label offsets
   useEffect(() => {
     if (!mapLabels.current) {

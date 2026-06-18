@@ -10,7 +10,7 @@ export default function MapContextProvider({ children }) {
   const [mapOffset, setMapOffset] = useState<null | { x: number; y: number }>(
     null,
   );
-  const [mapPos, setMapPos] = useState<null | { x: number; y: number }>(null);
+  const [mapElements, setMapElements] = useState<any>({});
   return (
     <MapContext
       value={{
@@ -22,8 +22,9 @@ export default function MapContextProvider({ children }) {
         setZoom,
         mapOffset,
         setMapOffset,
-        mapPos,
-        setMapPos,
+
+        mapElements,
+        setMapElements,
       }}
     >
       {children}

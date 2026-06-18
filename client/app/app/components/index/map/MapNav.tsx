@@ -3,6 +3,7 @@ import { useMapContextProvider } from "./MapContextProvider";
 import { zoomMap } from "./zoom";
 import mountainsIcon from "src/assets/mountains-icon.png";
 import houseIcon from "src/assets/house-icon.png";
+import { MAP_OPTIONS } from "./utils";
 
 export default function MapNav({
   mapSurface,
@@ -17,7 +18,7 @@ export default function MapNav({
 }) {
   const context = useMapContextProvider();
   const currentZoom = context.zoom;
-  const zoomFactor = 0.3;
+  const zoomFactor = MAP_OPTIONS.zoomFactor;
   const { t } = useTranslation();
   const LEGEND = {
     normalRoad: { name: t("Normal road"), icon: normalRoadSVG, type: "line" },
@@ -73,7 +74,7 @@ export default function MapNav({
             className="size-6 rounded-lg"
             onClick={() => {
               const newZoom = currentZoom - zoomFactor;
-              if (newZoom <= 1) {
+              if (newZoom <= MAP_OPTIONS.zoomMin) {
                 return;
               }
               zoomMap({
@@ -92,7 +93,7 @@ export default function MapNav({
             className="size-6 rounded-lg"
             onClick={() => {
               const newZoom = currentZoom + zoomFactor;
-              if (newZoom > 2) {
+              if (newZoom > MAP_OPTIONS.zoomMax) {
                 return;
               }
               zoomMap({

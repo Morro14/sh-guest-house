@@ -28,9 +28,9 @@ export function zoomMap({
   } else {
     centeredOffsets = getMapCenteredOffsets(state);
   }
-  if (newZoom < 0.5 || newZoom > 2) {
-    return;
-  }
+  // if (newZoom < 0.5 || newZoom > 2) {
+  //   return;
+  // }
   setMapZoomed(mapSurface, mapContent, centeredOffsets, newZoom);
 }
 export const setMapZoomed = (
@@ -41,8 +41,8 @@ export const setMapZoomed = (
 ) => {
   mapSurface.style.left = `${offsets.x}px`;
   mapSurface.style.top = `${offsets.y}px`;
-  mapSurface.style.width = `${(MAP_OPTIONS.mapContentSize.x + MAP_OPTIONS.mapPadding) * zoom}px`;
-  mapSurface.style.height = `${(MAP_OPTIONS.mapContentSize.y + MAP_OPTIONS.mapPadding) * zoom}px`;
-  mapContent.style.height = `${MAP_OPTIONS.mapContentSize.y * zoom}px`;
-  mapContent.style.width = `${MAP_OPTIONS.mapContentSize.x * zoom}px`;
+  mapSurface.style.width = `${Math.floor((MAP_OPTIONS.mapContentSize.x + MAP_OPTIONS.mapPadding) * zoom)}px`;
+  mapSurface.style.height = `${Math.floor((MAP_OPTIONS.mapContentSize.y + MAP_OPTIONS.mapPadding) * zoom)}px`;
+  mapContent.style.height = `${Math.floor(MAP_OPTIONS.mapContentSize.y * zoom)}px`;
+  mapContent.style.width = `${Math.floor(MAP_OPTIONS.mapContentSize.x * zoom)}px`;
 };

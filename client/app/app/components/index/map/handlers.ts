@@ -16,6 +16,7 @@ export function getMapHandlers(elements: MapElements, context: any) {
 
   function handlePointerDown(e: PointerEvent) {
     // map pointer down
+    e.preventDefault();
     isMovable = true;
     mouseDownX = e.clientX;
     mouseDownY = e.clientY;
@@ -43,14 +44,19 @@ export function getMapHandlers(elements: MapElements, context: any) {
     const deltaX = e.clientX - mouseDownX;
     const deltaY = e.clientY - mouseDownY;
 
-    const minX = mapContainer.clientWidth - mapSurface.clientWidth;
-    const minY = mapContainer.clientHeight - mapSurface.clientHeight;
-
     let newX = mapOffsetX + deltaX;
     let newY = mapOffsetY + deltaY;
 
-    newX = Math.min(Math.max(newX, minX), 0);
-    newY = Math.min(Math.max(newY, minY), 0);
+    const maxY = Math.floor(mapContainer.clientHeight / 2);
+    const minY = Math.floor(
+      -mapSurface.clientHeight + mapContainer.clientHeight / 2,
+    );
+    newY = Math.max(Math.min(maxY, newY), minY);
+    const maxX = Math.floor(mapContainer.clientWidth / 2);
+    const minX = Math.floor(
+      -mapSurface.clientWidth + mapContainer.clientWidth / 2,
+    );
+    newX = Math.max(Math.min(maxX, newX), minX);
     mapSurface.style.left = `${newX}px`;
     mapSurface.style.top = `${newY}px`;
   }
