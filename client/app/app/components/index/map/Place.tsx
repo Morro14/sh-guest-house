@@ -51,21 +51,21 @@ export default function MapPlaceComponent({
     ? scaleLabelOffsets(context.zoom, optionsMerged.offsets)
     : { x: 0, y: 0 };
   // move
-  useEffect(() => {
-    if (!place) {
-      return;
-    }
-
-    const labelEl = document.getElementById(
-      `${place.slug}-place-label`,
-    ) as HTMLDivElement;
-    const container = document.getElementById(
-      "map-container",
-    ) as HTMLDivElement;
-    const dotEl = document.getElementById(`${place.slug}-dot`);
-    useMoveLabel(container, labelEl, "placeLabel", { moveEnabled: true });
-    useMoveLabel(container, dotEl, "placeDot", { moveEnabled: true });
-  }, [place]);
+  // useEffect(() => {
+  //   if (!place) {
+  //     return;
+  //   }
+  //
+  //   const labelEl = document.getElementById(
+  //     `${place.slug}-place-label`,
+  //   ) as HTMLDivElement;
+  //   const container = document.getElementById(
+  //     "map-container",
+  //   ) as HTMLDivElement;
+  //   const dotEl = document.getElementById(`${place.slug}-dot`);
+  //   useMoveLabel(container, labelEl, "placeLabel", { moveEnabled: true });
+  //   useMoveLabel(container, dotEl, "placeDot", { moveEnabled: true });
+  // }, [place]);
   const [anchor, setAnchor] = useState({ x: 50, y: 100 });
   // set label anchor
   useEffect(() => {
@@ -127,7 +127,7 @@ export default function MapPlaceComponent({
         // scale: context.zoom < 1 ? `${context.zoom}` : "1.0",
       }}
     >
-      <MapItemPosControl itemElRef={ref} dotElRef={dotRef}></MapItemPosControl>
+      {/* <MapItemPosControl itemElRef={ref} dotElRef={dotRef}></MapItemPosControl> */}
       {hasDot ? (
         <div
           ref={dotRef}

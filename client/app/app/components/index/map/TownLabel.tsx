@@ -24,17 +24,17 @@ export default function TownLabel({
   };
   const coordsScaled = scaleLabelOffsets(context.zoom, townLabel.offsets);
   // move
-  useEffect(() => {
-    if (!townLabel) {
-      return;
-    }
-
-    const labelEl = document.getElementById(townLabel.name) as HTMLDivElement;
-    const container = document.getElementById(
-      "map-container",
-    ) as HTMLDivElement;
-    useMoveLabel(container, labelEl, "townLabel", { moveEnabled: true });
-  }, [townLabel]);
+  // useEffect(() => {
+  //   if (!townLabel) {
+  //     return;
+  //   }
+  //
+  //   const labelEl = document.getElementById(townLabel.name) as HTMLDivElement;
+  //   const container = document.getElementById(
+  //     "map-container",
+  //   ) as HTMLDivElement;
+  //   useMoveLabel(container, labelEl, "townLabel", { moveEnabled: false });
+  // }, [townLabel]);
   // scale label
   useEffect(() => {
     if (!ref.current) return;
