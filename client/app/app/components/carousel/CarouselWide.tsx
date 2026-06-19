@@ -20,7 +20,6 @@ export default function CarouselWide({ tag }: { tag: string }) {
     align: "center",
     loop: true,
   });
-  console.log("wide images", images);
   const imageRes: ImageRes = "main";
   return !images ? (
     <div className="index-container-1 mx-auto">

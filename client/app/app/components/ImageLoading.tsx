@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Dots from "./status/Dots";
-import Spinner from "./status/Spinner";
 import Placeholder from "./Placeholder";
 
 interface ImageProps {

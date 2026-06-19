@@ -30,3 +30,6 @@
 .carousel-full {
   @apply w-[95vw] sm:w-150 md:max-w-[95vw] md:min-w-150 xl:max-w-[65vw] xl:min-w-[40vw] 2xl:max-w-[60vw] 2xl:min-w-[40vw]
 }
+/* .map-container { */
+/*   @apply 2xl:w-[1280px] md:w-[698px] w-[96vh]; */
+/* } */
