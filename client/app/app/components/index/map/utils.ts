@@ -34,8 +34,6 @@ export interface ZoomState {
 }
 
 export function boundMapPos(mapSize: Size, containerSize: Size, newPos: Size) {
-  console.log("newPos", newPos);
-
   let offsetX = 0;
   let offsetY = 0;
   const maxY = Math.floor(containerSize.y / 2);

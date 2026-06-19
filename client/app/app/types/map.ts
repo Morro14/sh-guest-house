@@ -58,6 +58,9 @@ export interface MapOptions {
   // actual size of the map content without padding
   mapContentSize: Size;
   mapPadding: number;
+  zoomMin: number;
+  zoomMax: number;
+  zoomFactor: number;
 }
 
 export interface Coords {

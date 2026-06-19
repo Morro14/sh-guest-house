@@ -18,8 +18,8 @@
     {
         "name": "tanaat",
         "offsets": {
-            "x": 17,
-            "y": 51
+            "x": -19,
+            "y": 22
         },
         "type": "placeDot"
     },
@@ -138,8 +138,8 @@
     {
         "name": "gladzor_museum",
         "offsets": {
-            "x": 114,
-            "y": 26
+            "x": -2,
+            "y": 29
         },
         "type": "placeDot"
     },
@@ -147,6 +147,14 @@
         "offsets": {
             "x": 0,
             "y": 0
+        },
+        "type": "placeDot"
+    },
+    {
+        "name": "yegheg_museum",
+        "offsets": {
+            "x": 72,
+            "y": 66
         },
         "type": "placeDot"
     }

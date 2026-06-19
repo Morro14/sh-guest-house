@@ -37,6 +37,7 @@ export function useMoveLabel(
   // console.log("useMovePlaceLabel", label, labelOptions, container);
   const registerMouseDownLabel = (e: PointerEvent) => {
     e.stopPropagation();
+    console.log("label mouse down");
     // const target = e.target as Element;
     // const includeslabelElements = [label.id].includes(target.id);
     // if (!target.contains(label)) {

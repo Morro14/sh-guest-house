@@ -23,6 +23,7 @@ export default function TownLabel({
     return { x: newX, y: newY };
   };
   const coordsScaled = scaleLabelOffsets(context.zoom, townLabel.offsets);
+  // move
   useEffect(() => {
     if (!townLabel) {
       return;
@@ -32,21 +33,32 @@ export default function TownLabel({
     const container = document.getElementById(
       "map-container",
     ) as HTMLDivElement;
-    useMoveLabel(container, labelEl, "townLabel", { moveEnabled: false });
+    useMoveLabel(container, labelEl, "townLabel", { moveEnabled: true });
   }, [townLabel]);
-  // console.log(townLabel.name, townLabel.offsets);
-  return (
+  // scale label
+  useEffect(() => {
+    if (!ref.current) return;
+    if (context.zoom < 1) {
+      ref.current.style.scale = `${context.zoom ** 0.5}`;
+    } else {
+      ref.current.style.scale = `${1.0}`;
+    }
+  }, [coordsScaled]);
+  return townLabel ? (
     <div
       ref={ref}
       id={townLabel.name}
       style={{
         left: coordsScaled.x,
         top: coordsScaled.y,
-        textTransform: "capitalize",
       }}
-      className="absolute text-sm italic select-none capitalize"
+      className="absolute text-sm italic select-none map-text-shadow"
     >
-      {townLabel.name}
+      {townLabel?.name
+        ? townLabel.name.slice(0, 1).toUpperCase() + townLabel.name.slice(1)
+        : ""}
     </div>
+  ) : (
+    ""
   );
 }
