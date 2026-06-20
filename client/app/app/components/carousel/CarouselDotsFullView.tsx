@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavContextProvider } from "../nav/NavContextProvider";
-import NavArrow from "app/components/nav/NavArrow";
+import NavArrow from "~/components/nav/NavArrow";
 import type { EmblaCarouselType } from "embla-carousel";
 
 export default function CarouselDotsFullView({

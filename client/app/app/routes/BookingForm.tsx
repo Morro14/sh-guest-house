@@ -1,4 +1,4 @@
-import { Form, useFetcher, useNavigation } from "react-router";
+import { useFetcher, useNavigation } from "react-router";
 import { useIndexBookingContextProvider } from "../components/booking/IndexBookingContextProvider.tsx";
 import SelectGuests from "../components/formComponents/SelectGuests";
 import { useTranslation } from "react-i18next";
@@ -83,9 +83,9 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
                   variant: "standard",
                   size: "small",
                   endAdornment: false,
-                  InputProps: {
-                    disableUnderline: false,
-                  },
+                  // InputProps: {
+                  //   disableUnderline: false,
+                  // },
                   sx: desktopDatePickerSx,
                 },
               }}

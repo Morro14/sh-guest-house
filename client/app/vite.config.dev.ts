@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
 import { reactRouter } from "@react-router/dev/vite";
-import tsconfigPaths from "vite-tsconfig-paths";
 import path from "path";
 import fs from "fs";
 
@@ -11,32 +10,30 @@ export default defineConfig({
   server: {
     watch: {
       ignored: [
-        "**/src/data/map-labels-data.json",
-        "**/src/data/town-labels.json",
+        // "**/src/data/map-labels-data.json",
+        // "**/src/data/town-labels.json",
       ],
     },
     port: 5173,
     host: "frontend.test",
     strictPort: true,
     allowedHosts: ["frontend.test"],
-    proxy: {
-      "/api": {
-        target: "http://backend.test:8000",
-        changeOrigin: true,
-        secure: false,
-      },
-      "/media": {
-        target: "http://backend.test:8000",
-        changeOrigin: true,
-        secure: false,
-      },
-    },
+    // proxy: {
+    //   "/api": {
+    //     target: "http://backend.test:8000",
+    //     changeOrigin: true,
+    //     secure: false,
+    //   },
+    //   "/media": {
+    //     target: "http://backend.test:8000",
+    //     changeOrigin: true,
+    //     secure: false,
+    //   },
+    // },
   },
   plugins: [
     reactRouter(),
     tailwindcss(),
-    tsconfigPaths(),
-
     {
       name: "map-saver",
       configureServer(server) {
@@ -104,10 +101,7 @@ export default defineConfig({
     },
   ],
   resolve: {
-    alias: {
-      "~": path.resolve(__dirname, "app"),
-      root: path.resolve(__dirname),
-    },
+    tsconfigPaths: true,
   },
   build: {
     sourcemap: true,
