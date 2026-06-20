@@ -1,9 +1,9 @@
 import { useNavContextProvider } from "../nav/NavContextProvider";
 import MediaFullView from "../MediaFullView";
 import { Carousel } from "../carousel/Carousel";
-import type { Room } from "app/types/booking";
+import type { Room } from "~/types/booking";
 import { useTranslation } from "react-i18next";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getAxiosInstance } from "~/utils/general";
 import { logError } from "~/utils/logging";
 import Placeholder from "../Placeholder";

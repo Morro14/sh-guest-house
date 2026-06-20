@@ -75,7 +75,7 @@ export default function MapPlaceComponent({
     const w = ref.current.clientWidth;
     const h = ref.current.clientHeight;
     if (place?.slug === "spitakavor") {
-      console.log(w, h, dotPos);
+      // console.log(w, h, dotPos);
     }
     // const f = context.zoom < 1 ? context.zoom : 1;
     const anchor = {
@@ -83,7 +83,7 @@ export default function MapPlaceComponent({
       y: Math.floor(((dotPos.y + dotSize.y) / h) * 100),
     };
     setAnchor(anchor);
-  }, [place]);
+  }, [place, dotSize, dotPos]);
   // get dot pos
   useEffect(() => {
     if (!place) {
@@ -104,7 +104,7 @@ export default function MapPlaceComponent({
   let pointerPosOnMouseDown = { x: 0, y: 0 };
   // scale label
   useEffect(() => {
-    if (!ref.current) return;
+    if (!ref.current || !context.zoom) return;
     if (context.zoom < 1) {
       ref.current.style.scale = `${context.zoom ** 0.5}`;
     } else {

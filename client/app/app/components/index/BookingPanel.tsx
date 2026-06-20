@@ -46,9 +46,9 @@ export default function BookingPanel() {
                     variant: "standard",
                     size: "small",
                     endAdornment: false,
-                    InputProps: {
-                      disableUnderline: true,
-                    },
+                    // slotProps: {
+                    //   disableUnderline: true,
+                    // },
                     sx: desktopDatePickerSx,
                   },
                 }}
