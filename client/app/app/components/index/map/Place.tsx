@@ -68,7 +68,31 @@ export default function MapPlaceComponent({
   // }, [place]);
   const [anchor, setAnchor] = useState({ x: 50, y: 100 });
   // set label anchor
+  // useEffect(() => {
+  //   if (!ref.current) {
+  //     return;
+  //   }
+  //   const w = ref.current.clientWidth;
+  //   const h = ref.current.clientHeight;
+  //   if (place?.slug === "spitakavor") {
+  //     // console.log(w, h, dotPos);
+  //   }
+  //   // const f = context.zoom < 1 ? context.zoom : 1;
+  //   const anchor = {
+  //     x: Math.floor(((dotPos.x + dotSize.x / 2) / w) * 100),
+  //     y: Math.floor(((dotPos.y + dotSize.y) / h) * 100),
+  //   };
+  //   setAnchor(anchor);
+  // }, [place, dotSize, dotPos]);
+  // get dot pos
   useEffect(() => {
+    if (!place) {
+      return;
+    }
+    const dotData = placeDotsPosData.find(
+      (item) => item.name === `${place.slug}`,
+    ) as MapItemPosData;
+    // setDotPos(dotData.offsets);
     if (!ref.current) {
       return;
     }
@@ -79,20 +103,11 @@ export default function MapPlaceComponent({
     }
     // const f = context.zoom < 1 ? context.zoom : 1;
     const anchor = {
-      x: Math.floor(((dotPos.x + dotSize.x / 2) / w) * 100),
-      y: Math.floor(((dotPos.y + dotSize.y) / h) * 100),
+      x: Math.floor(((dotData.offsets.x + dotSize.x / 2) / w) * 100),
+      y: Math.floor(((dotData.offsets.y + dotSize.y) / h) * 100),
     };
-    setAnchor(anchor);
-  }, [place, dotSize, dotPos]);
-  // get dot pos
-  useEffect(() => {
-    if (!place) {
-      return;
-    }
-    const dotData = placeDotsPosData.find(
-      (item) => item.name === `${place.slug}`,
-    ) as MapItemPosData;
     setDotPos(dotData.offsets);
+    setAnchor(anchor);
   }, [place]);
 
   const dotRef = useRef(null);

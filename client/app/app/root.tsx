@@ -7,32 +7,28 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <link
-          rel="icon"
-          type="image/x-icon"
-          href="/static/frontend/favicon.ico"
-        />
+        <link rel="icon" type="image/x-icon" href="/public/favicon.ico" />
 
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href="/static/frontend/favicon-16x16.png"
+          href="/public/favicon-16x16.png"
         />
         <link
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href="/static/frontend/favicon-32x32.png"
+          href="/public/favicon-32x32.png"
         />
 
         <link
           rel="apple-touch-icon"
           sizes="180x180"
-          href="/static/frontend/apple-touch-icon.png"
+          href="/public/apple-touch-icon.png"
         />
 
-        <link rel="manifest" href="/static/frontend/site.webmanifest" />
+        <link rel="manifest" href="/public/site.webmanifest" />
         <meta charSet="utf-8" />
         <meta
           name="viewport"
