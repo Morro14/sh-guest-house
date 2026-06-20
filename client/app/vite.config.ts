@@ -7,6 +7,7 @@ import { reactRouter } from "@react-router/dev/vite";
 export default defineConfig({
   // base: "/static/frontend/",
   plugins: [reactRouter(), tailwindcss()],
+  base: "/",
   // resolve: {
   //   alias: {
   //     "~": path.resolve(__dirname, "app"),
