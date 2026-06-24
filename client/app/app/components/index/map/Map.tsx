@@ -177,7 +177,7 @@ export default function Map() {
             width: options.mapContentSize.x + options.mapPadding,
             height: options.mapContentSize.y + options.mapPadding,
           }}
-          className="absolute flex items-center justify-center "
+          className={`absolute flex items-center justify-center ${!context.fullView ? "hover:cursor-move" : "hover:cursor-default"}`}
         >
           <div
             id="map-content"
