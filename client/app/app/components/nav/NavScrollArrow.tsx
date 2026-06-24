@@ -15,7 +15,7 @@ export default function NavScrollArrow({
   };
   const styles = {
     active: "stroke-peach group-hover:fill-peach cursor-pointer",
-    inactive: "stroke-gray-warm",
+    inactive: "stroke-gray-warm-mid",
   };
   const active = styleConditions[direction];
   const svgStyle = () => {

@@ -15,7 +15,7 @@ export default function NavArrow({
   };
   const styles = {
     active: "stroke-primary hover:stroke-primary-light cursor-pointer",
-    inactive: "stroke-gray-warm",
+    inactive: "stroke-gray-warm-mid",
   };
   const active = styleConditions[direction];
   const svgStyle = () => {

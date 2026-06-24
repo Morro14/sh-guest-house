@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Dots from "./status/Dots";
 import Placeholder from "./Placeholder";
+import PlaceholderLoading from "./PlaceholderLoading.tsx";
 
 interface ImageProps {
   src: string;
@@ -8,7 +8,7 @@ interface ImageProps {
 
 export function ImageLoading({
   imageAttrs,
-  placeholder = ImagePlacesholderDefault,
+  placeholder = Placeholder({ text: "" }),
 }: {
   imageAttrs: ImageProps & React.ImgHTMLAttributes<HTMLImageElement>;
   placeholder?: React.ReactNode;
@@ -16,6 +16,7 @@ export function ImageLoading({
   const [loaded, setLoaded] = useState(false);
   const [loadedError, setLoadedError] = useState(false);
   const { className, src, ...rest } = imageAttrs;
+  const placeholderStatic = <Placeholder></Placeholder>;
   return (
     <div className="size-full flex justify-center">
       {src && !loadedError ? (
@@ -27,7 +28,7 @@ export function ImageLoading({
           onError={() => setLoadedError(true)}
         ></img>
       ) : (
-        <Placeholder></Placeholder>
+        placeholderStatic
       )}
       <div
         className={`${!loaded && !loadedError ? "block" : "hidden"} size-full flex items-center justify-center`}
@@ -37,5 +38,3 @@ export function ImageLoading({
     </div>
   );
 }
-
-const ImagePlacesholderDefault = <Dots></Dots>;
