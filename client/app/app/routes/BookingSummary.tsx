@@ -103,7 +103,7 @@ export default function BookingSummary({ loaderData }) {
           <h3>{t("Your booking request")}</h3>
         </div>
         <div className="index-container-1">
-          <div className="h-[1px] bg-gray-warm w-full mb-4"></div>
+          <div className="h-[1px] bg-gray-line w-full mb-4"></div>
           <div className="capitalize space-y-2">
             <div>
               <div className="text-gray-warm-mid text-sm">
@@ -131,7 +131,7 @@ export default function BookingSummary({ loaderData }) {
               </div>
             </div>
           </div>
-          <div className="h-[1px] bg-gray-warm w-full my-6"></div>
+          <div className="h-[1px] bg-gray-line w-full my-6"></div>
           <Link
             to={`/${getLanguagePathParam()}/booking?${reservationSearchParams}`}
             className="flex gap-3"

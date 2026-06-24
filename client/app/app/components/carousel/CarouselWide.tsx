@@ -54,7 +54,7 @@ export default function CarouselWide({ tag }: { tag: string }) {
       </div>
       {context.fullImageView ? (
         <MediaFullView>
-          <div className="max-h-[90vh]">
+          <div className="h-[90vh]">
             <ImageLoading
               placeholder={placeholder}
               imageAttrs={{

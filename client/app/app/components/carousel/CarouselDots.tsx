@@ -24,7 +24,7 @@ export default function CarouselDots({
           setCurrentSnap(i);
           emblaApi.goTo(i);
         }}
-        className="w-3.5 h-3.5 rounded-[7px] cursor-pointer hover:bg-primary-light bg-gray-warm"
+        className="w-3.5 h-3.5 rounded-[7px] cursor-pointer hover:bg-primary-light bg-gray-warm-mid"
       ></div>
     );
   });

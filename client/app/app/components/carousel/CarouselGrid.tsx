@@ -74,7 +74,7 @@ export default function CarouselGrid({ name }: { name: string }) {
         <MediaFullView>
           <div className="h-[90vh]">
             <ImageLoading
-              placeholder={<Spinner variation="white"></Spinner>}
+              placeholder={placeholder}
               imageAttrs={{
                 src: `${MEDIA_URL}${gridContext.fullView.variants.original}`,
                 className: "h-full object-contain",
@@ -88,3 +88,9 @@ export default function CarouselGrid({ name }: { name: string }) {
     </div>
   );
 }
+
+const placeholder = (
+  <div className="w-screen h-[60vh] flex items-center justify-center border border-gray-warm-mid">
+    <Spinner variation="white"></Spinner>
+  </div>
+);

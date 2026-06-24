@@ -30,7 +30,7 @@ export default function CarouselDotsFullView({
             <div
               key={`room-dot-${currentDotsNum + i}`}
               onClick={() => emblaApi?.goTo(currentDotsNum + i)}
-              className="w-3.5 h-3.5 rounded-[7px] cursor-pointer hover:bg-primary-light bg-gray-warm"
+              className="w-3.5 h-3.5 rounded-[7px] cursor-pointer hover:bg-primary-light bg-gray-warm-mid"
             ></div>
           );
         });
