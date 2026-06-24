@@ -1,11 +1,11 @@
-import { useFetcher, useNavigation } from "react-router";
+import { useFetcher } from "react-router";
 import { useIndexBookingContextProvider } from "../components/booking/IndexBookingContextProvider.tsx";
 import SelectGuests from "../components/formComponents/SelectGuests";
 import { useTranslation } from "react-i18next";
 import { validate } from "~/components/formComponents/validate";
 import { redirect } from "react-router";
 import type { Route } from "./+types/BookingForm";
-import { getLanguagePathParam, getUrlSearchParams } from "~/utils/general";
+import { getUrlSearchParams } from "~/utils/general";
 import { useEffect, useState } from "react";
 import type { ValidationErrors } from "~/components/formComponents/validate";
 import type { BookingForm } from "./IndexRoute";
@@ -26,7 +26,10 @@ export function ErrorBoundary() {
   }, [error]);
   return <ErrorFallback />;
 }
-export async function clientAction({ request }: Route.ClientActionArgs) {
+export async function clientAction({
+  request,
+  params,
+}: Route.ClientActionArgs) {
   // test spinner
   // await new Promise((resolve) => setTimeout(resolve, 500));
   const formData = await request.formData();
@@ -39,8 +42,8 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   for (const [k, v] of formData.entries()) {
     formDataObj[k] = v.toString();
   }
-  const params = new URLSearchParams(formDataObj);
-  return redirect(`/${getLanguagePathParam()}/booking?${params}`);
+  const paramsNew = new URLSearchParams(formDataObj);
+  return redirect(`/${params.lang}/booking?${paramsNew}`);
 }
 
 export default function BookingForm({ actionData }: Route.ComponentProps) {
@@ -54,7 +57,6 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
     "children",
     "nights",
   ]);
-  const navigation = useNavigation();
   const fetcher = useFetcher();
   const isSubmitting = fetcher.state !== "idle";
   return (

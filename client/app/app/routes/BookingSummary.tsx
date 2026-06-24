@@ -35,7 +35,7 @@ export function ErrorBoundary() {
   } else return <ErrorFallback />;
 }
 
-export async function clientAction({ request }) {
+export async function clientAction({ request, params }) {
   // await new Promise((resolve) => setTimeout(resolve, 500));
   // return;
   const axiosInstance = getAxiosInstance();
@@ -45,7 +45,7 @@ export async function clientAction({ request }) {
     formData,
   )) as AxiosResponse;
   return redirect(
-    `/${getLanguagePathParam()}/booking/response?validated=${response.data.request_validated}&email=${response.data.user_email}`,
+    `/${params.lang}/booking/response?validated=${response.data.request_validated}&email=${response.data.user_email}`,
   );
 }
 interface GuestPerRoomSelected {

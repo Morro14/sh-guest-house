@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import LangSelect from "./LangSelect";
 import BurgerMenu from "./BurgerMenu";
@@ -7,7 +7,6 @@ import { useState } from "react";
 export default function Header() {
   const { t } = useTranslation();
   const [showMenu, setShowMenu] = useState(false);
-  const loc = useLocation();
   return (
     <div>
       {/* <div className="font-sans text-red-error text-center"> */}

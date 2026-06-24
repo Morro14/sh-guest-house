@@ -60,7 +60,7 @@ export function shouldRevalidate({
   return defaultShouldRevalidate;
 }
 
-export async function clientLoader({ request }) {
+export async function clientLoader({ request, params }) {
   const url = new URL(request.url);
   const allParams =
     url.searchParams.has("date") &&
@@ -71,16 +71,17 @@ export async function clientLoader({ request }) {
   if (!allParams) {
     const defaultParamsObj = getDefaultSearchParams();
     const defaultParams = new URLSearchParams(defaultParamsObj);
-    return redirect(
-      `/${getLanguagePathParam(url.pathname)}/booking?${defaultParams}`,
-    );
+    return redirect(`/${params.lang}/booking?${defaultParams}`);
   }
   const axiosInstance = getAxiosInstance();
   const response = await axiosInstance.get(`booking/request${url.search}`);
   return response as AxiosResponse;
 }
 
-export async function clientAction({ request }: Route.ClientActionArgs) {
+export async function clientAction({
+  request,
+  params,
+}: Route.ClientActionArgs) {
   await new Promise((resolve) => setTimeout(resolve, 500));
   const formData = await request.formData();
   const axiosInstance = getAxiosInstance();
@@ -93,7 +94,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     return response.data;
   } else {
     await axiosInstance.post("booking/request-summary", formData);
-    return redirect(`/${getLanguagePathParam()}/booking/confirm`);
+    return redirect(`/${params.lang}/booking/confirm`);
   }
 }
 

@@ -30,7 +30,10 @@ export interface BookingForm {
   nights: string;
   date: string;
 }
-export async function clientAction({ request }: Route.ClientActionArgs) {
+export async function clientAction({
+  request,
+  params,
+}: Route.ClientActionArgs) {
   // test spinner
   // await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -44,9 +47,10 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   for (const [k, v] of formData.entries()) {
     formDataObj[k] = v.toString();
   }
-  const params = new URLSearchParams(formDataObj);
+  const lang = params.lang;
+  const paramsNew = new URLSearchParams(formDataObj);
 
-  return redirect(`booking?${params}`);
+  return redirect(`/${lang}/booking?${paramsNew}`);
 }
 
 export default function IndexRoute({ actionData }: Route.ComponentProps) {

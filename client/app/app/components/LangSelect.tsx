@@ -5,15 +5,12 @@ import { useTranslation } from "react-i18next";
 export default function LangSelect() {
   const { i18n } = useTranslation();
   const languageLabels = { en: "English", ru: "Русский" };
+  const nav = useNavigate();
   const params = useParams();
   const loc = useLocation();
-  const nav = useNavigate();
   const handleChange = (e) => {
-    const segments = loc.pathname.split("/");
-    segments[1] = e.target.value;
-    i18n.changeLanguage(e.target.value);
-    nav(segments.join("/"));
-    window.location.assign(segments.join("/"));
+    const pathWithoutLang = loc.pathname.split("/").toSpliced(1, 1).join("/");
+    nav(`/${e.target.value}${pathWithoutLang}${loc.search}`);
   };
   return (
     <div className="w-[140px] flex justify-end">
