@@ -157,5 +157,13 @@
             "y": 66
         },
         "type": "placeDot"
+    },
+    {
+        "name": "gravi_dza",
+        "offsets": {
+            "x": 133,
+            "y": 45
+        },
+        "type": "placeDot"
     }
 ]

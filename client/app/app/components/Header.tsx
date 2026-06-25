@@ -24,7 +24,7 @@ export default function Header() {
           >
             {t("Site name")}
           </Link>
-          <div className="md:flex gap-5 2xl:gap-10 hidden justify-between font-serif underline font-light">
+          <div className="md:flex gap-5 2xl:gap-10 hidden justify-between font-serif font-light">
             <button
               className="hover:underline "
               onClick={() => {

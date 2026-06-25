@@ -45,18 +45,18 @@ export const desktopDatePickerTheme = createTheme({
 
 export const desktopDatePickerSx = {
   "& .MuiPickersInputBase-root::before": {
-    borderColor: "#cccccc",
+    borderColor: "#ba876f",
   },
   "& .MuiPickersInputBase-root::after": {
     borderColor: "#efa76a",
   },
   "& .MuiPickersInputBase-root:hover:not(.Mui-disabled, .Mui-error)::before": {
     borderColor: "#764c38",
-    borderBottom: "1px solid #efa76a",
+    borderBottom: "1px solid #fb966e",
   },
   "& .MuiPickersInputBase-root:hover:not(.Mui-disabled, .Mui-error)::after": {
     borderColor: "#764c38",
-    borderBottom: "1px solid #efa76a",
+    borderBottom: "1px solid #fb966e",
   },
   "& .MuiPickersInputBase-root": {
     width: "142px",

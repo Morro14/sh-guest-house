@@ -98,7 +98,9 @@ h5 {
 .button-primary {
   @apply bg-peach text-white rounded-sm cursor-pointer font-sans font-medium flex justify-center items-center pt-1;
 }
-
+button {
+  @apply hover:cursor-pointer
+}
 .map-text-shadow {
   @apply text-shadow-[-1px_-1px_0px_#FFFFFF,1px_1px_0px_#FFFFFF,-1px_1px_0px_#FFFFFF,1px_-1px_0px_#FFFFFF]!
 }

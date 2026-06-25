@@ -178,5 +178,17 @@
                 "y": 652
             }
         }
+    },
+    {
+        "name": "gravi_dza",
+        "type": "placeLabel",
+        "options": {
+            "offsets": {
+                "x": 834,
+                "y": 1193
+            },
+            "importanceLevel": 2
+        }
     }
 ]
+

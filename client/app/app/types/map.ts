@@ -26,6 +26,7 @@ export interface MapLabelOptions {
   dot?: boolean;
   grouped?: boolean;
   group?: string;
+  importanceLevel?: number;
 }
 
 export interface MapLabelPosData {

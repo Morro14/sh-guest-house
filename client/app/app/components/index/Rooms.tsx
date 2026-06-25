@@ -116,7 +116,7 @@ export default function RoomsPreview() {
     <PlaceholderParagraph></PlaceholderParagraph>
   ) : (
     <div
-      className={`flex flex-col items-center w-full relative transition-[height] duration-300`}
+      className={`flex flex-col items-center w-full relative transition-[height] duration-300 mb-6`}
       style={{
         height: getContainerHeight(
           showMoreRooms,
@@ -151,7 +151,7 @@ export default function RoomsPreview() {
       </div>
       <div className="flex items-center justify-center">
         <button
-          className="font-medium underline cursor-pointer mt-2"
+          className="font-light underline cursor-pointer mt-2"
           onClick={() => {
             setExpandContainer(!expandContainer);
             setShowMoreRooms(!showMoreRooms);

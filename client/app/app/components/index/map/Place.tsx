@@ -51,40 +51,22 @@ export default function MapPlaceComponent({
     ? scaleLabelOffsets(context.zoom, optionsMerged.offsets)
     : { x: 0, y: 0 };
   // move
-  // useEffect(() => {
-  //   if (!place) {
-  //     return;
-  //   }
-  //
-  //   const labelEl = document.getElementById(
-  //     `${place.slug}-place-label`,
-  //   ) as HTMLDivElement;
-  //   const container = document.getElementById(
-  //     "map-container",
-  //   ) as HTMLDivElement;
-  //   const dotEl = document.getElementById(`${place.slug}-dot`);
-  //   useMoveLabel(container, labelEl, "placeLabel", { moveEnabled: true });
-  //   useMoveLabel(container, dotEl, "placeDot", { moveEnabled: true });
-  // }, [place]);
+  useEffect(() => {
+    if (!place) {
+      return;
+    }
+
+    const labelEl = document.getElementById(
+      `${place.slug}-place-label`,
+    ) as HTMLDivElement;
+    const container = document.getElementById(
+      "map-container",
+    ) as HTMLDivElement;
+    const dotEl = document.getElementById(`${place.slug}-dot`);
+    useMoveLabel(container, dotEl, "placeDot", { moveEnabled: true });
+    useMoveLabel(container, labelEl, "placeLabel", { moveEnabled: true });
+  }, [place]);
   const [anchor, setAnchor] = useState({ x: 50, y: 100 });
-  // set label anchor
-  // useEffect(() => {
-  //   if (!ref.current) {
-  //     return;
-  //   }
-  //   const w = ref.current.clientWidth;
-  //   const h = ref.current.clientHeight;
-  //   if (place?.slug === "spitakavor") {
-  //     // console.log(w, h, dotPos);
-  //   }
-  //   // const f = context.zoom < 1 ? context.zoom : 1;
-  //   const anchor = {
-  //     x: Math.floor(((dotPos.x + dotSize.x / 2) / w) * 100),
-  //     y: Math.floor(((dotPos.y + dotSize.y) / h) * 100),
-  //   };
-  //   setAnchor(anchor);
-  // }, [place, dotSize, dotPos]);
-  // get dot pos
   useEffect(() => {
     if (!place) {
       return;
@@ -97,10 +79,6 @@ export default function MapPlaceComponent({
     }
     const w = ref.current.clientWidth;
     const h = ref.current.clientHeight;
-    if (place?.slug === "spitakavor") {
-      // console.log(w, h, dotPos);
-    }
-    // const f = context.zoom < 1 ? context.zoom : 1;
     const anchor = {
       x: Math.floor(((dotData.offsets.x + dotSize.x / 2) / w) * 100),
       y: Math.floor(((dotData.offsets.y + dotSize.y) / h) * 100),
@@ -108,7 +86,12 @@ export default function MapPlaceComponent({
     setAnchor(anchor);
     setDotPos(dotData.offsets);
   }, [place]);
-
+  let placeLayoutData = null;
+  if (place)
+    placeLayoutData = placeDotsPosData.find(
+      (item) => item.name === `${place.slug}`,
+    ) as MapItemPosData;
+  console.log("placeLayoutData", placeLayoutData);
   const dotRef = useRef(null);
   const hasDot =
     !optionsMerged.grouped &&
@@ -133,7 +116,7 @@ export default function MapPlaceComponent({
       data-slug={place.slug}
       ref={ref}
       className={`select-none ${optionsMerged.position} group text-black text-center
-          font-medium place flex flex-col hover:cursor-pointer`}
+          font-medium place flex flex-col`}
       style={{
         left: `${coordsScaled.x}px`,
         top: `${coordsScaled.y}px`,
@@ -141,7 +124,7 @@ export default function MapPlaceComponent({
         // scale: context.zoom < 1 ? `${context.zoom}` : "1.0",
       }}
     >
-      {/* <MapItemPosControl itemElRef={ref} dotElRef={dotRef}></MapItemPosControl> */}
+      <MapItemPosControl itemElRef={ref} dotElRef={dotRef}></MapItemPosControl>
       {hasDot ? (
         <div
           ref={dotRef}
@@ -166,7 +149,7 @@ export default function MapPlaceComponent({
       )}
       <div className="text-center flex flex-col items-center">
         <div
-          className="text-base/5 hover:underline max-w-[154px] font-[600] map-text-shadow"
+          className={`text-base/5 hover:underline max-w-[154px] font-[600] map-text-shadow ${place}`}
           onPointerDown={(e) => {
             pointerPosOnMouseDown = { x: e.clientX, y: e.clientY };
           }}
