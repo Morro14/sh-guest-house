@@ -84,7 +84,7 @@ export default function SelectGuests({
         )}
       </label>
 
-      <div className="absolute shadow-sm top-10 z-50 h-0 overflow-hidden peer-checked:h-[180px] w-[200px] transition-all duration-200">
+      <div className="absolute shadow-sm top-10 z-50 h-0 overflow-hidden peer-checked:h-[180px] w-[200px] ">
         <div className="flex flex-col p-4 bg-bg gap-4 h-full">
           <div className="flex flex-col items-center">
             <label className="text-sm" htmlFor="select-adults">

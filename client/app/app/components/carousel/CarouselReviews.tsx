@@ -2,9 +2,9 @@ import useEmblaCarousel from "embla-carousel-react";
 import type { Review as ReviewType } from "~/types";
 import { useFetchWithTranslation } from "~/utils/fetchHook";
 import Review from "../index/Review";
-import Placeholder from "../Placeholder";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import PlaceholderGrayBox from "../placeholders/PlaceholderGrayBox";
 
 export default function CarouselReviews() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 40 });
@@ -45,7 +45,7 @@ export default function CarouselReviews() {
                 </div>
               ))
             ) : (
-              <Placeholder></Placeholder>
+              <PlaceholderGrayBox></PlaceholderGrayBox>
             )}
           </div>
         </div>

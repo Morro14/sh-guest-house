@@ -7,7 +7,6 @@ export function getMapHandlers(elements: MapElements, context: any) {
   let mapOffsetX: number = mapSurface.offsetLeft;
   let mapOffsetY: number = mapSurface.offsetTop;
   let isMovable = false;
-  console.log("mapContent clientHeight", mapContent.clientHeight);
   // pinch
   const activePointers = new Map();
   // let initPointers = new Map();

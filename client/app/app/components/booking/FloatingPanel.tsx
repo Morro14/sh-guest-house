@@ -2,7 +2,7 @@ import { formatPrice, getUrlSearchParams } from "~/utils/general";
 import { useBookingRoomSelectContextProvider } from "./BookingRoomSelectContext";
 import { useEffect, useState, type SyntheticEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { useFetcher, useSubmit } from "react-router";
+import { useFetcher } from "react-router";
 import Dots from "../status/Dots";
 
 const CURRENCY = import.meta.env.VITE_CURRENCY;
@@ -95,7 +95,7 @@ export default function FloatingPanel() {
             className="px-2 flex cursor-pointer "
           >
             <div
-              className={`${moreRoomsRequired ? "border-0 text-gray-warm-inactive" : "underline font-sans font-medium text-text-main"}`}
+              className={`${moreRoomsRequired ? "border-0 text-gray-warm-inactive " : "font-sans font-medium text-warning "}`}
             >
               {submittingRoomsState === "idle"
                 ? t("Continue")

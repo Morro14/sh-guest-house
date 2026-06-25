@@ -10,7 +10,7 @@ import { ImageLoading } from "../ImageLoading";
 import { useNavContextProvider } from "../nav/NavContextProvider";
 import CarouselGridNav from "./CarouselGridNav";
 import { useEffect } from "react";
-import Spinner from "../status/Spinner";
+import PlaceholderFullView from "~/components/placeholders/PlaceholderFullView";
 
 const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 
@@ -74,7 +74,7 @@ export default function CarouselGrid({ name }: { name: string }) {
         <MediaFullView>
           <div className="h-[90vh]">
             <ImageLoading
-              placeholder={placeholder}
+              placeholderLoading=<PlaceholderFullView></PlaceholderFullView>
               imageAttrs={{
                 src: `${MEDIA_URL}${gridContext.fullView.variants.original}`,
                 className: "h-full object-contain",
@@ -88,9 +88,3 @@ export default function CarouselGrid({ name }: { name: string }) {
     </div>
   );
 }
-
-const placeholder = (
-  <div className="w-screen h-[60vh] flex items-center justify-center border border-gray-warm-mid">
-    <Spinner variation="white"></Spinner>
-  </div>
-);

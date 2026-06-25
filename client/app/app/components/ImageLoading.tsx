@@ -1,6 +1,6 @@
-import { useState } from "react";
-import Placeholder from "./Placeholder";
-import PlaceholderLoading from "./PlaceholderLoading.tsx";
+import { useEffect, useRef, useState } from "react";
+import PlaceholderGrayBox from "./placeholders/PlaceholderGrayBox";
+import PlaceholderLoading from "./placeholders/PlaceholderLoading";
 
 interface ImageProps {
   src: string;
@@ -8,17 +8,18 @@ interface ImageProps {
 
 export function ImageLoading({
   imageAttrs,
-  placeholder = Placeholder({ text: "" }),
+  placeholderStatic = <PlaceholderGrayBox></PlaceholderGrayBox>,
+  placeholderLoading = <PlaceholderLoading></PlaceholderLoading>,
 }: {
   imageAttrs: ImageProps & React.ImgHTMLAttributes<HTMLImageElement>;
-  placeholder?: React.ReactNode;
+  placeholderStatic?: React.ReactNode;
+  placeholderLoading?: React.ReactNode;
 }) {
   const [loaded, setLoaded] = useState(false);
   const [loadedError, setLoadedError] = useState(false);
   const { className, src, ...rest } = imageAttrs;
-  const placeholderStatic = <Placeholder></Placeholder>;
   return (
-    <div className="size-full flex justify-center">
+    <div className={`h-full block min-w-0`}>
       {src && !loadedError ? (
         <img
           {...rest}
@@ -33,7 +34,7 @@ export function ImageLoading({
       <div
         className={`${!loaded && !loadedError ? "block" : "hidden"} size-full flex items-center justify-center`}
       >
-        {placeholder}
+        {placeholderLoading}
       </div>
     </div>
   );

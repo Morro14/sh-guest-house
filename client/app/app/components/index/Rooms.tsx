@@ -6,8 +6,8 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useMemo, useState } from "react";
 import { getAxiosInstance } from "~/utils/general";
 import { logError } from "~/utils/logging";
-import Placeholder from "../Placeholder";
 import { ImageLoading } from "../ImageLoading";
+import PlaceholderParagraph from "../placeholders/PlaceholderParagraph";
 
 const MEDIA_BASE_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 const ROOMS_NUMBER_SHOW_INIT = 1;
@@ -113,7 +113,7 @@ export default function RoomsPreview() {
     return containerHeight;
   };
   return !rooms ? (
-    <Placeholder></Placeholder>
+    <PlaceholderParagraph></PlaceholderParagraph>
   ) : (
     <div
       className={`flex flex-col items-center w-full relative transition-[height] duration-300`}

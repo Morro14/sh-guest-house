@@ -1,4 +1,4 @@
-export default function PlaceholderLoading({ text }: { text?: string }) {
+export default function PlaceholderGradientBox({ text }: { text?: string }) {
   const DEFAULT_TEXT = "";
   return (
     <div

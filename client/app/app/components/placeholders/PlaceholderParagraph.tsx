@@ -1,4 +1,4 @@
-export default function Placeholder({ text }: { text?: string }) {
+export default function PlaceholderParagraph({ text }: { text?: string }) {
   const DEFAULT_TEXT = "";
   return (
     <div

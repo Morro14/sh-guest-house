@@ -18,17 +18,6 @@ export default function MapPlaceDetails({ place }: { place: MapPlaceData }) {
           imageRes="small"
           border={false}
         ></CarouselSimple>
-        {/* {place.images.length > 0 ? ( */}
-        {/*   <ImageLoading */}
-        {/*     placeholder={Spinner({ variation: "main" })} */}
-        {/*     imageAttrs={{ */}
-        {/*       src: `${MEDIA_URL}${place.images[0].variants.small} `, */}
-        {/*       className: "object-contain w-full", */}
-        {/*     }} */}
-        {/*   ></ImageLoading> */}
-        {/* ) : ( */}
-        {/*   <Placeholder></Placeholder> */}
-        {/* )} */}
       </div>
       <div className="flex">
         <h3 className="mb-0! ">{place.name}</h3>

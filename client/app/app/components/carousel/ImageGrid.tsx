@@ -3,6 +3,7 @@ import type { Image } from "~/types/booking";
 import { Grid } from "~/types/grid.ts";
 import { useCarouselGridContextProvider } from "./CarouselGridContext.tsx";
 import { useNavContextProvider } from "../nav/NavContextProvider.tsx";
+import PlaceholderGrayBox from "../placeholders/PlaceholderGrayBox.tsx";
 
 const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 
@@ -24,7 +25,7 @@ export default function ImageGrid({
   function genImageNode(format: GridFormats, index: number) {
     const targetImage = grid[format].images[index];
     if (!targetImage) {
-      return ImagePlacesholder;
+      return <PlaceholderGrayBox></PlaceholderGrayBox>;
     }
     const imgRes = {
       wide: "main",
@@ -44,12 +45,12 @@ export default function ImageGrid({
             gridContext.setFullView(targetImage);
           },
         }}
-        placeholder={ImagePlacesholder}
+        placeholderStatic=<PlaceholderGrayBox></PlaceholderGrayBox>
       ></ImageLoading>
     );
   }
   const heightFirstRow = `2xl:h-92 md:h-66 h-35`;
-  const heightGridFull = `2xl:h-187 md:h-123 h-63`;
+  const heightGridFull = `2xl:h-187 md:h-112 h-56`;
   const heightRow = `2xl:h-92 md:h-55 h-27`;
   const heightHalfRow = `2xl:h-45 md:h-26.5 h-13`;
   const gap = "2xl:gap-3 md:gap-2 gap-1 ";
@@ -83,5 +84,3 @@ export default function ImageGrid({
     </div>
   );
 }
-
-const ImagePlacesholder = <div className="bg-gray-warm-light size-full"></div>;

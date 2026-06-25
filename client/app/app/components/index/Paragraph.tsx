@@ -1,5 +1,5 @@
 import { useOnInView, useInView } from "react-intersection-observer";
-import Placeholder from "../Placeholder";
+import PlaceholderParagraph from "../placeholders/PlaceholderParagraph";
 export interface ParagraphType {
   tag: string;
   title: string;
@@ -23,7 +23,7 @@ export default function Paragraph({
     // triggerOnce: true,
   });
   return !content ? (
-    <Placeholder></Placeholder>
+    <PlaceholderParagraph></PlaceholderParagraph>
   ) : (
     <div
       className={`${centered ? "relative flex flex-col items-center text-center " : ""}`}

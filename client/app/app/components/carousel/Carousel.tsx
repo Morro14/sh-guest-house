@@ -4,6 +4,8 @@ import CarouselDots from "./CarouselDots";
 import { useNavContextProvider } from "../nav/NavContextProvider";
 import CarouselDotsFullView from "./CarouselDotsFullView";
 import { ImageLoading } from "../ImageLoading";
+import Dots from "../status/Dots";
+import PlaceholderBoxDots from "../placeholders/PlaceholderBoxDots";
 
 const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 
@@ -52,6 +54,7 @@ export function Carousel({
                     onClick: () => imageOnClick(i),
                     alt: `${name}-${i}`,
                   }}
+                  placeholderLoading=<PlaceholderBoxDots></PlaceholderBoxDots>
                 ></ImageLoading>
               </div>
             ))}
