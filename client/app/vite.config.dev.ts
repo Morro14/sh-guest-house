@@ -5,6 +5,19 @@ import path from "path";
 import fs from "fs";
 
 // https://vite.dev/config/
+function objDeepMerge(target, source) {
+  const isObject = (item) => typeof item === "object" && !Array.isArray(item);
+  if (isObject(target)) {
+    for (const key in source) {
+      if (target[key] && isObject(source[key])) {
+        objDeepMerge(target[key], source[key]);
+      } else {
+        Object.assign(target, { [key]: source[key] });
+      }
+    }
+  }
+  return target;
+}
 export default defineConfig({
   // base: "/static/frontend/",
   server: {
@@ -43,12 +56,10 @@ export default defineConfig({
             if (req.method === "POST") {
               let body = "";
 
-              // Listen for data chunks coming from the frontend
               req.on("data", (chunk) => {
                 body += chunk.toString();
               });
 
-              // Once the full body is received
               req.on("end", () => {
                 try {
                   const payload = JSON.parse(body);
@@ -59,13 +70,11 @@ export default defineConfig({
                     placeDot: "src/data/place-dots-data.json",
                   };
                   const filePath = path.resolve(__dirname, paths[payloadType]);
-                  // 1. Read
                   let existingData = [];
                   if (fs.existsSync(filePath)) {
                     const fileContent = fs.readFileSync(filePath, "utf-8");
                     existingData = JSON.parse(fileContent || "[]");
                   }
-                  // 2. Modify (with simple "upsert" logic to prevent duplicates)
                   const newData = Array.isArray(payload) ? payload : [payload];
 
                   newData.forEach((newItem) => {
@@ -73,13 +82,15 @@ export default defineConfig({
                       (item) => item.name === newItem.name,
                     );
                     if (index > -1) {
-                      existingData[index] = newItem; // Update existing
+                      existingData[index] = objDeepMerge(
+                        existingData[index],
+                        newItem,
+                      );
                     } else {
-                      existingData.push(newItem); // Add new
+                      existingData.push(newItem);
                     }
                   });
 
-                  // 3. Write
                   fs.writeFileSync(
                     filePath,
                     JSON.stringify(existingData, null, 4),

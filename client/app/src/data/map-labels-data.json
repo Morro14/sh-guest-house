@@ -184,11 +184,10 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 834,
-                "y": 1193
+                "x": 831,
+                "y": 1190
             },
             "importanceLevel": 2
         }
     }
 ]
-

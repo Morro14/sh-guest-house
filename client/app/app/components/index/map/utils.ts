@@ -134,6 +134,7 @@ export async function writeMapItemPosData(
 //     console.error("❌ Save failed:", err);
 //   }
 // }
+
 export const isClickNotDrag = (
   posInit: Coords,
   leeway: number,
@@ -147,3 +148,17 @@ export const isClickNotDrag = (
   }
   return true;
 };
+
+export function objDeepMerge(target, source) {
+  const isObject = (item) => typeof item === "object" && !Array.isArray(item);
+  if (isObject(target)) {
+    for (const key in source) {
+      if (target[key] && isObject(source[key])) {
+        objDeepMerge(target[key], source[key]);
+      } else {
+        Object.assign(target, { [key]: source[key] });
+      }
+    }
+  }
+  return target;
+}

@@ -142,7 +142,7 @@ export function getMapHandlers(elements: MapElements, context: any) {
   }
   function handleMapPointerUp(e: PointerEvent) {
     isMovable = false;
-    mapSurface.style.cursor = "auto";
+    mapSurface.style.cursor = "move";
     mapOffsetX = mapSurface.offsetLeft;
     mapOffsetY = mapSurface.offsetTop;
     // clear pointers

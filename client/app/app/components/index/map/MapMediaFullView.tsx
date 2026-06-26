@@ -35,7 +35,7 @@ export default function MapMediaFullView({
       id="full-view-non-clickable"
       ref={outsideContentFieldRef}
       className={
-        `fixed top-0 left-0 z-50 flex justify-center items-center w-screen h-screen bg-black-transparent transition duration-300 ` +
+        `fixed top-0 left-0 z-50 flex justify-center items-center w-screen h-screen bg-black-transparent transition duration-300 cursor-default ` +
         (!opacity ? "opacity-0" : "opacity-100")
       }
     >

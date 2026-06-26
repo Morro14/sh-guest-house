@@ -14,7 +14,7 @@ import MapPlaceDetails from "./MapPlaceDetails";
 import MapNav from "./MapNav";
 import paths from "src/assets/map-paths.svg";
 import placeLabelsData from "src/data/map-labels-data.json";
-import { MAP_OPTIONS, writeMapItemPosData } from "./utils";
+import { MAP_OPTIONS, objDeepMerge, writeMapItemPosData } from "./utils";
 import MapLabelGroup from "./MapLabelGroup";
 import { getMapHandlers } from "./handlers";
 import townLabelsData from "src/data/town-labels.json";
@@ -155,6 +155,7 @@ export default function Map() {
   const placeLabelsDataTyped = placeLabelsData as MapLabelPosData[];
   const townLabelsDataTyped = townLabelsData as TownLabelPosData[];
   const labelGroupsDataTyped = labelGroupsData as MapLabelGroupData[];
+
   return (
     <div>
       <MapNav
@@ -177,7 +178,7 @@ export default function Map() {
             width: options.mapContentSize.x + options.mapPadding,
             height: options.mapContentSize.y + options.mapPadding,
           }}
-          className={`absolute flex items-center justify-center ${!context.fullView ? "hover:cursor-move" : "hover:cursor-default"}`}
+          className={`absolute flex items-center justify-center ${!context.fullView ? "cursor-move" : "cursor-default"}`}
         >
           <div
             id="map-content"

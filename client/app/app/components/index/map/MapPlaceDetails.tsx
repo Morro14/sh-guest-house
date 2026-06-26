@@ -6,7 +6,7 @@ import { CarouselSimple } from "~/components/carousel/CarouselSimple";
 export default function MapPlaceDetails({ place }: { place: MapPlaceData }) {
   return (
     <div
-      className="flex flex-col gap-5 p-5 place-details h-[90vh] bg-bg overflow-y-scroll "
+      className="flex flex-col gap-5 p-5 place-details h-[90vh] bg-bg overflow-y-scroll"
       onScroll={(e) => {
         e.stopPropagation();
       }}
