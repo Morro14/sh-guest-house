@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import type { MapPlaceData } from "~/types/map";
+import messagesModal from "./modalMessages/mapMessages.json";
 
 export const MapContext = createContext(null);
 
@@ -11,6 +12,15 @@ export default function MapContextProvider({ children }) {
     null,
   );
   const [mapElements, setMapElements] = useState<any>({});
+
+  const [modalMessagesToShow, setModalMessagesToShow] = useState(messagesModal);
+  function removeMessage(name: string) {
+    const indexToRemove = modalMessagesToShow.findIndex(
+      (msg) => msg.name === name,
+    );
+    const newMessages = modalMessagesToShow.toSpliced(indexToRemove, 1);
+    setModalMessagesToShow(newMessages);
+  }
   return (
     <MapContext
       value={{
@@ -25,6 +35,9 @@ export default function MapContextProvider({ children }) {
 
         mapElements,
         setMapElements,
+
+        modalMessagesToShow,
+        removeMessage,
       }}
     >
       {children}

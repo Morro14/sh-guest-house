@@ -1,0 +1,10 @@
+[
+  {
+    "name": "beta-warning",
+    "message": "map beta version"
+  },
+  {
+    "name": "move-tip",
+    "message": "drag the map"
+  }
+]

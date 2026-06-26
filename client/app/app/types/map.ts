@@ -88,6 +88,9 @@ export interface MapElements {
   mapContainer: HTMLDivElement;
   mapContent: HTMLDivElement;
 }
-
+export interface MapMessagesModal {
+  name: string;
+  message: string;
+}
 const movableItems = ["placeLabel", "townLabel", "placeDot"] as const;
 export type MovableItem = (typeof movableItems)[number];

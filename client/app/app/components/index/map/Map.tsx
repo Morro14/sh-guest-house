@@ -4,6 +4,7 @@ import type {
   Coords,
   TownLabelPosData,
   MapLabelGroupData,
+  MapMessagesModal,
 } from "~/types/map";
 import { useFetchV3 } from "~/utils/fetchHook";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -20,7 +21,10 @@ import { getMapHandlers } from "./handlers";
 import townLabelsData from "src/data/town-labels.json";
 import placeDotsPosData from "src/data/place-dots-data.json";
 import labelGroupsData from "src/data/label-groups-data.json";
+import messagesModal from "./modalMessages/mapMessages.json";
 import TownLabel from "./TownLabel";
+import MapMsgsModal from "./modalMessages/Layout";
+import MsgLayout from "./modalMessages/MsgLayout";
 
 export const options = MAP_OPTIONS;
 export default function Map() {
@@ -155,7 +159,8 @@ export default function Map() {
   const placeLabelsDataTyped = placeLabelsData as MapLabelPosData[];
   const townLabelsDataTyped = townLabelsData as TownLabelPosData[];
   const labelGroupsDataTyped = labelGroupsData as MapLabelGroupData[];
-
+  const msgsModal = messagesModal as MapMessagesModal[];
+  console.log("msg context", context.modalMessagesToShow);
   return (
     <div>
       <MapNav
@@ -170,6 +175,11 @@ export default function Map() {
         draggable="false"
         id="map-container"
       >
+        <MapMsgsModal>
+          {context.modalMessagesToShow.map((msg) => (
+            <MsgLayout msg={msg}></MsgLayout>
+          ))}
+        </MapMsgsModal>
         <div
           id="map-surface"
           onPointerDown={() => {}}
