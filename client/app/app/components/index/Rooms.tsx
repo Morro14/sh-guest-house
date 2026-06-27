@@ -134,7 +134,7 @@ export default function RoomsPreview() {
                 ? [...rooms, ...extraRooms][context.itemSelected].images
                 : rooms[context.itemSelected].images
             }
-            imageRes="original"
+            imageRes="main"
             fullView={true}
           ></Carousel>
         </MediaFullView>
