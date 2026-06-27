@@ -117,6 +117,9 @@ class Reservation(models.Model):
 class Room(models.Model):
     """Represents a room with information about it"""
 
+    def __str__(self):
+        return self.name
+
     slug = models.SlugField(
         unique=True,
         verbose_name=_("slug"),

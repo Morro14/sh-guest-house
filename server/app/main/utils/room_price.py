@@ -1,9 +1,10 @@
 def get_room_total_price(room, guests):
-    adults = int(guests["adults"])
-    children = int(guests["children"])
-
-    price = adults * room.price + children * room.price
-
+    # if the price depends on number of guests
+    # adults = int(guests["adults"])
+    # children = int(guests["children"])
+    #
+    # price = adults * room.price + children * room.price
+    price = room.price
     return price
 
 
