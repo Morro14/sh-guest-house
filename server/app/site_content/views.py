@@ -1,5 +1,13 @@
+from django.db.models import Prefetch
 from rest_framework.views import APIView
-from site_content.models import WideImage, Place, ContentPage, GridImage, Review
+from site_content.models import (
+    WideImage,
+    Place,
+    ContentPage,
+    GridImage,
+    Review,
+    RoomImage,
+)
 from main.models import Room
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
@@ -31,7 +39,7 @@ class WideImageSet(APIView):
     authentication_classes = []
 
     def get(self, request, tag):
-        images = WideImage.objects.filter(tag__name=tag)
+        images = WideImage.objects.filter(tag__name=tag).order_by("order")
         serializer = ImageWideSerializer(images, many=True)
         return Response({"data": serializer.data})
 
@@ -54,12 +62,17 @@ class RoomSetView(ListAPIView):
     permission_classes = []
     authentication_classes = []
     serializer_class = RoomSerializer
-    queryset = Room.objects.prefetch_related("image").all()
+    images = RoomImage.objects.order_by("order")
+    queryset = (
+        Room.objects.prefetch_related(Prefetch("image", queryset=images))
+        .all()
+        .order_by("slug")
+    )
     pagination_class = LimitOffsetPagination
 
-    def list(self, request, *args, **kwargs):
-        list_response = super().list(request, *args, **kwargs)
-        return Response({"data": list_response.data})
+    # def list(self, request, *args, **kwargs):
+    #     list_response = super().list(request, *args, **kwargs)
+    #     return Response({"data": list_response.data})
 
 
 class PlaceSetView(APIView):
