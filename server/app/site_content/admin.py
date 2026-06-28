@@ -28,14 +28,14 @@ class WideImageAmin(admin.ModelAdmin):
 
 
 @admin.register(ImageGrid)
-class GridAdmin(admin.ModelAdmin):
+class ImageGridAdmin(admin.ModelAdmin):
     list_display = ["index", "pk"]
 
 
 @admin.register(GridImage)
 class GridImageAmin(admin.ModelAdmin):
-    fields = ["alt_text", "order", "image_full", "tag", "format_in_grid"]
-    list_display = ["format_in_grid", "alt_text", "image_full"]
+    fields = ["alt_text", "grid", "order", "image_full", "tag", "format_in_grid"]
+    list_display = ["format_in_grid", "grid", "alt_text", "image_full"]
 
 
 @admin.register(PlaceImage)

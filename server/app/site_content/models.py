@@ -140,11 +140,10 @@ class WideImage(Image):
 
 
 class ImageGrid(models.Model):
+    def __str__(self):
+        return f"Image grid #{self.index}"
+
     index = models.PositiveIntegerField(unique=True, default=None)
-
-
-# def get_default_grid():
-#     return ImageGrid.objects.all().first().id
 
 
 class GridImage(Image):
@@ -165,7 +164,7 @@ class GridImage(Image):
         choices=GRID_FRAME_FORMATS,
         blank=True,
     )
-    # grid = models.ForeignKey(to=ImageGrid, on_delete=models.CASCADE, default=1)
+    grid = models.ForeignKey(to=ImageGrid, on_delete=models.CASCADE, default=1)
 
     class Meta:
         verbose_name = _("grid image")
