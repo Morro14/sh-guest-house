@@ -8,6 +8,7 @@ from .models import (
     WideImage,
     ImageTag,
     GridImage,
+    ImageGrid,
     Review,
 )
 
@@ -26,9 +27,15 @@ class WideImageAmin(admin.ModelAdmin):
     fields = ["alt_text", "order", "image_full", "tag"]
 
 
+@admin.register(ImageGrid)
+class GridAdmin(admin.ModelAdmin):
+    list_display = ["index", "pk"]
+
+
 @admin.register(GridImage)
 class GridImageAmin(admin.ModelAdmin):
     fields = ["alt_text", "order", "image_full", "tag", "format_in_grid"]
+    list_display = ["format_in_grid", "alt_text", "image_full"]
 
 
 @admin.register(PlaceImage)

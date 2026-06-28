@@ -8,6 +8,7 @@ export interface GridImage extends Image {
 type GridImageFormat = GRID_IMAGE_FORMATS;
 
 export class Grid {
+  index?: number;
   wide = { maxImages: 1, images: [] };
   medium = { maxImages: 1, images: [] };
   portrait = { maxImages: 1, images: [] };

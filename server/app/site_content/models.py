@@ -139,6 +139,14 @@ class WideImage(Image):
         verbose_name_plural = _("wide photos")
 
 
+class ImageGrid(models.Model):
+    index = models.PositiveIntegerField(unique=True, default=None)
+
+
+# def get_default_grid():
+#     return ImageGrid.objects.all().first().id
+
+
 class GridImage(Image):
     GRID_FRAME_FORMATS = {
         "wide": _("Wide"),
@@ -150,7 +158,6 @@ class GridImage(Image):
     # small_res = (1200, 368)
 
     tag = models.ManyToManyField(to="ImageTag", blank=True)
-
     format_in_grid = models.TextField(
         help_text=_(
             "Which frame format this image is for inside the mosaic image grid"
@@ -158,6 +165,7 @@ class GridImage(Image):
         choices=GRID_FRAME_FORMATS,
         blank=True,
     )
+    # grid = models.ForeignKey(to=ImageGrid, on_delete=models.CASCADE, default=1)
 
     class Meta:
         verbose_name = _("grid image")
