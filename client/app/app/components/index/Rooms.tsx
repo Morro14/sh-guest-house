@@ -3,11 +3,12 @@ import MediaFullView from "../MediaFullView";
 import { Carousel } from "../carousel/Carousel";
 import type { Room } from "~/types/booking";
 import { useTranslation } from "react-i18next";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { getAxiosInstance } from "~/utils/general";
 import { logError } from "~/utils/logging";
 import { ImageLoading } from "../ImageLoading";
 import PlaceholderParagraph from "../placeholders/PlaceholderParagraph";
+import { useFetchV3 } from "~/utils/fetchHook";
 
 const MEDIA_BASE_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 const ROOMS_NUMBER_SHOW_INIT = 1;
@@ -15,29 +16,25 @@ const ROOMS_NUMBER_SHOW_EXRA = 10;
 
 export default function RoomsPreview() {
   const { t } = useTranslation();
-  const [rooms, setRooms] = useState(null);
-  const [roomCards, setRoomCards] = useState<React.ReactNode[] | null>(null);
   const context = useNavContextProvider();
   const [showMoreRooms, setShowMoreRooms] = useState(false);
   const [expandContainer, setExpandContainer] = useState(false);
-  const [extraRooms, setExtraRooms] = useState<Array<Room> | null>(null);
-  const [loadingExtraRooms, setLoadingExtraRooms] = useState(false);
-
-  useEffect(() => {
-    if (rooms) return;
-    const axiosInstance = getAxiosInstance();
-    axiosInstance
-      .get(`content/rooms/?limit=${ROOMS_NUMBER_SHOW_INIT}`)
-      .then((response) => {
-        if (response.status === 200) {
-          const rooms = response.data.data.results as Room[];
-          setRooms(rooms);
-          const roomCards = rooms.map((room, i) => genRoomCard(room, i));
-          setRoomCards(roomCards);
-        }
+  const [extraRooms, setExtraRooms] = useState<Room[] | undefined>(undefined);
+  const axiosInstance = getAxiosInstance();
+  const rooms = useFetchV3(`content/rooms/?limit=${ROOMS_NUMBER_SHOW_INIT}`)
+    ?.fetchedData?.data?.results as Room[] | undefined;
+  const handleExpandClick = async () => {
+    setExpandContainer(!expandContainer);
+    setShowMoreRooms(!showMoreRooms);
+    await axiosInstance
+      .get(
+        `content/rooms/?limit=${ROOMS_NUMBER_SHOW_EXRA}&offset=${ROOMS_NUMBER_SHOW_INIT}`,
+      )
+      .then((r) => {
+        setExtraRooms(r.data?.results);
       })
       .catch((r) => logError(r));
-  }, [rooms]);
+  };
 
   function genRoomCard(room: Room, i: number) {
     return (
@@ -64,23 +61,6 @@ export default function RoomsPreview() {
     );
   }
 
-  useEffect(() => {
-    if (!showMoreRooms || extraRooms) return;
-    setLoadingExtraRooms(true);
-    new Promise(() => setTimeout(() => {}, 3000));
-    const axiosInstance = getAxiosInstance();
-    axiosInstance
-      .get(
-        `content/rooms/?limit=${ROOMS_NUMBER_SHOW_EXRA}&offset=${ROOMS_NUMBER_SHOW_INIT}`,
-      )
-      .then((response) => {
-        setLoadingExtraRooms(false);
-        if (response.status === 200) {
-          setExtraRooms(response.data.data.results);
-        }
-      })
-      .catch((r) => logError(r));
-  }, [showMoreRooms, extraRooms]);
   let extraRoomsCards = useMemo(() => {
     if (!extraRooms) {
       return;
@@ -89,6 +69,15 @@ export default function RoomsPreview() {
       return genRoomCard(room, i + ROOMS_NUMBER_SHOW_INIT);
     });
   }, [extraRooms]);
+  const roomCards = useMemo(() => {
+    if (!rooms) {
+      return;
+    }
+    return rooms.map((room: Room, i: number) => {
+      return genRoomCard(room, i);
+    });
+  }, [rooms]);
+
   const getContainerHeight = (
     showMoreRooms: boolean,
     extraRooms: number = 0,
@@ -152,16 +141,9 @@ export default function RoomsPreview() {
       <div className="flex items-center justify-center">
         <button
           className="font-light underline cursor-pointer mt-2"
-          onClick={() => {
-            setExpandContainer(!expandContainer);
-            setShowMoreRooms(!showMoreRooms);
-          }}
+          onClick={handleExpandClick}
         >
-          {loadingExtraRooms
-            ? t("Loading...")
-            : !showMoreRooms
-              ? t("More rooms...")
-              : t("Show less rooms")}
+          {!showMoreRooms ? t("More rooms...") : t("Show less rooms")}
         </button>
       </div>
     </div>
