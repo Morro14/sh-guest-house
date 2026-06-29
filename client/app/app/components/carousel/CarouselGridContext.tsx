@@ -4,7 +4,7 @@ import {
   useContext,
   type SetStateAction,
 } from "react";
-import type { GridImage } from "./ImageGrid";
+import type { GridImage } from "~/types/grid";
 
 interface Context {
   fullView: false | GridImage;
