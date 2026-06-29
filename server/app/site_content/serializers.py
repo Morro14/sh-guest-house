@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Image, WideImage, Place, ContentPage, GridImage, Review
+from .models import Image, WideImage, Place, ContentPage, GridImage, Review, ImageGrid
 from main.models import Room
 
 
@@ -21,14 +21,14 @@ class GridImageSerializer(serializers.ModelSerializer):
         fields = ["order", "variants", "alt_text", "format_in_grid"]
 
 
-# class ImageGridSerializer(serializers.ModelSerializer):
-#     grid_images = GridImageSerializer(source="grid_image", many=True, read_only=True)
-#
-#     class Meta:
-#         model = ImageGrid
-#         fields = ["index", "grid_images"]
-#
-#
+class ImageGridSerializer(serializers.ModelSerializer):
+    grid_images = GridImageSerializer(source="grid_image", many=True, read_only=True)
+
+    class Meta:
+        model = ImageGrid
+        fields = ["index", "grid_images"]
+
+
 class ImageWideSerializer(serializers.ModelSerializer):
     class Meta:
         model = WideImage

@@ -167,7 +167,8 @@ class GridImage(Image):
     grid = models.ForeignKey(
         to="ImageGrid",
         on_delete=models.CASCADE,
-        default=1,
+        default=None,
+        null=True,
         related_name="grid_image",
         related_query_name="grid_images",
     )
