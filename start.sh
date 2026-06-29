@@ -5,6 +5,9 @@ sh -c "mkdir -p /var/data/db &&
   cp -r /var/data/db/migrations/auth_app/* ./auth_app/migrations/ &&
   python manage.py makemigrations &&
   python manage.py migrate &&
+  cp -r ./site_content/migrations/ /var/data/db/migrations/site_content/* &&
+  cp -r ./main/migrations/ /var/data/db/migrations/main/* &&
+  cp -r ./auth_app/migrations/ /var/data/db/migrations/auth_app/* &&
   python manage.py createsuperuser --no-input || true &&
   python manage.py set_site &&
   python manage.py add_permissions &&

@@ -34,19 +34,36 @@ class ImageGridAdmin(admin.ModelAdmin):
 
 @admin.register(GridImage)
 class GridImageAmin(admin.ModelAdmin):
-    pass
-    # fields = ["alt_text", "grid", "order", "image_full", "tag", "format_in_grid"]
-    # list_display = ["format_in_grid", "grid", "alt_text", "image_full"]
-    # ordering = ("grid", "format_in_grid")
-    # list_filter = ["grid"]
+    fields = ["alt_text", "grid", "order", "image_full", "tag", "format_in_grid"]
+    list_display = ["format_in_grid", "grid", "alt_text", "image_full", "preview"]
+    readonly_fields = ("preview",)
+    ordering = ("grid", "format_in_grid")
+    list_filter = ["grid"]
+
+    def preview(self, obj):
+        if obj.image_full:
+            return format_html(
+                '<img src="{}" style="max-height: 80px; border-radius: 4px;" />',
+                obj.variants["small"],
+            )
+        return "-"
 
 
 @admin.register(PlaceImage)
 class PlaceImageAdmin(admin.ModelAdmin):
     fields = ["alt_text", "order", "image_full", "place"]
-    list_display = ("place", "order", "image_full")
+    list_display = ("place", "order", "image_full", "preview")
+    readonly_fields = ("preview",)
     list_filter = ["place__name"]
     ordering = ("place", "order")
+
+    def preview(self, obj):
+        if obj.image_full:
+            return format_html(
+                '<img src="{}" style="max-height: 80px; border-radius: 4px;" />',
+                obj.variants["small"],
+            )
+        return "-"
 
 
 @admin.register(Place)
@@ -75,7 +92,7 @@ class RoomImageAdmin(admin.ModelAdmin):
         if obj.image_full:
             return format_html(
                 '<img src="{}" style="max-height: 80px; border-radius: 4px;" />',
-                obj.image_full.url,
+                obj.variants["small"],
             )
         return "-"
 

@@ -16,7 +16,7 @@ const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 export default function CarouselGrid({ name }: { name: string }) {
   const { fetchedData } = useFetchV3("content/image-grids");
   const gridData = fetchedData?.data?.data as Grid[];
-  console.log("gridData", gridData);
+  // console.log("gridData", gridData);
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "center",
@@ -27,8 +27,10 @@ export default function CarouselGrid({ name }: { name: string }) {
   const gridsConcat =
     gridData && gridData.length < 3
       ? [...gridData, ...Array(3 - gridData.length).fill(0)]
-      : Array(6).fill(0);
-  console.log(gridsConcat);
+      : !gridData
+        ? Array(6).fill(0)
+        : gridData;
+  // console.log(gridsConcat);
   useEffect(() => {
     gridContext.setSideGridsVisible(gridContext.showMoreImages);
   }, [gridContext.showMoreImages]);
