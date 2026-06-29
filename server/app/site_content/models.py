@@ -164,7 +164,13 @@ class GridImage(Image):
         choices=GRID_FRAME_FORMATS,
         blank=True,
     )
-    grid = models.ForeignKey(to=ImageGrid, on_delete=models.CASCADE, default=1)
+    grid = models.ForeignKey(
+        to=ImageGrid,
+        on_delete=models.CASCADE,
+        default=1,
+        related_name="grid_image",
+        related_query_name="grid_images",
+    )
 
     class Meta:
         verbose_name = _("grid image")

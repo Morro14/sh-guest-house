@@ -1,29 +1,37 @@
 import { ImageLoading } from "../ImageLoading";
-import type { Image } from "~/types/booking";
-import { Grid } from "~/types/grid.ts";
 import { useCarouselGridContextProvider } from "./CarouselGridContext.tsx";
 import { useNavContextProvider } from "../nav/NavContextProvider.tsx";
 import PlaceholderGrayBox from "../placeholders/PlaceholderGrayBox.tsx";
+import type { Grid, GridImageFormats } from "~/types/grid.ts";
 
 const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 
-type GridFormats = "wide" | "medium" | "portrait" | "small";
-export interface GridImage extends Image {
-  format_in_grid: GridFormats;
-}
+// type GridFormats = "wide" | "medium" | "portrait" | "small";
+// export interface GridImage extends Image {
+//   format_in_grid: GridFormats;
+// }
 
-const defaultGrid = new Grid();
 export default function ImageGrid({
-  grid = defaultGrid,
+  grid,
   gridIndex,
 }: {
-  grid: Grid;
+  grid: Grid | 0;
   gridIndex: number;
 }) {
   const gridContext = useCarouselGridContextProvider();
   const navContext = useNavContextProvider();
-  function genImageNode(format: GridFormats, index: number) {
-    const targetImage = grid[format].images[index];
+  function genImageNode(format: GridImageFormats, index: number) {
+    if (grid === 0 || !grid) {
+      return <PlaceholderGrayBox></PlaceholderGrayBox>;
+    }
+    const targetImages = grid.grid_images.filter(
+      (image) => image.format_in_grid === format,
+    );
+    let targetImage = null;
+    if (targetImages.length >= index + 1) {
+      targetImage = targetImages[index];
+    }
+    console.log("grid images count");
     if (!targetImage) {
       return <PlaceholderGrayBox></PlaceholderGrayBox>;
     }

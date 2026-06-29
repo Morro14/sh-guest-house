@@ -38,10 +38,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 ON_RENDER = os.environ.get("RENDER") == "true"
-print("ON_RENDER", ON_RENDER)
 DEBUG = os.environ.get("DEBUG") == "True"
 AUTH_USER_MODEL = "auth_app.User"
-print("debug", DEBUG)
 # if DEBUG:
 #     SESSION_COOKIE_SAMESITE = "None"
 #     CSRF_COOKIE_SAMESITE = "None"
@@ -210,7 +208,6 @@ if ON_RENDER:
     MEDIA_URL = f"https://storage.googleapis.com/{os.environ.get("GOOGLE_CLOUD_STORAGE_BUCKET")}/media/"
 else:
     MEDIA_URL = "/media/"
-    print("MEDIA URL", MEDIA_URL)
     MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 STATIC_URL = "/static/"

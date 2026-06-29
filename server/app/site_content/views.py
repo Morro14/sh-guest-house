@@ -5,6 +5,7 @@ from site_content.models import (
     Place,
     ContentPage,
     GridImage,
+    ImageGrid,
     Review,
     RoomImage,
 )
@@ -44,17 +45,24 @@ class WideImageSet(APIView):
         return Response({"data": serializer.data})
 
 
-class GridImageSet(APIView):
+class ImageGridSet(APIView):
     permission_classes = []
     authentication_classes = []
 
     def get(self, request):
         tag = request.GET.get("tag")
         if tag:
-            images = GridImage.objects.filter(tag__name=tag)
+            grids = ImageGrid.objects.prefetch_related("grid_image").filter(
+                tag__name=tag
+            )
         else:
-            images = GridImage.objects.all()
-        serializer = ImageGridSerializer(images, many=True)
+            grids = ImageGrid.objects.prefetch_related("grid_image").all()
+        # if tag:
+        #     images = GridImage.objects.filter(tag__name=tag)
+        # else:
+        #     images = GridImage.objects.all()
+        serializer = ImageGridSerializer(grids, many=True)
+        print("IMAGE GRID VIEW RESPONSE", serializer.data)
         return Response({"data": serializer.data})
 
 

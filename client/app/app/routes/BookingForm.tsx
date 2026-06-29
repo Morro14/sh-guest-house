@@ -67,7 +67,7 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
       <div className="flex md:flex-row flex-col md:justify-between max-md:gap-5 w-full items-center overflow-visible font-sans">
         <div className="flex flex-col items-center md:gap-3 gap-2">
           <label
-            className="font-medium text-gray-warm-mid"
+            className="text-gray-warm-mid text-sm"
             htmlFor="checkin-date-input"
           >
             {t("Check-in date")}
@@ -102,8 +102,12 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
           </div>
         </div>
 
-        <div className="flex flex-col items-center md:gap-3 gap-2 border-b border-b-line-light">
-          <span className="font-medium text-gray-warm-mid">{t("Guests")}</span>
+        <fieldset className="flex flex-col items-center md:gap-3 gap-3 border-b border-b-line-light">
+          <div>
+            <legend className="text-gray-warm-mid text-sm">
+              {t("Guests")}
+            </legend>
+          </div>
           <SelectGuests
             layout={FormChangeLayout}
             defaultParams={{
@@ -111,18 +115,15 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
               children: searchParams.children,
             }}
           />
-        </div>
+        </fieldset>
 
         <div className="flex flex-col items-center gap-3">
-          <label
-            className="font-medium text-gray-warm-mid"
-            htmlFor="nights-input"
-          >
+          <label className="text-gray-warm-mid text-sm" htmlFor="nights-input">
             {t("Nights")}
           </label>
           <div className="flex h-full w-[132px] justify-center items-center">
             <input
-              className={`h-[26px] text-center font-medium w-6 placeholder:text-center placeholder:text-[#4c3b3350] placeholder:italic focus:placeholder:text-gray-400 border-b-1 ${actionData?.nights ? "border-red-error" : "border-line-light"} `}
+              className={` text-center font-medium w-6 placeholder:text-center placeholder:text-[#4c3b3350] placeholder:italic focus:placeholder:text-gray-400 border-b-1 ${actionData?.nights ? "border-red-error" : "border-line-light"} `}
               name="nights"
               defaultValue={Number(searchParams.nights)}
               type="text"

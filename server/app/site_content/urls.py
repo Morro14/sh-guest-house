@@ -5,7 +5,7 @@ from site_content.views import (
     PlaceSetView,
     WideImageSet,
     PageContentView,
-    GridImageSet,
+    ImageGridSet,
     review_details,
     review_list,
 )
@@ -16,7 +16,7 @@ urlpatterns = [
     path("places", PlaceSetView.as_view()),
     path("page-content", PageContentView.as_view()),
     path("wide-images/<slug:tag>", WideImageSet.as_view()),
-    path("grid-images", GridImageSet.as_view()),
+    path("image-grids", ImageGridSet.as_view()),
     path("reviews", review_list),
     path("reviews/<int:pk>", review_details),
 ]

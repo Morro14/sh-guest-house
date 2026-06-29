@@ -160,7 +160,6 @@ export default function Map() {
   const townLabelsDataTyped = townLabelsData as TownLabelPosData[];
   const labelGroupsDataTyped = labelGroupsData as MapLabelGroupData[];
   const msgsModal = messagesModal as MapMessagesModal[];
-  console.log("msg context", context.modalMessagesToShow);
   return (
     <div>
       <MapNav
