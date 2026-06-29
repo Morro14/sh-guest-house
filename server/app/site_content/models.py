@@ -139,11 +139,11 @@ class WideImage(Image):
         verbose_name_plural = _("wide photos")
 
 
-# class ImageGrid(models.Model):
-#     def __str__(self):
-#         return f"Image grid #{self.index}"
-#
-#     index = models.PositiveIntegerField(unique=True, default=None)
+class ImageGrid(models.Model):
+    def __str__(self):
+        return f"Image grid #{self.index}"
+
+    index = models.PositiveIntegerField(unique=True, default=None)
 
 
 class GridImage(Image):
