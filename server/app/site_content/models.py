@@ -139,11 +139,11 @@ class WideImage(Image):
         verbose_name_plural = _("wide photos")
 
 
-class ImageGrid(models.Model):
-    def __str__(self):
-        return f"Image grid #{self.index}"
-
-    index = models.PositiveIntegerField(unique=True, default=None)
+# class ImageGrid(models.Model):
+#     def __str__(self):
+#         return f"Image grid #{self.index}"
+#
+#     index = models.PositiveIntegerField(unique=True, default=None)
 
 
 class GridImage(Image):
@@ -164,13 +164,13 @@ class GridImage(Image):
         choices=GRID_FRAME_FORMATS,
         blank=True,
     )
-    grid = models.ForeignKey(
-        to=ImageGrid,
-        on_delete=models.CASCADE,
-        default=1,
-        related_name="grid_image",
-        related_query_name="grid_images",
-    )
+    # grid = models.ForeignKey(
+    #     to="ImageGrid",
+    #     on_delete=models.CASCADE,
+    #     default=1,
+    #     related_name="grid_image",
+    #     related_query_name="grid_images",
+    # )
 
     class Meta:
         verbose_name = _("grid image")

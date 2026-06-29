@@ -5,7 +5,7 @@ from site_content.models import (
     Place,
     ContentPage,
     GridImage,
-    ImageGrid,
+    # ImageGrid,
     Review,
     RoomImage,
 )
@@ -22,7 +22,7 @@ from .serializers import (
     RoomSerializer,
     ImageWideSerializer,
     ContentPageSerializer,
-    ImageGridSerializer,
+    # ImageGridSerializer,
     ReviewSerializer,
 )
 from django.views.generic import TemplateView
@@ -45,25 +45,25 @@ class WideImageSet(APIView):
         return Response({"data": serializer.data})
 
 
-class ImageGridSet(APIView):
-    permission_classes = []
-    authentication_classes = []
-
-    def get(self, request):
-        tag = request.GET.get("tag")
-        if tag:
-            grids = ImageGrid.objects.prefetch_related("grid_image").filter(
-                tag__name=tag
-            )
-        else:
-            grids = ImageGrid.objects.prefetch_related("grid_image").all()
-        # if tag:
-        #     images = GridImage.objects.filter(tag__name=tag)
-        # else:
-        #     images = GridImage.objects.all()
-        serializer = ImageGridSerializer(grids, many=True)
-        print("IMAGE GRID VIEW RESPONSE", serializer.data)
-        return Response({"data": serializer.data})
+# class ImageGridSet(APIView):
+#     permission_classes = []
+#     authentication_classes = []
+#
+#     def get(self, request):
+#         tag = request.GET.get("tag")
+#         if tag:
+#             grids = ImageGrid.objects.prefetch_related("grid_image").filter(
+#                 tag__name=tag
+#             )
+#         else:
+#             grids = ImageGrid.objects.prefetch_related("grid_image").all()
+#         # if tag:
+#         #     images = GridImage.objects.filter(tag__name=tag)
+#         # else:
+#         #     images = GridImage.objects.all()
+#         serializer = ImageGridSerializer(grids, many=True)
+#         print("IMAGE GRID VIEW RESPONSE", serializer.data)
+#         return Response({"data": serializer.data})
 
 
 class RoomSetView(ListAPIView):
