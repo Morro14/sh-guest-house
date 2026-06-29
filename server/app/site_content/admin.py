@@ -7,7 +7,7 @@ from .models import (
     PlaceImage,
     WideImage,
     ImageTag,
-    # GridImage,
+    GridImage,
     # ImageGrid,
     Review,
 )
@@ -30,14 +30,15 @@ class WideImageAmin(admin.ModelAdmin):
 # @admin.register(ImageGrid)
 # class ImageGridAdmin(admin.ModelAdmin):
 #     list_display = ["index", "pk"]
-
-
-# @admin.register(GridImage)
-# class GridImageAmin(admin.ModelAdmin):
-#     fields = ["alt_text", "grid", "order", "image_full", "tag", "format_in_grid"]
-#     list_display = ["format_in_grid", "grid", "alt_text", "image_full"]
-#     ordering = ("grid", "format_in_grid")
-#     list_filter = ["grid"]
+#
+#
+@admin.register(GridImage)
+class GridImageAmin(admin.ModelAdmin):
+    pass
+    # fields = ["alt_text", "grid", "order", "image_full", "tag", "format_in_grid"]
+    # list_display = ["format_in_grid", "grid", "alt_text", "image_full"]
+    # ordering = ("grid", "format_in_grid")
+    # list_filter = ["grid"]
 
 
 @admin.register(PlaceImage)

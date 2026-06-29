@@ -62,7 +62,6 @@ class WideImageSet(APIView):
 #         # else:
 #         #     images = GridImage.objects.all()
 #         serializer = ImageGridSerializer(grids, many=True)
-#         print("IMAGE GRID VIEW RESPONSE", serializer.data)
 #         return Response({"data": serializer.data})
 
 
