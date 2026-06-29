@@ -14,7 +14,7 @@ build
 thumbnails
 /server/app/media/demo/
 /server/app/start.sh
-migrations
+migrations/
 collectstatic
 /server/app/cmd/
 *.sqlite3
