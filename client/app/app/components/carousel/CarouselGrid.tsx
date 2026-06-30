@@ -40,7 +40,6 @@ export default function CarouselGrid({ name }: { name: string }) {
         <div className="embla__container">
           {gridsConcat.map((grid: Grid | 0, i) => (
             <div
-              // ${!gridContext.showMoreImages && i > 0 ? "hidden" : "block"}
               className={`embla__slide 2xl:mx-1.5 md:mx-1 mx-0.5 shrink-0 transition-opacity duration-300 ease-out`}
               key={`carousel-${name}-image-grid-${i}`}
             >

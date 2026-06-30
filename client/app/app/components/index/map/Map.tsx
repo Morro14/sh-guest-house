@@ -175,8 +175,8 @@ export default function Map() {
         id="map-container"
       >
         <MapMsgsModal>
-          {context.modalMessagesToShow.map((msg) => (
-            <MsgLayout msg={msg}></MsgLayout>
+          {context.modalMessagesToShow.map((msg: MapMessagesModal) => (
+            <MsgLayout key={`map-msg-modal-${msg.name}`} msg={msg}></MsgLayout>
           ))}
         </MapMsgsModal>
         <div

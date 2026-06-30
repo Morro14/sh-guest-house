@@ -39,10 +39,10 @@ export default function RoomsPreview() {
   function genRoomCard(room: Room, i: number) {
     return (
       <div
-        className={`room-card flex w-full md:h-60 h-34 flex-col items-center transition-all duration-300 starting:opacity-0 opacity-100`}
+        className={`flex w-full flex-col items-center transition-all duration-300 starting:opacity-0 opacity-100 overflow-clip`}
         key={`room-card-${i}`}
       >
-        <div className="h-5/6 w-full">
+        <div className="md:h-50 h-30  w-full">
           <ImageLoading
             imageAttrs={{
               src: `${MEDIA_BASE_URL}${room.images[0]?.variants.small}`,
@@ -52,11 +52,13 @@ export default function RoomsPreview() {
                 context.setItemSelected(i);
                 context.setFullImageView(true);
               },
-              alt: `room-img-${room}-${i}`,
+              alt: `room-img-${room.slug}-${i}`,
             }}
           ></ImageLoading>
         </div>
-        <span className="md:text-lg text-sm font-medium">{room.name}</span>
+        <span className="md:text-lg text-sm font-medium text-center">
+          {room.name}
+        </span>
       </div>
     );
   }

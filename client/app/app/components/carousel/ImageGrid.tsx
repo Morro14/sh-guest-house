@@ -31,7 +31,6 @@ export default function ImageGrid({
     if (targetImages.length >= index + 1) {
       targetImage = targetImages[index];
     }
-    console.log("grid images count");
     if (!targetImage) {
       return <PlaceholderGrayBox></PlaceholderGrayBox>;
     }
@@ -58,7 +57,7 @@ export default function ImageGrid({
     );
   }
   const heightFirstRow = `2xl:h-92 md:h-66 h-35`;
-  const heightGridFull = `2xl:h-187 md:h-112 h-56`;
+  const heightGridFull = `2xl:h-187 md:h-124 h-63`;
   const heightRow = `2xl:h-92 md:h-55 h-27`;
   const heightHalfRow = `2xl:h-45 md:h-26.5 h-13`;
   const gap = "2xl:gap-3 md:gap-2 gap-1 ";
