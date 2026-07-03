@@ -1,48 +1,32 @@
-import type { Coords, MapZoomArgs } from "~/types/map";
-import type { ZoomState, Size } from "./utils";
-import { getMapCenteredOffsets } from "./utils";
-import { MAP_OPTIONS } from "./utils";
+import type { Coords } from "~/types/map";
+import type { Size } from "./utils";
+import { getAnchorRatio, getMapPosBound, MAP_OPTIONS } from "./utils";
 
+interface zoomMapArgs {
+  mapContainer: HTMLDivElement;
+  mapSurface: HTMLDivElement;
+  mapContent: HTMLDivElement;
+  zoomNew: number;
+  anchorRatio?: Coords;
+  anchor?: Coords;
+}
 export function zoomMap({
-  container,
+  mapContainer,
   mapSurface,
   mapContent,
-  currentZoom,
-  newZoom,
-  pinchCenter = null,
-}: MapZoomArgs) {
-  const state: ZoomState = {
-    mapOffsets: { x: mapSurface.offsetLeft, y: mapSurface.offsetTop },
-    containerSize: {
-      x: container.clientWidth,
-      y: container.clientHeight,
-    },
-    zoomCurrent: currentZoom,
-    zoomNew: newZoom,
-    pinchCenter: pinchCenter,
-    mapRect: mapSurface.getBoundingClientRect(),
-  };
-  let centeredOffsets = { x: 0, y: 0 };
-  if (pinchCenter) {
-    centeredOffsets = pinchCenter;
-  } else {
-    centeredOffsets = getMapCenteredOffsets(state);
+  zoomNew,
+  anchorRatio,
+  anchor,
+}: zoomMapArgs) {
+  if (zoomNew < MAP_OPTIONS.zoomMin || zoomNew > MAP_OPTIONS.zoomMax) {
+    return;
   }
-  // if (newZoom < 0.5 || newZoom > 2) {
-  //   return;
-  // }
-  setMapZoomed(mapSurface, mapContent, centeredOffsets, newZoom);
+  // console.log("new scale", zoomNew);
+  // console.log("anchorRatio", anchorRatio);
+  console.log("anchor", anchor);
+  const zoomNewNorm = `${Math.floor(zoomNew * 100) / 100}`;
+  // mapSurface.style.left = `${Math.floor(newLeft)}px`;
+  // mapSurface.style.top = `${Math.floor(newTop)}px`;
+  mapSurface.style.scale = zoomNewNorm;
+  mapContent.style.scale = zoomNewNorm;
 }
-export const setMapZoomed = (
-  mapSurface: HTMLDivElement,
-  mapContent: HTMLDivElement,
-  offsets: Size,
-  zoom: number,
-) => {
-  mapSurface.style.left = `${offsets.x}px`;
-  mapSurface.style.top = `${offsets.y}px`;
-  mapSurface.style.width = `${Math.floor((MAP_OPTIONS.mapContentSize.x + MAP_OPTIONS.mapPadding) * zoom)}px`;
-  mapSurface.style.height = `${Math.floor((MAP_OPTIONS.mapContentSize.y + MAP_OPTIONS.mapPadding) * zoom)}px`;
-  mapContent.style.height = `${Math.floor(MAP_OPTIONS.mapContentSize.y * zoom)}px`;
-  mapContent.style.width = `${Math.floor(MAP_OPTIONS.mapContentSize.x * zoom)}px`;
-};

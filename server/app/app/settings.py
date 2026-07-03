@@ -53,9 +53,10 @@ if RENDER_EXTERNAL_HOSTNAME:
 else:
     ALLOWED_HOSTS = [
         "localhost",
+        "0.0.0.0",
         "127.0.0.1",
-        "127.0.0.2",
         "backend.test",
+        "192.168.11.58",
     ]
 CORS_ALLOW_CREDENTIALS = True
 # CORS_ALLOW_ALL_ORIGINS = True

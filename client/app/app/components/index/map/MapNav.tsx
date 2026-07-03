@@ -7,12 +7,12 @@ import { MAP_OPTIONS } from "./utils";
 
 export default function MapNav({
   mapSurface,
-  container,
+  mapContainer,
   mapImage,
   mapContent,
 }: {
   mapSurface: HTMLDivElement;
-  container: HTMLDivElement;
+  mapContainer: HTMLDivElement;
   mapContent: HTMLDivElement;
   mapImage: HTMLImageElement;
 }) {
@@ -44,12 +44,7 @@ export default function MapNav({
     pin: { name: t("Point of interest"), icon: pinSVG, type: "icon" },
   };
   return (
-    <div className="flex justify-between mb-4 items-end ">
-      {/* {context.mapPos ? ( */}
-      {/*   <div className="font-sans">{`${context.mapPos.x} ${context.mapPos.y}`}</div> */}
-      {/* ) : ( */}
-      {/*   "" */}
-      {/* )} */}
+    <div className="flex justify-between mb-4 items-end bg-gray-warm-light p-2">
       <div className="grid 2xl:grid-flow-col md:grid-cols-2 gap-x-6 gap-y-1 2xl:grid-rows-[repeat(3,minmax(min-content,1fr))]">
         {Object.entries(LEGEND).map(([key, value]) => (
           <div className="flex items-center gap-4" key={`map-legend-${key}`}>
@@ -73,18 +68,17 @@ export default function MapNav({
           <button
             className="size-6 rounded-lg"
             onClick={() => {
-              const newZoom = currentZoom - zoomFactor;
-              if (newZoom <= MAP_OPTIONS.zoomMin) {
+              const zoomNew = currentZoom - zoomFactor;
+              if (zoomNew <= MAP_OPTIONS.zoomMin) {
                 return;
               }
               zoomMap({
-                container,
+                mapContainer,
                 mapSurface,
                 mapContent,
-                currentZoom,
-                newZoom,
+                zoomNew,
               });
-              context.setZoom(newZoom);
+              context.setZoom(zoomNew);
             }}
           >
             -
@@ -92,18 +86,17 @@ export default function MapNav({
           <button
             className="size-6 rounded-lg"
             onClick={() => {
-              const newZoom = currentZoom + zoomFactor;
-              if (newZoom > MAP_OPTIONS.zoomMax) {
+              const zoomNew = currentZoom + zoomFactor;
+              if (zoomNew > MAP_OPTIONS.zoomMax) {
                 return;
               }
               zoomMap({
-                container,
+                mapContainer,
                 mapSurface,
                 mapContent,
-                currentZoom,
-                newZoom,
+                zoomNew,
               });
-              context.setZoom(newZoom);
+              context.setZoom(zoomNew);
             }}
           >
             +

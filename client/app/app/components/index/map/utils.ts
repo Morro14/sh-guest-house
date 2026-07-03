@@ -8,16 +8,17 @@ import type {
   TownLabelPosData,
 } from "~/types/map";
 
-export const MAP_OPTIONS: MapOptions = {
+export const MAP_OPTIONS = {
   mapContentSize: { x: 2043, y: 1420 },
-  mapPadding: 5000,
+  mapPadding: 800,
+  // mapSurfaceSize: { x: 7043, y: 6420 },
   zoomMin: 0.4,
   zoomMax: 2,
   zoomFactor: 0.2,
 };
-const MAP_SIZE_INIT = {
-  x: MAP_OPTIONS.mapPadding + MAP_OPTIONS.mapContentSize.x,
-  y: MAP_OPTIONS.mapPadding + MAP_OPTIONS.mapContentSize.y,
+export const MAP_SIZE_INIT = {
+  x: MAP_OPTIONS.mapContentSize.x + MAP_OPTIONS.mapPadding,
+  y: MAP_OPTIONS.mapContentSize.y + MAP_OPTIONS.mapPadding,
 };
 
 export interface Size {
@@ -25,66 +26,81 @@ export interface Size {
   y: number;
 }
 export interface ZoomState {
-  mapOffsets: Size;
+  mapSurface: HTMLDivElement;
   containerSize: Size;
-  zoomCurrent: number;
+  mapContent: HTMLDivElement;
   zoomNew: number;
   pinchCenter?: Coords;
   mapRect?: DOMRect;
 }
 
-export function boundMapPos(mapSize: Size, containerSize: Size, newPos: Size) {
+export function boundMapPos(
+  mapSurface: HTMLDivElement,
+  mapContent: HTMLDivElement,
+  mapContainerSize: Size,
+  newPos: Coords,
+  zoomNew: number,
+) {
+  const mapContentSize = {
+    x: mapContent.clientWidth * zoomNew,
+    y: mapContent.clientHeight * zoomNew,
+  };
+  const mapSurfaceSize = {
+    x: mapSurface.clientWidth * zoomNew,
+    y: mapSurface.clientHeight * zoomNew,
+  };
+  let mapSurfaceOffsetX = -mapSurfaceSize.x / 2 + mapContainerSize.x / 2;
+  let mapSurfaceOffsetY = -mapSurfaceSize.y / 2 + mapContainerSize.y / 2;
+  let minX = Math.floor(mapSurfaceOffsetX - mapContentSize.x / 2);
+  let maxX = Math.floor(mapSurfaceOffsetX + mapContentSize.x / 2);
+  let minY = Math.floor(mapSurfaceOffsetY - mapContentSize.y / 2);
+  let maxY = Math.floor(mapSurfaceOffsetY + mapContentSize.y / 2);
+  // console.log("minX", minX, "maxX", maxX, "newPos.x", newPos.x);
   let offsetX = 0;
   let offsetY = 0;
-  const maxY = Math.floor(containerSize.y / 2);
-  const minY = Math.floor(-mapSize.y + containerSize.y / 2);
   offsetY = Math.max(Math.min(maxY, newPos.y), minY);
-  const maxX = Math.floor(containerSize.x / 2);
-  const minX = Math.floor(-mapSize.x + containerSize.x / 2);
   offsetX = Math.max(Math.min(maxX, newPos.x), minX);
 
   return { x: offsetX, y: offsetY };
-  // return newPos;
 }
-
-export function getMapCenteredOffsets(state: ZoomState) {
-  // console.log("state", state);
-  const mapOffsets = structuredClone(state.mapOffsets);
-  if (state.pinchCenter) {
-    mapOffsets.x = state.pinchCenter.x - state.mapRect.left;
-    mapOffsets.y = state.pinchCenter.y - state.mapRect.top;
-  }
-  const centerRatio = {
-    x:
-      (-mapOffsets.x + state.containerSize.x / 2) /
-      (MAP_SIZE_INIT.x * state.zoomCurrent),
-
-    y:
-      (-mapOffsets.y + state.containerSize.y / 2) /
-      (MAP_SIZE_INIT.y * state.zoomCurrent),
-  };
+export function getMapPosBound({
+  zoomNew,
+  anchorRatio,
+  anchor,
+}: {
+  zoomNew: number;
+  anchorRatio: Coords;
+  anchor: Coords;
+}) {
+  console.log("anchor", anchor);
+  const newX =
+    -MAP_OPTIONS.mapSurfaceSize.x * zoomNew * anchorRatio.x + anchor.x;
+  const newY =
+    -MAP_OPTIONS.mapSurfaceSize.y * zoomNew * anchorRatio.y + anchor.y;
   const newOffsets = {
-    x: -Math.floor(
-      MAP_SIZE_INIT.x * state.zoomNew * centerRatio.x -
-        state.containerSize.x / 2,
-    ),
-    y: -Math.floor(
-      MAP_SIZE_INIT.y * state.zoomNew * centerRatio.y -
-        state.containerSize.y / 2,
-    ),
+    x: Math.floor(newX),
+    y: Math.floor(newY),
   };
-  // console.log("centered offsets", newOffsets);
-  const boundOffsets = boundMapPos(
-    {
-      x: Math.floor(MAP_SIZE_INIT.x * state.zoomNew),
-      y: Math.floor(MAP_SIZE_INIT.y * state.zoomNew),
-    },
-    state.containerSize,
-    newOffsets,
-  );
-  return boundOffsets;
+  return newOffsets;
 }
-
+export function getAnchorRatio(
+  mapContainer: HTMLDivElement,
+  mapSurface: HTMLDivElement,
+  offsets: Coords | null = null,
+) {
+  const offsets_ = offsets || {
+    x: mapContainer.clientWidth / 2,
+    y: mapContainer.clientHeight / 2,
+  };
+  let anchorRatioX =
+    (-mapSurface.offsetLeft + offsets_.x) / mapSurface.clientWidth;
+  anchorRatioX = Math.floor(anchorRatioX * 10000) / 10000;
+  let anchorRatioY =
+    (-mapSurface.offsetTop + offsets_.y) / mapSurface.clientHeight;
+  anchorRatioY = Math.floor(anchorRatioY * 10000) / 10000;
+  const ratios = { x: anchorRatioX, y: anchorRatioY };
+  return ratios;
+}
 export async function writeMapItemPosData(
   itemName: string,
   offsets: Coords,

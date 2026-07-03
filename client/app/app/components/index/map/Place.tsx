@@ -57,23 +57,6 @@ export default function MapPlaceComponent({
   const context = useMapContextProvider();
   const dotSize = { x: 12, y: 20 };
   const [dotPos, setDotPos] = useState({ x: 0, y: 0 });
-  const scaleLabelOffsets = (zoom: number, offsets: Coords) => {
-    if (zoom < MAP_OPTIONS.zoomMin || zoom > MAP_OPTIONS.zoomMax) {
-      const labelEl = document.getElementById(
-        `${place.slug}-place-label`,
-      ) as HTMLDivElement;
-      const currentOffsets = { x: labelEl.offsetLeft, y: labelEl.offsetTop };
-      return { x: currentOffsets.x * zoom, y: currentOffsets.y * zoom };
-    }
-    let newX =
-      (offsets.x + dotPos.x + dotSize.x / 2) * zoom - dotPos.x - dotSize.x / 2;
-    let newY = (offsets.y + dotPos.y + dotSize.y) * zoom - dotPos.y - dotSize.y;
-    return { x: Math.floor(newX), y: Math.floor(newY) };
-  };
-
-  const coordsScaled = !optionsMerged.group
-    ? scaleLabelOffsets(context.zoom, optionsMerged.offsets)
-    : { x: 0, y: 0 };
   // move
   // useEffect(() => {
   //   if (!place) {
@@ -133,14 +116,14 @@ export default function MapPlaceComponent({
   // leeway
   let pointerPosOnMouseDown = { x: 0, y: 0 };
   // scale label
-  useEffect(() => {
-    if (!ref.current || !context.zoom) return;
-    if (context.zoom < 1) {
-      ref.current.style.scale = `${context.zoom ** 0.5}`;
-    } else {
-      ref.current.style.scale = `${1.0}`;
-    }
-  }, [coordsScaled]);
+  // useEffect(() => {
+  //   if (!ref.current || !context.zoom) return;
+  //   if (context.zoom < 1) {
+  //     ref.current.style.scale = `${1 / context.zoom}`;
+  //   } else {
+  //     ref.current.style.scale = `${1 / context.zoom}`;
+  //   }
+  // }, [context.zoom]);
   return !place ? (
     <></>
   ) : (
@@ -152,9 +135,10 @@ export default function MapPlaceComponent({
           font-medium place flex flex-col`}
       style={{
         ...getImportanceStyles("name"),
-        left: `${coordsScaled.x}px`,
-        top: `${coordsScaled.y}px`,
+        left: `${optionsMerged.offsets.x}px`,
+        top: `${optionsMerged.offsets.y}px`,
         transformOrigin: `${anchor.x}% ${anchor.y}%`,
+        scale: `${Math.floor((1 / context.zoom) * 100) / 100}`,
       }}
     >
       {/* <MapItemPosControl itemElRef={ref} dotElRef={dotRef}></MapItemPosControl> */}

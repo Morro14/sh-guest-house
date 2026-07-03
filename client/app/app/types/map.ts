@@ -58,6 +58,7 @@ export interface MapLabelGroupData {
 export interface MapOptions {
   // actual size of the map content without padding
   mapContentSize: Size;
+  mapSurfaceSize: Size;
   mapPadding: number;
   zoomMin: number;
   zoomMax: number;
@@ -77,6 +78,14 @@ export interface MapZoomArgs {
   container: HTMLDivElement;
   mapSurface: HTMLDivElement;
   mapContent: HTMLDivElement;
+  newZoom: number;
+  pinchCenter?: Coords;
+}
+export interface MapZoom2Args {
+  mapSurfaceOffsets: Coords;
+  mapContainerSize: Size;
+  mapSurfaceSize: Size;
+  mapContentSize: Size;
   currentZoom: number;
   newZoom: number;
   pinchCenter?: Coords;

@@ -10,19 +10,6 @@ export default function TownLabel({
 }) {
   const context = useMapContextProvider();
   const ref = useRef(null);
-  const scaleLabelOffsets = (zoom: number, offsets: Coords) => {
-    // if (zoom < 0.5 || zoom > 2) {
-    //   const labelEl = ref.current;
-    //   const currentOffsets = { x: labelEl.offsetLeft, y: labelEl.offsetTop };
-    //   if (townLabel.name === "getap") {
-    //   }
-    //   return { x: currentOffsets.x * zoom, y: currentOffsets.y * zoom };
-    // }
-    const newX = Math.floor(offsets.x * zoom);
-    const newY = Math.floor(offsets.y * zoom);
-    return { x: newX, y: newY };
-  };
-  const coordsScaled = scaleLabelOffsets(context.zoom, townLabel.offsets);
   // move
   // useEffect(() => {
   //   if (!townLabel) {
@@ -43,14 +30,14 @@ export default function TownLabel({
     } else {
       ref.current.style.scale = `${1.0}`;
     }
-  }, [coordsScaled]);
+  }, []);
   return townLabel ? (
     <div
       ref={ref}
       id={townLabel.name}
       style={{
-        left: coordsScaled.x,
-        top: coordsScaled.y,
+        left: townLabel.offsets.x,
+        top: townLabel.offsets.y,
       }}
       className="absolute text-sm italic select-none map-text-shadow"
     >

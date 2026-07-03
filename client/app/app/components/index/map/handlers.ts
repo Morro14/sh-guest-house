@@ -1,27 +1,50 @@
 import type { MapElements } from "~/types/map";
 import { zoomMap } from "./zoom";
+import { boundMapPos, getAnchorRatio, MAP_OPTIONS } from "./utils";
 
 export function getMapHandlers(elements: MapElements, context: any) {
   const { mapSurface, mapContainer, mapContent } = elements;
   let mouseDownX: number, mouseDownY: number;
   let mapOffsetX: number = mapSurface.offsetLeft;
   let mapOffsetY: number = mapSurface.offsetTop;
-  let isMovable = false;
+  let isMovable = true;
+  let currentZoom = context.zoom;
   // pinch
   const activePointers = new Map();
-  // let initPointers = new Map();
-  let initDistance = 70;
-  let prevDistance = -1;
-
-  let mapSurfaceOffsetY =
-    -mapSurface.clientHeight / 2 + mapContainer.clientHeight / 2;
+  // pointer for pinch test
+  const testPointerEvent = new PointerEvent("pointerdown", {
+    bubbles: true,
+    cancelable: true,
+    pointerId: 1,
+    pointerType: "touch",
+    clientX: 1000,
+    clientY: 800,
+    pressure: 0.5,
+  });
+  mapSurface.dispatchEvent(testPointerEvent);
+  activePointers.set(testPointerEvent.pointerId, testPointerEvent);
+  let lastPointer = null;
+  let distanceInit = -1;
+  // bound map position
   let mapSurfaceOffsetX =
     -mapSurface.clientWidth / 2 + mapContainer.clientWidth / 2;
+  let mapSurfaceOffsetY =
+    -mapSurface.clientHeight / 2 + mapContainer.clientHeight / 2;
   let minY = Math.floor(mapSurfaceOffsetY - mapContent.clientHeight / 2);
   let maxY = Math.floor(mapSurfaceOffsetY + mapContent.clientHeight / 2);
   let minX = Math.floor(mapSurfaceOffsetX - mapContent.clientWidth / 2);
   let maxX = Math.floor(mapSurfaceOffsetX + mapContent.clientWidth / 2);
+  // map anchor relative to container
+  let anchor = {
+    x: mapContainer.clientWidth / 2,
+    y: mapContainer.clientHeight / 2,
+  };
+  // anchor ratio relative to the map surface
+  let anchorRatios = getAnchorRatio(mapContainer, mapSurface);
+
   function handlePointerDown(e: PointerEvent) {
+    console.log("left", mapSurface.offsetLeft);
+    console.log("top", mapSurface.offsetTop);
     // map pointer down
     e.preventDefault();
     isMovable = true;
@@ -37,24 +60,40 @@ export function getMapHandlers(elements: MapElements, context: any) {
     maxY = Math.floor(mapSurfaceOffsetY + mapContent.clientHeight / 2);
     minX = Math.floor(mapSurfaceOffsetX - mapContent.clientWidth / 2);
     maxX = Math.floor(mapSurfaceOffsetX + mapContent.clientWidth / 2);
+    anchorRatios = getAnchorRatio(mapContainer, mapSurface);
     // pinch
-    activePointers.set(e.pointerId, e);
-    if (activePointers.size === 2) {
+    if (activePointers.size <= 2) {
+      activePointers.set(e.pointerId, e);
+      if (activePointers.size > 2) {
+        activePointers.delete(lastPointer.pointerId);
+        lastPointer = e;
+      }
+      if (activePointers.size === 1) {
+        lastPointer = e;
+        return;
+      }
+
+      // console.log("active pointers", activePointers);
       const [p1, p2] = Array.from(activePointers.values());
-      const dx = p1.clientX - p2.clientX;
-      const dy = p1.clientY - p2.clientY;
-      initDistance = Math.sqrt(dx * dx + dy * dy);
+      const dx = p2.clientX - p1.clientX;
+      const dy = p2.clientY - p1.clientY;
+      distanceInit = Math.sqrt(dx * dx + dy * dy);
+      anchor = {
+        x: Math.floor(
+          p1.clientX + dx / 2 - mapContainer.getBoundingClientRect().x,
+        ),
+        y: Math.floor(
+          p1.clientY + dy / 2 - mapContainer.getBoundingClientRect().y,
+        ),
+      };
+
+      anchorRatios = getAnchorRatio(mapContainer, mapSurface, anchor);
+      // console.log("anchorRations", anchorRatios);
+      // console.log("anchor", anchor);
+      lastPointer = e;
     }
   }
 
-  // const mapSurfaceOffsetY =
-  //   -mapSurface.clientHeight / 2 + mapContainer.clientHeight / 2;
-  // const mapSurfaceOffsetX =
-  //   -mapSurface.clientWidth / 2 + mapContainer.clientWidth / 2;
-  // const minY = Math.floor(mapSurfaceOffsetY - mapContent.clientHeight / 2);
-  // const maxY = Math.floor(mapSurfaceOffsetY + mapContent.clientHeight / 2);
-  // const minX = Math.floor(mapSurfaceOffsetX - mapContent.clientWidth / 2);
-  // const maxX = Math.floor(mapSurfaceOffsetX + mapContent.clientWidth / 2);
   function handleMapMove(e: PointerEvent) {
     if (!isMovable) {
       return;
@@ -64,6 +103,9 @@ export function getMapHandlers(elements: MapElements, context: any) {
     if (!e.isPrimary) {
       return;
     }
+    if (activePointers.size > 1) {
+      return;
+    }
     mapSurface.style.cursor = "grabbing";
     const deltaX = e.clientX - mouseDownX;
     const deltaY = e.clientY - mouseDownY;
@@ -71,75 +113,46 @@ export function getMapHandlers(elements: MapElements, context: any) {
     let newX = mapOffsetX + deltaX;
     let newY = mapOffsetY + deltaY;
 
-    newY = Math.max(Math.min(maxY, newY), minY);
-    newX = Math.max(Math.min(maxX, newX), minX);
-    mapSurface.style.left = `${newX}px`;
-    mapSurface.style.top = `${newY}px`;
+    const boundCoords = boundMapPos(
+      mapSurface,
+      mapContent,
+      { x: mapContainer.clientWidth, y: mapContainer.clientHeight },
+      { x: newX, y: newY },
+      currentZoom,
+    );
+    mapSurface.style.left = `${boundCoords.x}px`;
+    mapSurface.style.top = `${boundCoords.y}px`;
   }
-
+  let zoomCurrentLocal = 1;
   function handlePinchMove(e: PointerEvent) {
-    if (!isMovable) {
-      return;
-    }
-    // console.log("pinch move");
-    const currentZoom = context.zoom;
-    const setZoom = context.setZoom;
-    if (!activePointers.has(e.pointerId)) {
-      return;
-    }
-
     activePointers.set(e.pointerId, e);
     if (activePointers.size === 2) {
       const [p1, p2] = Array.from(activePointers.values());
-
       const dx = p1.clientX - p2.clientX;
       const dy = p1.clientY - p2.clientY;
       const currentDistance = Math.sqrt(dx * dx + dy * dy);
-      const pinchCenter = {
-        x: Math.floor(p1.clientX + dx / 2),
-        y: Math.floor(p1.clientY + dy / 2),
-      };
-      // const zoomFactor = 0.1;
-      const scaleMultiplier = currentDistance / initDistance;
-      // console.log(
-      //   "initDistance",
-      //   initDistance,
-      //   "currentDistance",
-      //   currentDistance,
-      // );
-      if (prevDistance > 0) {
-        if (currentDistance > prevDistance) {
-          const newZoom = currentZoom * scaleMultiplier;
-          zoomMap({
-            container: mapContainer,
-            mapSurface: mapSurface,
-            mapContent: mapContent,
-            currentZoom: currentZoom,
-            newZoom: newZoom,
-            pinchCenter: pinchCenter,
-          });
-          setZoom(newZoom);
-        } else if (currentDistance < prevDistance) {
-          const newZoom = currentZoom * scaleMultiplier;
-          zoomMap({
-            container: mapContainer,
-            mapSurface: mapSurface,
-            mapContent: mapContent,
-            currentZoom: currentZoom,
-            newZoom: newZoom,
-            pinchCenter: pinchCenter,
-          });
-          setZoom(newZoom);
-        }
-
-        // const newZoom = currentZoom * scaleMultiplier;
-        // console.log("new zoom", newZoom);
-        // callback({ mapContainer, mapSurface, mapContent, currentZoom, newZoom });
-      }
-
-      prevDistance = currentDistance;
+      const distanceChange = currentDistance / distanceInit;
+      let newScale = zoomCurrentLocal * distanceChange;
+      newScale = Math.max(
+        MAP_OPTIONS.zoomMin,
+        Math.min(MAP_OPTIONS.zoomMax, newScale),
+      );
+      // console.log("pinch center", pinchCenter);
+      if (e.pointerId === 1) return;
+      console.log(e.pointerId);
+      zoomMap({
+        mapSurface,
+        mapContainer,
+        mapContent,
+        zoomNew: newScale,
+        anchorRatio: anchorRatios,
+        anchor: anchor,
+      });
+      context.setZoom(newScale);
     }
+    return;
   }
+
   function handleMapPointerUp(e: PointerEvent) {
     isMovable = false;
     mapSurface.style.cursor = "move";
@@ -147,14 +160,18 @@ export function getMapHandlers(elements: MapElements, context: any) {
     mapOffsetY = mapSurface.offsetTop;
     // clear pointers
     activePointers.delete(e.pointerId);
-    // mapSurface.releasePointerCapture(e.pointerId);
+    mapSurface.releasePointerCapture(e.pointerId);
     //pinch
   }
   function handlePinchPointerUp(e: PointerEvent) {
-    // activePointers.delete(e.pointerId);
-    // mapSurface.releasePointerCapture(e.pointerId);
-    if (activePointers.size < 2) {
-      prevDistance = -1;
+    distanceInit = -1;
+    zoomCurrentLocal = Number(mapSurface.style.scale);
+    // const transformX = -mapContainer.clientWidth / 2 + anchor.x;
+    // const transformY = -mapContainer.clientHeight / 2 + anchor.y;
+    // mapSurface.style.transformOrigin = `center`;
+    if (activePointers.size > 1) {
+      activePointers.delete(e.pointerId);
+      mapSurface.releasePointerCapture(e.pointerId);
     }
   }
   return {

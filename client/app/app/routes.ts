@@ -18,6 +18,7 @@ export default [
         route("confirm", "routes/BookingSummary.tsx"),
         route("response", "routes/BookingConfirmResponse.tsx"),
       ]),
+      route("map", "routes/Map.tsx"),
     ]),
   ]),
 ] satisfies RouteConfig;
