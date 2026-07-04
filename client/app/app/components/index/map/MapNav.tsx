@@ -62,47 +62,47 @@ export default function MapNav({
         ))}
       </div>
 
-      <div className="flex flex-col">
-        <span className="text-sm text-gray-warm-mid">{t("Zoom")}</span>
-        <div className="flex font-sans text-4xl text-left">
-          <button
-            className="size-6 rounded-lg"
-            onClick={() => {
-              const zoomNew = currentZoom - zoomFactor;
-              if (zoomNew <= MAP_OPTIONS.zoomMin) {
-                return;
-              }
-              zoomMap({
-                mapContainer,
-                mapSurface,
-                mapContent,
-                zoomNew,
-              });
-              context.setZoom(zoomNew);
-            }}
-          >
-            -
-          </button>
-          <button
-            className="size-6 rounded-lg"
-            onClick={() => {
-              const zoomNew = currentZoom + zoomFactor;
-              if (zoomNew > MAP_OPTIONS.zoomMax) {
-                return;
-              }
-              zoomMap({
-                mapContainer,
-                mapSurface,
-                mapContent,
-                zoomNew,
-              });
-              context.setZoom(zoomNew);
-            }}
-          >
-            +
-          </button>
-        </div>
-      </div>
+      {/* <div className="flex flex-col"> */}
+      {/*   <span className="text-sm text-gray-warm-mid">{t("Zoom")}</span> */}
+      {/*   <div className="flex font-sans text-4xl text-left"> */}
+      {/*     <button */}
+      {/*       className="size-6 rounded-lg" */}
+      {/*       onClick={() => { */}
+      {/*         const zoomNew = currentZoom - zoomFactor; */}
+      {/*         if (zoomNew <= MAP_OPTIONS.zoomMin) { */}
+      {/*           return; */}
+      {/*         } */}
+      {/*         zoomMap({ */}
+      {/*           mapContainer, */}
+      {/*           mapSurface, */}
+      {/*           mapContent, */}
+      {/*           zoomNew, */}
+      {/*         }); */}
+      {/*         context.setZoom(zoomNew); */}
+      {/*       }} */}
+      {/*     > */}
+      {/*       - */}
+      {/*     </button> */}
+      {/*     <button */}
+      {/*       className="size-6 rounded-lg" */}
+      {/*       onClick={() => { */}
+      {/*         const zoomNew = currentZoom + zoomFactor; */}
+      {/*         if (zoomNew > MAP_OPTIONS.zoomMax) { */}
+      {/*           return; */}
+      {/*         } */}
+      {/*         zoomMap({ */}
+      {/*           mapContainer, */}
+      {/*           mapSurface, */}
+      {/*           mapContent, */}
+      {/*           zoomNew, */}
+      {/*         }); */}
+      {/*         context.setZoom(zoomNew); */}
+      {/*       }} */}
+      {/*     > */}
+      {/*       + */}
+      {/*     </button> */}
+      {/*   </div> */}
+      {/* </div> */}
     </div>
   );
 }

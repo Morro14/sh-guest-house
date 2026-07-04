@@ -12,14 +12,13 @@ import type {
   MapPlaceData,
   TownLabelPosData,
 } from "~/types/map";
+import TownLabel from "./TownLabel";
 
 export default function MapLabels({
   placesData,
 }: {
   placesData: MapPlaceData[];
 }) {
-  console.log("placeData", placesData);
-  const context = useMapContextProvider();
   const placeLabelsDataTyped = placeLabelsData as MapLabelPosData[];
   const townLabelsDataTyped = townLabelsData as TownLabelPosData[];
   const labelGroupsDataTyped = labelGroupsData as MapLabelGroupData[];
@@ -44,6 +43,35 @@ export default function MapLabels({
             );
           })
         : ""}
+      {placesObj
+        ? labelGroupsDataTyped.map((labelGroup) => {
+            const places = placesData.filter((item) =>
+              labelGroup.places.includes(item.slug),
+            );
+            return (
+              <MapLabelGroup
+                labels={places}
+                offsets={labelGroup.offsets}
+                name={labelGroup.name}
+                key={`labelgroup-${labelGroup.name}`}
+              ></MapLabelGroup>
+            );
+          })
+        : ""}
+      {townLabelsDataTyped ? (
+        <div id="town-labels">
+          {townLabelsDataTyped.map((item) => {
+            return (
+              <TownLabel
+                townLabel={{ name: item.name, offsets: item.offsets }}
+                key={`townlabel-${item.name}`}
+              ></TownLabel>
+            );
+          })}
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

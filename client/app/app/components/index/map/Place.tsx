@@ -115,15 +115,7 @@ export default function MapPlaceComponent({
     !LABELS_WITHOUT_DOT.includes(place?.slug);
   // leeway
   let pointerPosOnMouseDown = { x: 0, y: 0 };
-  // scale label
-  // useEffect(() => {
-  //   if (!ref.current || !context.zoom) return;
-  //   if (context.zoom < 1) {
-  //     ref.current.style.scale = `${1 / context.zoom}`;
-  //   } else {
-  //     ref.current.style.scale = `${1 / context.zoom}`;
-  //   }
-  // }, [context.zoom]);
+
   return !place ? (
     <></>
   ) : (

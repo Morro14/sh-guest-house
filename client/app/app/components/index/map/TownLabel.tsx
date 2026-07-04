@@ -22,15 +22,6 @@ export default function TownLabel({
   //   ) as HTMLDivElement;
   //   useMoveLabel(container, labelEl, "townLabel", { moveEnabled: false });
   // }, [townLabel]);
-  // scale label
-  useEffect(() => {
-    if (!ref.current) return;
-    if (context.zoom < 1) {
-      ref.current.style.scale = `${context.zoom ** 0.5}`;
-    } else {
-      ref.current.style.scale = `${1.0}`;
-    }
-  }, []);
   return townLabel ? (
     <div
       ref={ref}
@@ -38,6 +29,7 @@ export default function TownLabel({
       style={{
         left: townLabel.offsets.x,
         top: townLabel.offsets.y,
+        scale: `${Math.floor((1 / context.zoom) * 100) / 100}`,
       }}
       className="absolute text-sm italic select-none map-text-shadow"
     >

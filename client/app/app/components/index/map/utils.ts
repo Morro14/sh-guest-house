@@ -11,7 +11,6 @@ import type {
 export const MAP_OPTIONS = {
   mapContentSize: { x: 2043, y: 1420 },
   mapPadding: 800,
-  // mapSurfaceSize: { x: 7043, y: 6420 },
   zoomMin: 0.4,
   zoomMax: 2,
   zoomFactor: 0.2,
@@ -55,7 +54,6 @@ export function boundMapPos(
   let maxX = Math.floor(mapSurfaceOffsetX + mapContentSize.x / 2);
   let minY = Math.floor(mapSurfaceOffsetY - mapContentSize.y / 2);
   let maxY = Math.floor(mapSurfaceOffsetY + mapContentSize.y / 2);
-  // console.log("minX", minX, "maxX", maxX, "newPos.x", newPos.x);
   let offsetX = 0;
   let offsetY = 0;
   offsetY = Math.max(Math.min(maxY, newPos.y), minY);
@@ -72,7 +70,6 @@ export function getMapPosBound({
   anchorRatio: Coords;
   anchor: Coords;
 }) {
-  console.log("anchor", anchor);
   const newX =
     -MAP_OPTIONS.mapSurfaceSize.x * zoomNew * anchorRatio.x + anchor.x;
   const newY =

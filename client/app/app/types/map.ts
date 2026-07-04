@@ -55,16 +55,6 @@ export interface MapLabelGroupData {
   offsets: Coords;
 }
 
-export interface MapOptions {
-  // actual size of the map content without padding
-  mapContentSize: Size;
-  mapSurfaceSize: Size;
-  mapPadding: number;
-  zoomMin: number;
-  zoomMax: number;
-  zoomFactor: number;
-}
-
 export interface Coords {
   x: number;
   y: number;

@@ -1,11 +1,4 @@
-import type {
-  MapPlaceData,
-  MapLabelPosData,
-  Coords,
-  TownLabelPosData,
-  MapLabelGroupData,
-  MapMessagesModal,
-} from "~/types/map";
+import type { MapPlaceData, Coords, MapMessagesModal } from "~/types/map";
 import { useFetchV3 } from "~/utils/fetchHook";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useMapContextProvider } from "./MapContextProvider";
@@ -14,16 +7,13 @@ import paths from "src/assets/map-paths.svg";
 import placeLabelsData from "src/data/map-labels-data.json";
 import { MAP_OPTIONS, writeMapItemPosData } from "./utils";
 import { getMapHandlers } from "./handlers";
-import townLabelsData from "src/data/town-labels.json";
 import placeDotsPosData from "src/data/place-dots-data.json";
-import labelGroupsData from "src/data/label-groups-data.json";
-import messagesModal from "./modalMessages/mapMessages.json";
-import TownLabel from "./TownLabel";
 import MapMsgsModal from "./modalMessages/Layout";
 import MsgLayout from "./modalMessages/MsgLayout";
 import MapLabels from "./MapLabels";
 import MapMediaFullView from "./MapMediaFullView";
 import MapPlaceDetails from "./MapPlaceDetails";
+import MapZoomModal from "./MapZoomModal";
 
 export const options = MAP_OPTIONS;
 export default function Map() {
@@ -37,17 +27,18 @@ export default function Map() {
   const context = useMapContextProvider();
 
   useEffect(() => {
-    if (context.mapElements) {
+    if (Object.keys(context.mapElements).length > 0) {
       return;
     }
+    // console.log("setting context elements");
     context.setMapElements({
-      mapSurface,
-      mapContainer,
-      mapImage,
-      mapLabels,
-      mapContent,
+      mapSurface: mapSurface.current,
+      mapContainer: mapContainer.current,
+      mapImage: mapImage.current,
+      mapLabels: mapLabels.current,
+      mapContent: mapContent.current,
     });
-  }, [context.mapElements]);
+  }, [mapSurface, mapContainer, mapContent]);
   const getMapHandlersCached = useCallback(getMapHandlers, []);
 
   useEffect(() => {
@@ -89,21 +80,6 @@ export default function Map() {
 
     return () => removeEventListeners();
   }, [context.fullView]);
-  // get coords on click
-  // useEffect(() => {
-  //   if (!mapContent.current) {
-  //     return;
-  //   }
-  //   const onMousedown = (e) => {
-  //     const mapBox = mapContent.current.getBoundingClientRect();
-  //     console.log(mapBox.left);
-  //     context.setMapPos({
-  //       x: Math.floor(e.clientX - mapBox.left),
-  //       y: Math.floor(e.clientY - mapBox.top),
-  //     });
-  //   };
-  //   mapSurface.current.onclick = (e) => onMousedown(e);
-  // });
   const [mapOffsetInit, setMapOffsetInit] = useState<null | Coords>(null);
   // init offsets
   useEffect(() => {
@@ -124,16 +100,6 @@ export default function Map() {
       mapSurface.current.style.top = `${initOffsets.y}px`;
     }
   }, []);
-  //scale
-  useEffect(() => {
-    // if (!mapContainer.current || !mapSurface.current || !mapContent.current)
-    //   return;
-    if (!mapLabels.current) {
-      return;
-    }
-    // mapLabels.current.style.scale = context.zoom;
-  }, [context.zoom]);
-  //add initial place labels data
   useEffect(() => {
     if (!placesData) {
       return;
@@ -149,7 +115,6 @@ export default function Map() {
       }
     });
   }, [placesData]);
-  const townLabelsDataTyped = townLabelsData as TownLabelPosData[];
   return (
     <div>
       <MapNav
@@ -169,6 +134,7 @@ export default function Map() {
             <MsgLayout key={`map-msg-modal-${msg.name}`} msg={msg}></MsgLayout>
           ))}
         </MapMsgsModal>
+        <MapZoomModal></MapZoomModal>
         <div
           id="map-surface"
           onPointerDown={() => {}}
@@ -207,20 +173,6 @@ export default function Map() {
               src={paths}
               ref={mapImage}
             />
-            {townLabelsDataTyped ? (
-              <div id="town-labels">
-                {townLabelsDataTyped.map((item) => {
-                  return (
-                    <TownLabel
-                      townLabel={{ name: item.name, offsets: item.offsets }}
-                      key={`townlabel-${item.name}`}
-                    ></TownLabel>
-                  );
-                })}
-              </div>
-            ) : (
-              ""
-            )}
           </div>
         </div>
       </div>

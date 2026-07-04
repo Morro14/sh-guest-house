@@ -43,8 +43,6 @@ export function getMapHandlers(elements: MapElements, context: any) {
   let anchorRatios = getAnchorRatio(mapContainer, mapSurface);
 
   function handlePointerDown(e: PointerEvent) {
-    console.log("left", mapSurface.offsetLeft);
-    console.log("top", mapSurface.offsetTop);
     // map pointer down
     e.preventDefault();
     isMovable = true;
@@ -73,7 +71,6 @@ export function getMapHandlers(elements: MapElements, context: any) {
         return;
       }
 
-      // console.log("active pointers", activePointers);
       const [p1, p2] = Array.from(activePointers.values());
       const dx = p2.clientX - p1.clientX;
       const dy = p2.clientY - p1.clientY;
@@ -88,8 +85,6 @@ export function getMapHandlers(elements: MapElements, context: any) {
       };
 
       anchorRatios = getAnchorRatio(mapContainer, mapSurface, anchor);
-      // console.log("anchorRations", anchorRatios);
-      // console.log("anchor", anchor);
       lastPointer = e;
     }
   }
@@ -99,7 +94,6 @@ export function getMapHandlers(elements: MapElements, context: any) {
       return;
     }
     // const [p1] = Array.from(activePointers.keys());
-    // console.log("move");
     if (!e.isPrimary) {
       return;
     }
@@ -137,9 +131,7 @@ export function getMapHandlers(elements: MapElements, context: any) {
         MAP_OPTIONS.zoomMin,
         Math.min(MAP_OPTIONS.zoomMax, newScale),
       );
-      // console.log("pinch center", pinchCenter);
       if (e.pointerId === 1) return;
-      console.log(e.pointerId);
       zoomMap({
         mapSurface,
         mapContainer,
