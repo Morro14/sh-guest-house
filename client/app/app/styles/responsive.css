@@ -25,7 +25,7 @@
   @apply md:block hidden;
 }
 .place-details {
-  @apply 2xl:w-250 md:w-150 w-full
+  @apply 2xl:w-250 md:w-150 w-screen
 }
 .carousel-full {
   @apply w-[95vw] sm:w-150 md:max-w-[95vw] md:min-w-150 xl:max-w-[65vw] xl:min-w-[40vw] 2xl:max-w-[60vw] 2xl:min-w-[40vw]

@@ -39,6 +39,10 @@ export default function Map() {
       mapContent: mapContent.current,
     });
   }, [mapSurface, mapContainer, mapContent]);
+  const contextRef = useRef(context);
+  useEffect(() => {
+    contextRef.current = context;
+  }, [context]);
   const getMapHandlersCached = useCallback(getMapHandlers, []);
 
   useEffect(() => {
@@ -49,8 +53,8 @@ export default function Map() {
     const {
       handlePointerDown,
       handlePinchMove,
-      // handleMapMove,
-      // handleMapPointerUp,
+      handleMapMove,
+      handleMapPointerUp,
       handlePinchPointerUp,
     } = getMapHandlersCached(
       {
@@ -58,19 +62,19 @@ export default function Map() {
         mapContent: mapContent.current,
         mapContainer: mapContainer.current,
       },
-      context,
+      contextRef,
     );
     const removeEventListeners = () => {
-      // document.removeEventListener("pointermove", handleMapMove);
-      // document.removeEventListener("pointerup", handleMapPointerUp);
+      document.removeEventListener("pointermove", handleMapMove);
+      document.removeEventListener("pointerup", handleMapPointerUp);
       map.removeEventListener("pointerdown", handlePointerDown);
       map.removeEventListener("pointermove", handlePinchMove);
       map.removeEventListener("pointerup", handlePinchPointerUp);
     };
 
     if (!context.fullView) {
-      // document.addEventListener("pointermove", handleMapMove);
-      // document.addEventListener("pointerup", handleMapPointerUp);
+      document.addEventListener("pointermove", handleMapMove);
+      document.addEventListener("pointerup", handleMapPointerUp);
       map.addEventListener("pointerdown", handlePointerDown);
       map.addEventListener("pointermove", handlePinchMove);
       map.addEventListener("pointerup", handlePinchPointerUp);
@@ -123,6 +127,13 @@ export default function Map() {
         mapImage={mapImage.current}
         mapContent={mapContent.current}
       ></MapNav>
+      {placesData && context.fullView ? (
+        <MapMediaFullView>
+          <MapPlaceDetails place={context.placeSelected}></MapPlaceDetails>
+        </MapMediaFullView>
+      ) : (
+        ""
+      )}
       <div
         className="index-container-1 relative md:h-[1000px] h-[720px] overflow-clip border border-text-main touch-none"
         ref={mapContainer}
@@ -137,18 +148,19 @@ export default function Map() {
         <MapZoomModal></MapZoomModal>
         <div
           id="map-surface"
-          onPointerDown={() => {}}
+          draggable="false"
           ref={mapSurface}
           style={{
             width: options.mapContentSize.x + options.mapPadding,
             height: options.mapContentSize.y + options.mapPadding,
           }}
-          className={`absolute flex items-center justify-center ${!context.fullView ? "cursor-move" : "cursor-default"}`}
+          className={`absolute flex items-center justify-center ${!context.fullView ? "cursor-move" : "cursor-default"} origin-top-left`}
         >
           <div
             id="map-content"
             className="relative size-full touch-none border border-dashed border-gray-warm-inactive"
             aria-disabled
+            draggable="false"
             ref={mapContent}
             style={{
               width: options.mapContentSize.x,
@@ -156,15 +168,6 @@ export default function Map() {
             }}
           >
             <MapLabels placesData={placesData}></MapLabels>
-            {placesData && context.fullView ? (
-              <MapMediaFullView>
-                <MapPlaceDetails
-                  place={context.placeSelected}
-                ></MapPlaceDetails>
-              </MapMediaFullView>
-            ) : (
-              ""
-            )}
             <img
               draggable="false"
               aria-disabled

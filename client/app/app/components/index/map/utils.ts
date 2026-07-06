@@ -3,9 +3,7 @@ import type {
   Coords,
   MapItemPosData,
   MapLabelPosData,
-  MapOptions,
   MovableItem,
-  TownLabelPosData,
 } from "~/types/map";
 
 export const MAP_OPTIONS = {
@@ -50,6 +48,14 @@ export function boundMapPos(
   };
   let mapSurfaceOffsetX = -mapSurfaceSize.x / 2 + mapContainerSize.x / 2;
   let mapSurfaceOffsetY = -mapSurfaceSize.y / 2 + mapContainerSize.y / 2;
+  console.log(
+    "boound",
+    mapSurfaceSize,
+    mapContentSize,
+    mapContainerSize,
+    newPos,
+    zoomNew,
+  );
   let minX = Math.floor(mapSurfaceOffsetX - mapContentSize.x / 2);
   let maxX = Math.floor(mapSurfaceOffsetX + mapContentSize.x / 2);
   let minY = Math.floor(mapSurfaceOffsetY - mapContentSize.y / 2);
@@ -70,10 +76,8 @@ export function getMapPosBound({
   anchorRatio: Coords;
   anchor: Coords;
 }) {
-  const newX =
-    -MAP_OPTIONS.mapSurfaceSize.x * zoomNew * anchorRatio.x + anchor.x;
-  const newY =
-    -MAP_OPTIONS.mapSurfaceSize.y * zoomNew * anchorRatio.y + anchor.y;
+  const newX = -MAP_SIZE_INIT.x * zoomNew * anchorRatio.x + anchor.x;
+  const newY = -MAP_SIZE_INIT.y * zoomNew * anchorRatio.y + anchor.y;
   const newOffsets = {
     x: Math.floor(newX),
     y: Math.floor(newY),
@@ -84,16 +88,26 @@ export function getAnchorRatio(
   mapContainer: HTMLDivElement,
   mapSurface: HTMLDivElement,
   offsets: Coords | null = null,
+  // zoomNew: number,
 ) {
+  // console.log("getAnchorRatio zoom", zoomNew);
+  console.log("offsets", offsets);
   const offsets_ = offsets || {
     x: mapContainer.clientWidth / 2,
     y: mapContainer.clientHeight / 2,
   };
+  const scaleComputed = window.getComputedStyle(mapSurface).scale;
+  console.log("scaleComputed", scaleComputed);
+  const scale =
+    scaleComputed !== "none"
+      ? Number(window.getComputedStyle(mapSurface).scale)
+      : 1;
+  console.log("scale", scale);
   let anchorRatioX =
-    (-mapSurface.offsetLeft + offsets_.x) / mapSurface.clientWidth;
+    (-mapSurface.offsetLeft + offsets_.x) / (MAP_SIZE_INIT.x * scale);
   anchorRatioX = Math.floor(anchorRatioX * 10000) / 10000;
   let anchorRatioY =
-    (-mapSurface.offsetTop + offsets_.y) / mapSurface.clientHeight;
+    (-mapSurface.offsetTop + offsets_.y) / (MAP_SIZE_INIT.y * scale);
   anchorRatioY = Math.floor(anchorRatioY * 10000) / 10000;
   const ratios = { x: anchorRatioX, y: anchorRatioY };
   return ratios;
