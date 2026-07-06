@@ -43,7 +43,7 @@ export default function Map() {
   useEffect(() => {
     contextRef.current = context;
   }, [context]);
-  const getMapHandlersCached = useCallback(getMapHandlers, []);
+  // const getMapHandlersCached = getMapHandlers(context.mapElements, context);
 
   useEffect(() => {
     if (!context.mapElements) {
@@ -56,7 +56,7 @@ export default function Map() {
       handleMapMove,
       handleMapPointerUp,
       handlePinchPointerUp,
-    } = getMapHandlersCached(
+    } = getMapHandlers(
       {
         mapSurface: mapSurface.current,
         mapContent: mapContent.current,

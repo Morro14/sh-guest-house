@@ -9,7 +9,6 @@ export function getMapHandlers(elements: MapElements, context: any) {
   let mapOffsetY: number = mapSurface.offsetTop;
   let isMovable = true;
   // let currentZoom = context.zoom;
-  console.log("context ref", context.current);
   // pinch
   const activePointers = new Map();
   // pointer for pinch test
@@ -42,7 +41,7 @@ export function getMapHandlers(elements: MapElements, context: any) {
   };
   // anchor ratio relative to the map surface
   let anchorRatios = getAnchorRatio(mapContainer, mapSurface);
-
+  let zoomCurrent = 1;
   function handlePointerDown(e: PointerEvent) {
     // map pointer down
     e.preventDefault();
@@ -71,11 +70,11 @@ export function getMapHandlers(elements: MapElements, context: any) {
       // lastPointer = e;
       //   return;
       // }
-      console.log("active pointers", activePointers.size);
       if (activePointers.size === 2) {
         const [p1, p2] = Array.from(activePointers.values());
         const dx = p2.clientX - p1.clientX;
         const dy = p2.clientY - p1.clientY;
+        zoomCurrent = context.current.zoom;
         distanceInit = Math.sqrt(dx * dx + dy * dy);
         anchor = {
           x: Math.floor(
@@ -119,8 +118,6 @@ export function getMapHandlers(elements: MapElements, context: any) {
     mapSurface.style.left = `${boundCoords.x}px`;
     mapSurface.style.top = `${boundCoords.y}px`;
   }
-  let zoomCurrentLocal = 1;
-
   function handlePinchMove(e: PointerEvent) {
     activePointers.set(e.pointerId, e);
     if (activePointers.size === 2) {
@@ -129,7 +126,7 @@ export function getMapHandlers(elements: MapElements, context: any) {
       const dy = p1.clientY - p2.clientY;
       const currentDistance = Math.sqrt(dx * dx + dy * dy);
       const distanceChange = currentDistance / distanceInit;
-      let newScale = zoomCurrentLocal * distanceChange;
+      let newScale = zoomCurrent * distanceChange;
       newScale = Math.max(
         MAP_OPTIONS.zoomMin,
         Math.min(MAP_OPTIONS.zoomMax, newScale),
@@ -142,9 +139,8 @@ export function getMapHandlers(elements: MapElements, context: any) {
         zoomNew: newScale,
         anchorRatio: anchorRatios,
         anchor: anchor,
-        zoomCurrent: zoomCurrentLocal,
       });
-      context.setZoom(newScale);
+      context.current.setZoom(newScale);
     }
     return;
   }
@@ -161,7 +157,7 @@ export function getMapHandlers(elements: MapElements, context: any) {
   }
   function handlePinchPointerUp(e: PointerEvent) {
     distanceInit = -1;
-    zoomCurrentLocal = Number(mapSurface.style.scale);
+    // zoomCurrentLocal = Number(mapSurface.style.scale);
     // const transformX = -mapContainer.clientWidth / 2 + anchor.x;
     // const transformY = -mapContainer.clientHeight / 2 + anchor.y;
     // mapSurface.style.transformOrigin = `center`;

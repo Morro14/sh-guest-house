@@ -48,14 +48,14 @@ export function boundMapPos(
   };
   let mapSurfaceOffsetX = -mapSurfaceSize.x / 2 + mapContainerSize.x / 2;
   let mapSurfaceOffsetY = -mapSurfaceSize.y / 2 + mapContainerSize.y / 2;
-  console.log(
-    "boound",
-    mapSurfaceSize,
-    mapContentSize,
-    mapContainerSize,
-    newPos,
-    zoomNew,
-  );
+  // console.log(
+  //   "boound",
+  //   mapSurfaceSize,
+  //   mapContentSize,
+  //   mapContainerSize,
+  //   newPos,
+  //   zoomNew,
+  // );
   let minX = Math.floor(mapSurfaceOffsetX - mapContentSize.x / 2);
   let maxX = Math.floor(mapSurfaceOffsetX + mapContentSize.x / 2);
   let minY = Math.floor(mapSurfaceOffsetY - mapContentSize.y / 2);
@@ -91,18 +91,18 @@ export function getAnchorRatio(
   // zoomNew: number,
 ) {
   // console.log("getAnchorRatio zoom", zoomNew);
-  console.log("offsets", offsets);
+  // console.log("offsets", offsets);
   const offsets_ = offsets || {
     x: mapContainer.clientWidth / 2,
     y: mapContainer.clientHeight / 2,
   };
   const scaleComputed = window.getComputedStyle(mapSurface).scale;
-  console.log("scaleComputed", scaleComputed);
+  // console.log("scaleComputed", scaleComputed);
   const scale =
     scaleComputed !== "none"
       ? Number(window.getComputedStyle(mapSurface).scale)
       : 1;
-  console.log("scale", scale);
+  // console.log("scale", scale);
   let anchorRatioX =
     (-mapSurface.offsetLeft + offsets_.x) / (MAP_SIZE_INIT.x * scale);
   anchorRatioX = Math.floor(anchorRatioX * 10000) / 10000;
