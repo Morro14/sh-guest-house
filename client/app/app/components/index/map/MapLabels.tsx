@@ -1,6 +1,3 @@
-import { useMapContextProvider } from "./MapContextProvider";
-import MapMediaFullView from "./MapMediaFullView";
-import MapPlaceDetails from "./MapPlaceDetails";
 import MapLabelGroup from "./MapLabelGroup";
 import MapPlaceComponent from "./Place";
 import townLabelsData from "src/data/town-labels.json";
@@ -29,25 +26,16 @@ export default function MapLabels({
         return prev;
       }, {})
     : null;
+  const groupedPlaces = [];
   return (
     <div className="" id="map-labels">
       {/* top-[1064px] left-[1967px] */}
-      {placesObj
-        ? placeLabelsDataTyped.map((item) => {
-            return (
-              <MapPlaceComponent
-                place={placesObj[item.name]}
-                options={item.options}
-                key={`placelabel-${item.name}`}
-              ></MapPlaceComponent>
-            );
-          })
-        : ""}
       {placesObj
         ? labelGroupsDataTyped.map((labelGroup) => {
             const places = placesData.filter((item) =>
               labelGroup.places.includes(item.slug),
             );
+            groupedPlaces.push(...places);
             return (
               <MapLabelGroup
                 labels={places}
@@ -58,8 +46,26 @@ export default function MapLabels({
             );
           })
         : ""}
+      {placesObj
+        ? placeLabelsDataTyped.map((place) => {
+            if (
+              groupedPlaces.find((placeGrouped: MapPlaceData) => {
+                return place.name === placeGrouped.slug;
+              })
+            ) {
+              return "";
+            }
+            return (
+              <MapPlaceComponent
+                place={placesObj[place.name]}
+                options={place.options}
+                key={`placelabel-${place.name}`}
+              ></MapPlaceComponent>
+            );
+          })
+        : ""}
       {townLabelsDataTyped ? (
-        <div id="town-labels">
+        <div id="town-labels" className="z-5">
           {townLabelsDataTyped.map((item) => {
             return (
               <TownLabel

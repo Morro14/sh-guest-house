@@ -11,8 +11,8 @@ export default function MapZoomModal() {
   const zoomFactor = MAP_OPTIONS.zoomFactor;
   const zoomFormatted = `${Math.floor(currentZoom * 100)}%`;
   return (
-    <div className="absolute md:top-4 top-2 md:right-4 right-2 flex flex-col gap-2 items-center z-25 font-sans bg-transparent backdrop-blur p-2 rounded-lg">
-      <div>
+    <div className="absolute md:top-4 top-2 md:right-4 right-2 flex flex-col gap-2 items-center z-25 font-sans p-2 rounded-lg">
+      <div className="text-center map-text-shadow">
         <div>{t("Zoom")}</div>
         <div>{zoomFormatted}</div>
       </div>
@@ -93,8 +93,8 @@ export default function MapZoomModal() {
 const minusSVG = (
   <svg
     width="23"
-    height="1"
-    viewBox="0 0 23 1"
+    height="2"
+    viewBox="0 0 23 2"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >

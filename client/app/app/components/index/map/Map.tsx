@@ -120,13 +120,7 @@ export default function Map() {
     });
   }, [placesData]);
   return (
-    <div>
-      <MapNav
-        mapSurface={mapSurface.current}
-        mapContainer={mapContainer.current}
-        mapImage={mapImage.current}
-        mapContent={mapContent.current}
-      ></MapNav>
+    <div className="flex flex-col items-center w-full h-full">
       {placesData && context.fullView ? (
         <MapMediaFullView>
           <MapPlaceDetails place={context.placeSelected}></MapPlaceDetails>
@@ -135,7 +129,7 @@ export default function Map() {
         ""
       )}
       <div
-        className="index-container-1 relative md:h-[1000px] h-[720px] overflow-clip border border-text-main touch-none"
+        className="w-full relative h-full overflow-clip touch-none"
         ref={mapContainer}
         draggable="false"
         id="map-container"

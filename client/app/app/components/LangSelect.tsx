@@ -1,10 +1,11 @@
 import { LANGUAGES } from "~/vars";
 import { useLocation, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
+import langIcon from "src/assets/lang-change-icon.svg";
 
 export default function LangSelect() {
   const { i18n } = useTranslation();
-  const languageLabels = { en: "English", ru: "Русский" };
+  const languageLabels = { en: "en", ru: "ru" };
   // const nav = useNavigate();
   const params = useParams();
   const loc = useLocation();
@@ -13,7 +14,8 @@ export default function LangSelect() {
     window.location.assign(`/${e.target.value}${pathWithoutLang}${loc.search}`);
   };
   return (
-    <div className="w-[140px] flex justify-end">
+    <div className="w-35 flex justify-end items-center gap-2">
+      <img src={langIcon} className="w-7 h-7" />
       <select
         name="lang-select"
         onChange={handleChange}

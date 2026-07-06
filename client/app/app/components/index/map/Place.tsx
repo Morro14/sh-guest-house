@@ -124,13 +124,13 @@ export default function MapPlaceComponent({
       data-slug={place.slug}
       ref={ref}
       className={`select-none ${optionsMerged.position} group text-black text-center
-          font-medium place flex flex-col`}
+          font-medium place flex flex-col z-10`}
       style={{
         ...getImportanceStyles("name"),
         left: `${optionsMerged.offsets.x}px`,
         top: `${optionsMerged.offsets.y}px`,
         transformOrigin: `${anchor.x}% ${anchor.y}%`,
-        scale: `${Math.floor((1 / context.zoom) * 100) / 100}`,
+        scale: `${Math.floor(Math.pow(1 / context.zoom, 0.8) * 100) / 100}`,
       }}
     >
       {/* <MapItemPosControl itemElRef={ref} dotElRef={dotRef}></MapItemPosControl> */}

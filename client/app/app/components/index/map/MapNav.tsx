@@ -1,24 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { useMapContextProvider } from "./MapContextProvider";
-import { zoomMap } from "./zoom";
 import mountainsIcon from "src/assets/mountains-icon.png";
 import houseIcon from "src/assets/house-icon.png";
-import { MAP_OPTIONS } from "./utils";
 
-export default function MapNav({
-  mapSurface,
-  mapContainer,
-  mapImage,
-  mapContent,
-}: {
-  mapSurface: HTMLDivElement;
-  mapContainer: HTMLDivElement;
-  mapContent: HTMLDivElement;
-  mapImage: HTMLImageElement;
-}) {
-  const context = useMapContextProvider();
-  const currentZoom = context.zoom;
-  const zoomFactor = MAP_OPTIONS.zoomFactor;
+export default function MapNav() {
   const { t } = useTranslation();
   const LEGEND = {
     normalRoad: { name: t("Normal road"), icon: normalRoadSVG, type: "line" },
@@ -44,8 +28,8 @@ export default function MapNav({
     pin: { name: t("Point of interest"), icon: pinSVG, type: "icon" },
   };
   return (
-    <div className="flex justify-between mb-4 items-end bg-gray-warm-light p-2">
-      <div className="grid 2xl:grid-flow-col md:grid-cols-2 gap-x-6 gap-y-1 2xl:grid-rows-[repeat(3,minmax(min-content,1fr))]">
+    <div className="flex justify-between mb-4 items-end p-2">
+      <div className="grid 2xl:grid-flow-col sm:grid-cols-2 gap-x-6 gap-y-1 2xl:grid-rows-[repeat(3,minmax(min-content,1fr))]">
         {Object.entries(LEGEND).map(([key, value]) => (
           <div className="flex items-center gap-4" key={`map-legend-${key}`}>
             {typeof value.icon !== "string" ? (
@@ -61,48 +45,6 @@ export default function MapNav({
           </div>
         ))}
       </div>
-
-      {/* <div className="flex flex-col"> */}
-      {/*   <span className="text-sm text-gray-warm-mid">{t("Zoom")}</span> */}
-      {/*   <div className="flex font-sans text-4xl text-left"> */}
-      {/*     <button */}
-      {/*       className="size-6 rounded-lg" */}
-      {/*       onClick={() => { */}
-      {/*         const zoomNew = currentZoom - zoomFactor; */}
-      {/*         if (zoomNew <= MAP_OPTIONS.zoomMin) { */}
-      {/*           return; */}
-      {/*         } */}
-      {/*         zoomMap({ */}
-      {/*           mapContainer, */}
-      {/*           mapSurface, */}
-      {/*           mapContent, */}
-      {/*           zoomNew, */}
-      {/*         }); */}
-      {/*         context.setZoom(zoomNew); */}
-      {/*       }} */}
-      {/*     > */}
-      {/*       - */}
-      {/*     </button> */}
-      {/*     <button */}
-      {/*       className="size-6 rounded-lg" */}
-      {/*       onClick={() => { */}
-      {/*         const zoomNew = currentZoom + zoomFactor; */}
-      {/*         if (zoomNew > MAP_OPTIONS.zoomMax) { */}
-      {/*           return; */}
-      {/*         } */}
-      {/*         zoomMap({ */}
-      {/*           mapContainer, */}
-      {/*           mapSurface, */}
-      {/*           mapContent, */}
-      {/*           zoomNew, */}
-      {/*         }); */}
-      {/*         context.setZoom(zoomNew); */}
-      {/*       }} */}
-      {/*     > */}
-      {/*       + */}
-      {/*     </button> */}
-      {/*   </div> */}
-      {/* </div> */}
     </div>
   );
 }

@@ -12,6 +12,8 @@ import MapContextProvider from "~/components/index/map/MapContextProvider";
 import NavHorizontal from "~/components/index/NavHorizontal";
 import CarouselReviews from "~/components/carousel/CarouselReviews";
 import eternity from "src/assets/eternity-main.png";
+import MapNav from "~/components/index/map/MapNav";
+import OpenMap from "~/components/index/map/OpenMap";
 
 export default function Index() {
   const { t, i18n } = useTranslation();
@@ -106,12 +108,18 @@ export default function Index() {
       </div>
 
       <section id="places" className="flex flex-col items-center">
-        <div className="index-container-1 flex flex-col grow gap-8 2xl:w-[1000px] mt-11 relative">
+        <div className="flex flex-col items-center grow gap-8 2xl:w-[1000px] mt-11 relative">
           <Paragraph
             content={pageContent.find((item) => item.tag === "places")}
           ></Paragraph>
           <MapContextProvider>
-            <Map></Map>
+            <div className="sm:block hidden max-md:w-screen w-full md:h-250 h-190">
+              <MapNav></MapNav>
+              <div className="md:border border-t border-b border-text-main w-full h-full">
+                <Map></Map>
+              </div>
+            </div>
+            <OpenMap></OpenMap>
           </MapContextProvider>
         </div>
       </section>

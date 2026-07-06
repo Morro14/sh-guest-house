@@ -31,7 +31,7 @@ export default function TownLabel({
         top: townLabel.offsets.y,
         scale: `${Math.floor((1 / context.zoom) * 100) / 100}`,
       }}
-      className="absolute text-sm italic select-none map-text-shadow"
+      className="absolute text-sm italic select-none map-text-shadow z-0"
     >
       {townLabel?.name
         ? townLabel.name.slice(0, 1).toUpperCase() + townLabel.name.slice(1)

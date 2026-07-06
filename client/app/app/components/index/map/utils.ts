@@ -46,8 +46,6 @@ export function boundMapPos(
     x: mapSurface.clientWidth * zoomNew,
     y: mapSurface.clientHeight * zoomNew,
   };
-  let mapSurfaceOffsetX = -mapSurfaceSize.x / 2 + mapContainerSize.x / 2;
-  let mapSurfaceOffsetY = -mapSurfaceSize.y / 2 + mapContainerSize.y / 2;
   // console.log(
   //   "boound",
   //   mapSurfaceSize,
@@ -56,10 +54,18 @@ export function boundMapPos(
   //   newPos,
   //   zoomNew,
   // );
-  let minX = Math.floor(mapSurfaceOffsetX - mapContentSize.x / 2);
-  let maxX = Math.floor(mapSurfaceOffsetX + mapContentSize.x / 2);
-  let minY = Math.floor(mapSurfaceOffsetY - mapContentSize.y / 2);
-  let maxY = Math.floor(mapSurfaceOffsetY + mapContentSize.y / 2);
+  let minX = Math.floor(
+    -mapSurfaceSize.x / 2 + (mapContainerSize.x * 3) / 4 - mapContentSize.x / 2,
+  );
+  let maxX = Math.floor(
+    -mapSurfaceSize.x / 2 + mapContainerSize.x / 4 + mapContentSize.x / 2,
+  );
+  let minY = Math.floor(
+    -mapSurfaceSize.y / 2 + (mapContainerSize.y * 3) / 4 - mapContentSize.y / 2,
+  );
+  let maxY = Math.floor(
+    -mapSurfaceSize.y / 2 + mapContainerSize.y / 4 + mapContentSize.y / 2,
+  );
   let offsetX = 0;
   let offsetY = 0;
   offsetY = Math.max(Math.min(maxY, newPos.y), minY);
