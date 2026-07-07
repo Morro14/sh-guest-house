@@ -55,30 +55,31 @@ export default function FloatingPanel() {
       className={`${panelOffScreen ? "fixed top-0" : "absolute top-0"} z-20 top-0 flex flex-col items-center justify-start font-sans`}
     >
       <div
-        className={`absolute w-screen ${moreRoomsRequired ? "h-[64px]" : "h-[42px]"} transition-all duration-200 bg-bg border-t border-gray-warm-light shadow-md`}
+        className={`absolute w-screen ${moreRoomsRequired ? "h-[42px]" : "h-[42px]"} transition-all duration-200 bg-bg border-t border-gray-warm-light shadow-md`}
       ></div>
       <div
         className={`flex flex-col 2xl:items-center justify-start items-start mt-2.5 index-container-1 2xl:w-[1038px]! px-4`}
       >
         <div className={`z-10 flex justify-between items-center size-full`}>
-          <div className="w-16 overflow-visible text-nowrap text-gray-warm-mid 2xl:block hidden">
-            {t("Your reservation")}:
-          </div>
+          {/* <div className="w-16 overflow-visible text-nowrap text-gray-warm-mid 2xl:block hidden"> */}
+          {/*   {t("Your reservation")}: */}
+          {/* </div> */}
           <div className={`flex gap-6 items-center`}>
-            <div
-              className={`${panelOffScreen ? "block" : "max-2xl:hidden"} 2xl:block hidden `}
-            >{`${dateString}`}</div>
-            <div
-              className={`${panelOffScreen ? "block" : "max-2xl:hidden"} 2xl:block hidden`}
-            >
-              {`${t("guests")}: ${params.adults}` +
-                (children > 0 ? " + " + children : "")}
-            </div>
-            <div
-              className={`${panelOffScreen ? "block" : "max-2xl:hidden"} 2xl:block hidden `}
-            >{`${t("nightWithCount", { count: 6 })}: ${params.nights}`}</div>
-            <div className={`flex overflow-visible w-30 space-x-1 relative`}>
-              <span className="text-nowrap">{`${t("Total price")}:`}</span>
+            {/* <div */}
+            {/*   className={`${panelOffScreen ? "block" : "max-2xl:hidden"} 2xl:block hidden `} */}
+            {/* >{`${dateString}`}</div> */}
+            {/* <div */}
+            {/*   className={`${panelOffScreen ? "block" : "max-2xl:hidden"} 2xl:block hidden`} */}
+            {/* > */}
+            {/*   {`${t("guests")}: ${params.adults}` + */}
+            {/*     (children > 0 ? " + " + children : "")} */}
+            {/* </div> */}
+            {/* <div */}
+            {/*   className={`${panelOffScreen ? "block" : "max-2xl:hidden"} 2xl:block hidden `} */}
+            {/* >{`${t("nightWithCount", { count: 6 })}: ${params.nights}`}</div> */}
+            <div className={`flex relative gap-2 items-center`}>
+              <div className="text-sm text-gray-warm-mid">{`${t("Total price")}:`}</div>
+
               <div
                 className={`${priceStatus !== "idle" ? "block" : "hidden"} starting:opacity-0 opacity-100 transition-opacity duration-150 absolute right-0 top-2`}
               >
@@ -95,17 +96,17 @@ export default function FloatingPanel() {
             className="px-2 flex cursor-pointer "
           >
             <div
-              className={`${moreRoomsRequired ? "border-0 text-gray-warm-inactive " : "font-sans font-medium text-warning "}`}
+              className={`${moreRoomsRequired ? "hidden" : "block"} font-sans font-medium text-white bg-primary rounded px-1 w-34`}
             >
               {submittingRoomsState === "idle"
                 ? t("Continue")
                 : t("loading...")}
             </div>
           </button>
+          <div
+            className={`z-10 text-white bg-primary relative -left-1 px-1 rounded font-medium text-center text-sm ${moreRoomsRequired ? "block" : "hidden opacity-0"} transition-discrete transition-all duration-200`}
+          >{`Select more rooms to accommodate ${guests} guests`}</div>
         </div>
-        <div
-          className={`z-10 text-red-error text-center text-sm ${moreRoomsRequired ? "block" : "hidden opacity-0"} transition-discrete transition-all duration-200`}
-        >{`Select more rooms to accommodate ${guests} guests`}</div>
       </div>
     </div>
   );

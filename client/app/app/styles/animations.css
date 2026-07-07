@@ -29,8 +29,14 @@
   animation: shiftGradient 4s infinite
 }
 
-@keyframes shiftGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+
+.gradient-line {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 2%, rgba(251, 150, 110, 1) 2%, rgba(251, 150, 110, 1) 100%);
+  background-size: 200% 100%;
+  animation: shiftGradient 1.1s linear infinite reverse
 }
+@keyframes shiftGradient {
+  0% { background-position: 100% 0%; }
+  100% { background-position: 200% 0%; }
+}
+

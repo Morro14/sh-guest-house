@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 export default function HeaderIndexNav() {
   const { t } = useTranslation();
   return (
-    <div className="md:flex gap-5 2xl:gap-10 hidden justify-between font-serif font-light">
+    <div className="lg:flex gap-5 2xl:gap-10 hidden justify-center font-serif font-light w-1/3 text-nowrap">
       <button
         className="hover:underline "
         onClick={() => {
