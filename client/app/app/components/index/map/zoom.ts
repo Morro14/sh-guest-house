@@ -41,5 +41,6 @@ export function zoomMap({
   mapSurface.style.top = `${-newY}px`;
   // mapSurface.style.transformOrigin = `${translateX}px ${translateY}px`;
   mapSurface.style.scale = `${zoomNew}`;
+  // labels.style.scale = `${`${Math.floor(Math.pow(1 / zoomNew, 0.8) * 100) / 100}`}`;
   // mapContent.style.scale = `${zoomNew}`;
 }

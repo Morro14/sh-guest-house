@@ -42,6 +42,7 @@ export function getMapHandlers(elements: MapElements, context: any) {
   // anchor ratio relative to the map surface
   let anchorRatios = getAnchorRatio(mapContainer, mapSurface);
   let zoomCurrent = 1;
+  const mapConsole = document.getElementById("map-console");
   function handlePointerDown(e: PointerEvent) {
     // map pointer down
     e.preventDefault();
@@ -118,31 +119,61 @@ export function getMapHandlers(elements: MapElements, context: any) {
     mapSurface.style.left = `${boundCoords.x}px`;
     mapSurface.style.top = `${boundCoords.y}px`;
   }
+  function handleWheel(e: WheelEvent) {
+    const wheelDir = -(e.deltaY / Math.abs(e.deltaY));
+    let newScale = context.current.zoom + 0.2 * wheelDir;
+    newScale = Math.max(
+      MAP_OPTIONS.zoomMin,
+      Math.min(MAP_OPTIONS.zoomMax, newScale),
+    );
+
+    anchor = {
+      x: Math.floor(e.clientX - mapContainer.getBoundingClientRect().x),
+      y: Math.floor(e.clientY - mapContainer.getBoundingClientRect().y),
+    };
+    anchorRatios = getAnchorRatio(mapContainer, mapSurface, anchor);
+
+    zoomMap({
+      mapSurface,
+      mapContainer,
+      mapContent,
+      zoomNew: newScale,
+      anchorRatio: anchorRatios,
+      anchor: anchor,
+    });
+    context.current.setZoom(newScale);
+  }
   function handlePinchMove(e: PointerEvent) {
     activePointers.set(e.pointerId, e);
+
     if (activePointers.size === 2) {
-      const [p1, p2] = Array.from(activePointers.values());
-      const dx = p1.clientX - p2.clientX;
-      const dy = p1.clientY - p2.clientY;
-      const currentDistance = Math.sqrt(dx * dx + dy * dy);
-      const distanceChange = currentDistance / distanceInit;
-      let newScale = zoomCurrent * distanceChange;
-      newScale = Math.max(
-        MAP_OPTIONS.zoomMin,
-        Math.min(MAP_OPTIONS.zoomMax, newScale),
-      );
-      if (e.pointerId === p1.pointerId) return;
-      zoomMap({
-        mapSurface,
-        mapContainer,
-        mapContent,
-        zoomNew: newScale,
-        anchorRatio: anchorRatios,
-        anchor: anchor,
+      requestAnimationFrame(() => {
+        // mapConsole.innerHTML = String(activePointers.size);
+        const [p1, p2] = Array.from(activePointers.values());
+        const dx = p1.clientX - p2.clientX;
+        const dy = p1.clientY - p2.clientY;
+        const currentDistance = Math.sqrt(dx * dx + dy * dy);
+        const distanceChange = currentDistance / distanceInit;
+        let newScale = zoomCurrent * distanceChange;
+        newScale = Math.max(
+          MAP_OPTIONS.zoomMin,
+          Math.min(MAP_OPTIONS.zoomMax, newScale),
+        );
+        // if (!frameRequested) {
+        // requestAnimationFrame(() => {
+        zoomMap({
+          mapSurface,
+          mapContainer,
+          mapContent,
+          zoomNew: newScale,
+          anchorRatio: anchorRatios,
+          anchor: anchor,
+        });
+        // });
+        // }
+        context.current.setZoom(newScale);
       });
-      context.current.setZoom(newScale);
     }
-    return;
   }
 
   function handleMapPointerUp(e: PointerEvent) {
@@ -172,5 +203,6 @@ export function getMapHandlers(elements: MapElements, context: any) {
     handleMapMove,
     handleMapPointerUp,
     handlePinchPointerUp,
+    handleWheel,
   };
 }

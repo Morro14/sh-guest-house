@@ -29,7 +29,7 @@ export default function TownLabel({
       style={{
         left: townLabel.offsets.x,
         top: townLabel.offsets.y,
-        scale: `${Math.floor((1 / context.zoom) * 100) / 100}`,
+        // scale: `${Math.floor((1 / context.zoom) * 100) / 100}`,
       }}
       className="absolute text-sm italic select-none map-text-shadow z-0"
     >

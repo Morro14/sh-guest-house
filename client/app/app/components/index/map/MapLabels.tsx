@@ -28,7 +28,7 @@ export default function MapLabels({
     : null;
   const groupedPlaces = [];
   return (
-    <div className="" id="map-labels">
+    <div className="relative" id="map-labels">
       {/* top-[1064px] left-[1967px] */}
       {placesObj
         ? labelGroupsDataTyped.map((labelGroup) => {

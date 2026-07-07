@@ -27,6 +27,7 @@ export default function MapPage() {
           <LangSelect></LangSelect>
         </div>
       </header>
+      <div id="map-console" className="text-left w-full pl-2"></div>
       <div className="flex flex-col items-center w-full h-full">
         <MapContextProvider>
           <Map></Map>

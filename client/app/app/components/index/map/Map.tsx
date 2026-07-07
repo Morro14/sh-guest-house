@@ -56,6 +56,7 @@ export default function Map() {
       handleMapMove,
       handleMapPointerUp,
       handlePinchPointerUp,
+      handleWheel,
     } = getMapHandlers(
       {
         mapSurface: mapSurface.current,
@@ -70,6 +71,7 @@ export default function Map() {
       map.removeEventListener("pointerdown", handlePointerDown);
       map.removeEventListener("pointermove", handlePinchMove);
       map.removeEventListener("pointerup", handlePinchPointerUp);
+      map.removeEventListener("wheel", handleWheel);
     };
 
     if (!context.fullView) {
@@ -78,6 +80,7 @@ export default function Map() {
       map.addEventListener("pointerdown", handlePointerDown);
       map.addEventListener("pointermove", handlePinchMove);
       map.addEventListener("pointerup", handlePinchPointerUp);
+      map.addEventListener("wheel", handleWheel);
     } else {
       removeEventListeners();
     }

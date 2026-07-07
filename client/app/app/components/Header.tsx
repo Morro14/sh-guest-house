@@ -18,12 +18,15 @@ export default function Header() {
         <div
           className={`flex justify-between items-center w-full md:px-7 px-2 transition-all overflow-hidden `}
         >
-          <Link to="/" className="w-1/3 text-lg font-serif font-medium">
+          <Link
+            to="/"
+            className="lg:w-1/3 w-1/2 text-lg font-serif font-medium"
+          >
             {t("Site name")}
           </Link>
 
           <HeaderIndexNav></HeaderIndexNav>
-          <div className="flex items-center text-sm font-sans gap-7 w-1/3 justify-end">
+          <div className="flex items-center text-sm font-sans gap-7 lg:w-1/3 w-1/2 justify-end">
             <div className="flex justify-center">
               <LangSelect></LangSelect>
             </div>

@@ -130,7 +130,7 @@ export default function MapPlaceComponent({
         left: `${optionsMerged.offsets.x}px`,
         top: `${optionsMerged.offsets.y}px`,
         transformOrigin: `${anchor.x}% ${anchor.y}%`,
-        scale: `${Math.floor(Math.pow(1 / context.zoom, 0.8) * 100) / 100}`,
+        // scale: `${Math.floor(Math.pow(1 / context.zoom, 0.8) * 100) / 100}`,
       }}
     >
       {/* <MapItemPosControl itemElRef={ref} dotElRef={dotRef}></MapItemPosControl> */}

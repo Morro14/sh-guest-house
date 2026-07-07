@@ -36,7 +36,6 @@ export default function MapZoomModal() {
                 (mapContainer.clientHeight / 2 - mapSurface.offsetTop) /
                 (MAP_SIZE_INIT.y * currentZoom),
             };
-            console.log("newZoom modal", zoomNew);
             zoomMap({
               mapContainer,
               mapSurface,
@@ -70,7 +69,6 @@ export default function MapZoomModal() {
                 (mapContainer.clientHeight / 2 - mapSurface.offsetTop) /
                 (MAP_SIZE_INIT.y * currentZoom),
             };
-            console.log("newZoom modal", zoomNew);
             zoomMap({
               mapContainer,
               mapSurface,
