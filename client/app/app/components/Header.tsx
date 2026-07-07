@@ -11,7 +11,7 @@ export default function Header() {
   const nav = useNavigation();
   return (
     <div>
-      <div className="font-sans text-white font-medium text-center bg-primary-light">
+      <div className="font-sans text-white font-medium text-center bg-primary">
         {t("This is a test version of the project")}
       </div>
       <header className={`flex items-center w-full text-text-main h-13`}>
