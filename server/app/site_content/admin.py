@@ -14,6 +14,7 @@ from .models import (
 
 from modeltranslation.admin import TabbedTranslationAdmin
 from django.utils.html import format_html
+from django.conf import settings
 
 
 @admin.register(Review)
@@ -61,7 +62,7 @@ class PlaceImageAdmin(admin.ModelAdmin):
         if obj.image_full:
             return format_html(
                 '<img src="{}" style="max-height: 80px; border-radius: 4px;" />',
-                obj.variants["small"],
+                settings.MEDIA_URL + obj.variants["small"],
             )
         return "-"
 
