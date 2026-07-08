@@ -44,9 +44,6 @@ export default function Header() {
         </div>
       </header>
       {/* {loc.pathname.split("/").length !== 2 ? ( */}
-      <div
-        className={`h-0.5 w-full ${nav.state !== "idle" ? "gradient-line" : "bg-primary"}`}
-      ></div>
       {/* ) : ( */}
       {/*   "" */}
       {/* )} */}

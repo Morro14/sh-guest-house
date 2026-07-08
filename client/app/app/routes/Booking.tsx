@@ -10,6 +10,7 @@ import {
   useLocation,
   redirect,
   useFetcher,
+  useNavigation,
 } from "react-router";
 import { useTranslation } from "react-i18next";
 import AvailableRooms from "~/components/booking/AvailableRooms";
@@ -109,8 +110,12 @@ export default function Booking({ loaderData }: Route.ComponentProps) {
   const { t } = useTranslation();
   const fetcher = useFetcher({ key: "price_preview" });
   const location = useLocation();
+  const nav = useNavigation();
   return (
     <div className="bg-bg text-text-main min-h-screen min-w-screen">
+      <div
+        className={`sticky top-0 z-31 h-0.5 w-full ${nav.state !== "idle" ? "gradient-line" : "bg-primary"}`}
+      ></div>
       <IndexBookingContextProvider params={{ errors: [] }}>
         <div
           id="request-info-block"

@@ -1,5 +1,11 @@
 import { useTranslation } from "react-i18next";
-import { createSearchParams, redirect, Link, useFetcher } from "react-router";
+import {
+  createSearchParams,
+  redirect,
+  Link,
+  useFetcher,
+  useNavigation,
+} from "react-router";
 import {
   formatPrice,
   getAxiosInstance,
@@ -93,8 +99,12 @@ export default function BookingSummary({ loaderData }) {
     children: requestInfo.children,
   });
   const fetcher = useFetcher();
+  const nav = useNavigation();
   return (
     <div className="flex flex-col gap-8 items-center min-h-screen min-w-screen font-sans">
+      <div
+        className={`sticky top-0 z-31 h-0.5 w-full ${nav.state !== "idle" ? "gradient-line" : "bg-primary"}`}
+      ></div>
       <section>
         <div
           id="request-info-block"
@@ -199,7 +209,7 @@ export default function BookingSummary({ loaderData }) {
           </div>
           <button
             type="submit"
-            className="min-w-[120px] text-lg font-medium bg-primary capitalize rounded font-serif text-text-main mt-6 cursor-pointer hover:bg-primary-light"
+            className="min-w-[120px] h-10 text-lg font-medium bg-primary capitalize rounded font-sans text-white mt-6 cursor-pointer hover:bg-primary-light"
           >
             {fetcher.state === "idle" ? t("confirm") : t("submitting...")}
           </button>

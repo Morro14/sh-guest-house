@@ -1,7 +1,7 @@
 import IndexBookingContextProvider from "~/components/booking/IndexBookingContextProvider";
 import type { Route } from "./+types/IndexRoute";
 import { validate } from "~/components/formComponents/validate";
-import { redirect } from "react-router";
+import { redirect, useNavigation } from "react-router";
 import Index from "./Index";
 import BookingPannel from "~/components/index/BookingPanel";
 import type { ValidationErrors } from "~/components/formComponents/validate";
@@ -55,9 +55,13 @@ export async function clientAction({
 
 export default function IndexRoute({ actionData }: Route.ComponentProps) {
   const errors = actionData;
+  const nav = useNavigation();
   return (
     <div className="flex flex-col min-h-screen min-w-screen text-text-main relative">
       <IndexBookingContextProvider params={{ errors: errors }}>
+        <div
+          className={`sticky top-0 z-31 h-0.5 w-full ${nav.state !== "idle" ? "gradient-line" : "bg-primary"}`}
+        ></div>
         <BookingPannel></BookingPannel>
         <BookingPannelMobile></BookingPannelMobile>
         <Index></Index>

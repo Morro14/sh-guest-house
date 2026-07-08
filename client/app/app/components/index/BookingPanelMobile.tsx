@@ -100,7 +100,7 @@ export default function BookingPannelMobile() {
           >
             <div className="w-[21px]"></div>
             <button
-              className={`capitalize font-normal cursor-pointer ${!formDisplay ? "text-lg" : "text-base"}`}
+              className={`capitalize font-semibold font-sans text-white cursor-pointer ${!formDisplay ? "text-lg" : "text-base"}`}
             >
               {!formDisplay ? t("book") : t("close")}
             </button>

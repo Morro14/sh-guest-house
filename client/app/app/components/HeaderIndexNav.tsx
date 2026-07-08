@@ -1,45 +1,31 @@
 import { useTranslation } from "react-i18next";
+import { NavLink } from "react-router";
 
 export default function HeaderIndexNav() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   return (
     <div className="lg:flex gap-5 2xl:gap-10 hidden justify-center font-serif font-light w-1/3 text-nowrap">
-      <button
-        className="hover:underline "
-        onClick={() => {
-          const el = document.getElementById("about");
-          el.scrollIntoView({ behavior: "smooth" });
-        }}
+      <NavLink
+        to={`/${i18n.language}?scroll-to=about`}
+        className="hover:underline"
       >
         {t("About")}
-      </button>
-      <button
-        className=" hover:underline "
-        onClick={() => {
-          const el = document.getElementById("contacts");
-          el.scrollIntoView({ behavior: "smooth" });
-        }}
+      </NavLink>
+      <NavLink
+        to={`/${i18n.language}?scroll-to=contacts`}
+        className="hover:underline"
       >
         {t("Contacts")}
-      </button>
-      <button
+      </NavLink>
+      <NavLink
+        to={`/${i18n.language}?scroll-to=location`}
         className="hover:underline"
-        onClick={() => {
-          const el = document.getElementById("location");
-          el.scrollIntoView({ behavior: "smooth" });
-        }}
       >
         {t("Location")}
-      </button>
-      <button
-        className="hover:underline "
-        onClick={() => {
-          const el = document.getElementById("points-of-interest");
-          el.scrollIntoView({ behavior: "smooth" });
-        }}
-      >
+      </NavLink>
+      <NavLink to={`/${i18n.language}/map`} className="hover:underline">
         {t("Points of interest")}
-      </button>
+      </NavLink>
     </div>
   );
 }
