@@ -96,7 +96,7 @@ class Image(models.Model):
             options["filters"] = ["blur"]
             options["quality"] = 30
         thumb = get_thumbnailer(self.image_full).get_thumbnail(options)
-        media_baseurl = settings.MEDIA_URL
+        media_baseurl = settings.MEDIA_BASE_URL
         if settings.ON_RENDER and media_baseurl in thumb.url:
             base, pathname = thumb.url.split(sep=media_baseurl)
             return pathname
