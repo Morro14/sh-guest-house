@@ -206,7 +206,7 @@ USE_TZ = True
 MEDIA_BASE_URL = os.environ.get("MEDIA_BASE_URL") if ON_RENDER else ""
 
 if ON_RENDER:
-    MEDIA_URL = f"https://storage.googleapis.com/{os.environ.get("GOOGLE_CLOUD_STORAGE_BUCKET")}/media/"
+    MEDIA_URL = os.environ.get("MEDIA_BASE_URL") + "/media/"
 else:
     MEDIA_URL = "/media/"
     MEDIA_ROOT = os.path.join(BASE_DIR, "media")
