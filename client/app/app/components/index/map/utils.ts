@@ -12,6 +12,7 @@ export const MAP_OPTIONS = {
   zoomMin: 0.4,
   zoomMax: 2,
   zoomFactor: 0.2,
+  wheelZoom: true,
 };
 export const MAP_SIZE_INIT = {
   x: MAP_OPTIONS.mapContentSize.x + MAP_OPTIONS.mapPadding,

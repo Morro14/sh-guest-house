@@ -88,20 +88,26 @@ export default function AvailableRoom({
   return (
     <fieldset
       key={room.name}
-      className={`drop-shadow-sm bg-bg flex flex-col items-center w-[352px] md:w-[330px] pb-3 ${nightsNum > 1 ? "h-[528px]" : "h-[480px]"} ${roomSelected ? "outline-2 outline-primary-light drop-shadow-none" : ""}`}
+      className={`drop-shadow-sm bg-bg flex flex-col items-center w-[352px] md:w-[330px] pb-3  ${roomSelected ? "outline-2 outline-primary-light drop-shadow-none" : ""}`}
     >
+      {/* <fieldset */}
+      {/*   key={room.name} */}
+      {/*   className={`drop-shadow-sm bg-bg flex flex-col items-center w-[352px] md:w-[330px] pb-3 ${nightsNum > 1 ? "h-[528px]" : "h-[480px]"} ${roomSelected ? "outline-2 outline-primary-light drop-shadow-none" : ""}`} */}
+      {/* > */}
       <legend className="sr-only">{room.name}</legend>
-      <ImageLoading
-        imageAttrs={{
-          className:
-            "border-2 border-primary-light object-cover w-[336px] md:w-[314px] h-[190px] hover:cursor-pointer mt-2",
-          src: `${MEDIA_URL}${room?.images[0]?.variants?.small}`,
-          onClick: () => {
-            navContext.setFullImageView(true);
-            navContext.setItemSelected(index);
-          },
-        }}
-      ></ImageLoading>
+      <div className="w-[336px] md:w-[314px] h-[190px] mt-2">
+        <ImageLoading
+          imageAttrs={{
+            className:
+              "border-2 border-primary-light object-cover hover:cursor-pointer size-full",
+            src: `${MEDIA_URL}${room?.images[0]?.variants?.small}`,
+            onClick: () => {
+              navContext.setFullImageView(true);
+              navContext.setItemSelected(index);
+            },
+          }}
+        ></ImageLoading>
+      </div>
       {/* <img */}
       {/*   className="border-2 border-primary-light object-cover w-[336px] md:w-[314px] h-[190px] hover:cursor-pointer mt-2" */}
       {/*   src={`${MEDIA_URL}${room.images[0].variants.small}`} */}
@@ -110,7 +116,7 @@ export default function AvailableRoom({
       {/*     navContext.setItemSelected(index); */}
       {/*   }} */}
       {/* /> */}
-      <div className="flex flex-col gap-3 mt-3 px-2 w-full h-full">
+      <div className="flex flex-col gap-3 mt-3 px-2 w-full">
         <h4 className="mb-0! font-sans">{room.name}</h4>
         <div className="flex flex-col font-sans gap-3 h-full w-full">
           <span className="text-ellipsis h-12 overflow-hidden">
@@ -118,7 +124,7 @@ export default function AvailableRoom({
           </span>
           <div className="flex flex-col">
             <span className="text-sm text-gray-warm-mid">{t("Beds")}</span>
-            <span className="">{room.beds.slice(0, 20)}</span>
+            <span className="">{room.beds}</span>
           </div>
           <div className="flex flex-col gap-0.5">
             <span className="text-sm text-warning">

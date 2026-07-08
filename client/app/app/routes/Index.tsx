@@ -14,6 +14,7 @@ import CarouselReviews from "~/components/carousel/CarouselReviews";
 import eternity from "src/assets/eternity-main.png";
 import MapNav from "~/components/index/map/MapNav";
 import OpenMap from "~/components/index/map/OpenMap";
+import { MAP_OPTIONS } from "~/components/index/map/utils";
 
 export default function Index() {
   const { t, i18n } = useTranslation();
@@ -116,7 +117,7 @@ export default function Index() {
             <div className="sm:block hidden max-md:w-screen w-full md:h-250 h-190">
               <MapNav></MapNav>
               <div className="md:border border-t border-b border-text-main w-full h-full">
-                <Map></Map>
+                <Map options={{ ...MAP_OPTIONS, wheelZoom: false }}></Map>
               </div>
             </div>
             <OpenMap></OpenMap>

@@ -15,8 +15,8 @@ import MapMediaFullView from "./MapMediaFullView";
 import MapPlaceDetails from "./MapPlaceDetails";
 import MapZoomModal from "./MapZoomModal";
 
-export const options = MAP_OPTIONS;
-export default function Map() {
+// const options = MAP_OPTIONS;
+export default function Map({ options }: { options: typeof MAP_OPTIONS }) {
   const { fetchedData } = useFetchV3("content/places");
   const placesData = fetchedData?.data?.data as MapPlaceData[];
   const mapSurface = useRef<HTMLDivElement | null>(null);
@@ -71,7 +71,9 @@ export default function Map() {
       map.removeEventListener("pointerdown", handlePointerDown);
       map.removeEventListener("pointermove", handlePinchMove);
       map.removeEventListener("pointerup", handlePinchPointerUp);
-      map.removeEventListener("wheel", handleWheel);
+      if (options.wheelZoom) {
+        map.removeEventListener("wheel", handleWheel);
+      }
     };
 
     if (!context.fullView) {
@@ -80,7 +82,9 @@ export default function Map() {
       map.addEventListener("pointerdown", handlePointerDown);
       map.addEventListener("pointermove", handlePinchMove);
       map.addEventListener("pointerup", handlePinchPointerUp);
-      map.addEventListener("wheel", handleWheel);
+      if (options.wheelZoom) {
+        map.addEventListener("wheel", handleWheel);
+      }
     } else {
       removeEventListeners();
     }

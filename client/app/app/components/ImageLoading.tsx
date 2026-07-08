@@ -19,7 +19,7 @@ export function ImageLoading({
   const [loadedError, setLoadedError] = useState(false);
   const { className, src, ...rest } = imageAttrs;
   return (
-    <div className={`h-full w-full block`}>
+    <div className={`size-full block`}>
       {src && !loadedError ? (
         <img
           {...rest}

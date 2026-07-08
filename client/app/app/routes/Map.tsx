@@ -1,10 +1,9 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Map from "~/components/index/map/Map";
 import MapContextProvider from "~/components/index/map/MapContextProvider";
-import openMapPic from "src/assets/open-map-pic.svg";
 import { NavLink, useLocation, useNavigation } from "react-router";
 import LangSelect from "~/components/LangSelect";
+import { MAP_OPTIONS } from "~/components/index/map/utils";
 
 export default function MapPage() {
   const { t } = useTranslation();
@@ -34,7 +33,7 @@ export default function MapPage() {
       <div id="map-console" className="text-left w-full pl-2"></div>
       <div className="flex flex-col items-center w-full h-full">
         <MapContextProvider>
-          <Map></Map>
+          <Map options={MAP_OPTIONS}></Map>
         </MapContextProvider>
       </div>
     </div>
