@@ -11,7 +11,7 @@ export default function MapPlaceDetails({ place }: { place: MapPlaceData }) {
         e.stopPropagation();
       }}
     >
-      <div className="h-[30vh] border-b border-gray-300 pb-5">
+      <div className="min-h-[30vh] border-b border-gray-300 pb-5">
         <CarouselSimple
           name={`${place.slug}-carousel`}
           images={place.images}

@@ -1,4 +1,4 @@
-import type { SetStateAction } from "react";
+import { useRef, type SetStateAction } from "react";
 export default function BurgerMenu({
   params,
 }: {
@@ -7,27 +7,39 @@ export default function BurgerMenu({
     setShowModalMenu: React.Dispatch<SetStateAction<boolean>>;
   };
 }) {
+  const dialogRef = useRef<null | HTMLDialogElement>(null);
   return (
-    <button
-      onClick={() => params.setShowModalMenu(!params.showModalMenu)}
-      className="size-7 space-y-1.25"
-    >
-      <div
-        className={`transition duration-150 ${params.showModalMenu ? "opacity-0" : "opacity-100"}`}
+    <div>
+      <button
+        onClick={() => {
+          const dialogOpen = dialogRef.current.open;
+          if (dialogOpen) {
+            dialogRef.current.close();
+          } else {
+            dialogRef.current.showModal();
+          }
+          params.setShowModalMenu(dialogOpen);
+        }}
+        className="size-7 space-y-1.25"
       >
-        {bar}
-      </div>
-      <div
-        className={`transition duration-150 ease-out relative ${params.showModalMenu ? "rotate-45 " : ""}`}
-      >
-        {bar}
-      </div>
-      <div
-        className={`transition duration-150 ease-out relative ${params.showModalMenu ? "-rotate-45 bottom-[9px]" : ""}`}
-      >
-        {bar}
-      </div>
-    </button>
+        <div
+          className={`transition duration-150 ${params.showModalMenu ? "opacity-0" : "opacity-100"}`}
+        >
+          {bar}
+        </div>
+        <div
+          className={`transition duration-150 ease-out relative ${params.showModalMenu ? "rotate-45 " : ""}`}
+        >
+          {bar}
+        </div>
+        <div
+          className={`transition duration-150 ease-out relative ${params.showModalMenu ? "-rotate-45 bottom-[9px]" : ""}`}
+        >
+          {bar}
+        </div>
+      </button>
+      <dialog ref={dialogRef}></dialog>
+    </div>
   );
 }
 const bar = (

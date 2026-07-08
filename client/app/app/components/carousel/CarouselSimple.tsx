@@ -44,11 +44,11 @@ export function CarouselSimple({
         {images.map((img, i) => (
           <div
             key={`${name}-slide-${i}`}
-            className="embla__slide grow-0 shrink-0 basis-auto mx-2 select-none bg-gray-warm-light"
+            className="embla__slide grow-0 shrink-0 h-full basis-auto mx-2 select-none bg-gray-warm-light"
           >
             <ImageLoading
               imageAttrs={{
-                className: `object-contain h-[30vh]`,
+                className: `object-contain min-h-[30vh] h-[30vh]`,
                 src: MEDIA_URL + img.variants[imageRes],
                 alt: `${name}-${i}`,
               }}
