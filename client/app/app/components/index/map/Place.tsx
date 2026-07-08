@@ -160,21 +160,23 @@ export default function MapPlaceComponent({
       ) : (
         ""
       )}
-      <div className="text-center flex flex-col items-center">
+      <div
+        className="text-center flex flex-col items-center"
+        onPointerDown={(e) => {
+          pointerPosOnMouseDown = { x: e.clientX, y: e.clientY };
+        }}
+        onPointerUp={(e) => {
+          // click leeway
+          const isClick = isClickNotDrag(pointerPosOnMouseDown, 5, e);
+          if (!isClick) {
+            return;
+          }
+          context.setFullView(true);
+          context.setPlaceSelected(place);
+        }}
+      >
         <div
           className={`text-base/5 hover:underline hover:cursor-pointer max-w-[154px] font-[600] map-text-shadow`}
-          onPointerDown={(e) => {
-            pointerPosOnMouseDown = { x: e.clientX, y: e.clientY };
-          }}
-          onPointerUp={(e) => {
-            // click leeway
-            const isClick = isClickNotDrag(pointerPosOnMouseDown, 5, e);
-            if (!isClick) {
-              return;
-            }
-            context.setFullView(true);
-            context.setPlaceSelected(place);
-          }}
         >
           {place.name}
         </div>
