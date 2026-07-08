@@ -2,12 +2,12 @@ import { Link, useNavigation } from "react-router";
 import { useTranslation } from "react-i18next";
 import LangSelect from "./LangSelect";
 import BurgerMenu from "./BurgerMenu";
-import { useState } from "react";
+import { useRef } from "react";
 import HeaderIndexNav from "./HeaderIndexNav";
 
 export default function Header() {
   const { t } = useTranslation();
-  const [showMenu, setShowMenu] = useState(false);
+  const dialogRef = useRef<null | HTMLDialogElement>(null);
   const nav = useNavigation();
   return (
     <div>
@@ -30,13 +30,8 @@ export default function Header() {
             <div className="flex justify-center">
               <LangSelect></LangSelect>
             </div>
-            <div className="lg:hidden block">
-              <BurgerMenu
-                params={{
-                  showModalMenu: showMenu,
-                  setShowModalMenu: setShowMenu,
-                }}
-              ></BurgerMenu>
+            <div className="lg:hidden block ">
+              <BurgerMenu dialogRef={dialogRef}></BurgerMenu>
             </div>
             {/* <button */}
             {/*   // onClick={} */}

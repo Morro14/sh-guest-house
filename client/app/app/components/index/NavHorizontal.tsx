@@ -26,7 +26,7 @@ export default function NavHorizontal() {
         <span className="px-3 pt-1 ">{t("Contact")}</span>
       </button>
       <Link
-        to={`/${i18n.language}/booking`}
+        to={`/${i18n.language}/booking/change-request-info`}
         className="text-end hover:cursor-pointer "
       >
         <span className=" px-3 pt-1 rounded">{t("Book")}</span>

@@ -15,6 +15,8 @@ import eternity from "src/assets/eternity-main.png";
 import MapNav from "~/components/index/map/MapNav";
 import OpenMap from "~/components/index/map/OpenMap";
 import { MAP_OPTIONS } from "~/components/index/map/utils";
+import { useEffect } from "react";
+import { useSearchParams } from "react-router";
 
 export default function Index() {
   const { t, i18n } = useTranslation();
@@ -26,6 +28,14 @@ export default function Index() {
   const extraPageContent = pageContent.filter(
     (item) => item.tag === "additional",
   );
+  const [URLSearchParams] = useSearchParams();
+  useEffect(() => {
+    const scrollTo = URLSearchParams.get("scroll-to");
+    if (scrollTo) {
+      const el = document.getElementById(scrollTo);
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [URLSearchParams]);
   return (
     <div className="flex grow flex-col items-stretch text-text-main bg-bg min-h-screen ">
       <div className="flex flex-col items-center md:gap-8 gap-6">

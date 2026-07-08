@@ -4,15 +4,18 @@ import MapContextProvider from "~/components/index/map/MapContextProvider";
 import { NavLink, useLocation, useNavigation } from "react-router";
 import LangSelect from "~/components/LangSelect";
 import { MAP_OPTIONS } from "~/components/index/map/utils";
+import BurgerMenu from "~/components/BurgerMenu";
+import { useRef } from "react";
 
 export default function MapPage() {
   const { t } = useTranslation();
   const loc = useLocation();
   const lang = loc.pathname.split("/")[1];
   const nav = useNavigation();
+  const dialogRef = useRef<null | HTMLDialogElement>(null);
   return (
     <div className="w-screen h-screen flex flex-col justify-center items-center">
-      <header className="flex w-full xl:px-5 md:px-4 px-2 py-1">
+      <header className="flex w-full xl:px-5 md:px-4 px-2 py-1 h-10">
         <div className="w-1/3">
           <NavLink className="relative top-0.5 font-medium" to={`/${lang}`}>
             {t("To main page")}
@@ -23,8 +26,9 @@ export default function MapPage() {
             {t("Points of interest in Vayots Dzor")}
           </h5>
         </div>
-        <div className="w-1/3 flex justify-end">
+        <div className="w-1/3 flex justify-end gap-4">
           <LangSelect></LangSelect>
+          <BurgerMenu dialogRef={dialogRef}></BurgerMenu>
         </div>
       </header>
       <div

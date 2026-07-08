@@ -19,7 +19,10 @@ import IndexBookingContextProvider from "~/components/booking/IndexBookingContex
 import FloatingPanel from "~/components/booking/FloatingPanel";
 import BookingRoomSelectContext from "~/components/booking/BookingRoomSelectContext";
 import { getDefaultSearchParams } from "~/utils/general";
-import type { ShouldRevalidateFunctionArgs } from "react-router";
+import type {
+  LoaderFunctionArgs,
+  ShouldRevalidateFunctionArgs,
+} from "react-router";
 import ErrorFallback from "~/components/ErrorFallback";
 import type { AxiosResponse } from "axios";
 import { logError } from "~/utils/logging";
@@ -60,7 +63,7 @@ export function shouldRevalidate({
   return defaultShouldRevalidate;
 }
 
-export async function clientLoader({ request, params }) {
+export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const url = new URL(request.url);
   const allParams =
     url.searchParams.has("date") &&
@@ -71,7 +74,9 @@ export async function clientLoader({ request, params }) {
   if (!allParams) {
     const defaultParamsObj = getDefaultSearchParams();
     const defaultParams = new URLSearchParams(defaultParamsObj);
-    return redirect(`/${params.lang}/booking?${defaultParams}`);
+    const currentPath = new URL(request.url).pathname;
+    console.log("currentPath", currentPath);
+    return redirect(`${currentPath}?${defaultParams}`);
   }
   const axiosInstance = getAxiosInstance();
   const response = await axiosInstance.get(`booking/request${url.search}`);
