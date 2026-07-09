@@ -1,6 +1,5 @@
 import { useFetcher } from "react-router";
 import { useIndexBookingContextProvider } from "../components/booking/IndexBookingContextProvider.tsx";
-import SelectGuests from "../components/formComponents/SelectGuests";
 import { useTranslation } from "react-i18next";
 import { validate } from "~/components/formComponents/validate";
 import { redirect } from "react-router";
@@ -16,8 +15,8 @@ import { useRouteError } from "react-router";
 import { DatePicker } from "@mui/x-date-pickers";
 import { desktopDatePickerSx } from "../components/formComponents/mui.tsx";
 import dayjs from "dayjs";
-import { FormChangeLayout } from "~/components/formComponents/SelectGuestsLayouts.tsx";
 import ErrorPanel from "~/components/formComponents/ErrorPanel.tsx";
+import { genGuestOptions } from "~/components/formComponents/utils.tsx";
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -102,19 +101,38 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
           </div>
         </div>
 
-        <fieldset className="flex flex-col items-center md:gap-3 gap-3 border-b border-b-line-light">
-          <div>
-            <legend className="text-gray-warm-mid text-sm">
-              {t("Guests")}
-            </legend>
+        <fieldset className="flex flex-col items-center md:gap-3 gap-3">
+          <legend className="hidden  text-gray-warm-mid text-sm">
+            {t("Guests")}
+          </legend>
+          <div className="flex p-4 bg-bg gap-4 h-full">
+            <div className="flex flex-col items-center md:gap-3 gap-2">
+              <label className="text-sm" htmlFor="select-adults">
+                {t("adults", { context: "genetive" })}
+              </label>
+              <select
+                id="select-adults"
+                defaultValue={Number(searchParams.adults)}
+                className="guest-input border-b border-line-light px-2 bg-bg"
+                name="adults"
+              >
+                {genGuestOptions(12, "adults")}
+              </select>
+            </div>
+            <div className="flex flex-col items-center md:gap-3 gap-2">
+              <label className="text-sm" htmlFor="select-children">
+                {t("children", { context: "genetive" })}
+              </label>
+              <select
+                id="select-children"
+                defaultValue={Number(searchParams.children)}
+                className="guest-input border-b border-line-light px-2 bg-bg"
+                name="children"
+              >
+                {genGuestOptions(12, "children")}
+              </select>
+            </div>
           </div>
-          <SelectGuests
-            layout={FormChangeLayout}
-            defaultParams={{
-              adults: searchParams.adults,
-              children: searchParams.children,
-            }}
-          />
         </fieldset>
 
         <div className="flex flex-col items-center gap-3">
@@ -123,10 +141,10 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
           </label>
           <div className="flex h-full w-[132px] justify-center items-center">
             <input
-              className={` text-center font-medium w-6 placeholder:text-center placeholder:text-[#4c3b3350] placeholder:italic focus:placeholder:text-gray-400 border-b-1 ${actionData?.nights ? "border-red-error" : "border-line-light"} `}
+              className={`text-center font-medium w-9 placeholder:text-center placeholder:text-[#4c3b3350] placeholder:italic focus:placeholder:text-gray-400 border-b-1 ${actionData?.nights ? "border-red-error" : "border-line-light"} `}
               name="nights"
               defaultValue={Number(searchParams.nights)}
-              type="text"
+              type="number"
               maxLength={2}
               onChange={(e) => context.setNightsCount(Number(e.target.value))}
               id="nights-input"

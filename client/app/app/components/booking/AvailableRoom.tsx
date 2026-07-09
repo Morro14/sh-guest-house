@@ -31,13 +31,13 @@ export default function AvailableRoom({
     adults: 0,
     children: 0,
   });
-  const getGuestsString = () => {
-    if (room.children_num === 0) {
-      return `${room.adults_num} ${t("guests")}`;
-    } else {
-      return `${room.adults_num} ${t("guests")} + ${t("childrenWithCount", { count: room.children_num })}`;
-    }
-  };
+  // const getGuestsString = () => {
+  //   if (room.children_num === 0) {
+  //     return `${room.adults_num} ${t("guests")}`;
+  //   } else {
+  //     return `${room.adults_num} ${t("guests")} + ${t("childrenWithCount", { count: room.children_num })}`;
+  //   }
+  // };
   const genSelectOptions = (type: "adults" | "children") => {
     const options = [];
     const guestsLeftToAccommodate = Math.min(
@@ -90,10 +90,6 @@ export default function AvailableRoom({
       key={room.name}
       className={`drop-shadow-sm bg-bg flex flex-col items-center w-[352px] md:w-[330px] pb-3  ${roomSelected ? "outline-2 outline-primary-light drop-shadow-none" : ""}`}
     >
-      {/* <fieldset */}
-      {/*   key={room.name} */}
-      {/*   className={`drop-shadow-sm bg-bg flex flex-col items-center w-[352px] md:w-[330px] pb-3 ${nightsNum > 1 ? "h-[528px]" : "h-[480px]"} ${roomSelected ? "outline-2 outline-primary-light drop-shadow-none" : ""}`} */}
-      {/* > */}
       <legend className="sr-only">{room.name}</legend>
       <div className="w-[336px] md:w-[314px] h-[190px] mt-2">
         <ImageLoading
@@ -108,79 +104,71 @@ export default function AvailableRoom({
           }}
         ></ImageLoading>
       </div>
-      {/* <img */}
-      {/*   className="border-2 border-primary-light object-cover w-[336px] md:w-[314px] h-[190px] hover:cursor-pointer mt-2" */}
-      {/*   src={`${MEDIA_URL}${room.images[0].variants.small}`} */}
-      {/*   onClick={() => { */}
-      {/*     navContext.setFullImageView(true); */}
-      {/*     navContext.setItemSelected(index); */}
-      {/*   }} */}
-      {/* /> */}
-      <div className="flex flex-col gap-3 mt-3 px-2 w-full">
-        <h4 className="mb-0! font-sans">{room.name}</h4>
-        <div className="flex flex-col font-sans gap-3 h-full w-full">
-          <span className="text-ellipsis h-12 overflow-hidden">
-            {room.description}
-          </span>
-          <div className="flex flex-col">
-            <span className="text-sm text-gray-warm-mid">{t("Beds")}</span>
-            <span className="">{room.beds}</span>
-          </div>
-          <div className="flex flex-col gap-0.5">
-            <span className="text-sm text-warning">
-              {t("Select number of guests")}
-            </span>
-            <div className="flex gap-4">
-              <div className="space-x-2">
-                <label className="">{t("adults")}</label>
-                <select
-                  name={`[${room.slug}][adults]`}
-                  onChange={handleChange}
-                  className={`${currentGuestSelect.adults > 0 ? "text-accent" : "text-text-main"} h-6 border-b px-1`}
-                >
-                  {genSelectOptions("adults")}
-                </select>
-              </div>
-              <div className="space-x-2">
-                <label className="">{t("children")}</label>
-                <select
-                  name={`[${room.slug}][children]`}
-                  onChange={handleChange}
-                  className={`${currentGuestSelect.children > 0 ? "text-accent" : "text-text-main"} h-6 border-b px-1`}
-                >
-                  {genSelectOptions("children")}
-                </select>
+      <div className="flex flex-col gap-3 mt-3 px-2 size-full">
+        <h4 className="mb-0! font-serif font-medium">{room.name}</h4>
+        <div className="flex flex-col justify-between font-sans gap-3 h-full w-full">
+          <span className="">{room.description}</span>
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-col">
+              <span className="text-sm text-gray-warm-mid">{t("Beds")}</span>
+              <span className="">{room.beds}</span>
+            </div>
+            <div className="flex flex-col gap-0.5">
+              <span className="text-sm text-warning">
+                {t("Select number of guests")}
+              </span>
+              <div className="flex gap-4">
+                <div className="space-x-2">
+                  <label className="">{t("adults")}</label>
+                  <select
+                    name={`[${room.slug}][adults]`}
+                    onChange={handleChange}
+                    className={`${currentGuestSelect.adults > 0 ? "text-accent" : "text-text-main"} h-6 border-b px-1`}
+                  >
+                    {genSelectOptions("adults")}
+                  </select>
+                </div>
+                <div className="space-x-2">
+                  <label className="">{t("children")}</label>
+                  <select
+                    name={`[${room.slug}][children]`}
+                    onChange={handleChange}
+                    className={`${currentGuestSelect.children > 0 ? "text-accent" : "text-text-main"} h-6 border-b px-1`}
+                  >
+                    {genSelectOptions("children")}
+                  </select>
+                </div>
               </div>
             </div>
-          </div>
-          <div
-            className={`${nightsNum > 1 ? "grid grid-cols-2" : "flex justify-between"}`}
-          >
-            <div className="flex flex-col col-span-2">
-              <div className="font-sans text-sm text-gray-warm-mid">
-                {t("For {{count}} night", { count: 1 })}
+            <div
+              className={`${nightsNum > 1 ? "grid grid-cols-2" : "flex justify-between"}`}
+            >
+              <div className="flex flex-col col-span-2">
+                <div className="font-sans text-sm text-gray-warm-mid">
+                  {t("For {{count}} night", { count: 1 })}
+                </div>
+                <span className="font-sans text-xl">
+                  {formatPrice(room.price, CURRENCY)}
+                </span>
               </div>
-              <span className="font-sans text-xl">
-                {formatPrice(room.price, CURRENCY)}
+              {nightsNum > 1 ? (
+                <div className="flex flex-col">
+                  <div className="font-sans text-sm text-gray-warm-mid">
+                    {t(`For {{count}} night`, { count: nightsNum })}
+                  </div>
+                  <div className="flex items-end">
+                    <span className="font-sans text-xl">{`${formatPrice(room.price * nightsNum, CURRENCY)}`}</span>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+              <span
+                className={` ${roomSelected ? "block" : "hidden"} text-lg text-primary text-end flex items-end justify-end`}
+              >
+                {!roomSelected ? "" : t("Selected")}
               </span>
             </div>
-            {nightsNum > 1 ? (
-              <div className="flex flex-col">
-                <div className="font-sans text-sm text-gray-warm-mid">
-                  {t(`For {{count}} night`, { count: nightsNum })}
-                </div>
-                <div className="flex items-end">
-                  <span className="font-sans text-xl">{`${formatPrice(room.price * nightsNum, CURRENCY)}`}</span>
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
-            <span
-              className={` ${roomSelected ? "block" : "hidden"} text-lg text-primary text-end flex items-end justify-end`}
-            >
-              {!roomSelected ? "" : t("Selected")}
-            </span>
           </div>
         </div>
       </div>

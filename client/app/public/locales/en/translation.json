@@ -1,6 +1,7 @@
 {
   "About": "About",
   "adults": "adults",
+  "adults_genetive": "adults",
   "adultsWithCount_one": "adultsWithCount",
   "adultsWithCount_other": "adultsWithCount",
   "Available rooms": "Available rooms",
@@ -17,6 +18,7 @@
   "Check availability": "Check availability",
   "Check-in date": "Check-in date",
   "children": "children",
+  "children_genetive": "children",
   "childrenWithCount_one": "childrenWithCount",
   "childrenWithCount_other": "childrenWithCount",
   "close": "close",
@@ -38,17 +40,13 @@
   "Guests": "Guests",
   "Hiking trail": "Hiking trail",
   "index-title": "index-title",
-  "km_distance": "km",
-  "loading": {
-    "": {
-      "": {
-        "": "loading..."
-      }
-    }
-  },
-  "Loading": "Loading",
+  "km_distance_one": "km",
+  "km_distance_other": "km",
+  "loading...": "loading...",
+  "Loading...": "Loading...",
   "Location": "Location",
   "location link": "location link",
+  "Main page": "Main page",
   "Maximum nights: 30": "Maximum nights: 30",
   "Message": "Message",
   "More rooms...": "More rooms...",
@@ -58,14 +56,13 @@
   "Nights must be a number.": "Nights must be a number.",
   "Nights_one": "Nights",
   "Nights_other": "Nights",
-  "nightWithCount_one": "nightWithCount",
-  "nightWithCount_other": "nightWithCount",
   "No available rooms for these dates. Please check another date.": "No available rooms for these dates. Please check another date.",
   "No data": "No data",
   "Normal road": "Normal road",
   "Number of guests": "Number of guests",
   "Open a written guide": "Open a written guide",
   "Open in Google Maps": "Open in Google Maps",
+  "Open map": "Open map",
   "Please enter correct date.": "Please enter correct date.",
   "Please enter the arival date.": "Please enter the arival date.",
   "Please let us know the time of your arrival and any additional information related to your stay.": "Please let us know the time of your arrival and any additional information related to your stay.",
@@ -73,6 +70,7 @@
   "Point of interest": "Point of interest",
   "Points of interest": "Points of interest",
   "Points of interest in the province": "Points of interest in the province",
+  "Points of interest in Vayots Dzor": "Points of interest in Vayots Dzor",
   "prev": "prev",
   "Republican road": "Republican road",
   "reset": "reset",
@@ -80,7 +78,6 @@
   "rooms": "rooms",
   "Select number of guests": "Select number of guests",
   "Selected": "Selected",
-  "Selected guests": "Selected guests",
   "Show available rooms": "Show available rooms",
   "Show less images": "Show less images",
   "Show less rooms": "Show less rooms",
@@ -90,17 +87,12 @@
   "Site name": "Site name",
   "Some subtitle": "Some subtitle",
   "Something went wrong": "Something went wrong",
-  "submitting": {
-    "": {
-      "": {
-        "": "submitting..."
-      }
-    }
-  },
+  "submitting...": "submitting...",
   "summary email help-text": "summary email help-text",
   "summary guest name help-text": "summary guest name help-text",
   "There must be at least 1 guest.": "There must be at least 1 guest.",
   "This is a test version of the project": "This is a test version of the project",
+  "To main page": "To main page",
   "total price": "total price",
   "Total price": "Total price",
   "Vayots Dzor": "Vayots Dzor",
@@ -108,7 +100,6 @@
   "wikipedia": "wikipedia",
   "Your booking request": "Your booking request",
   "Your booking request has been submitted!": "Your booking request has been submitted!",
-  "Your reservation": "Your reservation",
   "Your session has expired": "Your session has expired",
   "Zoom": "Zoom"
 }

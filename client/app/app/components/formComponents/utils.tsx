@@ -89,6 +89,22 @@ export function getSelectedRooms(form: HTMLFormElement) {
   const selectedRooms = children.filter((el) => el.checked === true);
   return selectedRooms;
 }
+export const genGuestOptions = (
+  num: number,
+  guestType: "adults" | "children",
+) => {
+  const guestNum = guestType === "children" ? num + 1 : num;
+  return Array.from({ length: guestNum }, (_, i) => {
+    const count = guestType === "children" ? i : i + 1;
+    const key = `opt-${guestType}-${count}`;
+
+    return (
+      <option key={key} value={count}>
+        {count}
+      </option>
+    );
+  });
+};
 
 export function selectedRoomsToObjects(
   selectedRooms: HTMLInputElement[],

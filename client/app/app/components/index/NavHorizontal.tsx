@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
 const RATING = 9.8;
+const BOOKING_URL = "https://www.booking.com/hotel/am/shushan-guest-house.html";
 
 export default function NavHorizontal() {
   const { t, i18n } = useTranslation();
@@ -42,10 +43,10 @@ export default function NavHorizontal() {
         <span className="px-3 pt-1 ">{t("Points of interest")}</span>
       </button>
       {/* <div className="max-2xl:hidden h-5 w-0.5 bg-gray-warm-light"></div> */}
-      <Link to="" className="flex justify-start gap-3">
+      <Link to={BOOKING_URL} className="flex justify-start gap-3">
         <div className="flex items-center gap-1 ">
           <div className="hover:cursor-pointer text-nowrap ">
-            {t("Booking reviews")}
+            {t("Booking.com reviews")}
           </div>
           <div className="flex items-center gap-1">
             <div className="">{star}</div>

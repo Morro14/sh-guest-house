@@ -1,6 +1,7 @@
 {
   "About": "",
   "adults": "",
+  "adults_genetive": "",
   "adultsWithCount_one": "",
   "adultsWithCount_few": "",
   "adultsWithCount_many": "",
@@ -19,6 +20,7 @@
   "Check availability": "",
   "Check-in date": "",
   "children": "",
+  "children_genetive": "",
   "childrenWithCount_one": "",
   "childrenWithCount_few": "",
   "childrenWithCount_many": "",
@@ -44,17 +46,15 @@
   "Guests": "",
   "Hiking trail": "",
   "index-title": "",
-  "km_distance": "",
-  "loading": {
-    "": {
-      "": {
-        "": ""
-      }
-    }
-  },
-  "Loading": "",
+  "km_distance_one": "",
+  "km_distance_few": "",
+  "km_distance_many": "",
+  "km_distance_other": "",
+  "loading...": "",
+  "Loading...": "",
   "Location": "",
   "location link": "",
+  "Main page": "",
   "Maximum nights: 30": "",
   "Message": "",
   "More rooms...": "",
@@ -66,16 +66,13 @@
   "Nights_few": "",
   "Nights_many": "",
   "Nights_other": "",
-  "nightWithCount_one": "",
-  "nightWithCount_few": "",
-  "nightWithCount_many": "",
-  "nightWithCount_other": "",
   "No available rooms for these dates. Please check another date.": "",
   "No data": "",
   "Normal road": "",
   "Number of guests": "",
   "Open a written guide": "",
   "Open in Google Maps": "",
+  "Open map": "",
   "Please enter correct date.": "",
   "Please enter the arival date.": "",
   "Please let us know the time of your arrival and any additional information related to your stay.": "",
@@ -83,6 +80,7 @@
   "Point of interest": "",
   "Points of interest": "",
   "Points of interest in the province": "",
+  "Points of interest in Vayots Dzor": "",
   "prev": "",
   "Republican road": "",
   "reset": "",
@@ -90,7 +88,6 @@
   "rooms": "",
   "Select number of guests": "",
   "Selected": "",
-  "Selected guests": "",
   "Show available rooms": "",
   "Show less images": "",
   "Show less rooms": "",
@@ -100,17 +97,12 @@
   "Site name": "",
   "Some subtitle": "",
   "Something went wrong": "",
-  "submitting": {
-    "": {
-      "": {
-        "": ""
-      }
-    }
-  },
+  "submitting...": "",
   "summary email help-text": "",
   "summary guest name help-text": "",
   "There must be at least 1 guest.": "",
   "This is a test version of the project": "",
+  "To main page": "",
   "total price": "",
   "Total price": "",
   "Vayots Dzor": "",
@@ -118,7 +110,6 @@
   "wikipedia": "",
   "Your booking request": "",
   "Your booking request has been submitted!": "",
-  "Your reservation": "",
   "Your session has expired": "",
   "Zoom": ""
 }

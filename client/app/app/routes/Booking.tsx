@@ -135,6 +135,11 @@ export default function Booking({ loaderData }: Route.ComponentProps) {
         </div>
         <div
           className={`relative flex justify-center transition-all ${location.pathname.split("/").at(-1) === "change-request-info" ? "grayscale opacity-50 pointer-events-none" : ""}`}
+          inert={
+            location.pathname.split("/").at(-1) === "change-request-info"
+              ? true
+              : false
+          }
         >
           <BookingRoomSelectContext priceFetcher={fetcher}>
             <FloatingPanel></FloatingPanel>

@@ -1,4 +1,4 @@
-from django.core.management import BaseCommand, call_command
+from django.core.management import BaseCommand
 import json
 import os
 from django.conf import settings
@@ -22,16 +22,19 @@ class Command(BaseCommand):
             for key in settings.LANGUAGES
         }
         for lang, _ in settings.LANGUAGES:
+            if not os.path.exists(keys_paths[lang]):
+                self.stderr.write(f"Skipping {lang}: {keys_paths[lang]} not found.")
+                continue
             print(f"generating translations for {lang}")
             keys = json.load(open(keys_paths[lang]))
             with open(frontend_strings_path[lang], "w", encoding="utf-8") as f:
                 f.write("from django.utils.translation import gettext as _\n\n")
                 for key in keys:
                     f.write(f"_('{key}')\n")
-                self.stdout.write(
-                    f"Created {frontend_strings_path[lang]} file with {len(keys)} keys"
-                )
-                f.close()
+            # NEED MANUALLY SAVE THE OUTPUT FILE (NEED FIX)
+            self.stdout.write(
+                f"Created {frontend_strings_path[lang]} file with {len(keys)} keys"
+            )
 
         self.stdout.write("Running makemessages...")
         self.stdout.write(

@@ -11,7 +11,7 @@ import PlaceholderParagraph from "../placeholders/PlaceholderParagraph";
 import { useFetchV3 } from "~/utils/fetchHook";
 
 const MEDIA_BASE_URL = import.meta.env.VITE_MEDIA_BASE_URL;
-const ROOMS_NUMBER_SHOW_INIT = 1;
+const ROOMS_NUMBER_SHOW_INIT = 2;
 const ROOMS_NUMBER_SHOW_EXRA = 10;
 
 export default function RoomsPreview() {
@@ -142,7 +142,7 @@ export default function RoomsPreview() {
       </div>
       <div className="flex items-center justify-center">
         <button
-          className="font-light underline cursor-pointer mt-2"
+          className="font-light underline cursor-pointer mt-4"
           onClick={handleExpandClick}
         >
           {!showMoreRooms ? t("More rooms...") : t("Show less rooms")}

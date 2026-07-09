@@ -1,13 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useRef, useState } from "react";
 import { useCloseOnClick, useCloseOnClickWithSwitcher } from "./utils";
-import {
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  FormHelperText,
-} from "@mui/material";
 
 const DEFAULT_PARAMS = {
   adults: "2",
@@ -37,52 +30,35 @@ export default function SelectGuestsMobile({
       // const translationKey = guestType + "WithCount";
 
       return (
-        <MenuItem key={key} value={count}>
+        <option key={key} value={count}>
           {count}
-        </MenuItem>
+        </option>
       );
     });
   };
   return (
-    <fieldset className="flex flex-col">
-      <legend className="font-light">{t("Number of guests") + ":"}</legend>
+    <fieldset className="flex flex-col gap-1">
+      <legend className="">{t("Number of guests") + ":"}</legend>
       <div className="flex gap-6">
-        <FormControl sx={{ minWidth: 100 }}>
-          <Select
-            variant="standard"
-            label={t("adults")}
-            id="select-adults"
-            defaultValue={2}
-            name="adults"
-            onChange={(e) =>
-              setSelectedValues({
-                ...selectedValues,
-                adults: Number(e.target.value),
-              })
-            }
-          >
+        <div className="flex flex-col items-center">
+          <select name="adults" id="select-adults">
             {genGuestOptions(12, "adults")}
-          </Select>
-          <FormHelperText>{t("adults")}</FormHelperText>
-        </FormControl>
-        <FormControl>
-          <Select
-            variant="standard"
-            label={t("children")}
-            id="select-children"
-            defaultValue={0}
-            name="children"
-            onChange={(e) =>
-              setSelectedValues({
-                ...selectedValues,
-                children: Number(e.target.value),
-              })
-            }
-          >
+          </select>
+          <label htmlFor="select-adults" className="text-sm text-gray-warm-mid">
+            {t("adults")}
+          </label>
+        </div>
+        <div className="flex flex-col items-center">
+          <select name="children" id="select-children">
             {genGuestOptions(12, "children")}
-          </Select>
-          <FormHelperText>{t("children")}</FormHelperText>
-        </FormControl>
+          </select>
+          <label
+            htmlFor="select-children"
+            className="text-sm text-gray-warm-mid"
+          >
+            {t("children")}
+          </label>
+        </div>
       </div>
     </fieldset>
   );

@@ -11,6 +11,7 @@ import { desktopDatePickerTheme } from "../formComponents/mui.tsx";
 import { desktopDatePickerSx } from "../formComponents/mui.tsx";
 import { IndexFormLayout } from "../formComponents/SelectGuestsLayouts.tsx";
 import BookingPanelButton from "./BookingPanelButton.tsx";
+import { genGuestOptions } from "~/components/formComponents/utils.tsx";
 
 export default function BookingPanel() {
   const today = dayjs();
@@ -19,65 +20,104 @@ export default function BookingPanel() {
   const context = useIndexBookingContextProvider();
   const navigation = useNavigation();
   return (
-    <div className="xl:flex sticky hidden top-0 bottom-0 z-30 w-full h-12 justify-center">
-      {/* <div className="absolute w-full h-24 blur-lg bg-linear-to-b from-bg to-[#00000000]"></div> */}
-      <div
-        className={`size-full absolute bg-bg drop-shadow ${navigation.state === "submitting" ? "" : ""} transition-colors duration-300`}
-      ></div>
+    <div className="xl:flex sticky hidden top-0 bottom-0 z-30 w-full h-12 justify-center bg-[#ffffff99] backdrop-blur-xl drop-shadow">
+      <div className={`size-full absolute bg-bg drop-shadow opacity-70`}></div>
       <div className="flex justify-center items-center size-full font-source-sans border-x border-accent-lighter">
         <Form
           method="post"
-          className={`flex z-40 justify-center h-12 items-center overflow-visible `}
+          className={`flex z-40 justify-center h-12 items-center overflow-visible gap-10`}
         >
-          <div className="flex items-center text-nowrap text-ellipsis pr-8 pl-2">
+          <div className="flex items-center text-nowrap text-ellipsis">
             {t("create_reservation")}
           </div>
-          <div className="px-4">
-            <ThemeProvider theme={desktopDatePickerTheme}>
-              <DatePicker
-                maxDate={today.set("year", today.get("year") + 1)}
-                defaultValue={today}
-                value={date}
-                onChange={(date) => setDate(date)}
-                disablePast
-                slotProps={{
-                  textField: {
-                    fullWidth: false,
-                    variant: "standard",
-                    size: "small",
-                    endAdornment: false,
-                    // slotProps: {
-                    //   disableUnderline: true,
-                    // },
-                    sx: desktopDatePickerSx,
-                  },
-                }}
-              ></DatePicker>
-            </ThemeProvider>
-            <input
-              name="date"
-              readOnly
-              className="hidden"
-              id="checkin-date-input"
-              value={date.format().slice(0, 10)}
-            />
-          </div>
+          <div className="flex gap-7">
+            <div className="">
+              <ThemeProvider theme={desktopDatePickerTheme}>
+                <DatePicker
+                  maxDate={today.set("year", today.get("year") + 1)}
+                  defaultValue={today}
+                  value={date}
+                  onChange={(date) => setDate(date)}
+                  disablePast
+                  slotProps={{
+                    textField: {
+                      "aria-label": "date",
+                      fullWidth: false,
+                      variant: "standard",
+                      size: "small",
+                      endAdornment: false,
+                      // slotProps: {
+                      //   disableUnderline: true,
+                      // },
+                      sx: desktopDatePickerSx,
+                    },
+                  }}
+                ></DatePicker>
+              </ThemeProvider>
+              <input
+                name="date"
+                readOnly
+                className="hidden"
+                id="checkin-date-input"
+                value={date.format().slice(0, 10)}
+              />
+            </div>
 
-          <SelectGuests layout={IndexFormLayout} />
+            <fieldset className="">
+              <legend className="hidden text-gray-warm-mid text-sm">
+                {t("Guests")}
+              </legend>
+              {/* <SelectGuests */}
+              {/*   layout={FormChangeLayout} */}
+              {/*   defaultParams={{ */}
+              {/*     adults: searchParams.adults, */}
+              {/*     children: searchParams.children, */}
+              {/*   }} */}
+              {/* /> */}
+              <div className="flex h-full gap-7">
+                <div className="flex items-center gap-2">
+                  <label className="text-sm" htmlFor="select-adults">
+                    {t("adults", { context: "genetive" })}
+                  </label>
+                  <select
+                    id="select-adults"
+                    defaultValue={2}
+                    className="guest-input border border-line-light rounded px-1 h-[28px] bg-[#ffffff80]"
+                    name="adults"
+                  >
+                    {genGuestOptions(12, "adults")}
+                  </select>
+                </div>
+                <div className="flex items-center gap-2">
+                  <label className="text-sm" htmlFor="select-children">
+                    {t("children", { context: "genetive" })}
+                  </label>
+                  <select
+                    id="select-children"
+                    defaultValue={0}
+                    className="guest-input border border-line-light rounded px-1 h-[28px] bg-[#ffffff80]"
+                    name="children"
+                  >
+                    {genGuestOptions(12, "children")}
+                  </select>
+                </div>
+              </div>
+            </fieldset>
 
-          <div className="flex h-full w-40 justify-center items-center">
-            <input
-              className="peer text-center border-b w-6 -ml-6 border-accent-light"
-              name="nights"
-              defaultValue={1}
-              type="text"
-              maxLength={2}
-              id="nights-input"
-              onChange={(e) => context.setNightsCount(Number(e.target.value))}
-            />
-            <label htmlFor="nights-input" className="ml-2 lowercase">
-              {t("Nights", { count: context.nightsCount })}
-            </label>
+            <div className="flex gap-2 text-sm h-full justify-center items-center">
+              <label htmlFor="nights-input" className="lowercase">
+                {t("Nights", { count: context.nightsCount })}
+              </label>
+              <input
+                className="peer text-center border w-9 border-line-light rounded h-[28px] bg-[#ffffff80]"
+                name="nights"
+                defaultValue={1}
+                type="number"
+                maxLength={2}
+                id="nights-input"
+                onChange={(e) => context.setNightsCount(Number(e.target.value))}
+              />
+            </div>
           </div>
           {/* <BookingPanelButtonTest></BookingPanelButtonTest> */}
           {/* <div className="flex flex-col items-center justify-center -mb-2"> */}
@@ -99,58 +139,3 @@ export default function BookingPanel() {
     </div>
   );
 }
-
-const underline = (
-  <svg
-    width="136"
-    height="6"
-    viewBox="0 0 136 6"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g filter="url(#filter0_g_2001_76)">
-      <path
-        d="M0.86969 3.62521C52.4697 1.22521 111.703 2.62521 134.87 3.62521"
-        stroke="#FBB396"
-        strokeWidth="3"
-      />
-    </g>
-    <defs>
-      <filter
-        id="filter0_g_2001_76"
-        x="-1.2219e-05"
-        y="4.88162e-05"
-        width="135.734"
-        height="5.92373"
-        filterUnits="userSpaceOnUse"
-        colorInterpolationFilters="sRGB"
-      >
-        <feFlood floodOpacity="0" result="BackgroundImageFix" />
-        <feBlend
-          mode="normal"
-          in="SourceGraphic"
-          in2="BackgroundImageFix"
-          result="shape"
-        />
-        <feTurbulence
-          type="fractalNoise"
-          baseFrequency="0.26315790414810181 0.26315790414810181"
-          numOctaves="3"
-          seed="3261"
-        />
-        <feDisplacementMap
-          in="shape"
-          scale="1.6000000238418579"
-          xChannelSelector="R"
-          yChannelSelector="G"
-          result="displacedImage"
-          width="100%"
-          height="100%"
-        />
-        <feMerge result="effect1_texture_2001_76">
-          <feMergeNode in="displacedImage" />
-        </feMerge>
-      </filter>
-    </defs>
-  </svg>
-);

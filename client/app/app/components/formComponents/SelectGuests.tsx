@@ -88,7 +88,7 @@ export default function SelectGuests({
         <div className="flex flex-col p-4 bg-bg gap-4 h-full">
           <div className="flex flex-col items-center">
             <label className="text-sm" htmlFor="select-adults">
-              {t("adults")}
+              {t("adults", { context: "genetive" })}
             </label>
             <select
               id="select-adults"
@@ -107,7 +107,7 @@ export default function SelectGuests({
           </div>
           <div className="flex flex-col items-center">
             <label className="text-sm" htmlFor="select-children">
-              {t("children")}
+              {t("children", { context: "genetive" })}
             </label>
             <select
               id="select-children"

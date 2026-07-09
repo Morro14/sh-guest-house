@@ -63,18 +63,14 @@ export default function FloatingPanel() {
         <div
           className={`z-10 flex md:flex-row flex-col justify-between items-center size-full`}
         >
-          <div className={`flex gap-6 items-center`}>
-            <div className={`flex relative gap-2 items-center`}>
-              <div className="text-sm text-gray-warm-mid">{`${t("Total price")}:`}</div>
-              <div
-                className={`${priceStatus !== "idle" ? "block" : "hidden"} starting:opacity-0 opacity-100 transition-opacity duration-150`}
-              >
-                <Dots></Dots>
-              </div>
-              <span
-                className={`${priceStatus !== "idle" ? "opacity-0" : "opacity-100"} transition-opacity duration-150 text-nowrap`}
-              >{`${formatPrice(price, CURRENCY)}`}</span>
+          <div className={`flex relative gap-2 items-center h-6`}>
+            <div className="text-sm text-gray-warm-mid">{`${t("Total price")}:`}</div>
+            <div className={`${priceStatus !== "idle" ? "block" : "hidden"} `}>
+              <Dots></Dots>
             </div>
+            <span
+              className={`${priceStatus !== "idle" ? "hidden" : "block"}`}
+            >{`${formatPrice(price, CURRENCY)}`}</span>
           </div>
           <button
             disabled={moreRoomsRequired}
@@ -90,7 +86,7 @@ export default function FloatingPanel() {
             </div>
           </button>
           <div
-            className={`z-10 text-white bg-primary relative -left-1 px-1 rounded font-medium text-center text-sm ${moreRoomsRequired ? "block" : "hidden opacity-0"} transition-discrete transition-all duration-200`}
+            className={`z-10 text-white bg-primary relative -left-1 px-1 rounded font-medium text-center text-sm ${moreRoomsRequired ? "block" : "hidden"}`}
           >{`Select more rooms to accommodate ${guests} guests`}</div>
         </div>
       </div>
