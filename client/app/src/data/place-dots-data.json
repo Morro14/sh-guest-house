@@ -2,8 +2,8 @@
     {
         "name": "spitakavor",
         "offsets": {
-            "x": 10,
-            "y": -150
+            "x": 30,
+            "y": 47
         },
         "type": "placeDot"
     },
@@ -175,4 +175,3 @@
         "type": "placeDot"
     }
 ]
-
