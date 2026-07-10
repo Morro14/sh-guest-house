@@ -16,7 +16,6 @@ const MEDIA_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 export default function CarouselGrid({ name }: { name: string }) {
   const { fetchedData } = useFetchV3("content/image-grids");
   const gridData = fetchedData?.data?.data as Grid[];
-  // console.log("gridData", gridData);
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "center",
@@ -30,13 +29,8 @@ export default function CarouselGrid({ name }: { name: string }) {
       : !gridData
         ? Array(6).fill(0)
         : gridData;
-  // console.log(gridsConcat);
-  // useEffect(() => {
-  //   gridContext.setSideGridsVisible(gridContext.showMoreImages);
-  // }, [gridContext.showMoreImages]);
   useEffect(() => {
     const isMobile = window.matchMedia("(max-width:768px)");
-    console.log("isMobile", isMobile);
     if (isMobile.matches) {
       gridContext.setShowMoreImages(true);
     }

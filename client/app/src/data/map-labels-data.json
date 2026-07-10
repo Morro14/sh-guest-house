@@ -20,12 +20,12 @@
         }
     },
     {
-        "name": "areni",
+        "name": "areni-church",
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 161,
-                "y": 1039
+                "x": 66,
+                "y": 1072
             }
         }
     },

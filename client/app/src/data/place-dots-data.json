@@ -2,8 +2,8 @@
     {
         "name": "spitakavor",
         "offsets": {
-            "x": 30,
-            "y": 51
+            "x": 10,
+            "y": -150
         },
         "type": "placeDot"
     },
@@ -32,10 +32,10 @@
         "type": "placeDot"
     },
     {
-        "name": "areni",
+        "name": "areni-church",
         "offsets": {
-            "x": 17,
-            "y": 49
+            "x": 116,
+            "y": 51
         },
         "type": "placeDot"
     },
@@ -165,5 +165,14 @@
             "y": 45
         },
         "type": "placeDot"
+    },
+    {
+        "name": "areni-church",
+        "offsets": {
+            "x": 0,
+            "y": 0
+        },
+        "type": "placeDot"
     }
 ]
+
