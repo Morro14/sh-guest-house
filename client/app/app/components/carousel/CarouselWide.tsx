@@ -60,6 +60,7 @@ export default function CarouselWide({ tag }: { tag: string }) {
           <div className="h-[90vh]">
             <ImageLoading
               placeholderStatic=<PlaceholderFullView></PlaceholderFullView>
+              placeholderLoading=<PlaceholderFullView></PlaceholderFullView>
               imageAttrs={{
                 className: "h-full object-contain",
                 src: `${MEDIA_URL_BASE}${images[context.itemSelected]["variants"]["original"]}`,
