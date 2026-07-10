@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -86,8 +85,6 @@ msgid "Guest name"
 msgstr "Guest name"
 
 #: main/models.py:125 site_content/models.py:216
-#, fuzzy
-#| msgid "Room_slug"
 msgid "slug"
 msgstr "slug"
 
@@ -96,8 +93,6 @@ msgid "unique name (lower case without spaces)"
 msgstr "unique name (lowercase without spaces)"
 
 #: main/models.py:128
-#, fuzzy
-#| msgid "Room_name"
 msgid "Room name"
 msgstr "Room name"
 
@@ -110,8 +105,6 @@ msgid "places in the room for any guests (adult or children)"
 msgstr "places in the room for any guests (adults or children)"
 
 #: main/models.py:134
-#, fuzzy
-#| msgid "Room_children_num"
 msgid "Children"
 msgstr "Children"
 
@@ -305,8 +298,6 @@ msgstr "Dirt road"
 
 #: site_content/front_translations/en/frontend_translations.py:34
 #: site_content/front_translations/ru/frontend_translations.py:38
-#, fuzzy
-#| msgid "Dirt road (off-road car required"
 msgid "Dirt road (off-road car required)"
 msgstr "Dirt road (off-road car required)"
 
@@ -349,29 +340,21 @@ msgstr "Shushan guest house"
 
 #: site_content/front_translations/en/frontend_translations.py:44
 #: site_content/front_translations/ru/frontend_translations.py:50
-#, fuzzy
-#| msgid "km_distance"
 msgid "km_distance_one"
 msgstr "{{count}} km"
 
 #: site_content/front_translations/en/frontend_translations.py:45
 #: site_content/front_translations/ru/frontend_translations.py:53
-#, fuzzy
-#| msgid "km_distance"
 msgid "km_distance_other"
 msgstr "{{count}} km"
 
 #: site_content/front_translations/en/frontend_translations.py:46
 #: site_content/front_translations/ru/frontend_translations.py:54
-#, fuzzy
-#| msgid "loading"
 msgid "loading..."
 msgstr "loading"
 
 #: site_content/front_translations/en/frontend_translations.py:47
 #: site_content/front_translations/ru/frontend_translations.py:55
-#, fuzzy
-#| msgid "Loading"
 msgid "Loading..."
 msgstr "Loading"
 
@@ -513,8 +496,6 @@ msgstr "Points of interest in the province"
 
 #: site_content/front_translations/en/frontend_translations.py:76
 #: site_content/front_translations/ru/frontend_translations.py:86
-#, fuzzy
-#| msgid "Points of interest in the province"
 msgid "Points of interest in Vayots Dzor"
 msgstr "Points of interest in the province"
 
@@ -600,8 +581,6 @@ msgstr "Something went wrong"
 
 #: site_content/front_translations/en/frontend_translations.py:93
 #: site_content/front_translations/ru/frontend_translations.py:103
-#, fuzzy
-#| msgid "submitting"
 msgid "submitting..."
 msgstr "submitting"
 
@@ -627,8 +606,6 @@ msgstr "This is a test version of the project"
 
 #: site_content/front_translations/en/frontend_translations.py:98
 #: site_content/front_translations/ru/frontend_translations.py:108
-#, fuzzy
-#| msgid "back to the main page"
 msgid "To main page"
 msgstr "back to the main page"
 
@@ -702,14 +679,10 @@ msgid "For {{count}} night_many"
 msgstr "For {{count}} night"
 
 #: site_content/front_translations/ru/frontend_translations.py:51
-#, fuzzy
-#| msgid "km_distance"
 msgid "km_distance_few"
 msgstr "{{count}} km"
 
 #: site_content/front_translations/ru/frontend_translations.py:52
-#, fuzzy
-#| msgid "km_distance"
 msgid "km_distance_many"
 msgstr "{{count}} km"
 

@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-09 09:24+0000\n"
+"POT-Creation-Date: 2026-07-10 19:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -241,7 +240,6 @@ msgstr "дети"
 
 #: site_content/front_translations/en/frontend_translations.py:22
 #: site_content/front_translations/ru/frontend_translations.py:24
-#| msgid "children"
 msgid "children_genetive"
 msgstr "детей"
 
@@ -344,29 +342,21 @@ msgstr "Гостевой дом Шушан"
 
 #: site_content/front_translations/en/frontend_translations.py:44
 #: site_content/front_translations/ru/frontend_translations.py:50
-#, fuzzy
-#| msgid "km_distance"
 msgid "km_distance_one"
 msgstr "{{count}} км"
 
 #: site_content/front_translations/en/frontend_translations.py:45
 #: site_content/front_translations/ru/frontend_translations.py:53
-#, fuzzy
-#| msgid "km_distance"
 msgid "km_distance_other"
 msgstr "{{count}} км"
 
 #: site_content/front_translations/en/frontend_translations.py:46
 #: site_content/front_translations/ru/frontend_translations.py:54
-#, fuzzy
-#| msgid "loading"
 msgid "loading..."
 msgstr "загрузка"
 
 #: site_content/front_translations/en/frontend_translations.py:47
 #: site_content/front_translations/ru/frontend_translations.py:55
-#, fuzzy
-#| msgid "Loading"
 msgid "Loading..."
 msgstr "Загрузка"
 
@@ -383,7 +373,7 @@ msgstr "ссылка на местоположение"
 #: site_content/front_translations/en/frontend_translations.py:50
 #: site_content/front_translations/ru/frontend_translations.py:58
 msgid "Main page"
-msgstr ""
+msgstr "Главная страница"
 
 #: site_content/front_translations/en/frontend_translations.py:51
 #: site_content/front_translations/ru/frontend_translations.py:59
@@ -465,7 +455,7 @@ msgstr "Открыть в Google Картах"
 #: site_content/front_translations/en/frontend_translations.py:66
 #: site_content/front_translations/ru/frontend_translations.py:76
 msgid "Open map"
-msgstr ""
+msgstr "Открыть карту"
 
 #: site_content/front_translations/en/frontend_translations.py:67
 #: site_content/front_translations/ru/frontend_translations.py:77
@@ -510,8 +500,6 @@ msgstr "Достопримечательности в области"
 
 #: site_content/front_translations/en/frontend_translations.py:76
 #: site_content/front_translations/ru/frontend_translations.py:86
-#, fuzzy
-#| msgid "Points of interest in the province"
 msgid "Points of interest in Vayots Dzor"
 msgstr "Достопримечательности в области"
 
@@ -597,8 +585,6 @@ msgstr "Что-то пошло не так"
 
 #: site_content/front_translations/en/frontend_translations.py:93
 #: site_content/front_translations/ru/frontend_translations.py:103
-#, fuzzy
-#| msgid "submitting"
 msgid "submitting..."
 msgstr "отправка"
 
@@ -625,8 +611,6 @@ msgstr "Это тестовая версия проекта"
 
 #: site_content/front_translations/en/frontend_translations.py:98
 #: site_content/front_translations/ru/frontend_translations.py:108
-#, fuzzy
-#| msgid "back to the main page"
 msgid "To main page"
 msgstr "назад на главную"
 
@@ -700,14 +684,10 @@ msgid "For {{count}} night_many"
 msgstr "На {{count}} ночей"
 
 #: site_content/front_translations/ru/frontend_translations.py:51
-#, fuzzy
-#| msgid "km_distance"
 msgid "km_distance_few"
 msgstr "{{count}} км"
 
 #: site_content/front_translations/ru/frontend_translations.py:52
-#, fuzzy
-#| msgid "km_distance"
 msgid "km_distance_many"
 msgstr "{{count}} км"
 
@@ -721,11 +701,13 @@ msgstr "ночей"
 
 #: site_content/models.py:23
 msgid "tag"
-msgstr ""
+msgstr "метка"
 
 #: site_content/models.py:24
+#, fuzzy
+#| msgid "content tag to help identify what it is for"
 msgid "content tag to help udentify what it is for"
-msgstr ""
+msgstr "метка для понимания назначения содержания"
 
 #: site_content/models.py:27
 msgid "Content page title"
@@ -918,6 +900,7 @@ msgstr "Получен новый запрос на бронирование"
 #| "    A reservation has been requested. Please check the reservation\n"
 #| "    parameters and confirm or decline the reservation by following the "
 #| "link to the\n"
+#| "    administrator site. \n"
 msgid ""
 " \n"
 "    A reservation has been requested. Please check the reservation\n"
@@ -931,8 +914,6 @@ msgstr ""
 "приймите или отклоните запрос, пройдя по ссылке.\n"
 
 #: templates/emails/reservation_request.html:86
-#, fuzzy
-#| msgid "edit reservation"
 msgid "View reservation"
 msgstr "редактировать бронирование"
 
@@ -947,19 +928,19 @@ msgstr ""
 #: templates/two_factor/_wizard_actions.html:10
 #: templates/two_factor/_wizard_actions.html:12
 msgid "Back"
-msgstr ""
+msgstr "Назад"
 
 #: templates/two_factor/_wizard_actions.html:14
 msgid "Next"
-msgstr ""
+msgstr "Вперед"
 
 #: templates/two_factor/core/login.html:10
 msgid "Login"
-msgstr ""
+msgstr "Войти"
 
 #: templates/two_factor/core/login.html:13
 msgid "Enter your credentials."
-msgstr ""
+msgstr "Введите свои данные"
 
 #: templates/two_factor/core/login.html:17
 msgid ""
@@ -970,19 +951,17 @@ msgstr ""
 
 #: templates/two_factor/core/login.html:31
 msgid "Or, alternatively, use one of your other authentication methods:"
-msgstr ""
+msgstr "Или используйте один из других способов аутентификации:"
 
 #: templates/two_factor/core/login.html:51
 msgid "As a last resort, you can use a backup token:"
-msgstr ""
+msgstr "В крайнем случае, вы можете использовать запасной токен:"
 
 #: templates/two_factor/core/login.html:54
 msgid "Use Backup Token"
-msgstr ""
+msgstr "Испольозвать запасной токен"
 
 #: templates/two_factor/core/otp_required.html:5
-#, fuzzy
-#| msgid "Permissions"
 msgid "Permission Denied"
 msgstr "Права доступа"
 
@@ -992,20 +971,26 @@ msgid ""
 "authentication for security reasons. You need to enable these security "
 "features in order to access this page."
 msgstr ""
+"На запрошенной вами странице пользователям необходимо пройти двухфакторную "
+"аутентификацию в целях безопасности. Для доступа к этой странице необходимо "
+"включить эти функции безопасности."
 
 #: templates/two_factor/core/otp_required.html:11
 msgid ""
 "Two-factor authentication is not enabled for your account. Enable two-factor "
 "authentication for enhanced account security."
 msgstr ""
+"Двухфакторная аутентификация для вашей учетной записи не включена. Включите "
+"двухфакторную  аутентификацию для повышения безопасности вашей учетной "
+"записи."
 
 #: templates/two_factor/core/otp_required.html:16
 msgid "Go back"
-msgstr ""
+msgstr "Вернуться назад"
 
 #: templates/two_factor/core/otp_required.html:18
 msgid "Enable Two-Factor Authentication"
-msgstr ""
+msgstr "Включить двух-факторную аутентификацию"
 
 #~ msgid "nightWithCount_one"
 #~ msgstr "{{count}} ночь"
