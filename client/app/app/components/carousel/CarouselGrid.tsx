@@ -31,11 +31,23 @@ export default function CarouselGrid({ name }: { name: string }) {
         ? Array(6).fill(0)
         : gridData;
   // console.log(gridsConcat);
+  // useEffect(() => {
+  //   gridContext.setSideGridsVisible(gridContext.showMoreImages);
+  // }, [gridContext.showMoreImages]);
   useEffect(() => {
-    gridContext.setSideGridsVisible(gridContext.showMoreImages);
-  }, [gridContext.showMoreImages]);
+    const isMobile = window.matchMedia("(max-width:768px)");
+    console.log("isMobile", isMobile);
+    if (isMobile.matches) {
+      gridContext.setShowMoreImages(true);
+    }
+    isMobile.addEventListener("change", () => {
+      if (isMobile.matches) {
+        gridContext.setShowMoreImages(true);
+      }
+    });
+  }, []);
   return (
-    <div className="flex flex-col items-center md:gap-11 gap-6">
+    <div className="flex flex-col items-center md:gap-8 gap-4">
       <div className="embla max-w-screen " ref={emblaRef}>
         <div className="embla__container">
           {gridsConcat.map((grid: Grid | 0, i) => (
@@ -43,7 +55,11 @@ export default function CarouselGrid({ name }: { name: string }) {
               className={`embla__slide 2xl:mx-1.5 md:mx-1 mx-0.5 shrink-0 transition-opacity duration-300 ease-out`}
               key={`carousel-${name}-image-grid-${i}`}
             >
-              <ImageGrid grid={grid} gridIndex={i}></ImageGrid>
+              <ImageGrid
+                grid={grid}
+                gridIndex={i}
+                gridLen={gridData?.length}
+              ></ImageGrid>
             </div>
           ))}
         </div>
