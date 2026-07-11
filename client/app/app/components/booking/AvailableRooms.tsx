@@ -53,9 +53,9 @@ export default function AvailableRooms({ rooms }) {
           id="available-rooms"
           className="flex flex-col items-center index-container-1"
         >
-          <h3 className="text-center text-nowrap font-semibold">
+          <h2 className="text-center text-nowrap font-bold text-[26px]!">
             {t("Available rooms")}
-          </h3>
+          </h2>
           {context.fullImageView ? (
             <MediaFullView>
               <Carousel

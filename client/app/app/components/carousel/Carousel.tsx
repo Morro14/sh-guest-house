@@ -41,7 +41,7 @@ export function Carousel({
     <div className="flex flex-col gap-5 items-center justify-end shrink carousel-full h-[70vh]">
       <div className="embla bg-[#2e2e2e] size-full">
         <div className="embla__viewport size-full" ref={emblaRef}>
-          <div className={`embla__container  size-full`}>
+          <div className={`embla__container size-full`}>
             {images.map((img, i) => (
               <div
                 key={`${name}-slide-${i}`}
@@ -49,7 +49,7 @@ export function Carousel({
               >
                 <ImageLoading
                   imageAttrs={{
-                    className: "h-full object-contain",
+                    className: "h-full object-contain mx-auto",
                     src: `${MEDIA_URL}${img.variants[imageRes]}`,
                     onClick: () => imageOnClick(i),
                     alt: `${name}-${i}`,
