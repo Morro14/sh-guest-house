@@ -8,10 +8,11 @@ User = get_user_model()
 log = structlog.get_logger()
 
 
-class Reservation(models.Model):
+class ReservationBase(models.Model):
     class Meta:
         default_manager_name = "objects"
         base_manager_name = "objects"
+        abstract = True
 
     class Status(models.TextChoices):
         REQUESTED = "requested"
@@ -114,7 +115,11 @@ class Reservation(models.Model):
         super().save(*args, **kwargs)
 
 
-class Room(models.Model):
+class Reservation(ReservationBase):
+    pass
+
+
+class RoomBase(models.Model):
     """Represents a room with information about it"""
 
     def __str__(self):
@@ -141,6 +146,11 @@ class Room(models.Model):
     class Meta:
         verbose_name = _("Room")
         verbose_name_plural = _("Rooms")
+        abstract = True
+
+
+class Room(RoomBase):
+    pass
 
 
 class RoomReserved(models.Model):

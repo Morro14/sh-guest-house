@@ -8,7 +8,7 @@ import os
 from django.conf import settings
 
 
-class ContentPage(models.Model):
+class ContentPageBase(models.Model):
     tag = models.TextField(
         choices={
             "about": "About",
@@ -34,9 +34,14 @@ class ContentPage(models.Model):
     class Meta:
         verbose_name = _("Content page")
         verbose_name_plural = _("Content pages")
+        abstract = True
 
     def __str__(self):
         return self.title
+
+
+class ContentPage(ContentPageBase):
+    pass
 
 
 def get_upload_path(instance, filename):
@@ -71,7 +76,7 @@ def get_upload_path(instance, filename):
             )
 
 
-class Image(models.Model):
+class ImageBase(models.Model):
     blur_res = (100, 100)
     small_res = (600, 600)
     main_res = (1280, 1280)
@@ -123,9 +128,14 @@ class Image(models.Model):
         ordering = ["order"]
         verbose_name = "image"
         verbose_name_plural = "images"
+        abstract = True
 
     def __str__(self):
         return self.image_full.name
+
+
+class Image(ImageBase):
+    pass
 
 
 class WideImage(Image):
@@ -139,11 +149,18 @@ class WideImage(Image):
         verbose_name_plural = _("wide photos")
 
 
-class ImageGrid(models.Model):
+class ImageGridBase(models.Model):
     def __str__(self):
         return f"Image grid #{self.index}"
 
     index = models.PositiveIntegerField(unique=True, default=None)
+
+    class Meta:
+        abstract = True
+
+
+class ImageGrid(ImageGridBase):
+    pass
 
 
 class GridImage(Image):
@@ -178,15 +195,20 @@ class GridImage(Image):
         verbose_name_plural = _("grid images")
 
 
-class ImageTag(models.Model):
+class ImageTagBase(models.Model):
     name = models.CharField(max_length=30, unique=True)
 
     class Meta:
         verbose_name = "image tag"
         verbose_name_plural = "image tags"
+        abstract = True
 
     def __str__(self):
         return self.name
+
+
+class ImageTag(ImageTagBase):
+    pass
 
 
 class RoomImage(Image):
@@ -208,7 +230,7 @@ class RoomImage(Image):
         return f"{self.room.name} #{self.order}"
 
 
-class Place(models.Model):
+class PlaceBase(models.Model):
     name = models.CharField(unique=True, max_length=63, verbose_name=_("name"))
     slug = models.CharField(
         unique=True,
@@ -237,9 +259,14 @@ class Place(models.Model):
     class Meta:
         verbose_name = _("place")
         verbose_name_plural = _("places")
+        abstract = True
 
     def __str__(self):
         return self.name
+
+
+class Place(PlaceBase):
+    pass
 
 
 class PlaceImage(Image):
@@ -260,7 +287,7 @@ class PlaceImage(Image):
         return f"{self.place.name} image f{self.pk}"
 
 
-class Review(models.Model):
+class ReviewBase(models.Model):
     date = models.DateField(verbose_name=_("review date"))
     rating = models.FloatField(validators=[validate_rating_value])
     content = models.TextField()
@@ -268,3 +295,8 @@ class Review(models.Model):
     class Meta:
         verbose_name = _("review")
         verbose_name = _("reviews")
+        abstract = True
+
+
+class Review(ReviewBase):
+    pass

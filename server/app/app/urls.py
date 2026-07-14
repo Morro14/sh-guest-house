@@ -29,6 +29,7 @@ from site_content.views import FrontendView
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/booking/", include("main.urls")),
+    path("api-demo/", include("demo.urls")),
     path("api/content/", include("site_content.urls")),
     path("api/logs-frontend", FrontendLogsView.as_view()),
     path("api-auth/", include("auth_app.urls")),
