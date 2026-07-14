@@ -52,11 +52,18 @@ def get_upload_path(instance, filename):
         "RoomImage": "room_images",
         "PlaceImage": "place_images",
     }
+    demo_names = {
+        "GridImageDemo": "grid_images_demo",
+        "WideImageDemo": "wide_images_demo",
+        "RoomImageDemo": "room_images_demo",
+        "PlaceImageDemo": "place_images_demo",
+    }
+    cat_names.update(demo_names)
     rel_fields = [
         "place",
         "room",
     ]
-    without_rel_fields = ["WideImage", "GridImage"]
+    without_rel_fields = ["WideImage", "GridImage", "WideImageDemo", "GridImageDemo"]
     instance_folder_name = ""
 
     if cat_folder_name in without_rel_fields:

@@ -102,7 +102,7 @@ class RoomDemoAdmin(TabbedTranslationAdmin):
         if first_img and first_img.image_full:
             return format_html(
                 '<img src="{}" style="max-height: 60px; border-radius: 4px; display: inline-block" /><div>{}</div>',
-                first_img.image_full.url,
+                os.path.join(os.environ.get("MEDIA_BASE_URL"), obj.variants["small"]),
             )
         return "-"
 
@@ -131,7 +131,7 @@ class GridImageDemoAmin(admin.ModelAdmin):
         if obj.image_full:
             return format_html(
                 '<img src="{}" style="max-height: 80px; border-radius: 4px;" />',
-                obj.variants["small"],
+                os.path.join(os.environ.get("MEDIA_BASE_URL"), obj.variants["small"]),
             )
         return "-"
 
@@ -148,7 +148,7 @@ class PlaceImageDemoAdmin(admin.ModelAdmin):
         if obj.image_full:
             return format_html(
                 '<img src="{}" style="max-height: 80px; border-radius: 4px;" />',
-                os.environ.get("MEDIA_BASE_URL") + obj.variants["small"],
+                os.path.join(os.environ.get("MEDIA_BASE_URL"), obj.variants["small"]),
             )
         return "-"
 
@@ -179,7 +179,7 @@ class RoomImageDemoAdmin(admin.ModelAdmin):
         if obj.image_full:
             return format_html(
                 '<img src="{}" style="max-height: 80px; border-radius: 4px;" />',
-                obj.variants["small"],
+                os.path.join(os.environ.get("MEDIA_BASE_URL"), obj.variants["small"]),
             )
         return "-"
 
@@ -195,7 +195,7 @@ class RoomImageInline(admin.TabularInline):
 
     def preview(self, obj):
         if obj.image_full:
-            return f'<img id="test" src="{obj.image_full.url}" style="max-height: 100px; border-radius: 6px;" /><div>{obj.image_full.name}</div>'
+            return f'<img id="test" src="{os.path.join(os.environ.get("MEDIA_BASE_URL"), obj.variants["small"])}" style="max-height: 100px; border-radius: 6px;" /><div>{obj.image_full.name}</div>'
         return ""
 
     preview.allow_tags = True
