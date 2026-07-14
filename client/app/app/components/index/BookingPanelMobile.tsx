@@ -50,7 +50,7 @@ export default function BookingPannelMobile() {
               className=""
               type="date"
               id="checkin-date-input"
-              value={date.format().slice(0, 10)}
+              defaultValue={date.format().slice(0, 10)}
             />
           </div>
           <SelectGuestsMobile />
