@@ -1,7 +1,7 @@
 import { LANGUAGES } from "~/vars";
 import { useLocation, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
-import langIcon from "src/assets/lang-change-icon.svg";
+import langIcon from "src/assets/globe-icon.svg";
 
 export default function LangSelect() {
   const { i18n } = useTranslation();
@@ -14,12 +14,13 @@ export default function LangSelect() {
     window.location.assign(`/${e.target.value}${pathWithoutLang}${loc.search}`);
   };
   return (
-    <div className="w-35 flex justify-end items-center gap-2">
-      <img src={langIcon} className="w-7 h-7" />
+    <div className="w-35 flex justify-end items-center gap-1">
+      <img src={langIcon} className="w-5 h-5" />
       <select
         name="lang-select"
         onChange={handleChange}
         defaultValue={i18n.language || params.lang}
+        className=""
       >
         {LANGUAGES.map((lang) => {
           return (

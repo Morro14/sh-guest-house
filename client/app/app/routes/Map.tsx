@@ -16,17 +16,15 @@ export default function MapPage() {
   return (
     <div className="w-screen h-screen flex flex-col justify-center items-center">
       <header className="flex w-full xl:px-5 md:px-4 px-2 py-1 h-10">
-        <div className="w-1/3">
+        <div className="md:w-1/3 w-1/2">
           <NavLink className="relative top-0.5 font-medium" to={`/${lang}`}>
-            {t("To main page")}
+            {t("Site name")}
           </NavLink>
         </div>
-        <div className="w-1/3 flex justify-center ">
-          <h5 className="hidden md:block">
-            {t("Points of interest in Vayots Dzor")}
-          </h5>
+        <div className="hidden md:flex w-1/3 justify-center ">
+          <h5 className="">{t("Points of interest in Vayots Dzor")}</h5>
         </div>
-        <div className="w-1/3 flex justify-end gap-4">
+        <div className="md:w-1/3 w-1/2 flex justify-end gap-4">
           <LangSelect></LangSelect>
           <BurgerMenu dialogRef={dialogRef}></BurgerMenu>
         </div>
