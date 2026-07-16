@@ -6,6 +6,9 @@
 .index-container-1 {
   @apply 2xl:w-[1280px] md:w-[698px] w-[352px];
 }
+.modal-width {
+  @apply  md:w-[700px] w-[300px];
+}
 .image-frame-small-responsive {
   @apply md:w-[688px] md:h-[388px] overflow-hidden;
 }

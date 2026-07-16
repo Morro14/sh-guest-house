@@ -34,7 +34,7 @@ export default function Paragraph({
       >
         {content.title.length > 0 ? <TitleTag>{content.title}</TitleTag> : ""}
         {subtitle ? <h3>{subtitle}</h3> : ""}
-        <p className="font-sans font-[350] md:text-base text-pretty w-full whitespace-pre-wrap">
+        <p className="font-sans font-[400] md:text-base text-pretty w-full whitespace-pre-wrap">
           {content.body}
         </p>
       </div>

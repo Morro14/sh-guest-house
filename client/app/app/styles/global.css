@@ -64,7 +64,7 @@ h2 {
   @apply md:text-3xl text-2xl mb-9 font-medium;
 }
 h3 {
-  @apply md:text-[22px] text-xl mb-4 font-medium;
+  @apply md:text-[22px] text-xl mb-5.5! font-medium;
 }
 h4 {
   @apply text-xl mb-4 font-medium;
