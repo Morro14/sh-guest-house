@@ -19,6 +19,7 @@ export default function BookingPanel() {
   const { t } = useTranslation();
   const context = useIndexBookingContextProvider();
   const navigation = useNavigation();
+  console.log("errors booking panel", context.errors);
   return (
     <div className="xl:flex sticky hidden top-0 bottom-0 z-30 w-full h-12 justify-center bg-[#ffffff99] backdrop-blur-xl drop-shadow">
       <div className={`size-full absolute bg-bg drop-shadow opacity-70`}></div>

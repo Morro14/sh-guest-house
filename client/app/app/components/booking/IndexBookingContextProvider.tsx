@@ -16,7 +16,7 @@ type IndexBookingContext = {
   nightsCount: number;
   setNightsCount: React.Dispatch<SetStateAction<number>>;
   errors: null | ValidationErrors;
-  setErrors: React.Dispatch<SetStateAction<ValidationErrors>>;
+  // setErrors: React.Dispatch<SetStateAction<ValidationErrors>>;
   // errorState: null | ValidationErrors;
   // setErrorState: React.Dispatch<SetStateAction<null | ValidationErrors>>;
   formChange: boolean;
@@ -30,8 +30,8 @@ export default function IndexBookingContextProvider({ children, params }) {
   const [guestsSelect, setGuestsSelect] = useState({ adults: 2, children: 0 });
   const [displaySelect, setDisplaySelect] = useState(false);
   const [nightsCount, setNightsCount] = useState(1);
-  // const errors: ValidationErrors = params.errors;
-  const [errors, setErrors] = useState(params.errors);
+  const errors: ValidationErrors = params.errors;
+  // const [errors, setErrors] = useState(params.errors);
   // const [errorState, setErrorState] = useState<null | ValidationErrors>(errors);
   const [formChange, setFormChange] = useState(false);
   const [blockClick, setBlockClick] = useState(false);
@@ -44,10 +44,7 @@ export default function IndexBookingContextProvider({ children, params }) {
         setDisplaySelect,
         nightsCount,
         setNightsCount,
-        // errorState,
-        // setErrorState,
         errors,
-        setErrors,
         formChange,
         setFormChange,
         blockClick,

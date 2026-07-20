@@ -1,5 +1,4 @@
-import { useFetcher, useNavigation } from "react-router";
-import { useIndexBookingContextProvider } from "../components/booking/IndexBookingContextProvider.tsx";
+import { useNavigation } from "react-router";
 import { useTranslation } from "react-i18next";
 import { validate } from "~/components/formComponents/validate";
 import { redirect, Form } from "react-router";
@@ -35,7 +34,6 @@ export async function clientAction({
   const formDataObject = formDataToObject(formData);
   const errors: ValidationErrors = validate(formDataObject);
   if (Object.keys(errors).length > 0) {
-    console.log("action errors", errors);
     return errors;
   }
   const paramsNew = new URLSearchParams(formData as any);
@@ -52,7 +50,6 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
     "children",
     "nights",
   ]);
-  // const fetcher = useFetcher();
   const navigation = useNavigation();
   const isSubmitting = navigation.state !== "idle";
   return (
@@ -78,9 +75,6 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
                   variant: "standard",
                   size: "small",
                   endAdornment: false,
-                  // InputProps: {
-                  //   disableUnderline: false,
-                  // },
                   sx: desktopDatePickerSx,
                 },
               }}

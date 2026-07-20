@@ -38,7 +38,7 @@ export default function AvailableRooms({ rooms }) {
   return (
     <div
       id="available-rooms"
-      className={`flex flex-col items-center mt-[82px] transition-all`}
+      className={`flex flex-col items-center md:mt-[82px] mt-[100px] transition-all`}
     >
       {rooms.length === 0 ? (
         <div className="mt-5">

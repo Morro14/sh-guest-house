@@ -34,21 +34,14 @@ export async function clientAction({
   request,
   params,
 }: Route.ClientActionArgs) {
-  // test spinner
-  // await new Promise((resolve) => setTimeout(resolve, 3000));
-
   const formData = await request.formData();
   const formDataObject = formDataToObject(formData);
   const errors: ValidationErrors = validate(formDataObject);
   if (Object.keys(errors).length > 0) {
     return errors;
   }
-  const formDataObj = {};
-  for (const [k, v] of formData.entries()) {
-    formDataObj[k] = v.toString();
-  }
   const lang = params.lang;
-  const paramsNew = new URLSearchParams(formDataObj);
+  const paramsNew = new URLSearchParams(formData as any);
 
   return redirect(`/${lang}/booking?${paramsNew}`);
 }
