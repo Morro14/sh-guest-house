@@ -83,7 +83,7 @@ export default function AvailableRooms({ rooms }) {
               return (
                 <AvailableRoom
                   formRef={formRef}
-                  key={room.name}
+                  key={`room-${index}`}
                   room={room}
                   index={index}
                 ></AvailableRoom>

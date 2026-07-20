@@ -1,8 +1,8 @@
-import { useFetcher } from "react-router";
+import { useFetcher, useNavigation } from "react-router";
 import { useIndexBookingContextProvider } from "../components/booking/IndexBookingContextProvider.tsx";
 import { useTranslation } from "react-i18next";
 import { validate } from "~/components/formComponents/validate";
-import { redirect } from "react-router";
+import { redirect, Form } from "react-router";
 import type { Route } from "./+types/BookingForm";
 import { getUrlSearchParams } from "~/utils/general";
 import { useEffect, useState } from "react";
@@ -35,18 +35,14 @@ export async function clientAction({
   const formDataObject = formDataToObject(formData);
   const errors: ValidationErrors = validate(formDataObject);
   if (Object.keys(errors).length > 0) {
+    console.log("action errors", errors);
     return errors;
   }
-  const formDataObj = {};
-  for (const [k, v] of formData.entries()) {
-    formDataObj[k] = v.toString();
-  }
-  const paramsNew = new URLSearchParams(formDataObj);
+  const paramsNew = new URLSearchParams(formData as any);
   return redirect(`/${params.lang}/booking?${paramsNew}`);
 }
 
 export default function BookingForm({ actionData }: Route.ComponentProps) {
-  const context = useIndexBookingContextProvider();
   const today = dayjs();
   const [date, setDate] = useState(today);
   const { t } = useTranslation();
@@ -56,13 +52,11 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
     "children",
     "nights",
   ]);
-  const fetcher = useFetcher();
-  const isSubmitting = fetcher.state !== "idle";
+  // const fetcher = useFetcher();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state !== "idle";
   return (
-    <fetcher.Form
-      method="post"
-      className="relative flex flex-col gap-5 items-center"
-    >
+    <Form method="post" className="relative flex flex-col gap-3 items-center">
       <div className="flex md:flex-row flex-col md:justify-between max-md:gap-5 w-full items-center overflow-visible font-sans">
         <div className="flex flex-col items-center md:gap-3 gap-2">
           <label
@@ -146,28 +140,23 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
               defaultValue={Number(searchParams.nights)}
               type="number"
               maxLength={2}
-              onChange={(e) => context.setNightsCount(Number(e.target.value))}
               id="nights-input"
             />
           </div>
         </div>
       </div>
-      <div className="h-8">
+      <div className="">
+        <div className="h-7">
+          {actionData ? <ErrorPanel errors={actionData}></ErrorPanel> : ""}
+        </div>
         <button
           type="submit"
           className="text-text-main transition-colors duration-150 underline font-source-sans text-lg cursor-pointer "
         >
           {isSubmitting ? t("loading...") : t("Show available rooms")}
+          {/* {"123"} */}
         </button>
-
-        {context.errors ? (
-          <div className="my-2">
-            <ErrorPanel errors={actionData}></ErrorPanel>
-          </div>
-        ) : (
-          ""
-        )}
       </div>
-    </fetcher.Form>
+    </Form>
   );
 }

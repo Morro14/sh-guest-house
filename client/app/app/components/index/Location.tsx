@@ -1,19 +1,19 @@
 import googleMapsIcon from "root/src/assets/google-map-icon.svg";
 import { useTranslation } from "react-i18next";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
-const YEGHEG_STATION_MAP = "https://maps.app.goo.gl/K1eDG9ESCL5tXhdA9";
-const VERNASHEN_STATION_MAP = "https://maps.app.goo.gl/eDJZLFoaR4Nn7V8u8";
+const YEGHEG_STATION_LOC = "https://maps.app.goo.gl/K1eDG9ESCL5tXhdA9";
+const VERNASHEN_STATION_LOC = "https://maps.app.goo.gl/eDJZLFoaR4Nn7V8u8";
+const HOUSE_LOC = "https://maps.app.goo.gl/48eyX1Yuqn6haWYZ8";
 
 export default function LocationMain() {
   const { t } = useTranslation();
   const spoilerRef = useRef<HTMLDialogElement | null>(null);
-  const [showSpolier, setShowSpoiler] = useState(false);
   return (
     <div>
       <div className="flex md:flex-row flex-col items-center md:justify-center col-span-2 font-sans md:gap-5 gap-2 text">
         <a
-          href="https://maps.app.goo.gl/48eyX1Yuqn6haWYZ8"
+          href={HOUSE_LOC}
           className="flex gap-2 underline hover:cursor-pointer"
         >
           <img className="w-3" src={googleMapsIcon} />
@@ -55,7 +55,7 @@ export default function LocationMain() {
                 {t("From Yeghegnadzor to Vernashen")}
               </h5>
               <a
-                href={YEGHEG_STATION_MAP}
+                href={YEGHEG_STATION_LOC}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline text-gray-warm-mid"
@@ -77,7 +77,7 @@ export default function LocationMain() {
             <div className="flex flex-col items-center">
               <h5>{t("From Vernashen to Yeghegnadzor")}</h5>
               <a
-                href={VERNASHEN_STATION_MAP}
+                href={VERNASHEN_STATION_LOC}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline text-gray-warm-mid"

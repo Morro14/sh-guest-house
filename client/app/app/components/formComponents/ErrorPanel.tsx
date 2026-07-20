@@ -11,7 +11,7 @@ export default function ErrorPanel({ errors }: { errors: ValidationErrors }) {
     <div
       ref={pannelRef}
       className={
-        "justify-center items-center px-2 bg-bg text-red-error font-sans transition-all duration-200 mt-1 " +
+        "justify-center text-sm items-center px-2 bg-bg text-red-error font-sans transition-all duration-200 mt-1 " +
         style
       }
     >

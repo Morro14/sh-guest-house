@@ -110,17 +110,28 @@ function validateNights(nights: string): Validation {
     return {
       name: "nights",
       valid: false,
-      message: i18n.t("Nights must be a number."),
+      message: i18n.t("Nights must be a positive number."),
     };
   }
-  const NIGHTS_LIMIT = 30;
+  const nightsNum = Number(nights);
+  const max = 30;
+  const min = 1;
 
-  const isBelowLimit = Number(nights) <= NIGHTS_LIMIT;
-  if (!isBelowLimit) {
+  const isAboveMax = nightsNum > max;
+  const isBelowMin = nightsNum < min;
+
+  if (isAboveMax) {
     return {
       name: "nights",
       valid: false,
       message: i18n.t("Maximum nights: 30"),
+    };
+  }
+  if (isBelowMin) {
+    return {
+      name: "nights",
+      valid: false,
+      message: i18n.t("Minimum nights: 1"),
     };
   }
   return { valid: true };
