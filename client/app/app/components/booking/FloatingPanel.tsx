@@ -50,13 +50,13 @@ export default function FloatingPanel() {
       className={`${panelOffScreen ? "fixed top-0" : "absolute top-0"} z-20 top-0 flex flex-col items-center justify-start font-sans`}
     >
       <div
-        className={`absolute w-screen ${!moreRoomsRequired ? "max-md:h-16" : "max-md:h-22"} h-[39px] transition-all duration-200 bg-bg border-t border-gray-warm-light shadow-md`}
+        className={`absolute w-screen ${!moreRoomsRequired ? "max-2xl:h-16" : "max-2xl:h-22"} h-[39px] transition-all duration-200 bg-bg border-t border-gray-warm-light shadow-md`}
       ></div>
       <div
         className={`flex flex-col 2xl:items-center justify-start items-start mt-2 index-container-1 2xl:w-[1038px]! px-4`}
       >
         <div
-          className={`z-10 flex md:flex-row flex-col justify-between items-center size-full`}
+          className={`z-10 flex 2xl:flex-row flex-col justify-between items-center size-full`}
         >
           <div className={`flex relative gap-2 items-center h-6`}>
             <div className="text-sm text-gray-warm-mid">{`${t("Total price")}:`}</div>
@@ -68,7 +68,7 @@ export default function FloatingPanel() {
             >{`${formatPrice(price, CURRENCY)}`}</span>
           </div>
           <div
-            className={`z-10 text-warning mb-1 font-medium text-center text-sm ${moreRoomsRequired ? "block" : "hidden"}`}
+            className={`z-10 text-warning font-medium text-center text-sm ${moreRoomsRequired ? "block" : "hidden"}`}
           >
             {t(`Select more rooms to accommodate ${guests} guests`, {
               guests: guests,
