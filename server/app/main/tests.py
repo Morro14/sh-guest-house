@@ -48,7 +48,18 @@ class RoomResTest(TestCase):
         #     Reservation.confirmed.filter(room__slug="room"),
         # )
         res_two = Reservation.objects.filter(status="requested").first()
-        print(res_two.validate_no_overlap())
+        res_three = Reservation.objects.create(
+            status="requested",
+            created_at="2026-07-29",
+            guest_name="Simon",
+            check_in=datetime(2026, 9, 29),
+            check_out=datetime(2026, 9, 30),
+            email="test2@email.com",
+            message="123",
+        )
+        self.assertFalse(res_two.validate_no_overlap(), "overlap exists")
+        self.assertTrue(res_three.validate_no_overlap(), "overlap doesn't exists")
+        # print(res_two.validate_no_overlap())
 
     def test_get_available_rooms(self):
         res_two = Reservation.objects.get(guest_name="Simon")

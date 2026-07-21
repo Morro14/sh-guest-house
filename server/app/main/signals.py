@@ -28,17 +28,17 @@ def send_email_on_reservation_save(sender, instance, **kwargs):
                 "the link to the "
                 "administrator site."
             )
-            # send_task_async(
-            #     send_on_reservation_validated,
-            #     log_context,
-            #     reservation=instance,
-            #     email_body=email_body,
-            #     email_title=_(
-            #         "A new booking request for %(site_name)s has been received."
-            #     )
-            #     % {"site_name": settings.SITE_NAME},
-            #     subject=_("Booking request is confirmed"),
-            # )
+            send_task_async(
+                send_on_reservation_validated,
+                log_context,
+                reservation=instance,
+                email_body=email_body,
+                email_title=_(
+                    "A new booking request for %(site_name)s has been received."
+                )
+                % {"site_name": settings.SITE_NAME},
+                subject=_("Booking request is confirmed"),
+            )
         # elif instance.status == Reservation.Status.CONFIRMED:
         #     log_context = structlog.contextvars.get_contextvars()
         #     send_task_async(

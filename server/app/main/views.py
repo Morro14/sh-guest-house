@@ -5,6 +5,7 @@ from rest_framework.decorators import (
     authentication_classes,
     permission_classes,
 )
+from rest_framework import exceptions
 from dotenv import load_dotenv
 import os
 import json
@@ -73,9 +74,9 @@ class BookingRequestValidateView(APIView):
         )
         serializer.is_valid()
         reservation = serializer.save()
-        no_overlap_valid = reservation.validate_no_overlap()
+        overlap_check = reservation.validate_no_overlap()
         token_data = request.auth
-        if not no_overlap_valid:
+        if not overlap_check:
             log.warning("request_not_validated", user_email=email)
             token_data.update({"request_validated": False, "user_email": email})
             token = CustomJWT(
@@ -94,6 +95,8 @@ class BookingRequestValidateView(APIView):
                 max_age=60 * 15,
             )
             response.data = {"request_validated": False, "user_email": email}
+            response.status_code = 500
+            response.status_text = "Internal server error"
             return response
         token_data = request.auth
         token_data.update({"request_validated": True, "user_email": email})

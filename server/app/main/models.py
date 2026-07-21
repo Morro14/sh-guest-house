@@ -91,32 +91,16 @@ class ReservationBase(models.Model):
             raise ValidationError("Check-out date must be after check-in date.")
 
     def validate_no_overlap(self):
-        print("self.rooms_reserved", self.rooms_reserved.all())
-        rooms_reserved = self.rooms_reserved.prefetch_related(
-            "room", "reservation"
-        ).all()
-        for room_res in rooms_reserved:
-            overlap = RoomReserved.objects.filter(
-                room=room_res.room,
-                reservation__check_in__lt=self.check_out,
-                reservation__check_out__gt=self.check_in,
-            ).exists()
-            # overlap = (
-            #     Reservation.confirmed.filter(
-            #         rooms_reserved=room_res,
-            #         check_in__lt=self.check_out,
-            #         check_out__gt=self.check_in,
-            #     )
-            #     .exclude(pk=self.pk)
-            #     .exists()
-            # )
-            if overlap:
-                log.warning(f"room '{room_res.room.slug}' is already booked")
-                # raise ValidationError(f"Room '{room_res.room.name}' is already booked.")
-                return False
-            self.status = self.Status.VALIDATED
-            self.save()
-            return self
+        overlap = RoomReserved.objects.filter(
+            room__in=self.rooms_reserved.values_list("room"),
+            reservation__status="confirmed",
+        ).exists()
+        if overlap:
+            log.warning("room is already booked")
+            return False
+        self.status = self.Status.VALIDATED
+        self.save()
+        return self
 
     def confirm(self):
         if self.status != self.Status.VALIDATED:
