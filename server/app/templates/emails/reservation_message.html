@@ -1,22 +1,18 @@
 {% extends "emails/base.html" %} 
 {% load i18n %} 
 {% block subject %} 
-  {% translate "A new reservation is requested" %}
+
+{{email_title}}
 {% endblock %}
 {% block content %}
   <p>
-
-  {% blocktranslate %} 
-    A reservation has been requested. Please check the reservation
-    parameters and confirm or decline the reservation by following the link to the
-    administrator site. 
-  {% endblocktranslate %}
+    {{ email_body }}
   </p>
 
-  <table cellpadding="0" cellspacing="0" >
+  <table cellpadding="0" cellspacing="0" style="margin-top: 16px; width: 300px">
     <tr>
       {% translate "Guest name" as guest_name_str %}
-      <td style="padding-right: 10px"><strong>{{ guest_name_str|capfirst }}: </strong></td>
+      <td><strong>{{ guest_name_str|capfirst }}:</strong></td>
       <td>{{ reservation.guest_name }}</td>
     </tr>
     <tr>
@@ -34,7 +30,7 @@
       <td><strong>{{ guests_str|capfirst }}:</strong></td>
       <td>
         {# Translators: {{count}} adults and {{count}} children #}
-        {% blocktranslate trimmed count adults=1 %} 
+        {% blocktranslate trimmed count adults=guests.adults %} 
           {{ adults }} adult 
         {% plural %}
           {{ adults }} adults
@@ -71,19 +67,10 @@
 
   <p style="margin-top: 24px">
   <strong>
-
     <a
-        href={{ site_url }}{{ admin_url }}
-      style="
-        display: inline-block;
-        padding: 10px 16px;
-        background: #EFA76A;
-        color: #FEFDFC;
-        text-decoration: none;
-        border-radius: 4px;
-        "
-      >
-      {% translate "View reservation" %}
+      href={{ site_url }}
+  >
+      {{site_name}}
     </a>
   </strong>
   </p>

@@ -1,52 +1,57 @@
-from django.contrib.auth import get_user_model
-from rest_framework.test import APITestCase
-from django.core.management import call_command
-from .models import Reservation
-from datetime import date
-
-from django.test.client import RequestFactory
-
-from django.contrib import admin
+from django.test import TestCase
+from .models import RoomReserved, Room, Reservation
+from datetime import datetime
+from .queries import get_available_rooms
 
 
-class EmailTest(APITestCase):
-    def test_res_request(self):
-        res = Reservation.objects.create(
-            check_in=date(2026, 3, 21),
-            check_out=date(2026, 3, 23),
-            email="ivfmn2@gmail.com",
-            message="123",
-            guest_name="test testman",
-        )
-        res.validate_no_overlap()
-
-
-class AdminTest(APITestCase):
+class RoomResTest(TestCase):
     def setUp(self):
-        User = get_user_model()
-        User.objects.create_superuser("test@email.com", "testsu941")
+        room = Room.objects.create(
+            name="Room",
+            slug="room",
+            beds="beds description",
+            description="room description",
+            adults_num=2,
+            children_num=0,
+        )
+        created_at = datetime.now()
+        check_in = datetime(2026, 7, 26)
+        check_out = datetime(2026, 7, 28)
+        res_one = Reservation.objects.create(
+            status="confirmed",
+            created_at=created_at,
+            guest_name="Victorino",
+            check_in=check_in,
+            check_out=check_out,
+            email="test@email.com",
+            message="123",
+        )
+        res_two = Reservation.objects.create(
+            status="requested",
+            created_at=created_at,
+            guest_name="Simon",
+            check_in=check_in,
+            check_out=check_out,
+            email="test2@email.com",
+            message="123",
+        )
+        RoomReserved.objects.create(
+            room=room, reservation=res_one, adults=2, children=0
+        )
+        RoomReserved.objects.create(
+            room=room, reservation=res_two, adults=2, children=0
+        )
 
-    def test_admin(self):
+    def test_overlap(self):
+        # print(
+        #     "reservation.confrimed same room",
+        #     Reservation.confirmed.filter(room__slug="room"),
+        # )
+        res_two = Reservation.objects.filter(status="requested").first()
+        print(res_two.validate_no_overlap())
 
-        rf = RequestFactory()
-        User = get_user_model()
-        user = User.objects.filter(is_superuser=True).first()
-        print(user)
-        request = rf.get("/admin/")
-        request.user = user
-        app_list = admin.site.get_app_list(request)
-        print(app_list)
-        # print("all perms", user.get_all_permissions())
-        # print("admin registery", admin.site._registry)
-        # for model, model_admin in admin.site._registry.items():
-        #     module_perm = model_admin.has_module_permission(request)
-        #     perms = model_admin.get_model_perms(request)
-        #
-        #     print(
-        #         model._meta.app_label,
-        #         model.__name__,
-        #         "module:",
-        #         module_perm,
-        #         "perms:",
-        #         perms,
-        #     )
+    def test_get_available_rooms(self):
+        res_two = Reservation.objects.get(guest_name="Simon")
+        check_in_free = datetime(2026, 7, 29)
+        available_rooms = get_available_rooms(check_in_str="2026-07-29", nights=1)
+        print(available_rooms)

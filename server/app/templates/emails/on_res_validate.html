@@ -2,15 +2,12 @@
 {% load i18n %} 
 {% block subject %} 
 
-{% translate "Your reservation for {{site_name}} has been confirmed." %}
+{{email_title}}
 {% endblock %}
 {% block content %}
   <p>
-    {% with guest_name=reservation.guest_name check_in=reservation.check_in check_out=reservation.check_out %}
-      {% blocktranslate %}
-        Hello, {{guest_name}}. Your reservation for {{site_name}} has been confirmed! We will be waiting for you on {{check_in}}. If you need to contact us please send a mail to {{manager_email}}.
-      {% endblocktranslate %}
-    {% endwith %}
+    {{ email_body }}
+    {{ admin_url }}
   </p>
 
   <table cellpadding="0" cellspacing="0" style="margin-top: 16px; width: 300px">
@@ -70,12 +67,11 @@
   </table>
 
   <p style="margin-top: 24px">
-  <strong>
     <a
+      style="text-decoration-line:underline"
       href={{ site_url }}
   >
       {{site_name}}
     </a>
-  </strong>
   </p>
 {% endblock %}

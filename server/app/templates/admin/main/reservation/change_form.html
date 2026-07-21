@@ -4,10 +4,20 @@
   {{ block.super }} 
   {% if original and original.status == original.Status.VALIDATED %}
 
-<li>
-  <a href="{% url 'admin:reservation-confirm' original.pk %}" class="button">
+  <li style="margin-right:4px">
+  <a href="{% url 'admin:'|add:opts.app_label|add:'_'|add:opts.model_name|add:'_confirm' original.pk %}" class="button" style="background-color:#569A4C;font-weight:600">
     {% trans "Confirm reservation" %}
   </a>
-</li>
+  </li>
+  <li style="margin-right:4px">
+    <a href="{% url 'admin:'|add:opts.app_label|add:'_'|add:opts.model_name|add:'_decline' original.pk %}" class="button" style="background-color:#CA514D;font-weight:600">
+      {% trans "Decline reservation" %}
+    </a>
+  </li>
+  <li style="margin-right:4px">
+    <a href="{% url 'admin:'|add:opts.app_label|add:'_'|add:opts.model_name|add:'_reply' original.pk %}" class="button" style="font-weight:600">
+      {% trans "Reply to client" %}
+    </a>
+  </li>
 {% endif %} 
 {% endblock %}

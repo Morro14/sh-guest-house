@@ -1,5 +1,4 @@
 import { Form, useNavigation } from "react-router";
-import SelectGuests from "~/components/formComponents/SelectGuests";
 import { useIndexBookingContextProvider } from "~/components/booking/IndexBookingContextProvider";
 import { useTranslation } from "react-i18next";
 import ErrorPanel from "~/components/formComponents/ErrorPanel";
@@ -9,17 +8,16 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { ThemeProvider } from "@mui/material";
 import { desktopDatePickerTheme } from "../formComponents/mui.tsx";
 import { desktopDatePickerSx } from "../formComponents/mui.tsx";
-import { IndexFormLayout } from "../formComponents/SelectGuestsLayouts.tsx";
 import BookingPanelButton from "./BookingPanelButton.tsx";
 import { genGuestOptions } from "~/components/formComponents/utils.tsx";
 
 export default function BookingPanel() {
   const today = dayjs();
+  const minDate = today.hour() < 4 ? today.subtract(1, "day") : today;
   const [date, setDate] = useState(today);
   const { t } = useTranslation();
   const context = useIndexBookingContextProvider();
   const navigation = useNavigation();
-  console.log("errors booking panel", context.errors);
   return (
     <div className="xl:flex sticky hidden top-0 bottom-0 z-30 w-full h-12 justify-center bg-[#ffffff99] backdrop-blur-xl drop-shadow">
       <div className={`size-full absolute bg-bg drop-shadow opacity-70`}></div>
@@ -39,7 +37,7 @@ export default function BookingPanel() {
                   defaultValue={today}
                   value={date}
                   onChange={(date) => setDate(date)}
-                  disablePast
+                  minDate={minDate}
                   slotProps={{
                     textField: {
                       "aria-label": "date",

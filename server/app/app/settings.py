@@ -56,11 +56,11 @@ else:
         "0.0.0.0",
         "127.0.0.1",
         "backend.test",
-        "192.168.11.59",
+        "192.168.11.55",
     ]
 CORS_ALLOW_CREDENTIALS = True
 # CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOWED_ORIGINS = ["http://192.168.11.51:5173/:3000"]
+CORS_ALLOWED_ORIGINS = ["http://192.168.11.55"]
 # SESSION_COOKIE_SAMESITE = None
 CSRF_TRUSTED_ORIGINS = []
 if RENDER_EXTERNAL_HOSTNAME:
@@ -73,7 +73,7 @@ SITE_NAME = os.environ.get("SITE_NAME")
 if ON_RENDER:
     SITE_DOMAIN = RENDER_EXTERNAL_HOSTNAME
 else:
-    SITE_DOMAIN = ["http://backend.test"]
+    SITE_DOMAIN = "http://0.0.0.0:8000"
 
 # Application definition
 INSTALLED_APPS = [

@@ -42,6 +42,7 @@ export async function clientAction({
 
 export default function BookingForm({ actionData }: Route.ComponentProps) {
   const today = dayjs();
+  const minDate = today.hour() < 4 ? today.subtract(1, "day") : today;
   const [date, setDate] = useState(today);
   const { t } = useTranslation();
   const searchParams = getUrlSearchParams([
@@ -68,7 +69,7 @@ export default function BookingForm({ actionData }: Route.ComponentProps) {
               defaultValue={today}
               value={date}
               onChange={(date) => setDate(date)}
-              disablePast
+              minDate={minDate}
               slotProps={{
                 textField: {
                   fullWidth: false,

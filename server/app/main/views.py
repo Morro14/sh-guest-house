@@ -1,17 +1,14 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView
 from rest_framework.decorators import (
     api_view,
     authentication_classes,
     permission_classes,
 )
 from dotenv import load_dotenv
-from django.conf import settings
 import os
 import json
 import jwt
-from django.http import HttpResponse
 from .queries import get_available_rooms
 from .serializers import (
     RoomSerializer,
@@ -25,15 +22,6 @@ from main.utils.room_price import get_reservation_price_total
 from .utils.data_parse import parse_rooms_selected
 import structlog
 import uuid
-
-# test
-from .models import Reservation
-from .notifications.compute_mail_content import (
-    get_res_confirmed_mail_content,
-    get_res_validated_mail_content,
-)
-from django.http import HttpResponse
-from django.utils import translation
 
 load_dotenv()
 log = structlog.get_logger()
@@ -86,8 +74,27 @@ class BookingRequestValidateView(APIView):
         serializer.is_valid()
         reservation = serializer.save()
         no_overlap_valid = reservation.validate_no_overlap()
+        token_data = request.auth
         if not no_overlap_valid:
             log.warning("request_not_validated", user_email=email)
+            token_data.update({"request_validated": False, "user_email": email})
+            token = CustomJWT(
+                content=token_data,
+                expires_in=60 * 15,
+                jti=jti,
+            ).get_token()
+            response = Response()
+            response.set_cookie(
+                key="booking_request_token",
+                value=token,
+                httponly=True,
+                # samesite="Lax",
+                # secure=True,
+                path="/api/booking",
+                max_age=60 * 15,
+            )
+            response.data = {"request_validated": False, "user_email": email}
+            return response
         token_data = request.auth
         token_data.update({"request_validated": True, "user_email": email})
         token = CustomJWT(

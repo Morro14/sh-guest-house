@@ -1,0 +1,13 @@
+{% extends "admin/change_form.html" %} 
+{% load i18n %} 
+{% block object-tools-items %} 
+  {{ block.super }} 
+  {% if original and original.status == original.Status.VALIDATED %}
+
+<li>
+  <a href="{% url 'admin:'|add:opts.app_label|add:'_'|add:opts.model_name|add:'_reply' original.pk %}" class="button">
+    {% trans "Reply to client" %}
+  </a>
+</li>
+{% endif %} 
+{% endblock %}

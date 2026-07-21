@@ -1,0 +1,9 @@
+{% load i18n %}
+
+{% block content %}
+        {{ site_name }}
+        {{ email_body }}
+        {{ site_url }}
+        
+        {{ site_url }}
+{% endblock %}

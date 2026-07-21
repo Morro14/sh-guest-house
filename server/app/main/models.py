@@ -13,11 +13,13 @@ class ReservationBase(models.Model):
         default_manager_name = "objects"
         base_manager_name = "objects"
         abstract = True
+        verbose_name = _("reservation")
 
     class Status(models.TextChoices):
         REQUESTED = "requested"
         VALIDATED = "validated"
         CONFIRMED = "confirmed"
+        DECLINED = "declined"
 
     status = models.CharField(
         max_length=20, choices=Status.choices, default=Status.REQUESTED
@@ -32,6 +34,9 @@ class ReservationBase(models.Model):
 
         def confirmed(self):
             return self.filter(status=Reservation.Status.CONFIRMED)
+
+        def declined(self):
+            return self.filter(status=Reservation.Status.DECLINED)
 
     class ConfirmedReservationManager(models.Manager):
         def get_queryset(self):
@@ -86,19 +91,29 @@ class ReservationBase(models.Model):
             raise ValidationError("Check-out date must be after check-in date.")
 
     def validate_no_overlap(self):
-        for room in self.rooms_reserved.all():
-            overlap = (
-                Reservation.confirmed.filter(
-                    room_reserved=room,
-                    check_in__lt=self.check_out,
-                    check_out__gt=self.check_in,
-                )
-                .exclude(pk=self.pk)
-                .exists()
-            )
+        print("self.rooms_reserved", self.rooms_reserved.all())
+        rooms_reserved = self.rooms_reserved.prefetch_related(
+            "room", "reservation"
+        ).all()
+        for room_res in rooms_reserved:
+            overlap = RoomReserved.objects.filter(
+                room=room_res.room,
+                reservation__check_in__lt=self.check_out,
+                reservation__check_out__gt=self.check_in,
+            ).exists()
+            # overlap = (
+            #     Reservation.confirmed.filter(
+            #         rooms_reserved=room_res,
+            #         check_in__lt=self.check_out,
+            #         check_out__gt=self.check_in,
+            #     )
+            #     .exclude(pk=self.pk)
+            #     .exists()
+            # )
             if overlap:
-                raise ValidationError(f"Room '{room.name}' is already booked.")
-                log.warning("validate_no_overlap fails")
+                log.warning(f"room '{room_res.room.slug}' is already booked")
+                # raise ValidationError(f"Room '{room_res.room.name}' is already booked.")
+                return False
             self.status = self.Status.VALIDATED
             self.save()
             return self
@@ -108,6 +123,15 @@ class ReservationBase(models.Model):
             raise Exception("Reservation is not validated yet")
         self.status = self.Status.CONFIRMED
         self.save()
+
+        def decline(self):
+
+            if self.status == self.Status.CONFIRMED:
+                raise Exception("Reservation is already confirmed")
+            if self.status != self.Status.VALIDATED:
+                raise Exception("Reservation is not validated yet")
+            self.status = self.Status.DECLINED
+            self.save()
 
     def save(self, *args, **kwargs):
         self.clean()
@@ -167,7 +191,12 @@ class RoomReserved(models.Model):
     children = models.IntegerField(
         verbose_name=_("children places reserved"), default=0
     )
-    room = models.ForeignKey(to=Room, on_delete=models.CASCADE)
+    room = models.ForeignKey(
+        to=Room,
+        on_delete=models.CASCADE,
+        related_name="rooms_reserved",
+        related_query_name="room_reserved",
+    )
     reservation = models.ForeignKey(
         to=Reservation,
         on_delete=models.CASCADE,
