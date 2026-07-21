@@ -48,6 +48,10 @@ class RoomResTest(TestCase):
         #     Reservation.confirmed.filter(room__slug="room"),
         # )
         res_two = Reservation.objects.filter(status="requested").first()
+        room = Room.objects.get(slug="room")
+        RoomReserved.objects.create(
+            room=room, reservation=res_two, adults=2, children=0
+        )
         res_three = Reservation.objects.create(
             status="requested",
             created_at="2026-07-29",
@@ -56,6 +60,9 @@ class RoomResTest(TestCase):
             check_out=datetime(2026, 9, 30),
             email="test2@email.com",
             message="123",
+        )
+        RoomReserved.objects.create(
+            room=room, reservation=res_three, adults=1, children=0
         )
         self.assertFalse(res_two.validate_no_overlap(), "overlap exists")
         self.assertTrue(res_three.validate_no_overlap(), "overlap doesn't exists")

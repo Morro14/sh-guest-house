@@ -84,7 +84,7 @@ class BookingRequestValidateView(APIView):
                 expires_in=60 * 15,
                 jti=jti,
             ).get_token()
-            response = Response()
+            response = Response(exception=True, status=500)
             response.set_cookie(
                 key="booking_request_token",
                 value=token,
@@ -95,8 +95,6 @@ class BookingRequestValidateView(APIView):
                 max_age=60 * 15,
             )
             response.data = {"request_validated": False, "user_email": email}
-            response.status_code = 500
-            response.status_text = "Internal server error"
             return response
         token_data = request.auth
         token_data.update({"request_validated": True, "user_email": email})
