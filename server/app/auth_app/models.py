@@ -9,9 +9,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
-    email = models.EmailField(
-        unique=True, max_length=255, verbose_name=_("Email")
-    )
+    email = models.EmailField(unique=True, max_length=255, verbose_name=_("Email"))
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -27,7 +25,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         if (
             self.is_active
             and self.is_staff
-            and app_label in ["site_content", "main"]
+            and app_label in ["site_content", "main", "admin"]
         ):
             return True
         return _user_has_perm(self, perm, obj)
@@ -36,5 +34,5 @@ class User(AbstractBaseUser, PermissionsMixin):
         if self.is_active and self.is_superuser:
             return True
         if self.is_active and self.is_staff:
-            return app_label in ["site_content", "main"]
+            return app_label in ["site_content", "main", "admin"]
         return _user_has_module_perms(self, app_label)

@@ -18,8 +18,13 @@ from django.conf import settings
 from .notifications.tasks import send_task_async, send_to_client
 
 
+class RoomReservedInline(admin.TabularInline):
+    model = RoomReserved
+
+
 @admin.register(Reservation)
 class ReservationAdmin(admin.ModelAdmin):
+    inlines = [RoomReservedInline]
     fields = [
         "status",
         "guest_name",
@@ -31,9 +36,7 @@ class ReservationAdmin(admin.ModelAdmin):
         "created_at",
     ]
     list_display = ["status", "created_at", "check_in", "check_out"]
-    readonly_fields = [
-        "created_at",
-    ]
+    readonly_fields = ["created_at"]
 
     def get_urls(self):
 
@@ -156,7 +159,7 @@ class ReservationAdmin(admin.ModelAdmin):
             return redirect("..")
 
         message_init = _(
-            "Dear {{user}}.\n\nUnfortunately, we cannot accomodate "
+            "Dear {{user}}.\n\nUnfortunately, we cannot accommodate "
             "you during the requested period. "
             "The rooms will be available on: <dates and rooms>. "
             "\n\nIf you need to contact us please "
@@ -177,12 +180,12 @@ class ReservationAdmin(admin.ModelAdmin):
         )
         message_compiled = Template(message_init).render(message_context)
         if request.method == "POST":
-            form = ReservationReplyForm(request.POST)
+            form = ReservationReplyForm(message_compiled, request.POST)
             if form.is_valid():
                 email_body = form.cleaned_data["email_body"]
 
                 with transaction.atomic():
-                    reservation.confirm()
+                    reservation.decline()
                 self.message_user(
                     request,
                     _("Reservation is declined and email notification sent."),
@@ -202,6 +205,7 @@ class ReservationAdmin(admin.ModelAdmin):
                 )
                 return redirect("/admin/main/reservation")
         else:
+            print("DECLINE GET")
             form = ReservationReplyForm(message_compiled)
 
             context = {
@@ -220,21 +224,6 @@ class ReservationAdmin(admin.ModelAdmin):
             raise BadRequest
         if not self.has_change_permission(request, reservation):
             raise PermissionDenied
-        if reservation.status == Reservation.Status.CONFIRMED:
-            self.message_user(
-                request,
-                _("Reservation is already confirmed."),
-                level=messages.WARNING,
-            )
-            return redirect("..")
-
-        if reservation.status == Reservation.Status.REQUESTED:
-            self.message_user(
-                request,
-                _("Reservation is not validated yet."),
-                level=messages.WARNING,
-            )
-            return redirect("..")
 
         message_init = _(
             "Dear {{user}}.\n\n"
@@ -254,12 +243,10 @@ class ReservationAdmin(admin.ModelAdmin):
         )
         message_compiled = Template(message_init).render(message_context)
         if request.method == "POST":
-            form = ReservationReplyForm(request.POST)
+            form = ReservationReplyForm(message_init, request.POST)
             if form.is_valid():
                 email_body = form.cleaned_data["email_body"]
 
-                with transaction.atomic():
-                    reservation.confirm()
                 self.message_user(
                     request,
                     _("The email has beed sent to the user."),

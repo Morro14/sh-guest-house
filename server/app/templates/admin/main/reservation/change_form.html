@@ -14,10 +14,10 @@
       {% trans "Decline reservation" %}
     </a>
   </li>
+  {% endif %} 
   <li style="margin-right:4px">
     <a href="{% url 'admin:'|add:opts.app_label|add:'_'|add:opts.model_name|add:'_reply' original.pk %}" class="button" style="font-weight:600">
       {% trans "Reply to client" %}
     </a>
   </li>
-{% endif %} 
 {% endblock %}

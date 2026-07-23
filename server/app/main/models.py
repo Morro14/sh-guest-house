@@ -111,14 +111,14 @@ class ReservationBase(models.Model):
         self.status = self.Status.CONFIRMED
         self.save()
 
-        def decline(self):
+    def decline(self):
 
-            if self.status == self.Status.CONFIRMED:
-                raise Exception("Reservation is already confirmed")
-            if self.status != self.Status.VALIDATED:
-                raise Exception("Reservation is not validated yet")
-            self.status = self.Status.DECLINED
-            self.save()
+        if self.status == self.Status.CONFIRMED:
+            raise Exception("Reservation is already confirmed")
+        if self.status != self.Status.VALIDATED:
+            raise Exception("Reservation is not validated yet")
+        self.status = self.Status.DECLINED
+        self.save()
 
     def save(self, *args, **kwargs):
         self.clean()

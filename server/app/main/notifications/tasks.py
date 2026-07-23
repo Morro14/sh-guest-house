@@ -103,6 +103,7 @@ def send_to_client(log_context, context):
 
     close_old_connections()
     reservation = context["reservation"]
+    print("RESERVATION", reservation)
     email_body = context["email_body"]
     # subject, html_body, text_body, email = get_res_confirmed_mail_content(
     #     res, email_body
