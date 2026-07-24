@@ -10,9 +10,9 @@ export default function Header() {
   const dialogRef = useRef<null | HTMLDialogElement>(null);
   return (
     <div>
-      <div className="font-sans text-white font-medium text-center bg-primary">
-        {t("This is a test version of the project")}
-      </div>
+      {/* <div className="font-sans text-white font-medium text-center bg-primary"> */}
+      {/*   {t("This is a test version of the project")} */}
+      {/* </div> */}
       <header className={`flex items-center w-full text-text-main h-13`}>
         <div
           className={`flex justify-between items-center w-full md:px-7 px-2 transition-all overflow-hidden `}

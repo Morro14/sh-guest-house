@@ -255,8 +255,8 @@ ALLOWED_SERVICES = []
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
 
-ADMINS = ["ivfmn2@gmail.com"]
-MANAGERS = ["ivfmn2@gmail.com"]
+ADMINS = ["ivfmn2@gmail.com", "house.shushan@gmail.com"]
+MANAGERS = ["ivfmn2@gmail.com", "house.shushan@gmail.com"]
 
 # CELERY_BROKER_URL = os.environ.get("REDIS_URL", "redis://127.0.0.1:6379/0")
 # CELERY_ACCEPT_CONTENT = ["json"]

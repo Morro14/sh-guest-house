@@ -13,7 +13,7 @@ class StaffLimitedAdminSite(admin.AdminSite):
             and request.user.is_staff
             and not request.user.is_superuser
         ):
-            allowed_apps = ["site_content", "main", "demo"]
+            allowed_apps = ["site_content", "main"]
             return sorted(
                 [app for app in app_dict.values() if app["app_label"] in allowed_apps],
                 key=lambda x: x["name"].lower(),
