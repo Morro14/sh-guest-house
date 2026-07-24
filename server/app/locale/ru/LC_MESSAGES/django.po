@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-10 19:03+0000\n"
+"POT-Creation-Date: 2026-07-24 18:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,11 +19,11 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: app/settings.py:190
+#: app/settings.py:191
 msgid "English"
 msgstr "English"
 
-#: app/settings.py:190
+#: app/settings.py:191
 msgid "Russian"
 msgstr "Русский"
 
@@ -43,23 +43,211 @@ msgstr "Подтверждение пароля"
 msgid "Passwords don't match"
 msgstr "Пароли не совпадают"
 
-#: auth_app/models.py:13
-#: site_content/front_translations/en/frontend_translations.py:36
-#: site_content/front_translations/ru/frontend_translations.py:40
+#: auth_app/models.py:12
+#: site_content/front_translations/en/frontend_translations.py:37
+#: site_content/front_translations/ru/frontend_translations.py:41
 msgid "Email"
 msgstr "Email"
 
-#: main/admin.py:55
+#: demo/admin.py:65 main/admin.py:73 main/admin.py:148
 msgid "Reservation is already confirmed."
 msgstr "Бронирование уже подтверждено."
 
-#: main/admin.py:63
+#: demo/admin.py:73 main/admin.py:81 main/admin.py:156
 msgid "Reservation is not validated yet."
 msgstr "Бронирование еще не проверено."
 
-#: main/admin.py:73
+#: demo/admin.py:83
 msgid "Reservation confirmed and email notification sent."
 msgstr "Бронирование подтверждено, уведомление отправлено на email."
+
+#: demo/models.py:38 site_content/models.py:155
+msgid "wide photo"
+msgstr "широкое фото"
+
+#: demo/models.py:39 site_content/models.py:156
+msgid "wide photos"
+msgstr "широкие фото"
+
+#: demo/models.py:48 site_content/models.py:175
+msgid "Wide"
+msgstr "Широкий"
+
+#: demo/models.py:49 site_content/models.py:176
+msgid "Album medium"
+msgstr "Альбомный (средний)"
+
+#: demo/models.py:50 site_content/models.py:177
+msgid "Protrait medium"
+msgstr "Портретный (средний)"
+
+#: demo/models.py:51 site_content/models.py:178
+msgid "Album small"
+msgstr "Альбомный (маленький)"
+
+#: demo/models.py:59 site_content/models.py:186
+msgid "Which frame format this image is for inside the mosaic image grid"
+msgstr ""
+"Для какого формата рамки предназначено это изображение в мозаичной сетке"
+
+#: demo/models.py:74 site_content/models.py:201
+msgid "grid image"
+msgstr "изображение сетки"
+
+#: demo/models.py:75 site_content/models.py:202
+msgid "grid images"
+msgstr "изображения сетки"
+
+#: demo/models.py:87 site_content/models.py:226
+msgid "room image"
+msgstr "фото номера"
+
+#: demo/models.py:88 site_content/models.py:227
+msgid "room images"
+msgstr "фото номеров"
+
+#: demo/models.py:105 main/models.py:171
+msgid "Reserved room"
+msgstr "Забронированный номер"
+
+#: demo/models.py:106 main/models.py:172
+msgid "Reserved rooms"
+msgstr "Забронированные номера"
+
+#: demo/models.py:111 main/models.py:177
+msgid "adult places reserved"
+msgstr "забронировано взрослых мест"
+
+#: demo/models.py:113 main/models.py:179
+msgid "children places reserved"
+msgstr "забронировано детских мест"
+
+#: demo/models.py:135 site_content/models.py:267 site_content/models.py:286
+msgid "place"
+msgstr "место"
+
+#: demo/models.py:139 site_content/models.py:290
+msgid "place image"
+msgstr "фото места"
+
+#: demo/models.py:140 site_content/models.py:291
+msgid "place images"
+msgstr "фото мест"
+
+#: main/admin.py:87
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "        Hello, %(guest_name)s. Your reservation for %(site_name)s has "
+#| "been confirmed! We will be waiting for you on %(check_in)s. If you need "
+#| "to contact us please send a mail to %(manager_email)s.\n"
+#| "      "
+msgid ""
+"Dear {{user}}.\n"
+"\n"
+"Your reservation for {{site_name}} has been confirmed! We will be waiting "
+"for you on {{check_in|date:'DATE_FORMAT'}}. If you need to contact us please "
+"send a mail to {{manager_email}}."
+msgstr ""
+"\n"
+"        Здравствуйте, %(guest_name)s. Ваше бронирование в %(site_name)s "
+"подтверждено! Мы ждем вас %(check_in)s. Если вам нужно связаться с нами, "
+"пожалуйста, отправьте письмо на %(manager_email)s.\n"
+"      "
+
+#: main/admin.py:110
+#, fuzzy
+#| msgid "Reservation confirmed and email notification sent."
+msgid "Reservation is confirmed and email notification sent."
+msgstr "Бронирование подтверждено, уведомление отправлено на email."
+
+#: main/admin.py:120
+#, fuzzy, python-format
+#| msgid "Your reservation for {{site_name}} has been confirmed."
+msgid "Your reservation in %(site_name)s has been confirmed."
+msgstr "Ваше бронирование в {{site_name}} подтверждено."
+
+#: main/admin.py:123 main/signals.py:40
+#, fuzzy
+#| msgid "Your booking request has been submitted!"
+msgid "Booking request is confirmed"
+msgstr "Ваш запрос на бронирование успешно отправлен!"
+
+#: main/admin.py:132
+#, fuzzy, python-format
+#| msgid "Confirm reservation"
+msgid "Confirm reservation #%s"
+msgstr "Подтвердить бронирование"
+
+#: main/admin.py:162
+msgid ""
+"Dear {{user}}.\n"
+"\n"
+"Unfortunately, we cannot accommodate you during the requested period. The "
+"rooms will be available on: <dates and rooms>. \n"
+"\n"
+"If you need to contact us please send a mail to {{manager_email}}.\n"
+"<check-in> {{check_in}}\n"
+"<check-out> {{check_out}}\n"
+"<manager-email> {{manager_email}}"
+msgstr ""
+
+#: main/admin.py:191
+#, fuzzy
+#| msgid "Reservation confirmed and email notification sent."
+msgid "Reservation is declined and email notification sent."
+msgstr "Бронирование подтверждено, уведомление отправлено на email."
+
+#: main/admin.py:201
+#, fuzzy, python-format
+#| msgid "Your reservation for {{site_name}} has been confirmed."
+msgid "Your reservation in %(site_name)s has been declined."
+msgstr "Ваше бронирование в {{site_name}} подтверждено."
+
+#: main/admin.py:204
+#, fuzzy
+#| msgid "Your booking request has been submitted!"
+msgid "Booking request is declined"
+msgstr "Ваш запрос на бронирование успешно отправлен!"
+
+#: main/admin.py:212
+#, fuzzy, python-format
+#| msgid "edit reservation"
+msgid "Decline reservation #%s"
+msgstr "редактировать бронирование"
+
+#: main/admin.py:229
+msgid ""
+"Dear {{user}}.\n"
+"\n"
+"<check-in> {{check_in}}\n"
+"<check-out> {{check_out}}\n"
+"<manager-email> {{manager_email}}"
+msgstr ""
+"Уважаемый(-ая) {{user}}.\n"
+"\n"
+"<дата заезда> {{check_in}}\n"
+"<дата отъезда> {{check_out}}\n"
+"<почта менеджера> {{manager_email}}"
+
+#: main/admin.py:252
+msgid "The email has beed sent to the user."
+msgstr "Письмо отправлено пользователю."
+
+#: main/admin.py:262
+#, python-format
+msgid "A message from %(site_name)s regarding your booking request."
+msgstr "Сообщение от %(site_name)s по поводу Вашего бронирования"
+
+#: main/admin.py:265
+#, python-format
+msgid "A message from %(site_name)s"
+msgstr "Сообщение от %(site_name)s"
+
+#: main/admin.py:273
+#, python-format
+msgid "Reply to client %s"
+msgstr "Ответить клиенту %s"
 
 #: main/extra_translations.py:7
 msgid "Please enter the token generated by your token generator."
@@ -74,74 +262,83 @@ msgstr "Отправить email на %s"
 msgid "Shushan guest house"
 msgstr "Гостевой дом Шушан"
 
-#: main/models.py:44
+#: main/models.py:16
+#, fuzzy
+#| msgid "edit reservation"
+msgid "reservation"
+msgstr "редактировать бронирование"
+
+#: main/models.py:50
 msgid "created at"
 msgstr "создано в"
 
-#: main/models.py:56
-#: site_content/front_translations/en/frontend_translations.py:39
-#: site_content/front_translations/ru/frontend_translations.py:45
-#: templates/emails/reservation_confirmed.html:18
-#: templates/emails/reservation_request.html:18
+#: main/models.py:62
+#: site_content/front_translations/en/frontend_translations.py:42
+#: site_content/front_translations/ru/frontend_translations.py:48
+#: templates/emails/on_res_validate.html:15
+#: templates/emails/reservation_message.html:14
 msgid "Guest name"
 msgstr "Имя гостя"
 
-#: main/models.py:125 site_content/models.py:216
+#: main/models.py:141 site_content/models.py:245
 msgid "slug"
 msgstr "слаг"
 
-#: main/models.py:126 site_content/models.py:217
+#: main/models.py:142 site_content/models.py:246
 msgid "unique name (lower case without spaces)"
 msgstr "уникальное имя (строчными буквами без пробелов)"
 
-#: main/models.py:128
+#: main/models.py:144
 msgid "Room name"
 msgstr "Название номера"
 
-#: main/models.py:130
+#: main/models.py:146
 msgid "Adults"
 msgstr "Взрослые"
 
-#: main/models.py:131
+#: main/models.py:147
 msgid "places in the room for any guests (adult or children)"
 msgstr "места в номере для любых гостей (взрослых или детей)"
 
-#: main/models.py:134
+#: main/models.py:150
 msgid "Children"
 msgstr "Дети"
 
-#: main/models.py:135
+#: main/models.py:151
 msgid "places in the room only for children"
 msgstr "места в номере только для детей"
 
-#: main/models.py:142
+#: main/models.py:158
 msgid "Room"
 msgstr "Номер"
 
-#: main/models.py:143 templates/emails/reservation_confirmed.html:57
-#: templates/emails/reservation_request.html:57
+#: main/models.py:159 templates/emails/on_res_validate.html:54
+#: templates/emails/reservation_message.html:53
 msgid "Rooms"
 msgstr "Номера"
 
-#: main/models.py:150
-msgid "Reserved room"
-msgstr "Забронированный номер"
+#: main/signals.py:26
+#, fuzzy
+#| msgid ""
+#| " \n"
+#| "    A reservation has been requested. Please check the reservation\n"
+#| "    parameters and confirm or decline the reservation by following the "
+#| "link to the\n"
+#| "    administrator site. \n"
+msgid ""
+"A reservation has been requested. Please check the reservation parameters "
+"and confirm or decline the reservation by following the link to the "
+"administrator site."
+msgstr ""
+" \n"
+"Получен запрос на бронирование. Пожалуйста, проверьте детали бронирования и "
+"приймите или отклоните запрос, пройдя по ссылке.\n"
 
-#: main/models.py:151
-msgid "Reserved rooms"
-msgstr "Забронированные номера"
-
-#: main/models.py:156
-msgid "adult places reserved"
-msgstr "забронировано взрослых мест"
-
-#: main/models.py:158
-msgid "children places reserved"
-msgstr "забронировано детских мест"
-
-#: main/notifications/compute_mail_content.py:61
-msgid "Your reservation has been confirmed"
-msgstr "Ваше бронирование подтверждено"
+#: main/signals.py:37
+#, fuzzy, python-format
+#| msgid "Your reservation for {{site_name}} has been confirmed."
+msgid "A new booking request for %(site_name)s has been received."
+msgstr "Ваше бронирование в {{site_name}} подтверждено."
 
 #: site_content/front_translations/en/frontend_translations.py:3
 #: site_content/front_translations/ru/frontend_translations.py:3
@@ -204,271 +401,307 @@ msgid "Book"
 msgstr "Забронировать"
 
 #: site_content/front_translations/en/frontend_translations.py:15
-#: site_content/front_translations/ru/frontend_translations.py:17
-msgid "Booking reviews"
-msgstr "Отзывы гостей"
-
-#: site_content/front_translations/en/frontend_translations.py:16
 #: site_content/front_translations/ru/frontend_translations.py:18
 msgid "booking summary paragraph"
 msgstr "детали бронирования"
 
-#: site_content/front_translations/en/frontend_translations.py:17
+#: site_content/front_translations/en/frontend_translations.py:16
 #: site_content/front_translations/ru/frontend_translations.py:19
 msgid "booking-success-contact-msg"
 msgstr "Ваш запрос на бронирование успешно отправлен."
 
-#: site_content/front_translations/en/frontend_translations.py:18
+#: site_content/front_translations/en/frontend_translations.py:17
 #: site_content/front_translations/ru/frontend_translations.py:20
 msgid "change"
 msgstr "изменить"
 
-#: site_content/front_translations/en/frontend_translations.py:19
+#: site_content/front_translations/en/frontend_translations.py:18
 #: site_content/front_translations/ru/frontend_translations.py:21
 msgid "Check availability"
 msgstr "Проверить наличие мест"
 
-#: site_content/front_translations/en/frontend_translations.py:20
+#: site_content/front_translations/en/frontend_translations.py:19
 #: site_content/front_translations/ru/frontend_translations.py:22
 msgid "Check-in date"
 msgstr "Дата заезда"
 
-#: site_content/front_translations/en/frontend_translations.py:21
+#: site_content/front_translations/en/frontend_translations.py:20
 #: site_content/front_translations/ru/frontend_translations.py:23
 msgid "children"
 msgstr "дети"
 
-#: site_content/front_translations/en/frontend_translations.py:22
+#: site_content/front_translations/en/frontend_translations.py:21
 #: site_content/front_translations/ru/frontend_translations.py:24
 msgid "children_genetive"
 msgstr "детей"
 
-#: site_content/front_translations/en/frontend_translations.py:23
+#: site_content/front_translations/en/frontend_translations.py:22
 #: site_content/front_translations/ru/frontend_translations.py:25
+#, fuzzy
+#| msgid "childrenWithCount_one"
+msgid "childrenWithCount"
+msgstr "{{count}} ребенок"
+
+#: site_content/front_translations/en/frontend_translations.py:23
+#: site_content/front_translations/ru/frontend_translations.py:26
 msgid "childrenWithCount_one"
 msgstr "{{count}} ребенок"
 
 #: site_content/front_translations/en/frontend_translations.py:24
-#: site_content/front_translations/ru/frontend_translations.py:28
+#: site_content/front_translations/ru/frontend_translations.py:29
 msgid "childrenWithCount_other"
 msgstr "{{count}} детей"
 
 #: site_content/front_translations/en/frontend_translations.py:25
-#: site_content/front_translations/ru/frontend_translations.py:29
+#: site_content/front_translations/ru/frontend_translations.py:30
 msgid "close"
 msgstr "закрыть"
 
 #: site_content/front_translations/en/frontend_translations.py:26
-#: site_content/front_translations/ru/frontend_translations.py:30
+#: site_content/front_translations/ru/frontend_translations.py:31
 msgid "confirm"
 msgstr "подтвердить"
 
 #: site_content/front_translations/en/frontend_translations.py:27
-#: site_content/front_translations/ru/frontend_translations.py:31
+#: site_content/front_translations/ru/frontend_translations.py:32
 msgid "Contact"
 msgstr "Контакты"
 
 #: site_content/front_translations/en/frontend_translations.py:28
-#: site_content/front_translations/ru/frontend_translations.py:32
+#: site_content/front_translations/ru/frontend_translations.py:33
 msgid "Contacts"
 msgstr "Контакты"
 
 #: site_content/front_translations/en/frontend_translations.py:29
-#: site_content/front_translations/ru/frontend_translations.py:33
+#: site_content/front_translations/ru/frontend_translations.py:34
 msgid "continue"
 msgstr "продолжить"
 
 #: site_content/front_translations/en/frontend_translations.py:30
-#: site_content/front_translations/ru/frontend_translations.py:34
+#: site_content/front_translations/ru/frontend_translations.py:35
 msgid "Continue"
 msgstr "Продолжить"
 
 #: site_content/front_translations/en/frontend_translations.py:31
-#: site_content/front_translations/ru/frontend_translations.py:35
+#: site_content/front_translations/ru/frontend_translations.py:36
 msgid "create_reservation"
 msgstr "Создать бронирование:"
 
 #: site_content/front_translations/en/frontend_translations.py:32
-#: site_content/front_translations/ru/frontend_translations.py:36
+#: site_content/front_translations/ru/frontend_translations.py:37
 msgid "date"
 msgstr "дата"
 
 #: site_content/front_translations/en/frontend_translations.py:33
-#: site_content/front_translations/ru/frontend_translations.py:37
+#: site_content/front_translations/ru/frontend_translations.py:38
 msgid "Dirt road"
 msgstr "Грунтовая дорога"
 
 #: site_content/front_translations/en/frontend_translations.py:34
-#: site_content/front_translations/ru/frontend_translations.py:38
+#: site_content/front_translations/ru/frontend_translations.py:39
 msgid "Dirt road (off-road car required)"
 msgstr "Грунтовая дорога (требуется внедорожник)"
 
 #: site_content/front_translations/en/frontend_translations.py:35
-#: site_content/front_translations/ru/frontend_translations.py:39
+#: site_content/front_translations/ru/frontend_translations.py:40
 msgid "edit reservation"
 msgstr "редактировать бронирование"
 
-#: site_content/front_translations/en/frontend_translations.py:37
-#: site_content/front_translations/ru/frontend_translations.py:41
+#: site_content/front_translations/en/frontend_translations.py:36
+#: site_content/front_translations/ru/frontend_translations.py:17
+#: site_content/models.py:304
+msgid "reviews"
+msgstr "отзывы"
+
+#: site_content/front_translations/en/frontend_translations.py:38
+#: site_content/front_translations/ru/frontend_translations.py:42
 msgid "For {{count}} night_one"
 msgstr "На {{count}} ночь"
 
-#: site_content/front_translations/en/frontend_translations.py:38
-#: site_content/front_translations/ru/frontend_translations.py:44
+#: site_content/front_translations/en/frontend_translations.py:39
+#: site_content/front_translations/ru/frontend_translations.py:45
 msgid "For {{count}} night_other"
 msgstr "На {{count}} ночей"
 
 #: site_content/front_translations/en/frontend_translations.py:40
 #: site_content/front_translations/ru/frontend_translations.py:46
-msgid "guests"
-msgstr "гости"
+#, fuzzy
+#| msgid "Shuttle from Yeghegnadzor"
+msgid "From Vernashen to Yeghegnadzor"
+msgstr "Трансфер из Ехегнадзора"
 
 #: site_content/front_translations/en/frontend_translations.py:41
 #: site_content/front_translations/ru/frontend_translations.py:47
-#: templates/emails/reservation_confirmed.html:33
-#: templates/emails/reservation_request.html:33
-msgid "Guests"
-msgstr "Гости"
-
-#: site_content/front_translations/en/frontend_translations.py:42
-#: site_content/front_translations/ru/frontend_translations.py:48
-msgid "Hiking trail"
-msgstr "Пешеходная тропа"
+msgid "From Yeghegnadzor to Vernashen"
+msgstr ""
 
 #: site_content/front_translations/en/frontend_translations.py:43
 #: site_content/front_translations/ru/frontend_translations.py:49
-msgid "index-title"
-msgstr "Гостевой дом Шушан"
+msgid "guests"
+msgstr "гости"
 
 #: site_content/front_translations/en/frontend_translations.py:44
 #: site_content/front_translations/ru/frontend_translations.py:50
+#: templates/emails/on_res_validate.html:30
+#: templates/emails/reservation_message.html:29
+msgid "Guests"
+msgstr "Гости"
+
+#: site_content/front_translations/en/frontend_translations.py:45
+#: site_content/front_translations/ru/frontend_translations.py:51
+msgid "Hiking trail"
+msgstr "Пешеходная тропа"
+
+#: site_content/front_translations/en/frontend_translations.py:46
+#: site_content/front_translations/ru/frontend_translations.py:52
+msgid "index-title"
+msgstr "Гостевой дом Шушан"
+
+#: site_content/front_translations/en/frontend_translations.py:47
+#: site_content/front_translations/ru/frontend_translations.py:53
 msgid "km_distance_one"
 msgstr "{{count}} км"
 
-#: site_content/front_translations/en/frontend_translations.py:45
-#: site_content/front_translations/ru/frontend_translations.py:53
+#: site_content/front_translations/en/frontend_translations.py:48
+#: site_content/front_translations/ru/frontend_translations.py:56
 msgid "km_distance_other"
 msgstr "{{count}} км"
 
-#: site_content/front_translations/en/frontend_translations.py:46
-#: site_content/front_translations/ru/frontend_translations.py:54
+#: site_content/front_translations/en/frontend_translations.py:49
+#: site_content/front_translations/ru/frontend_translations.py:57
 msgid "loading..."
 msgstr "загрузка"
 
-#: site_content/front_translations/en/frontend_translations.py:47
-#: site_content/front_translations/ru/frontend_translations.py:55
+#: site_content/front_translations/en/frontend_translations.py:50
+#: site_content/front_translations/ru/frontend_translations.py:58
 msgid "Loading..."
 msgstr "Загрузка"
 
-#: site_content/front_translations/en/frontend_translations.py:48
-#: site_content/front_translations/ru/frontend_translations.py:56
+#: site_content/front_translations/en/frontend_translations.py:51
+#: site_content/front_translations/ru/frontend_translations.py:59
 msgid "Location"
 msgstr "Местоположение"
 
-#: site_content/front_translations/en/frontend_translations.py:49
-#: site_content/front_translations/ru/frontend_translations.py:57
+#: site_content/front_translations/en/frontend_translations.py:52
+#: site_content/front_translations/ru/frontend_translations.py:60
 msgid "location link"
 msgstr "ссылка на местоположение"
 
-#: site_content/front_translations/en/frontend_translations.py:50
-#: site_content/front_translations/ru/frontend_translations.py:58
+#: site_content/front_translations/en/frontend_translations.py:53
+#: site_content/front_translations/ru/frontend_translations.py:61
 msgid "Main page"
 msgstr "Главная страница"
 
-#: site_content/front_translations/en/frontend_translations.py:51
-#: site_content/front_translations/ru/frontend_translations.py:59
+#: site_content/front_translations/en/frontend_translations.py:54
+#: site_content/front_translations/ru/frontend_translations.py:62
 msgid "Maximum nights: 30"
 msgstr "Максимум ночей: 30"
 
-#: site_content/front_translations/en/frontend_translations.py:52
-#: site_content/front_translations/ru/frontend_translations.py:60
-#: templates/emails/reservation_confirmed.html:66
-#: templates/emails/reservation_request.html:66
+#: site_content/front_translations/en/frontend_translations.py:55
+#: site_content/front_translations/ru/frontend_translations.py:63
+#: templates/emails/on_res_validate.html:63
+#: templates/emails/reservation_message.html:62
 msgid "Message"
 msgstr "Сообщение"
 
-#: site_content/front_translations/en/frontend_translations.py:53
-#: site_content/front_translations/ru/frontend_translations.py:61
-msgid "More rooms..."
-msgstr "Еще номера..."
-
-#: site_content/front_translations/en/frontend_translations.py:54
-#: site_content/front_translations/ru/frontend_translations.py:62
-msgid "Mountainous terrain"
-msgstr "Горная местность"
-
-#: site_content/front_translations/en/frontend_translations.py:55
-#: site_content/front_translations/ru/frontend_translations.py:63
-msgid "next"
-msgstr "след"
-
 #: site_content/front_translations/en/frontend_translations.py:56
 #: site_content/front_translations/ru/frontend_translations.py:64
-msgid "Nights"
-msgstr "Ночи"
+#, fuzzy
+#| msgid "Maximum nights: 30"
+msgid "Minimum nights: 1"
+msgstr "Максимум ночей: 30"
 
 #: site_content/front_translations/en/frontend_translations.py:57
 #: site_content/front_translations/ru/frontend_translations.py:65
-msgid "Nights must be a number."
-msgstr "Количество ночей должно быть числом."
+msgid "More rooms..."
+msgstr "Еще номера..."
 
 #: site_content/front_translations/en/frontend_translations.py:58
 #: site_content/front_translations/ru/frontend_translations.py:66
+msgid "Mountainous terrain"
+msgstr "Горная местность"
+
+#: site_content/front_translations/en/frontend_translations.py:59
+#: site_content/front_translations/ru/frontend_translations.py:67
+msgid "next"
+msgstr "след"
+
+#: site_content/front_translations/en/frontend_translations.py:60
+#: site_content/front_translations/ru/frontend_translations.py:68
+msgid "Nights"
+msgstr "Ночи"
+
+#: site_content/front_translations/en/frontend_translations.py:61
+#: site_content/front_translations/ru/frontend_translations.py:69
+#, fuzzy
+#| msgid "Nights must be a number."
+msgid "Nights must be a positive number."
+msgstr "Количество ночей должно быть числом."
+
+#: site_content/front_translations/en/frontend_translations.py:62
+#: site_content/front_translations/ru/frontend_translations.py:70
+#, fuzzy
+#| msgid "adults_genetive"
+msgid "Nights_genetive"
+msgstr "взрослых"
+
+#: site_content/front_translations/en/frontend_translations.py:63
+#: site_content/front_translations/ru/frontend_translations.py:71
 msgid "Nights_one"
 msgstr "ночь"
 
-#: site_content/front_translations/en/frontend_translations.py:59
-#: site_content/front_translations/ru/frontend_translations.py:69
+#: site_content/front_translations/en/frontend_translations.py:64
+#: site_content/front_translations/ru/frontend_translations.py:74
 msgid "Nights_other"
 msgstr "ночей"
 
-#: site_content/front_translations/en/frontend_translations.py:60
-#: site_content/front_translations/ru/frontend_translations.py:70
+#: site_content/front_translations/en/frontend_translations.py:65
+#: site_content/front_translations/ru/frontend_translations.py:75
 msgid "No available rooms for these dates. Please check another date."
 msgstr "Нет свободных номеров на эти даты. Пожалуйста, выберите другие даты."
 
-#: site_content/front_translations/en/frontend_translations.py:61
-#: site_content/front_translations/ru/frontend_translations.py:71
+#: site_content/front_translations/en/frontend_translations.py:66
+#: site_content/front_translations/ru/frontend_translations.py:76
 msgid "No data"
 msgstr "Нет данных"
 
-#: site_content/front_translations/en/frontend_translations.py:62
-#: site_content/front_translations/ru/frontend_translations.py:72
+#: site_content/front_translations/en/frontend_translations.py:67
+#: site_content/front_translations/ru/frontend_translations.py:77
 msgid "Normal road"
 msgstr "Обычная дорога"
 
-#: site_content/front_translations/en/frontend_translations.py:63
-#: site_content/front_translations/ru/frontend_translations.py:73
+#: site_content/front_translations/en/frontend_translations.py:68
+#: site_content/front_translations/ru/frontend_translations.py:78
 msgid "Number of guests"
 msgstr "Количество гостей"
 
-#: site_content/front_translations/en/frontend_translations.py:64
-#: site_content/front_translations/ru/frontend_translations.py:74
+#: site_content/front_translations/en/frontend_translations.py:69
+#: site_content/front_translations/ru/frontend_translations.py:79
 msgid "Open a written guide"
 msgstr "Открыть текстовый гид"
 
-#: site_content/front_translations/en/frontend_translations.py:65
-#: site_content/front_translations/ru/frontend_translations.py:75
+#: site_content/front_translations/en/frontend_translations.py:70
+#: site_content/front_translations/ru/frontend_translations.py:80
 msgid "Open in Google Maps"
 msgstr "Открыть в Google Картах"
 
-#: site_content/front_translations/en/frontend_translations.py:66
-#: site_content/front_translations/ru/frontend_translations.py:76
+#: site_content/front_translations/en/frontend_translations.py:71
+#: site_content/front_translations/ru/frontend_translations.py:81
 msgid "Open map"
 msgstr "Открыть карту"
 
-#: site_content/front_translations/en/frontend_translations.py:67
-#: site_content/front_translations/ru/frontend_translations.py:77
+#: site_content/front_translations/en/frontend_translations.py:72
+#: site_content/front_translations/ru/frontend_translations.py:82
 msgid "Please enter correct date."
 msgstr "Пожалуйста, введите корректную дату."
 
-#: site_content/front_translations/en/frontend_translations.py:68
-#: site_content/front_translations/ru/frontend_translations.py:78
+#: site_content/front_translations/en/frontend_translations.py:73
+#: site_content/front_translations/ru/frontend_translations.py:83
 msgid "Please enter the arival date."
 msgstr "Пожалуйста, введите дату заезда."
 
-#: site_content/front_translations/en/frontend_translations.py:70
-#: site_content/front_translations/ru/frontend_translations.py:80
+#: site_content/front_translations/en/frontend_translations.py:74
+#: site_content/front_translations/ru/frontend_translations.py:84
 msgid ""
 "Please let us know the time of your arrival and any additional information "
 "related to your stay."
@@ -476,186 +709,198 @@ msgstr ""
 "Please let us know the time of your arrival and any additional information "
 "related to your stay."
 
-#: site_content/front_translations/en/frontend_translations.py:72
-#: site_content/front_translations/ru/frontend_translations.py:82
+#: site_content/front_translations/en/frontend_translations.py:75
+#: site_content/front_translations/ru/frontend_translations.py:85
 msgid "Please, provide your contact information to submit booking request"
 msgstr ""
 "Пожалуйста, укажите свои контактные данные для отправки запроса на "
 "бронирование"
 
-#: site_content/front_translations/en/frontend_translations.py:73
-#: site_content/front_translations/ru/frontend_translations.py:83
+#: site_content/front_translations/en/frontend_translations.py:76
+#: site_content/front_translations/ru/frontend_translations.py:86
 msgid "Point of interest"
 msgstr "Достопримечательность"
 
-#: site_content/front_translations/en/frontend_translations.py:74
-#: site_content/front_translations/ru/frontend_translations.py:84
+#: site_content/front_translations/en/frontend_translations.py:77
+#: site_content/front_translations/ru/frontend_translations.py:87
 msgid "Points of interest"
 msgstr "Достопримечательности"
 
-#: site_content/front_translations/en/frontend_translations.py:75
-#: site_content/front_translations/ru/frontend_translations.py:85
+#: site_content/front_translations/en/frontend_translations.py:78
+#: site_content/front_translations/ru/frontend_translations.py:88
 msgid "Points of interest in the province"
 msgstr "Достопримечательности в области"
 
-#: site_content/front_translations/en/frontend_translations.py:76
-#: site_content/front_translations/ru/frontend_translations.py:86
+#: site_content/front_translations/en/frontend_translations.py:79
+#: site_content/front_translations/ru/frontend_translations.py:89
 msgid "Points of interest in Vayots Dzor"
 msgstr "Достопримечательности в области"
 
-#: site_content/front_translations/en/frontend_translations.py:77
-#: site_content/front_translations/ru/frontend_translations.py:87
+#: site_content/front_translations/en/frontend_translations.py:80
+#: site_content/front_translations/ru/frontend_translations.py:90
 msgid "prev"
 msgstr "пред"
 
-#: site_content/front_translations/en/frontend_translations.py:78
-#: site_content/front_translations/ru/frontend_translations.py:88
+#: site_content/front_translations/en/frontend_translations.py:81
+#: site_content/front_translations/ru/frontend_translations.py:91
 msgid "Republican road"
 msgstr "Трасса республиканского значения"
 
-#: site_content/front_translations/en/frontend_translations.py:79
-#: site_content/front_translations/ru/frontend_translations.py:89
+#: site_content/front_translations/en/frontend_translations.py:82
+#: site_content/front_translations/ru/frontend_translations.py:92
 msgid "reset"
 msgstr "сбросить"
 
-#: site_content/front_translations/en/frontend_translations.py:80
-#: site_content/front_translations/ru/frontend_translations.py:90
+#: site_content/front_translations/en/frontend_translations.py:83
+#: site_content/front_translations/ru/frontend_translations.py:93
 msgid "River"
 msgstr "Река"
 
-#: site_content/front_translations/en/frontend_translations.py:81
-#: site_content/front_translations/ru/frontend_translations.py:91
+#: site_content/front_translations/en/frontend_translations.py:84
+#: site_content/front_translations/ru/frontend_translations.py:94
 msgid "rooms"
 msgstr "номера"
 
-#: site_content/front_translations/en/frontend_translations.py:82
-#: site_content/front_translations/ru/frontend_translations.py:92
+#: site_content/front_translations/en/frontend_translations.py:85
+#: site_content/front_translations/ru/frontend_translations.py:95
 msgid "Select number of guests"
 msgstr "Выберите количество гостей"
 
-#: site_content/front_translations/en/frontend_translations.py:83
-#: site_content/front_translations/ru/frontend_translations.py:93
+#: site_content/front_translations/en/frontend_translations.py:86
+#: site_content/front_translations/ru/frontend_translations.py:97
+msgid "select-more-rooms-for-n-guests_one"
+msgstr "Выберите больше комнат, чтобы разместить {{count}} гостя"
+
+#: site_content/front_translations/en/frontend_translations.py:87
+#: site_content/front_translations/ru/frontend_translations.py:100
+msgid "select-more-rooms-for-n-guests_other"
+msgstr "Выберите больше комнат, чтобы разместить {{count}} гостей"
+
+#: site_content/front_translations/en/frontend_translations.py:88
+#: site_content/front_translations/ru/frontend_translations.py:96
 msgid "Selected"
 msgstr "Выбрано"
 
-#: site_content/front_translations/en/frontend_translations.py:84
-#: site_content/front_translations/ru/frontend_translations.py:94
+#: site_content/front_translations/en/frontend_translations.py:89
+#: site_content/front_translations/ru/frontend_translations.py:101
 msgid "Show available rooms"
 msgstr "Показать доступные номера"
 
-#: site_content/front_translations/en/frontend_translations.py:85
-#: site_content/front_translations/ru/frontend_translations.py:95
+#: site_content/front_translations/en/frontend_translations.py:90
+#: site_content/front_translations/ru/frontend_translations.py:102
 msgid "Show less images"
 msgstr "Показать меньше фото"
 
-#: site_content/front_translations/en/frontend_translations.py:86
-#: site_content/front_translations/ru/frontend_translations.py:96
+#: site_content/front_translations/en/frontend_translations.py:91
+#: site_content/front_translations/ru/frontend_translations.py:103
 msgid "Show less rooms"
 msgstr "Скрыть номера"
 
-#: site_content/front_translations/en/frontend_translations.py:87
-#: site_content/front_translations/ru/frontend_translations.py:97
+#: site_content/front_translations/en/frontend_translations.py:92
+#: site_content/front_translations/ru/frontend_translations.py:104
 msgid "Show more images"
 msgstr "Показать больше фото"
 
-#: site_content/front_translations/en/frontend_translations.py:88
-#: site_content/front_translations/ru/frontend_translations.py:98
+#: site_content/front_translations/en/frontend_translations.py:93
+#: site_content/front_translations/ru/frontend_translations.py:105
 msgid "Shushan guest-house"
 msgstr "Гостевой дом Шушан"
 
-#: site_content/front_translations/en/frontend_translations.py:89
-#: site_content/front_translations/ru/frontend_translations.py:99
+#: site_content/front_translations/en/frontend_translations.py:94
+#: site_content/front_translations/ru/frontend_translations.py:106
 msgid "Shuttle from Yeghegnadzor"
 msgstr "Трансфер из Ехегнадзора"
 
-#: site_content/front_translations/en/frontend_translations.py:90
-#: site_content/front_translations/ru/frontend_translations.py:100
+#: site_content/front_translations/en/frontend_translations.py:95
+#: site_content/front_translations/ru/frontend_translations.py:107
 msgid "Site name"
 msgstr "Shushan GH"
 
-#: site_content/front_translations/en/frontend_translations.py:91
-#: site_content/front_translations/ru/frontend_translations.py:101
+#: site_content/front_translations/en/frontend_translations.py:96
+#: site_content/front_translations/ru/frontend_translations.py:108
 msgid "Some subtitle"
 msgstr "Подзаголовок"
 
-#: site_content/front_translations/en/frontend_translations.py:92
-#: site_content/front_translations/ru/frontend_translations.py:102
+#: site_content/front_translations/en/frontend_translations.py:97
+#: site_content/front_translations/ru/frontend_translations.py:109
 msgid "Something went wrong"
 msgstr "Что-то пошло не так"
 
-#: site_content/front_translations/en/frontend_translations.py:93
-#: site_content/front_translations/ru/frontend_translations.py:103
+#: site_content/front_translations/en/frontend_translations.py:98
+#: site_content/front_translations/ru/frontend_translations.py:110
+#, fuzzy
+#| msgid "location link"
+msgid "station location"
+msgstr "ссылка на местоположение"
+
+#: site_content/front_translations/en/frontend_translations.py:99
+#: site_content/front_translations/ru/frontend_translations.py:111
 msgid "submitting..."
 msgstr "отправка"
 
-#: site_content/front_translations/en/frontend_translations.py:94
-#: site_content/front_translations/ru/frontend_translations.py:104
+#: site_content/front_translations/en/frontend_translations.py:100
+#: site_content/front_translations/ru/frontend_translations.py:112
 msgid "summary email help-text"
 msgstr ""
 "Мы отправим подтверждение бронирования на этот адрес электронной почты."
 
-#: site_content/front_translations/en/frontend_translations.py:95
-#: site_content/front_translations/ru/frontend_translations.py:105
+#: site_content/front_translations/en/frontend_translations.py:101
+#: site_content/front_translations/ru/frontend_translations.py:113
 msgid "summary guest name help-text"
 msgstr "Пожалуйста, введите полное имя основного гостя."
 
-#: site_content/front_translations/en/frontend_translations.py:96
-#: site_content/front_translations/ru/frontend_translations.py:106
+#: site_content/front_translations/en/frontend_translations.py:102
+#: site_content/front_translations/ru/frontend_translations.py:114
 msgid "There must be at least 1 guest."
 msgstr "Должен быть как минимум 1 гость."
 
-#: site_content/front_translations/en/frontend_translations.py:97
-#: site_content/front_translations/ru/frontend_translations.py:107
+#: site_content/front_translations/en/frontend_translations.py:103
+#: site_content/front_translations/ru/frontend_translations.py:115
 msgid "This is a test version of the project"
 msgstr "Это тестовая версия проекта"
 
-#: site_content/front_translations/en/frontend_translations.py:98
-#: site_content/front_translations/ru/frontend_translations.py:108
-msgid "To main page"
-msgstr "назад на главную"
-
-#: site_content/front_translations/en/frontend_translations.py:99
-#: site_content/front_translations/ru/frontend_translations.py:109
+#: site_content/front_translations/en/frontend_translations.py:104
+#: site_content/front_translations/ru/frontend_translations.py:116
 msgid "total price"
 msgstr "итоговая цена"
 
-#: site_content/front_translations/en/frontend_translations.py:100
-#: site_content/front_translations/ru/frontend_translations.py:110
+#: site_content/front_translations/en/frontend_translations.py:105
+#: site_content/front_translations/ru/frontend_translations.py:117
 msgid "Total price"
 msgstr "Итоговая стоимость"
 
-#: site_content/front_translations/en/frontend_translations.py:101
-#: site_content/front_translations/ru/frontend_translations.py:111
+#: site_content/front_translations/en/frontend_translations.py:106
+#: site_content/front_translations/ru/frontend_translations.py:118
 msgid "Vayots Dzor"
 msgstr "Вайоц Дзор"
 
-#: site_content/front_translations/en/frontend_translations.py:102
-#: site_content/front_translations/ru/frontend_translations.py:112
+#: site_content/front_translations/en/frontend_translations.py:107
+#: site_content/front_translations/ru/frontend_translations.py:119
 msgid "We could not verify your request. Please try again later."
 msgstr "Не удалось подтвердить ваш запрос. Пожалуйста, попробуйте позже."
 
-#: site_content/front_translations/en/frontend_translations.py:103
-#: site_content/front_translations/ru/frontend_translations.py:113
+#: site_content/front_translations/en/frontend_translations.py:108
+#: site_content/front_translations/ru/frontend_translations.py:120
 msgid "wikipedia"
 msgstr "википедия"
 
-#: site_content/front_translations/en/frontend_translations.py:104
-#: site_content/front_translations/ru/frontend_translations.py:114
+#: site_content/front_translations/en/frontend_translations.py:109
+#: site_content/front_translations/ru/frontend_translations.py:121
 msgid "Your booking request"
 msgstr "Ваш запрос на бронирование"
 
-#: site_content/front_translations/en/frontend_translations.py:105
-#: site_content/front_translations/ru/frontend_translations.py:115
+#: site_content/front_translations/en/frontend_translations.py:110
+#: site_content/front_translations/ru/frontend_translations.py:122
 msgid "Your booking request has been submitted!"
 msgstr "Ваш запрос на бронирование успешно отправлен!"
 
-#: site_content/front_translations/en/frontend_translations.py:106
-#: site_content/front_translations/ru/frontend_translations.py:116
+#: site_content/front_translations/en/frontend_translations.py:111
+#: site_content/front_translations/ru/frontend_translations.py:123
 msgid "Your session has expired"
 msgstr "Время вашей сессии истекло"
 
-#: site_content/front_translations/en/frontend_translations.py:107
-#: site_content/front_translations/ru/frontend_translations.py:117
+#: site_content/front_translations/en/frontend_translations.py:112
+#: site_content/front_translations/ru/frontend_translations.py:124
 msgid "Zoom"
 msgstr "Масштаб"
 
@@ -667,37 +912,45 @@ msgstr "{{count}} взрослых"
 msgid "adultsWithCount_many"
 msgstr "{{count}} взрослых"
 
-#: site_content/front_translations/ru/frontend_translations.py:26
+#: site_content/front_translations/ru/frontend_translations.py:27
 msgid "childrenWithCount_few"
 msgstr "{{count}} детей"
 
-#: site_content/front_translations/ru/frontend_translations.py:27
+#: site_content/front_translations/ru/frontend_translations.py:28
 msgid "childrenWithCount_many"
 msgstr "{{count}} детей"
 
-#: site_content/front_translations/ru/frontend_translations.py:42
+#: site_content/front_translations/ru/frontend_translations.py:43
 msgid "For {{count}} night_few"
 msgstr "На {{count}} ночи"
 
-#: site_content/front_translations/ru/frontend_translations.py:43
+#: site_content/front_translations/ru/frontend_translations.py:44
 msgid "For {{count}} night_many"
 msgstr "На {{count}} ночей"
 
-#: site_content/front_translations/ru/frontend_translations.py:51
+#: site_content/front_translations/ru/frontend_translations.py:54
 msgid "km_distance_few"
 msgstr "{{count}} км"
 
-#: site_content/front_translations/ru/frontend_translations.py:52
+#: site_content/front_translations/ru/frontend_translations.py:55
 msgid "km_distance_many"
 msgstr "{{count}} км"
 
-#: site_content/front_translations/ru/frontend_translations.py:67
+#: site_content/front_translations/ru/frontend_translations.py:72
 msgid "Nights_few"
 msgstr "ночи"
 
-#: site_content/front_translations/ru/frontend_translations.py:68
+#: site_content/front_translations/ru/frontend_translations.py:73
 msgid "Nights_many"
 msgstr "ночей"
+
+#: site_content/front_translations/ru/frontend_translations.py:98
+msgid "select-more-rooms-for-n-guests_few"
+msgstr "Выберите больше комнат, чтобы разместить {{count}} гостей"
+
+#: site_content/front_translations/ru/frontend_translations.py:99
+msgid "select-more-rooms-for-n-guests_many"
+msgstr "Выберите больше комнат, чтобы разместить {{count}} гостей"
 
 #: site_content/models.py:23
 msgid "tag"
@@ -725,148 +978,105 @@ msgstr "Информационная страница"
 msgid "Content pages"
 msgstr "Информационные страницы"
 
-#: site_content/models.py:138
-msgid "wide photo"
-msgstr "широкое фото"
-
-#: site_content/models.py:139
-msgid "wide photos"
-msgstr "широкие фото"
-
-#: site_content/models.py:151
-msgid "Wide"
-msgstr "Широкий"
-
-#: site_content/models.py:152
-msgid "Album medium"
-msgstr "Альбомный (средний)"
-
-#: site_content/models.py:153
-msgid "Protrait medium"
-msgstr "Портретный (средний)"
-
-#: site_content/models.py:154
-msgid "Album small"
-msgstr "Альбомный (маленький)"
-
-#: site_content/models.py:162
-msgid "Which frame format this image is for inside the mosaic image grid"
-msgstr ""
-"Для какого формата рамки предназначено это изображение в мозаичной сетке"
-
-#: site_content/models.py:177
-msgid "grid image"
-msgstr "изображение сетки"
-
-#: site_content/models.py:178
-msgid "grid images"
-msgstr "изображения сетки"
-
-#: site_content/models.py:197
-msgid "room image"
-msgstr "фото номера"
-
-#: site_content/models.py:198
-msgid "room images"
-msgstr "фото номеров"
-
-#: site_content/models.py:212
+#: site_content/models.py:241
 msgid "name"
 msgstr "название"
 
-#: site_content/models.py:219
+#: site_content/models.py:248
 msgid "distance"
 msgstr "расстояние"
 
-#: site_content/models.py:224
+#: site_content/models.py:253
 msgid "distance comment"
 msgstr "примечание к расстоянию"
 
-#: site_content/models.py:226
+#: site_content/models.py:255
 msgid "description"
 msgstr "описание"
 
-#: site_content/models.py:228
+#: site_content/models.py:257
 msgid "geolocation link"
 msgstr "ссылка на геолокацию"
 
-#: site_content/models.py:229
+#: site_content/models.py:258
 msgid "link to a map provider with the location of the place"
 msgstr "ссылка на карту с местоположением объекта"
 
-#: site_content/models.py:232
+#: site_content/models.py:261
 msgid "Information link"
 msgstr "Информационная ссылка"
 
-#: site_content/models.py:233
+#: site_content/models.py:262
 msgid "Link to an external resources with information about the place"
 msgstr "Ссылка на внешний ресурс с информацией об этом месте"
 
-#: site_content/models.py:238 site_content/models.py:252
-msgid "place"
-msgstr "место"
-
-#: site_content/models.py:239
+#: site_content/models.py:268
 msgid "places"
 msgstr "места"
 
-#: site_content/models.py:256
-msgid "place image"
-msgstr "фото места"
-
-#: site_content/models.py:257
-msgid "place images"
-msgstr "фото мест"
-
-#: site_content/models.py:264
+#: site_content/models.py:298
 msgid "review date"
 msgstr "дата отзыва"
 
-#: site_content/models.py:269
+#: site_content/models.py:303
 msgid "review"
 msgstr "отзыв"
-
-#: site_content/models.py:270
-msgid "reviews"
-msgstr "отзывы"
 
 #: templates/admin/main/reservation/change_form.html:9
 msgid "Confirm reservation"
 msgstr "Подтвердить бронирование"
 
-#: templates/emails/reservation_confirmed.html:5
-msgid "Your reservation for {{site_name}} has been confirmed."
-msgstr "Ваше бронирование в {{site_name}} подтверждено."
+#: templates/admin/main/reservation/change_form.html:14
+#: templates/admin/main/reservation/decline_button.html:9
+#, fuzzy
+#| msgid "edit reservation"
+msgid "Decline reservation"
+msgstr "редактировать бронирование"
 
-#: templates/emails/reservation_confirmed.html:10
-#: templates/emails/reservation_confirmed.txt:5
+#: templates/admin/main/reservation/change_form.html:20
+#: templates/admin/main/reservation/reply_button.html:9
+msgid "Reply to client"
+msgstr "Ответить клиенту"
+
+#: templates/admin/main/reservation/reply_form.html:7
+msgid "Home"
+msgstr "Дом"
+
+#: templates/admin/main/reservation/reply_form.html:18
 #, python-format
 msgid ""
 "\n"
-"        Hello, %(guest_name)s. Your reservation for %(site_name)s has been "
-"confirmed! We will be waiting for you on %(check_in)s. If you need to "
-"contact us please send a mail to %(manager_email)s.\n"
+"        Review and customize the email message that will be sent to the "
+"customer of %(reservation_name)s <strong># %(reservation_id)s \n"
 "      "
 msgstr ""
 "\n"
-"        Здравствуйте, %(guest_name)s. Ваше бронирование в %(site_name)s "
-"подтверждено! Мы ждем вас %(check_in)s. Если вам нужно связаться с нами, "
-"пожалуйста, отправьте письмо на %(manager_email)s.\n"
+"        Проверьте содержание письма и внесите изменения (если необходимо) "
+"для клиента %(reservation_name)s <strong># %(reservation_id)s \n"
 "      "
 
-#: templates/emails/reservation_confirmed.html:23
-#: templates/emails/reservation_request.html:23
+#: templates/admin/main/reservation/reply_form.html:38
+msgid "Confirm & Send Email"
+msgstr "Подтвердить и отправить письмо"
+
+#: templates/admin/main/reservation/reply_form.html:39
+#: templates/two_factor/_wizard_actions.html:5
+msgid "Cancel"
+msgstr "Отменить"
+
+#: templates/emails/on_res_validate.html:20
+#: templates/emails/reservation_message.html:19
 msgid "Check-in"
 msgstr "Check-in"
 
-#: templates/emails/reservation_confirmed.html:28
-#: templates/emails/reservation_request.html:28
+#: templates/emails/on_res_validate.html:25
+#: templates/emails/reservation_message.html:24
 msgid "Check-out"
 msgstr "Выезд"
 
 #. Translators: {{count}} adults and {{count}} children
-#: templates/emails/reservation_confirmed.html:37
-#: templates/emails/reservation_request.html:37
+#: templates/emails/on_res_validate.html:34
+#: templates/emails/reservation_message.html:33
 #, python-format
 msgid "%(adults)s adult"
 msgid_plural "%(adults)s adults"
@@ -875,8 +1085,8 @@ msgstr[1] "%(adults)s взрослых"
 msgstr[2] "%(adults)s взрослых"
 
 #. Translators: {{count}} adults and {{count}} children
-#: templates/emails/reservation_confirmed.html:44
-#: templates/emails/reservation_request.html:44
+#: templates/emails/on_res_validate.html:41
+#: templates/emails/reservation_message.html:40
 #, python-format
 msgid "and %(children)s child"
 msgid_plural "and %(children)s children"
@@ -884,45 +1094,13 @@ msgstr[0] "и %(children)s ребенок"
 msgstr[1] "и %(children)s детей"
 msgstr[2] "и %(children)s детей"
 
-#: templates/emails/reservation_confirmed.html:52
-#: templates/emails/reservation_request.html:52
+#: templates/emails/on_res_validate.html:49
+#: templates/emails/reservation_message.html:48
 msgid "nights"
 msgstr "ночей"
 
-#: templates/emails/reservation_request.html:4
-msgid "A new reservation is requested"
-msgstr "Получен новый запрос на бронирование"
-
-#: templates/emails/reservation_request.html:9
-#, fuzzy
-#| msgid ""
-#| " \n"
-#| "    A reservation has been requested. Please check the reservation\n"
-#| "    parameters and confirm or decline the reservation by following the "
-#| "link to the\n"
-#| "    administrator site. \n"
-msgid ""
-" \n"
-"    A reservation has been requested. Please check the reservation\n"
-"    parameters and confirm or decline the reservation by following the link "
-"to the\n"
-"    administrator site. \n"
-"  "
-msgstr ""
-" \n"
-"Получен запрос на бронирование. Пожалуйста, проверьте детали бронирования и "
-"приймите или отклоните запрос, пройдя по ссылке.\n"
-
-#: templates/emails/reservation_request.html:86
-msgid "View reservation"
-msgstr "редактировать бронирование"
-
 #: templates/two_factor/_base.html:13
 msgid "Guest-house administrator site"
-msgstr ""
-
-#: templates/two_factor/_wizard_actions.html:5
-msgid "Cancel"
 msgstr ""
 
 #: templates/two_factor/_wizard_actions.html:10
@@ -991,6 +1169,21 @@ msgstr "Вернуться назад"
 #: templates/two_factor/core/otp_required.html:18
 msgid "Enable Two-Factor Authentication"
 msgstr "Включить двух-факторную аутентификацию"
+
+#~ msgid "Booking reviews"
+#~ msgstr "Отзывы гостей"
+
+#~ msgid "To main page"
+#~ msgstr "назад на главную"
+
+#~ msgid "Your reservation has been confirmed"
+#~ msgstr "Ваше бронирование подтверждено"
+
+#~ msgid "A new reservation is requested"
+#~ msgstr "Получен новый запрос на бронирование"
+
+#~ msgid "View reservation"
+#~ msgstr "редактировать бронирование"
 
 #~ msgid "nightWithCount_one"
 #~ msgstr "{{count}} ночь"

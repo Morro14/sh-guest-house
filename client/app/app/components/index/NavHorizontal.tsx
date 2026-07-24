@@ -7,7 +7,7 @@ const BOOKING_URL = "https://www.booking.com/hotel/am/shushan-guest-house.html";
 export default function NavHorizontal() {
   const { t, i18n } = useTranslation();
   return (
-    <div className="flex 2xl:flex-row flex-col justify-center items-center 2xl:w-full 2xl:gap-5 gap-1 font-serif text-lg underline">
+    <div className="flex 2xl:flex-row flex-col justify-center items-center 2xl:w-full 2xl:gap-5 gap-1 font-serif font-semibold text-lg underline">
       <button
         onClick={() => {
           const el = document.getElementById("about");
@@ -46,7 +46,7 @@ export default function NavHorizontal() {
       <Link to={BOOKING_URL} className="flex justify-start gap-3">
         <div className="flex items-center gap-1 ">
           <div className="hover:cursor-pointer text-nowrap ">
-            {t("Booking.com reviews")}
+            Booking.com {t("reviews")}
           </div>
           <div className="flex items-center gap-1">
             <div className="">{star}</div>

@@ -26,7 +26,7 @@ export default function Paragraph({
     <PlaceholderParagraph></PlaceholderParagraph>
   ) : (
     <div
-      className={`${centered ? "relative flex flex-col items-center text-center " : ""}`}
+      className={`${centered ? "relative flex flex-col items-center text-center " : ""} `}
     >
       <div
         ref={ref}
@@ -34,7 +34,7 @@ export default function Paragraph({
       >
         {content.title.length > 0 ? <TitleTag>{content.title}</TitleTag> : ""}
         {subtitle ? <h3>{subtitle}</h3> : ""}
-        <p className="font-sans font-[400] md:text-base text-pretty w-full whitespace-pre-wrap">
+        <p className="font-sans font-[400] md:text-base text-balance w-full whitespace-pre-wrap">
           {content.body}
         </p>
       </div>

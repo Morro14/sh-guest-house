@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-09 09:24+0000\n"
+"POT-Creation-Date: 2026-07-24 18:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app/settings.py:190
+#: app/settings.py:191
 msgid "English"
 msgstr "English"
 
-#: app/settings.py:190
+#: app/settings.py:191
 msgid "Russian"
 msgstr "Russian"
 
@@ -41,23 +41,205 @@ msgstr "Password confirmation"
 msgid "Passwords don't match"
 msgstr "Passwords don't match"
 
-#: auth_app/models.py:13
-#: site_content/front_translations/en/frontend_translations.py:36
-#: site_content/front_translations/ru/frontend_translations.py:40
+#: auth_app/models.py:12
+#: site_content/front_translations/en/frontend_translations.py:37
+#: site_content/front_translations/ru/frontend_translations.py:41
 msgid "Email"
 msgstr "Email"
 
-#: main/admin.py:55
+#: demo/admin.py:65 main/admin.py:73 main/admin.py:148
 msgid "Reservation is already confirmed."
 msgstr "Reservation is already confirmed."
 
-#: main/admin.py:63
+#: demo/admin.py:73 main/admin.py:81 main/admin.py:156
 msgid "Reservation is not validated yet."
 msgstr "Reservation is not validated yet."
 
-#: main/admin.py:73
+#: demo/admin.py:83
 msgid "Reservation confirmed and email notification sent."
 msgstr "Reservation confirmed and email notification sent."
+
+#: demo/models.py:38 site_content/models.py:155
+msgid "wide photo"
+msgstr "wide photo"
+
+#: demo/models.py:39 site_content/models.py:156
+msgid "wide photos"
+msgstr "wide photos"
+
+#: demo/models.py:48 site_content/models.py:175
+msgid "Wide"
+msgstr "Wide"
+
+#: demo/models.py:49 site_content/models.py:176
+msgid "Album medium"
+msgstr "Album medium"
+
+#: demo/models.py:50 site_content/models.py:177
+msgid "Protrait medium"
+msgstr "Portrait medium"
+
+#: demo/models.py:51 site_content/models.py:178
+msgid "Album small"
+msgstr "Album small"
+
+#: demo/models.py:59 site_content/models.py:186
+msgid "Which frame format this image is for inside the mosaic image grid"
+msgstr "Which frame format this image is for inside the mosaic image grid"
+
+#: demo/models.py:74 site_content/models.py:201
+msgid "grid image"
+msgstr "grid image"
+
+#: demo/models.py:75 site_content/models.py:202
+msgid "grid images"
+msgstr "grid images"
+
+#: demo/models.py:87 site_content/models.py:226
+msgid "room image"
+msgstr "room image"
+
+#: demo/models.py:88 site_content/models.py:227
+msgid "room images"
+msgstr "room images"
+
+#: demo/models.py:105 main/models.py:171
+msgid "Reserved room"
+msgstr "Reserved room"
+
+#: demo/models.py:106 main/models.py:172
+msgid "Reserved rooms"
+msgstr "Reserved rooms"
+
+#: demo/models.py:111 main/models.py:177
+msgid "adult places reserved"
+msgstr "adult spaces reserved"
+
+#: demo/models.py:113 main/models.py:179
+msgid "children places reserved"
+msgstr "children spaces reserved"
+
+#: demo/models.py:135 site_content/models.py:267 site_content/models.py:286
+msgid "place"
+msgstr "place"
+
+#: demo/models.py:139 site_content/models.py:290
+msgid "place image"
+msgstr "place image"
+
+#: demo/models.py:140 site_content/models.py:291
+msgid "place images"
+msgstr "place images"
+
+#: main/admin.py:87
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "        Hello, %(guest_name)s. Your reservation for %(site_name)s has "
+#| "been confirmed! We will be waiting for you on %(check_in)s. If you need "
+#| "to contact us please send a mail to %(manager_email)s.\n"
+#| "      "
+msgid ""
+"Dear {{user}}.\n"
+"\n"
+"Your reservation for {{site_name}} has been confirmed! We will be waiting "
+"for you on {{check_in|date:'DATE_FORMAT'}}. If you need to contact us please "
+"send a mail to {{manager_email}}."
+msgstr ""
+"\n"
+"        Hello, %(guest_name)s. Your reservation for %(site_name)s has been "
+"confirmed! We will be waiting for you on %(check_in)s. If you need to "
+"contact us please send an email to %(manager_email)s.\n"
+"      "
+
+#: main/admin.py:110
+#, fuzzy
+#| msgid "Reservation confirmed and email notification sent."
+msgid "Reservation is confirmed and email notification sent."
+msgstr "Reservation confirmed and email notification sent."
+
+#: main/admin.py:120
+#, fuzzy, python-format
+#| msgid "Your reservation for {{site_name}} has been confirmed."
+msgid "Your reservation in %(site_name)s has been confirmed."
+msgstr "Your reservation for {{site_name}} has been confirmed."
+
+#: main/admin.py:123 main/signals.py:40
+#, fuzzy
+#| msgid "Your booking request has been submitted!"
+msgid "Booking request is confirmed"
+msgstr "Your booking request has been submitted!"
+
+#: main/admin.py:132
+#, fuzzy, python-format
+#| msgid "Confirm reservation"
+msgid "Confirm reservation #%s"
+msgstr "Confirm reservation"
+
+#: main/admin.py:162
+msgid ""
+"Dear {{user}}.\n"
+"\n"
+"Unfortunately, we cannot accommodate you during the requested period. The "
+"rooms will be available on: <dates and rooms>. \n"
+"\n"
+"If you need to contact us please send a mail to {{manager_email}}.\n"
+"<check-in> {{check_in}}\n"
+"<check-out> {{check_out}}\n"
+"<manager-email> {{manager_email}}"
+msgstr ""
+
+#: main/admin.py:191
+#, fuzzy
+#| msgid "Reservation confirmed and email notification sent."
+msgid "Reservation is declined and email notification sent."
+msgstr "Reservation confirmed and email notification sent."
+
+#: main/admin.py:201
+#, fuzzy, python-format
+#| msgid "Your reservation for {{site_name}} has been confirmed."
+msgid "Your reservation in %(site_name)s has been declined."
+msgstr "Your reservation for {{site_name}} has been confirmed."
+
+#: main/admin.py:204
+#, fuzzy
+#| msgid "Your booking request has been submitted!"
+msgid "Booking request is declined"
+msgstr "Your booking request has been submitted!"
+
+#: main/admin.py:212
+#, fuzzy, python-format
+#| msgid "edit reservation"
+msgid "Decline reservation #%s"
+msgstr "edit reservation"
+
+#: main/admin.py:229
+msgid ""
+"Dear {{user}}.\n"
+"\n"
+"<check-in> {{check_in}}\n"
+"<check-out> {{check_out}}\n"
+"<manager-email> {{manager_email}}"
+msgstr ""
+
+#: main/admin.py:252
+msgid "The email has beed sent to the user."
+msgstr ""
+
+#: main/admin.py:262
+#, python-format
+msgid "A message from %(site_name)s regarding your booking request."
+msgstr ""
+
+#: main/admin.py:265
+#, python-format
+msgid "A message from %(site_name)s"
+msgstr ""
+
+#: main/admin.py:273
+#, python-format
+msgid "Reply to client %s"
+msgstr ""
 
 #: main/extra_translations.py:7
 msgid "Please enter the token generated by your token generator."
@@ -72,74 +254,87 @@ msgstr "Send email to %s"
 msgid "Shushan guest house"
 msgstr "Shushan guest house"
 
-#: main/models.py:44
+#: main/models.py:16
+#, fuzzy
+#| msgid "edit reservation"
+msgid "reservation"
+msgstr "edit reservation"
+
+#: main/models.py:50
 msgid "created at"
 msgstr "created at"
 
-#: main/models.py:56
-#: site_content/front_translations/en/frontend_translations.py:39
-#: site_content/front_translations/ru/frontend_translations.py:45
-#: templates/emails/reservation_confirmed.html:18
-#: templates/emails/reservation_request.html:18
+#: main/models.py:62
+#: site_content/front_translations/en/frontend_translations.py:42
+#: site_content/front_translations/ru/frontend_translations.py:48
+#: templates/emails/on_res_validate.html:15
+#: templates/emails/reservation_message.html:14
 msgid "Guest name"
 msgstr "Guest name"
 
-#: main/models.py:125 site_content/models.py:216
+#: main/models.py:141 site_content/models.py:245
 msgid "slug"
 msgstr "slug"
 
-#: main/models.py:126 site_content/models.py:217
+#: main/models.py:142 site_content/models.py:246
 msgid "unique name (lower case without spaces)"
 msgstr "unique name (lowercase without spaces)"
 
-#: main/models.py:128
+#: main/models.py:144
 msgid "Room name"
 msgstr "Room name"
 
-#: main/models.py:130
+#: main/models.py:146
 msgid "Adults"
 msgstr "Adults"
 
-#: main/models.py:131
+#: main/models.py:147
 msgid "places in the room for any guests (adult or children)"
 msgstr "places in the room for any guests (adults or children)"
 
-#: main/models.py:134
+#: main/models.py:150
 msgid "Children"
 msgstr "Children"
 
-#: main/models.py:135
+#: main/models.py:151
 msgid "places in the room only for children"
 msgstr "places in the room only for children"
 
-#: main/models.py:142
+#: main/models.py:158
 msgid "Room"
 msgstr "Room"
 
-#: main/models.py:143 templates/emails/reservation_confirmed.html:57
-#: templates/emails/reservation_request.html:57
+#: main/models.py:159 templates/emails/on_res_validate.html:54
+#: templates/emails/reservation_message.html:53
 msgid "Rooms"
 msgstr "Rooms"
 
-#: main/models.py:150
-msgid "Reserved room"
-msgstr "Reserved room"
+#: main/signals.py:26
+#, fuzzy
+#| msgid ""
+#| " \n"
+#| "    A reservation has been requested. Please check the reservation\n"
+#| "    parameters and confirm or decline the reservation by following the "
+#| "link to the\n"
+#| "    administrator site. \n"
+#| "  "
+msgid ""
+"A reservation has been requested. Please check the reservation parameters "
+"and confirm or decline the reservation by following the link to the "
+"administrator site."
+msgstr ""
+" \n"
+"    A reservation has been requested. Please check the reservation\n"
+"    parameters and confirm or decline the reservation by following the link "
+"to the\n"
+"    administrator site. \n"
+"  "
 
-#: main/models.py:151
-msgid "Reserved rooms"
-msgstr "Reserved rooms"
-
-#: main/models.py:156
-msgid "adult places reserved"
-msgstr "adult spaces reserved"
-
-#: main/models.py:158
-msgid "children places reserved"
-msgstr "children spaces reserved"
-
-#: main/notifications/compute_mail_content.py:61
-msgid "Your reservation has been confirmed"
-msgstr "Your reservation has been confirmed"
+#: main/signals.py:37
+#, fuzzy, python-format
+#| msgid "Your reservation for {{site_name}} has been confirmed."
+msgid "A new booking request for %(site_name)s has been received."
+msgstr "Your reservation for {{site_name}} has been confirmed."
 
 #: site_content/front_translations/en/frontend_translations.py:3
 #: site_content/front_translations/ru/frontend_translations.py:3
@@ -202,271 +397,307 @@ msgid "Book"
 msgstr "Book"
 
 #: site_content/front_translations/en/frontend_translations.py:15
-#: site_content/front_translations/ru/frontend_translations.py:17
-msgid "Booking reviews"
-msgstr "Booking reviews"
-
-#: site_content/front_translations/en/frontend_translations.py:16
 #: site_content/front_translations/ru/frontend_translations.py:18
 msgid "booking summary paragraph"
 msgstr "booking summary paragraph"
 
-#: site_content/front_translations/en/frontend_translations.py:17
+#: site_content/front_translations/en/frontend_translations.py:16
 #: site_content/front_translations/ru/frontend_translations.py:19
 msgid "booking-success-contact-msg"
 msgstr "Your booking request has been submitted successfully."
 
-#: site_content/front_translations/en/frontend_translations.py:18
+#: site_content/front_translations/en/frontend_translations.py:17
 #: site_content/front_translations/ru/frontend_translations.py:20
 msgid "change"
 msgstr "change"
 
-#: site_content/front_translations/en/frontend_translations.py:19
+#: site_content/front_translations/en/frontend_translations.py:18
 #: site_content/front_translations/ru/frontend_translations.py:21
 msgid "Check availability"
 msgstr "Check availability"
 
-#: site_content/front_translations/en/frontend_translations.py:20
+#: site_content/front_translations/en/frontend_translations.py:19
 #: site_content/front_translations/ru/frontend_translations.py:22
 msgid "Check-in date"
 msgstr "Check-in date"
 
-#: site_content/front_translations/en/frontend_translations.py:21
+#: site_content/front_translations/en/frontend_translations.py:20
 #: site_content/front_translations/ru/frontend_translations.py:23
 msgid "children"
 msgstr "children"
 
-#: site_content/front_translations/en/frontend_translations.py:22
+#: site_content/front_translations/en/frontend_translations.py:21
 #: site_content/front_translations/ru/frontend_translations.py:24
 msgid "children_genetive"
 msgstr "children"
 
-#: site_content/front_translations/en/frontend_translations.py:23
+#: site_content/front_translations/en/frontend_translations.py:22
 #: site_content/front_translations/ru/frontend_translations.py:25
+#, fuzzy
+#| msgid "childrenWithCount_one"
+msgid "childrenWithCount"
+msgstr "{{count}} child"
+
+#: site_content/front_translations/en/frontend_translations.py:23
+#: site_content/front_translations/ru/frontend_translations.py:26
 msgid "childrenWithCount_one"
 msgstr "{{count}} child"
 
 #: site_content/front_translations/en/frontend_translations.py:24
-#: site_content/front_translations/ru/frontend_translations.py:28
+#: site_content/front_translations/ru/frontend_translations.py:29
 msgid "childrenWithCount_other"
 msgstr "{{count}} children"
 
 #: site_content/front_translations/en/frontend_translations.py:25
-#: site_content/front_translations/ru/frontend_translations.py:29
+#: site_content/front_translations/ru/frontend_translations.py:30
 msgid "close"
 msgstr "close"
 
 #: site_content/front_translations/en/frontend_translations.py:26
-#: site_content/front_translations/ru/frontend_translations.py:30
+#: site_content/front_translations/ru/frontend_translations.py:31
 msgid "confirm"
 msgstr "confirm"
 
 #: site_content/front_translations/en/frontend_translations.py:27
-#: site_content/front_translations/ru/frontend_translations.py:31
+#: site_content/front_translations/ru/frontend_translations.py:32
 msgid "Contact"
 msgstr "Contact"
 
 #: site_content/front_translations/en/frontend_translations.py:28
-#: site_content/front_translations/ru/frontend_translations.py:32
+#: site_content/front_translations/ru/frontend_translations.py:33
 msgid "Contacts"
 msgstr "Contacts"
 
 #: site_content/front_translations/en/frontend_translations.py:29
-#: site_content/front_translations/ru/frontend_translations.py:33
+#: site_content/front_translations/ru/frontend_translations.py:34
 msgid "continue"
 msgstr "continue"
 
 #: site_content/front_translations/en/frontend_translations.py:30
-#: site_content/front_translations/ru/frontend_translations.py:34
+#: site_content/front_translations/ru/frontend_translations.py:35
 msgid "Continue"
 msgstr "Continue"
 
 #: site_content/front_translations/en/frontend_translations.py:31
-#: site_content/front_translations/ru/frontend_translations.py:35
+#: site_content/front_translations/ru/frontend_translations.py:36
 msgid "create_reservation"
 msgstr "Create reservation:"
 
 #: site_content/front_translations/en/frontend_translations.py:32
-#: site_content/front_translations/ru/frontend_translations.py:36
+#: site_content/front_translations/ru/frontend_translations.py:37
 msgid "date"
 msgstr "date"
 
 #: site_content/front_translations/en/frontend_translations.py:33
-#: site_content/front_translations/ru/frontend_translations.py:37
+#: site_content/front_translations/ru/frontend_translations.py:38
 msgid "Dirt road"
 msgstr "Dirt road"
 
 #: site_content/front_translations/en/frontend_translations.py:34
-#: site_content/front_translations/ru/frontend_translations.py:38
+#: site_content/front_translations/ru/frontend_translations.py:39
 msgid "Dirt road (off-road car required)"
 msgstr "Dirt road (off-road car required)"
 
 #: site_content/front_translations/en/frontend_translations.py:35
-#: site_content/front_translations/ru/frontend_translations.py:39
+#: site_content/front_translations/ru/frontend_translations.py:40
 msgid "edit reservation"
 msgstr "edit reservation"
 
-#: site_content/front_translations/en/frontend_translations.py:37
-#: site_content/front_translations/ru/frontend_translations.py:41
+#: site_content/front_translations/en/frontend_translations.py:36
+#: site_content/front_translations/ru/frontend_translations.py:17
+#: site_content/models.py:304
+msgid "reviews"
+msgstr "reviews"
+
+#: site_content/front_translations/en/frontend_translations.py:38
+#: site_content/front_translations/ru/frontend_translations.py:42
 msgid "For {{count}} night_one"
 msgstr "For {{count}} night"
 
-#: site_content/front_translations/en/frontend_translations.py:38
-#: site_content/front_translations/ru/frontend_translations.py:44
+#: site_content/front_translations/en/frontend_translations.py:39
+#: site_content/front_translations/ru/frontend_translations.py:45
 msgid "For {{count}} night_other"
 msgstr "For {{count}} nights"
 
 #: site_content/front_translations/en/frontend_translations.py:40
 #: site_content/front_translations/ru/frontend_translations.py:46
-msgid "guests"
-msgstr "guests"
+#, fuzzy
+#| msgid "Shuttle from Yeghegnadzor"
+msgid "From Vernashen to Yeghegnadzor"
+msgstr "Shuttle from Yeghegnadzor"
 
 #: site_content/front_translations/en/frontend_translations.py:41
 #: site_content/front_translations/ru/frontend_translations.py:47
-#: templates/emails/reservation_confirmed.html:33
-#: templates/emails/reservation_request.html:33
-msgid "Guests"
-msgstr "Guests"
-
-#: site_content/front_translations/en/frontend_translations.py:42
-#: site_content/front_translations/ru/frontend_translations.py:48
-msgid "Hiking trail"
-msgstr "Hiking trail"
+msgid "From Yeghegnadzor to Vernashen"
+msgstr ""
 
 #: site_content/front_translations/en/frontend_translations.py:43
 #: site_content/front_translations/ru/frontend_translations.py:49
-msgid "index-title"
-msgstr "Shushan guest house"
+msgid "guests"
+msgstr "guests"
 
 #: site_content/front_translations/en/frontend_translations.py:44
 #: site_content/front_translations/ru/frontend_translations.py:50
+#: templates/emails/on_res_validate.html:30
+#: templates/emails/reservation_message.html:29
+msgid "Guests"
+msgstr "Guests"
+
+#: site_content/front_translations/en/frontend_translations.py:45
+#: site_content/front_translations/ru/frontend_translations.py:51
+msgid "Hiking trail"
+msgstr "Hiking trail"
+
+#: site_content/front_translations/en/frontend_translations.py:46
+#: site_content/front_translations/ru/frontend_translations.py:52
+msgid "index-title"
+msgstr "Shushan guest house"
+
+#: site_content/front_translations/en/frontend_translations.py:47
+#: site_content/front_translations/ru/frontend_translations.py:53
 msgid "km_distance_one"
 msgstr "{{count}} km"
 
-#: site_content/front_translations/en/frontend_translations.py:45
-#: site_content/front_translations/ru/frontend_translations.py:53
+#: site_content/front_translations/en/frontend_translations.py:48
+#: site_content/front_translations/ru/frontend_translations.py:56
 msgid "km_distance_other"
 msgstr "{{count}} km"
 
-#: site_content/front_translations/en/frontend_translations.py:46
-#: site_content/front_translations/ru/frontend_translations.py:54
+#: site_content/front_translations/en/frontend_translations.py:49
+#: site_content/front_translations/ru/frontend_translations.py:57
 msgid "loading..."
 msgstr "loading"
 
-#: site_content/front_translations/en/frontend_translations.py:47
-#: site_content/front_translations/ru/frontend_translations.py:55
+#: site_content/front_translations/en/frontend_translations.py:50
+#: site_content/front_translations/ru/frontend_translations.py:58
 msgid "Loading..."
 msgstr "Loading"
 
-#: site_content/front_translations/en/frontend_translations.py:48
-#: site_content/front_translations/ru/frontend_translations.py:56
+#: site_content/front_translations/en/frontend_translations.py:51
+#: site_content/front_translations/ru/frontend_translations.py:59
 msgid "Location"
 msgstr "Location"
 
-#: site_content/front_translations/en/frontend_translations.py:49
-#: site_content/front_translations/ru/frontend_translations.py:57
+#: site_content/front_translations/en/frontend_translations.py:52
+#: site_content/front_translations/ru/frontend_translations.py:60
 msgid "location link"
 msgstr "location link"
 
-#: site_content/front_translations/en/frontend_translations.py:50
-#: site_content/front_translations/ru/frontend_translations.py:58
+#: site_content/front_translations/en/frontend_translations.py:53
+#: site_content/front_translations/ru/frontend_translations.py:61
 msgid "Main page"
 msgstr ""
 
-#: site_content/front_translations/en/frontend_translations.py:51
-#: site_content/front_translations/ru/frontend_translations.py:59
+#: site_content/front_translations/en/frontend_translations.py:54
+#: site_content/front_translations/ru/frontend_translations.py:62
 msgid "Maximum nights: 30"
 msgstr "Maximum nights: 30"
 
-#: site_content/front_translations/en/frontend_translations.py:52
-#: site_content/front_translations/ru/frontend_translations.py:60
-#: templates/emails/reservation_confirmed.html:66
-#: templates/emails/reservation_request.html:66
+#: site_content/front_translations/en/frontend_translations.py:55
+#: site_content/front_translations/ru/frontend_translations.py:63
+#: templates/emails/on_res_validate.html:63
+#: templates/emails/reservation_message.html:62
 msgid "Message"
 msgstr "Message"
 
-#: site_content/front_translations/en/frontend_translations.py:53
-#: site_content/front_translations/ru/frontend_translations.py:61
-msgid "More rooms..."
-msgstr "More rooms..."
-
-#: site_content/front_translations/en/frontend_translations.py:54
-#: site_content/front_translations/ru/frontend_translations.py:62
-msgid "Mountainous terrain"
-msgstr "Mountainous terrain"
-
-#: site_content/front_translations/en/frontend_translations.py:55
-#: site_content/front_translations/ru/frontend_translations.py:63
-msgid "next"
-msgstr "next"
-
 #: site_content/front_translations/en/frontend_translations.py:56
 #: site_content/front_translations/ru/frontend_translations.py:64
-msgid "Nights"
-msgstr "Nights"
+#, fuzzy
+#| msgid "Maximum nights: 30"
+msgid "Minimum nights: 1"
+msgstr "Maximum nights: 30"
 
 #: site_content/front_translations/en/frontend_translations.py:57
 #: site_content/front_translations/ru/frontend_translations.py:65
-msgid "Nights must be a number."
-msgstr "Nights must be a number."
+msgid "More rooms..."
+msgstr "More rooms..."
 
 #: site_content/front_translations/en/frontend_translations.py:58
 #: site_content/front_translations/ru/frontend_translations.py:66
+msgid "Mountainous terrain"
+msgstr "Mountainous terrain"
+
+#: site_content/front_translations/en/frontend_translations.py:59
+#: site_content/front_translations/ru/frontend_translations.py:67
+msgid "next"
+msgstr "next"
+
+#: site_content/front_translations/en/frontend_translations.py:60
+#: site_content/front_translations/ru/frontend_translations.py:68
+msgid "Nights"
+msgstr "Nights"
+
+#: site_content/front_translations/en/frontend_translations.py:61
+#: site_content/front_translations/ru/frontend_translations.py:69
+#, fuzzy
+#| msgid "Nights must be a number."
+msgid "Nights must be a positive number."
+msgstr "Nights must be a number."
+
+#: site_content/front_translations/en/frontend_translations.py:62
+#: site_content/front_translations/ru/frontend_translations.py:70
+#, fuzzy
+#| msgid "adults_genetive"
+msgid "Nights_genetive"
+msgstr "adults"
+
+#: site_content/front_translations/en/frontend_translations.py:63
+#: site_content/front_translations/ru/frontend_translations.py:71
 msgid "Nights_one"
 msgstr "night"
 
-#: site_content/front_translations/en/frontend_translations.py:59
-#: site_content/front_translations/ru/frontend_translations.py:69
+#: site_content/front_translations/en/frontend_translations.py:64
+#: site_content/front_translations/ru/frontend_translations.py:74
 msgid "Nights_other"
 msgstr "nights"
 
-#: site_content/front_translations/en/frontend_translations.py:60
-#: site_content/front_translations/ru/frontend_translations.py:70
+#: site_content/front_translations/en/frontend_translations.py:65
+#: site_content/front_translations/ru/frontend_translations.py:75
 msgid "No available rooms for these dates. Please check another date."
 msgstr "No available rooms for these dates. Please check another date."
 
-#: site_content/front_translations/en/frontend_translations.py:61
-#: site_content/front_translations/ru/frontend_translations.py:71
+#: site_content/front_translations/en/frontend_translations.py:66
+#: site_content/front_translations/ru/frontend_translations.py:76
 msgid "No data"
 msgstr "No data"
 
-#: site_content/front_translations/en/frontend_translations.py:62
-#: site_content/front_translations/ru/frontend_translations.py:72
+#: site_content/front_translations/en/frontend_translations.py:67
+#: site_content/front_translations/ru/frontend_translations.py:77
 msgid "Normal road"
 msgstr "Normal road"
 
-#: site_content/front_translations/en/frontend_translations.py:63
-#: site_content/front_translations/ru/frontend_translations.py:73
+#: site_content/front_translations/en/frontend_translations.py:68
+#: site_content/front_translations/ru/frontend_translations.py:78
 msgid "Number of guests"
 msgstr "Number of guests"
 
-#: site_content/front_translations/en/frontend_translations.py:64
-#: site_content/front_translations/ru/frontend_translations.py:74
+#: site_content/front_translations/en/frontend_translations.py:69
+#: site_content/front_translations/ru/frontend_translations.py:79
 msgid "Open a written guide"
 msgstr "Open a written guide"
 
-#: site_content/front_translations/en/frontend_translations.py:65
-#: site_content/front_translations/ru/frontend_translations.py:75
+#: site_content/front_translations/en/frontend_translations.py:70
+#: site_content/front_translations/ru/frontend_translations.py:80
 msgid "Open in Google Maps"
 msgstr "Open in Google Maps"
 
-#: site_content/front_translations/en/frontend_translations.py:66
-#: site_content/front_translations/ru/frontend_translations.py:76
+#: site_content/front_translations/en/frontend_translations.py:71
+#: site_content/front_translations/ru/frontend_translations.py:81
 msgid "Open map"
 msgstr ""
 
-#: site_content/front_translations/en/frontend_translations.py:67
-#: site_content/front_translations/ru/frontend_translations.py:77
+#: site_content/front_translations/en/frontend_translations.py:72
+#: site_content/front_translations/ru/frontend_translations.py:82
 msgid "Please enter correct date."
 msgstr "Please enter a valid date."
 
-#: site_content/front_translations/en/frontend_translations.py:68
-#: site_content/front_translations/ru/frontend_translations.py:78
+#: site_content/front_translations/en/frontend_translations.py:73
+#: site_content/front_translations/ru/frontend_translations.py:83
 msgid "Please enter the arival date."
 msgstr "Please enter the arrival date."
 
-#: site_content/front_translations/en/frontend_translations.py:70
-#: site_content/front_translations/ru/frontend_translations.py:80
+#: site_content/front_translations/en/frontend_translations.py:74
+#: site_content/front_translations/ru/frontend_translations.py:84
 msgid ""
 "Please let us know the time of your arrival and any additional information "
 "related to your stay."
@@ -474,183 +705,195 @@ msgstr ""
 "Please let us know the time of your arrival and any additional information "
 "related to your stay."
 
-#: site_content/front_translations/en/frontend_translations.py:72
-#: site_content/front_translations/ru/frontend_translations.py:82
+#: site_content/front_translations/en/frontend_translations.py:75
+#: site_content/front_translations/ru/frontend_translations.py:85
 msgid "Please, provide your contact information to submit booking request"
 msgstr "Please provide your contact information to submit the booking request."
 
-#: site_content/front_translations/en/frontend_translations.py:73
-#: site_content/front_translations/ru/frontend_translations.py:83
+#: site_content/front_translations/en/frontend_translations.py:76
+#: site_content/front_translations/ru/frontend_translations.py:86
 msgid "Point of interest"
 msgstr "Point of interest"
 
-#: site_content/front_translations/en/frontend_translations.py:74
-#: site_content/front_translations/ru/frontend_translations.py:84
+#: site_content/front_translations/en/frontend_translations.py:77
+#: site_content/front_translations/ru/frontend_translations.py:87
 msgid "Points of interest"
 msgstr "Points of interest"
 
-#: site_content/front_translations/en/frontend_translations.py:75
-#: site_content/front_translations/ru/frontend_translations.py:85
+#: site_content/front_translations/en/frontend_translations.py:78
+#: site_content/front_translations/ru/frontend_translations.py:88
 msgid "Points of interest in the province"
 msgstr "Points of interest in the province"
 
-#: site_content/front_translations/en/frontend_translations.py:76
-#: site_content/front_translations/ru/frontend_translations.py:86
+#: site_content/front_translations/en/frontend_translations.py:79
+#: site_content/front_translations/ru/frontend_translations.py:89
 msgid "Points of interest in Vayots Dzor"
 msgstr "Points of interest in the province"
 
-#: site_content/front_translations/en/frontend_translations.py:77
-#: site_content/front_translations/ru/frontend_translations.py:87
+#: site_content/front_translations/en/frontend_translations.py:80
+#: site_content/front_translations/ru/frontend_translations.py:90
 msgid "prev"
 msgstr "prev"
 
-#: site_content/front_translations/en/frontend_translations.py:78
-#: site_content/front_translations/ru/frontend_translations.py:88
+#: site_content/front_translations/en/frontend_translations.py:81
+#: site_content/front_translations/ru/frontend_translations.py:91
 msgid "Republican road"
 msgstr "Republican road"
 
-#: site_content/front_translations/en/frontend_translations.py:79
-#: site_content/front_translations/ru/frontend_translations.py:89
+#: site_content/front_translations/en/frontend_translations.py:82
+#: site_content/front_translations/ru/frontend_translations.py:92
 msgid "reset"
 msgstr "reset"
 
-#: site_content/front_translations/en/frontend_translations.py:80
-#: site_content/front_translations/ru/frontend_translations.py:90
+#: site_content/front_translations/en/frontend_translations.py:83
+#: site_content/front_translations/ru/frontend_translations.py:93
 msgid "River"
 msgstr "River"
 
-#: site_content/front_translations/en/frontend_translations.py:81
-#: site_content/front_translations/ru/frontend_translations.py:91
+#: site_content/front_translations/en/frontend_translations.py:84
+#: site_content/front_translations/ru/frontend_translations.py:94
 msgid "rooms"
 msgstr "rooms"
 
-#: site_content/front_translations/en/frontend_translations.py:82
-#: site_content/front_translations/ru/frontend_translations.py:92
+#: site_content/front_translations/en/frontend_translations.py:85
+#: site_content/front_translations/ru/frontend_translations.py:95
 msgid "Select number of guests"
 msgstr "Select number of guests"
 
-#: site_content/front_translations/en/frontend_translations.py:83
-#: site_content/front_translations/ru/frontend_translations.py:93
+#: site_content/front_translations/en/frontend_translations.py:86
+#: site_content/front_translations/ru/frontend_translations.py:97
+msgid "select-more-rooms-for-n-guests_one"
+msgstr "Select more rooms to accommodate {{count}} guest"
+
+#: site_content/front_translations/en/frontend_translations.py:87
+#: site_content/front_translations/ru/frontend_translations.py:100
+msgid "select-more-rooms-for-n-guests_other"
+msgstr "Select more rooms to accommodate {{count}} guests"
+
+#: site_content/front_translations/en/frontend_translations.py:88
+#: site_content/front_translations/ru/frontend_translations.py:96
 msgid "Selected"
 msgstr "Selected"
 
-#: site_content/front_translations/en/frontend_translations.py:84
-#: site_content/front_translations/ru/frontend_translations.py:94
+#: site_content/front_translations/en/frontend_translations.py:89
+#: site_content/front_translations/ru/frontend_translations.py:101
 msgid "Show available rooms"
 msgstr "Show available rooms"
 
-#: site_content/front_translations/en/frontend_translations.py:85
-#: site_content/front_translations/ru/frontend_translations.py:95
+#: site_content/front_translations/en/frontend_translations.py:90
+#: site_content/front_translations/ru/frontend_translations.py:102
 msgid "Show less images"
 msgstr "Show fewer images"
 
-#: site_content/front_translations/en/frontend_translations.py:86
-#: site_content/front_translations/ru/frontend_translations.py:96
+#: site_content/front_translations/en/frontend_translations.py:91
+#: site_content/front_translations/ru/frontend_translations.py:103
 msgid "Show less rooms"
 msgstr "Show fewer rooms"
 
-#: site_content/front_translations/en/frontend_translations.py:87
-#: site_content/front_translations/ru/frontend_translations.py:97
+#: site_content/front_translations/en/frontend_translations.py:92
+#: site_content/front_translations/ru/frontend_translations.py:104
 msgid "Show more images"
 msgstr "Show more images"
 
-#: site_content/front_translations/en/frontend_translations.py:88
-#: site_content/front_translations/ru/frontend_translations.py:98
+#: site_content/front_translations/en/frontend_translations.py:93
+#: site_content/front_translations/ru/frontend_translations.py:105
 msgid "Shushan guest-house"
 msgstr "Shushan guest house"
 
-#: site_content/front_translations/en/frontend_translations.py:89
-#: site_content/front_translations/ru/frontend_translations.py:99
+#: site_content/front_translations/en/frontend_translations.py:94
+#: site_content/front_translations/ru/frontend_translations.py:106
 msgid "Shuttle from Yeghegnadzor"
 msgstr "Shuttle from Yeghegnadzor"
 
-#: site_content/front_translations/en/frontend_translations.py:90
-#: site_content/front_translations/ru/frontend_translations.py:100
+#: site_content/front_translations/en/frontend_translations.py:95
+#: site_content/front_translations/ru/frontend_translations.py:107
 msgid "Site name"
 msgstr "Shushan GH"
 
-#: site_content/front_translations/en/frontend_translations.py:91
-#: site_content/front_translations/ru/frontend_translations.py:101
+#: site_content/front_translations/en/frontend_translations.py:96
+#: site_content/front_translations/ru/frontend_translations.py:108
 msgid "Some subtitle"
 msgstr "Some subtitle"
 
-#: site_content/front_translations/en/frontend_translations.py:92
-#: site_content/front_translations/ru/frontend_translations.py:102
+#: site_content/front_translations/en/frontend_translations.py:97
+#: site_content/front_translations/ru/frontend_translations.py:109
 msgid "Something went wrong"
 msgstr "Something went wrong"
 
-#: site_content/front_translations/en/frontend_translations.py:93
-#: site_content/front_translations/ru/frontend_translations.py:103
+#: site_content/front_translations/en/frontend_translations.py:98
+#: site_content/front_translations/ru/frontend_translations.py:110
+#, fuzzy
+#| msgid "location link"
+msgid "station location"
+msgstr "location link"
+
+#: site_content/front_translations/en/frontend_translations.py:99
+#: site_content/front_translations/ru/frontend_translations.py:111
 msgid "submitting..."
 msgstr "submitting"
 
-#: site_content/front_translations/en/frontend_translations.py:94
-#: site_content/front_translations/ru/frontend_translations.py:104
+#: site_content/front_translations/en/frontend_translations.py:100
+#: site_content/front_translations/ru/frontend_translations.py:112
 msgid "summary email help-text"
 msgstr "We will send your confirmation details to this email address."
 
-#: site_content/front_translations/en/frontend_translations.py:95
-#: site_content/front_translations/ru/frontend_translations.py:105
+#: site_content/front_translations/en/frontend_translations.py:101
+#: site_content/front_translations/ru/frontend_translations.py:113
 msgid "summary guest name help-text"
 msgstr "Please enter the full name of the main guest."
 
-#: site_content/front_translations/en/frontend_translations.py:96
-#: site_content/front_translations/ru/frontend_translations.py:106
+#: site_content/front_translations/en/frontend_translations.py:102
+#: site_content/front_translations/ru/frontend_translations.py:114
 msgid "There must be at least 1 guest."
 msgstr "There must be at least 1 guest."
 
-#: site_content/front_translations/en/frontend_translations.py:97
-#: site_content/front_translations/ru/frontend_translations.py:107
+#: site_content/front_translations/en/frontend_translations.py:103
+#: site_content/front_translations/ru/frontend_translations.py:115
 msgid "This is a test version of the project"
 msgstr "This is a test version of the project"
 
-#: site_content/front_translations/en/frontend_translations.py:98
-#: site_content/front_translations/ru/frontend_translations.py:108
-msgid "To main page"
-msgstr "back to the main page"
-
-#: site_content/front_translations/en/frontend_translations.py:99
-#: site_content/front_translations/ru/frontend_translations.py:109
+#: site_content/front_translations/en/frontend_translations.py:104
+#: site_content/front_translations/ru/frontend_translations.py:116
 msgid "total price"
 msgstr "total price"
 
-#: site_content/front_translations/en/frontend_translations.py:100
-#: site_content/front_translations/ru/frontend_translations.py:110
+#: site_content/front_translations/en/frontend_translations.py:105
+#: site_content/front_translations/ru/frontend_translations.py:117
 msgid "Total price"
 msgstr "Total price"
 
-#: site_content/front_translations/en/frontend_translations.py:101
-#: site_content/front_translations/ru/frontend_translations.py:111
+#: site_content/front_translations/en/frontend_translations.py:106
+#: site_content/front_translations/ru/frontend_translations.py:118
 msgid "Vayots Dzor"
 msgstr "Vayots Dzor"
 
-#: site_content/front_translations/en/frontend_translations.py:102
-#: site_content/front_translations/ru/frontend_translations.py:112
+#: site_content/front_translations/en/frontend_translations.py:107
+#: site_content/front_translations/ru/frontend_translations.py:119
 msgid "We could not verify your request. Please try again later."
 msgstr "We could not verify your request. Please try again later."
 
-#: site_content/front_translations/en/frontend_translations.py:103
-#: site_content/front_translations/ru/frontend_translations.py:113
+#: site_content/front_translations/en/frontend_translations.py:108
+#: site_content/front_translations/ru/frontend_translations.py:120
 msgid "wikipedia"
 msgstr "wikipedia"
 
-#: site_content/front_translations/en/frontend_translations.py:104
-#: site_content/front_translations/ru/frontend_translations.py:114
+#: site_content/front_translations/en/frontend_translations.py:109
+#: site_content/front_translations/ru/frontend_translations.py:121
 msgid "Your booking request"
 msgstr "Your booking request"
 
-#: site_content/front_translations/en/frontend_translations.py:105
-#: site_content/front_translations/ru/frontend_translations.py:115
+#: site_content/front_translations/en/frontend_translations.py:110
+#: site_content/front_translations/ru/frontend_translations.py:122
 msgid "Your booking request has been submitted!"
 msgstr "Your booking request has been submitted!"
 
-#: site_content/front_translations/en/frontend_translations.py:106
-#: site_content/front_translations/ru/frontend_translations.py:116
+#: site_content/front_translations/en/frontend_translations.py:111
+#: site_content/front_translations/ru/frontend_translations.py:123
 msgid "Your session has expired"
 msgstr "Your session has expired"
 
-#: site_content/front_translations/en/frontend_translations.py:107
-#: site_content/front_translations/ru/frontend_translations.py:117
+#: site_content/front_translations/en/frontend_translations.py:112
+#: site_content/front_translations/ru/frontend_translations.py:124
 msgid "Zoom"
 msgstr "Zoom"
 
@@ -662,37 +905,45 @@ msgstr "{{count}} adult"
 msgid "adultsWithCount_many"
 msgstr "{{count}} adult"
 
-#: site_content/front_translations/ru/frontend_translations.py:26
+#: site_content/front_translations/ru/frontend_translations.py:27
 msgid "childrenWithCount_few"
 msgstr "{{count}} child"
 
-#: site_content/front_translations/ru/frontend_translations.py:27
+#: site_content/front_translations/ru/frontend_translations.py:28
 msgid "childrenWithCount_many"
 msgstr "{{count}} child"
 
-#: site_content/front_translations/ru/frontend_translations.py:42
+#: site_content/front_translations/ru/frontend_translations.py:43
 msgid "For {{count}} night_few"
 msgstr "For {{count}} night"
 
-#: site_content/front_translations/ru/frontend_translations.py:43
+#: site_content/front_translations/ru/frontend_translations.py:44
 msgid "For {{count}} night_many"
 msgstr "For {{count}} night"
 
-#: site_content/front_translations/ru/frontend_translations.py:51
+#: site_content/front_translations/ru/frontend_translations.py:54
 msgid "km_distance_few"
 msgstr "{{count}} km"
 
-#: site_content/front_translations/ru/frontend_translations.py:52
+#: site_content/front_translations/ru/frontend_translations.py:55
 msgid "km_distance_many"
 msgstr "{{count}} km"
 
-#: site_content/front_translations/ru/frontend_translations.py:67
+#: site_content/front_translations/ru/frontend_translations.py:72
 msgid "Nights_few"
 msgstr "nights"
 
-#: site_content/front_translations/ru/frontend_translations.py:68
+#: site_content/front_translations/ru/frontend_translations.py:73
 msgid "Nights_many"
 msgstr "nights"
+
+#: site_content/front_translations/ru/frontend_translations.py:98
+msgid "select-more-rooms-for-n-guests_few"
+msgstr ""
+
+#: site_content/front_translations/ru/frontend_translations.py:99
+msgid "select-more-rooms-for-n-guests_many"
+msgstr ""
 
 #: site_content/models.py:23
 msgid "tag"
@@ -718,147 +969,101 @@ msgstr "Content page"
 msgid "Content pages"
 msgstr "Content pages"
 
-#: site_content/models.py:138
-msgid "wide photo"
-msgstr "wide photo"
-
-#: site_content/models.py:139
-msgid "wide photos"
-msgstr "wide photos"
-
-#: site_content/models.py:151
-msgid "Wide"
-msgstr "Wide"
-
-#: site_content/models.py:152
-msgid "Album medium"
-msgstr "Album medium"
-
-#: site_content/models.py:153
-msgid "Protrait medium"
-msgstr "Portrait medium"
-
-#: site_content/models.py:154
-msgid "Album small"
-msgstr "Album small"
-
-#: site_content/models.py:162
-msgid "Which frame format this image is for inside the mosaic image grid"
-msgstr "Which frame format this image is for inside the mosaic image grid"
-
-#: site_content/models.py:177
-msgid "grid image"
-msgstr "grid image"
-
-#: site_content/models.py:178
-msgid "grid images"
-msgstr "grid images"
-
-#: site_content/models.py:197
-msgid "room image"
-msgstr "room image"
-
-#: site_content/models.py:198
-msgid "room images"
-msgstr "room images"
-
-#: site_content/models.py:212
+#: site_content/models.py:241
 msgid "name"
 msgstr "name"
 
-#: site_content/models.py:219
+#: site_content/models.py:248
 msgid "distance"
 msgstr "distance"
 
-#: site_content/models.py:224
+#: site_content/models.py:253
 msgid "distance comment"
 msgstr "distance comment"
 
-#: site_content/models.py:226
+#: site_content/models.py:255
 msgid "description"
 msgstr "description"
 
-#: site_content/models.py:228
+#: site_content/models.py:257
 msgid "geolocation link"
 msgstr "geolocation link"
 
-#: site_content/models.py:229
+#: site_content/models.py:258
 msgid "link to a map provider with the location of the place"
 msgstr "link to a map provider with the location of the place"
 
-#: site_content/models.py:232
+#: site_content/models.py:261
 msgid "Information link"
 msgstr "Information link"
 
-#: site_content/models.py:233
+#: site_content/models.py:262
 msgid "Link to an external resources with information about the place"
 msgstr "Link to an external resource with information about the place"
 
-#: site_content/models.py:238 site_content/models.py:252
-msgid "place"
-msgstr "place"
-
-#: site_content/models.py:239
+#: site_content/models.py:268
 msgid "places"
 msgstr "places"
 
-#: site_content/models.py:256
-msgid "place image"
-msgstr "place image"
-
-#: site_content/models.py:257
-msgid "place images"
-msgstr "place images"
-
-#: site_content/models.py:264
+#: site_content/models.py:298
 msgid "review date"
 msgstr "review date"
 
-#: site_content/models.py:269
+#: site_content/models.py:303
 msgid "review"
 msgstr "review"
-
-#: site_content/models.py:270
-msgid "reviews"
-msgstr "reviews"
 
 #: templates/admin/main/reservation/change_form.html:9
 msgid "Confirm reservation"
 msgstr "Confirm reservation"
 
-#: templates/emails/reservation_confirmed.html:5
-msgid "Your reservation for {{site_name}} has been confirmed."
-msgstr "Your reservation for {{site_name}} has been confirmed."
+#: templates/admin/main/reservation/change_form.html:14
+#: templates/admin/main/reservation/decline_button.html:9
+#, fuzzy
+#| msgid "edit reservation"
+msgid "Decline reservation"
+msgstr "edit reservation"
 
-#: templates/emails/reservation_confirmed.html:10
-#: templates/emails/reservation_confirmed.txt:5
+#: templates/admin/main/reservation/change_form.html:20
+#: templates/admin/main/reservation/reply_button.html:9
+msgid "Reply to client"
+msgstr ""
+
+#: templates/admin/main/reservation/reply_form.html:7
+msgid "Home"
+msgstr ""
+
+#: templates/admin/main/reservation/reply_form.html:18
 #, python-format
 msgid ""
 "\n"
-"        Hello, %(guest_name)s. Your reservation for %(site_name)s has been "
-"confirmed! We will be waiting for you on %(check_in)s. If you need to "
-"contact us please send a mail to %(manager_email)s.\n"
+"        Review and customize the email message that will be sent to the "
+"customer of %(reservation_name)s <strong># %(reservation_id)s \n"
 "      "
 msgstr ""
-"\n"
-"        Hello, %(guest_name)s. Your reservation for %(site_name)s has been "
-"confirmed! We will be waiting for you on %(check_in)s. If you need to "
-"contact us please send an email to %(manager_email)s.\n"
-"      "
 
-#: templates/emails/reservation_confirmed.html:23
-#: templates/emails/reservation_request.html:23
+#: templates/admin/main/reservation/reply_form.html:38
+msgid "Confirm & Send Email"
+msgstr ""
+
+#: templates/admin/main/reservation/reply_form.html:39
+#: templates/two_factor/_wizard_actions.html:5
+msgid "Cancel"
+msgstr "Cancel"
+
+#: templates/emails/on_res_validate.html:20
+#: templates/emails/reservation_message.html:19
 msgid "Check-in"
 msgstr "Check-in"
 
-#: templates/emails/reservation_confirmed.html:28
-#: templates/emails/reservation_request.html:28
+#: templates/emails/on_res_validate.html:25
+#: templates/emails/reservation_message.html:24
 msgid "Check-out"
 msgstr "Check-out"
 
 #. Translators: {{count}} adults and {{count}} children
-#: templates/emails/reservation_confirmed.html:37
-#: templates/emails/reservation_request.html:37
+#: templates/emails/on_res_validate.html:34
+#: templates/emails/reservation_message.html:33
 #, python-format
 msgid "%(adults)s adult"
 msgid_plural "%(adults)s adults"
@@ -866,50 +1071,22 @@ msgstr[0] "%(adults)s adult"
 msgstr[1] "%(adults)s adults"
 
 #. Translators: {{count}} adults and {{count}} children
-#: templates/emails/reservation_confirmed.html:44
-#: templates/emails/reservation_request.html:44
+#: templates/emails/on_res_validate.html:41
+#: templates/emails/reservation_message.html:40
 #, python-format
 msgid "and %(children)s child"
 msgid_plural "and %(children)s children"
 msgstr[0] "and %(children)s child"
 msgstr[1] "and %(children)s children"
 
-#: templates/emails/reservation_confirmed.html:52
-#: templates/emails/reservation_request.html:52
+#: templates/emails/on_res_validate.html:49
+#: templates/emails/reservation_message.html:48
 msgid "nights"
 msgstr "nights"
-
-#: templates/emails/reservation_request.html:4
-msgid "A new reservation is requested"
-msgstr "A new reservation has been requested"
-
-#: templates/emails/reservation_request.html:9
-msgid ""
-" \n"
-"    A reservation has been requested. Please check the reservation\n"
-"    parameters and confirm or decline the reservation by following the link "
-"to the\n"
-"    administrator site. \n"
-"  "
-msgstr ""
-" \n"
-"    A reservation has been requested. Please check the reservation\n"
-"    parameters and confirm or decline the reservation by following the link "
-"to the\n"
-"    administrator site. \n"
-"  "
-
-#: templates/emails/reservation_request.html:86
-msgid "View reservation"
-msgstr "View reservation"
 
 #: templates/two_factor/_base.html:13
 msgid "Guest-house administrator site"
 msgstr "Guest house administrator site"
-
-#: templates/two_factor/_wizard_actions.html:5
-msgid "Cancel"
-msgstr "Cancel"
 
 #: templates/two_factor/_wizard_actions.html:10
 #: templates/two_factor/_wizard_actions.html:12
@@ -979,6 +1156,21 @@ msgstr "Go back"
 #: templates/two_factor/core/otp_required.html:18
 msgid "Enable Two-Factor Authentication"
 msgstr "Enable Two-Factor Authentication"
+
+#~ msgid "Booking reviews"
+#~ msgstr "Booking reviews"
+
+#~ msgid "To main page"
+#~ msgstr "back to the main page"
+
+#~ msgid "Your reservation has been confirmed"
+#~ msgstr "Your reservation has been confirmed"
+
+#~ msgid "A new reservation is requested"
+#~ msgstr "A new reservation has been requested"
+
+#~ msgid "View reservation"
+#~ msgstr "View reservation"
 
 #~ msgid "nightWithCount_one"
 #~ msgstr "{{count}} night"

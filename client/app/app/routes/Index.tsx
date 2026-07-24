@@ -37,7 +37,7 @@ export default function Index() {
     }
   }, [URLSearchParams]);
   return (
-    <div className="flex grow flex-col items-stretch text-text-main bg-bg min-h-screen ">
+    <div className="flex grow flex-col items-stretch text-text-main bg-bg min-h-screen">
       <div className="flex flex-col items-center md:gap-8 gap-6">
         <div className="flex flex-col items-center">
           <h1 className="mt-11 mb-3 tracking-wide">{t("index-title")}</h1>

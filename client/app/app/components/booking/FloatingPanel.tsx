@@ -1,7 +1,7 @@
 import { formatPrice, getUrlSearchParams } from "~/utils/general";
 import { useBookingRoomSelectContextProvider } from "./BookingRoomSelectContext";
 import { useEffect, useState, type SyntheticEvent } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 import { useFetcher } from "react-router";
 import Dots from "../status/Dots";
 
@@ -70,9 +70,10 @@ export default function FloatingPanel() {
           <div
             className={`z-10 text-warning font-medium text-center text-sm ${moreRoomsRequired ? "block" : "hidden"}`}
           >
-            {t(`Select more rooms to accommodate ${guests} guests`, {
-              guests: guests,
-            })}
+            <Trans
+              i18nKey="select-more-rooms-for-n-guests"
+              count={guests}
+            >{`Select more rooms to accommodate {{count}} guests`}</Trans>
           </div>
           <button
             disabled={moreRoomsRequired}
