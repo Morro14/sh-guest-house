@@ -62,7 +62,7 @@ class GridImageDemo(ImageDemo):
         blank=True,
     )
     grid = models.ForeignKey(
-        to=ImageDemo,
+        to=ImageGridDemo,
         on_delete=models.SET_NULL,
         default=None,
         null=True,
