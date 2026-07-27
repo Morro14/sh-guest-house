@@ -32,7 +32,7 @@ from .serializers import (
 from django.views.generic import TemplateView
 from auth_app.utils.jwt_ import CustomJWT
 from datetime import date, timedelta
-from main.authentication import SessionAuthentication
+from .authentication import SessionAuthentication
 from main.utils.room_price import get_reservation_price_total
 from main.utils.data_parse import parse_rooms_selected
 import structlog
@@ -74,7 +74,6 @@ class BookingRequestValidateView(APIView):
     def get(self, request):
         is_valid = request.auth["request_validated"]
         response = Response()
-        response.delete_cookie("booking_request_token")
         response.data = {"request_validated": is_valid}
         if is_valid:
             response.data.update({"user_email": request.auth["user_email"]})
@@ -114,16 +113,10 @@ class BookingRequestValidateView(APIView):
             jti=jti,
         ).get_token()
         response = Response()
-        response.set_cookie(
-            key="booking_request_token",
-            value=token,
-            httponly=True,
-            # samesite="Lax",
-            # secure=True,
-            path="/api/booking",
-            max_age=60 * 15,
-        )
-        response.data = {"request_validated": True, "user_email": email}
+        response.data = {
+            "request_validated": True,
+            "user_email": email,
+        }
         log.info("request_validated", user_email=email)
         return response
 
@@ -183,18 +176,10 @@ class BookingRequestSummaryView(APIView):
 
         response = Response()
         response.delete_cookie("booking_request_token")
-        response.set_cookie(
-            key="booking_request_token",
-            value=token_updated,
-            httponly=True,
-            # samesite="Lax",
-            # secure=True,
-            path="/api/booking",
-            max_age=60 * 15,
-        )
         response.data = {
             "rooms_selected": rooms_selected,
             "request_info": booking_request_info,
+            "booking_request_token": token_updated,
         }
 
         log.info(
@@ -230,18 +215,10 @@ class BookingRoomsRequestView(APIView):
             jti=jti,
         ).get_token()
         response = Response()
-        response.set_cookie(
-            key="booking_request_token",
-            value=token,
-            httponly=True,
-            # samesite="Lax",
-            # secure=False,
-            path="/api/booking",
-            max_age=20 * 60,
-        )
         response.data = {
             "rooms": serializer.data,
             "reserv_request_info": booking_request_info,
+            "booking_request_token": token,
         }
         log.info(
             "rooms_requested",

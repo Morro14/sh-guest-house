@@ -21,6 +21,7 @@ import structlog
 from dj_lite import sqlite_config
 from google.oauth2 import service_account
 from main.logging import shorten_exception
+from corsheaders.defaults import default_headers
 
 # from django.core.management.utils import get_random_secret_key
 
@@ -59,9 +60,16 @@ else:
         "192.168.11.58",
     ]
 CORS_ALLOW_CREDENTIALS = True
-# CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOWED_ORIGINS = []
-# SESSION_COOKIE_SAMESITE = None
+CORS_ALLOWED_ORIGINS = [
+    "https://gh-demo-tr9j.onrender.com",
+    "http://192.168.11.58:5173",
+    "http://localhost:5173",
+]
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "x-booking-token",
+    "x-language",
+    "content-type",
+]
 CSRF_TRUSTED_ORIGINS = []
 if RENDER_EXTERNAL_HOSTNAME:
     CSRF_TRUSTED_ORIGINS.append(f"https://{RENDER_EXTERNAL_HOSTNAME}")
@@ -229,14 +237,6 @@ THUMBNAIL_BASEDIR = "thumbnails"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-# CORS headers
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-]
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = ["x-language", "content-type"]
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = os.environ.get("EMAIL_HOST")

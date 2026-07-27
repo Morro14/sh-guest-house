@@ -13,8 +13,8 @@ from .views import (
     ImageGridSet,
     review_details,
     review_list,
+    FrontendLogsView,
 )
-from main.views import FrontendLogsView
 
 urlpatterns = [
     path("booking/request", BookingRoomsRequestView.as_view()),
