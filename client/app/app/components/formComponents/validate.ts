@@ -37,6 +37,7 @@ function validateDate(date: string): Validation {
       message: i18n.t("Please enter the arival date."),
     };
   }
+  const dateObj = Temporal.PlainDate.from(date);
   let selectDatePlusDay = null;
   try {
     selectDatePlusDay = Temporal.PlainDate.from(date)
@@ -52,32 +53,19 @@ function validateDate(date: string): Validation {
   const now = Temporal.Now.plainDateTimeISO();
 
   let boundary = Temporal.PlainDateTime.from({
-    year: now.year,
-    month: now.month,
-    day: now.day,
+    year: dateObj.year,
+    month: dateObj.month,
+    day: dateObj.day + 1,
     hour: 4,
   });
 
-  const boundaryNextDay = boundary.add({ days: 1 });
-
-  if (Temporal.PlainDateTime.compare(now, boundaryNextDay) === 1) {
-    boundary = boundaryNextDay;
-  }
-  const isValid =
-    Temporal.PlainDateTime.compare(selectDatePlusDay, boundary) === 1;
-  const todayDate = new Date();
+  const isValid = Temporal.PlainDateTime.compare(boundary, now) === 1;
   if (!isValid) {
     return {
       name: "date",
       valid: false,
       message: i18n.t("availableDate", {
-        val: new Date(
-          Date.UTC(
-            todayDate.getFullYear(),
-            todayDate.getMonth(),
-            todayDate.getDate(),
-          ),
-        ),
+        val: Temporal.PlainDate.from(now).add({ days: 1 }),
         formatParams: {
           val: {
             weekday: "long",
