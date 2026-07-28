@@ -11,6 +11,7 @@ export default function BookingPannelMobile() {
   const { t } = useTranslation();
   const formRef = useRef(null);
   const today = dayjs();
+  const minDate = today.hour() < 4 ? today.subtract(1, "day") : today;
   const [date, setDate] = useState(today);
   const navigation = useNavigation();
   let modalShow = false;
@@ -51,6 +52,7 @@ export default function BookingPannelMobile() {
               type="date"
               id="checkin-date-input"
               defaultValue={date.format().slice(0, 10)}
+              min={minDate.format().slice(0, 10)}
             />
           </div>
           <SelectGuestsMobile />
