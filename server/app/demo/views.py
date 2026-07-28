@@ -80,11 +80,10 @@ class BookingRequestValidateView(APIView):
         return response
 
     def post(self, request):
-        token = request.COOKIES["booking_request_token"]
-        jwt_content = jwt.decode(token, os.environ.get("JWT_SECRET"), "HS256")
+        request_data = request.auth
         jti = request.auth["jti"]
-        check_in_date = date.fromisoformat(jwt_content["date"])
-        nights_int = int(jwt_content["nights"])
+        check_in_date = date.fromisoformat(request_data["date"])
+        nights_int = int(request_data["nights"])
 
         email = request.POST.get("email")
         guest_name = request.POST.get("guest-name")
@@ -98,13 +97,11 @@ class BookingRequestValidateView(APIView):
         }
         serializer = ReservationSerializer(
             data=reservation_data,
-            context={"token_content": jwt_content},
+            context={"token_content": request_data},
         )
         serializer.is_valid()
         reservation = serializer.save()
         no_overlap_valid = reservation.validate_no_overlap()
-        if not no_overlap_valid:
-            log.warning("request_not_validated", user_email=email)
         token_data = request.auth
         token_data.update({"request_validated": True, "user_email": email})
         token = CustomJWT(
@@ -112,13 +109,24 @@ class BookingRequestValidateView(APIView):
             expires_in=60 * 15,
             jti=jti,
         ).get_token()
-        response = Response()
-        response.data = {
-            "request_validated": True,
-            "user_email": email,
-        }
-        log.info("request_validated", user_email=email)
-        return response
+        if not no_overlap_valid:
+            response = Response(exception=True, status=500)
+            response.data = {
+                "request_validated": False,
+                "user_email": email,
+                "booking_request_token": token,
+            }
+            log.warning("request_not_validated", user_email=email)
+            return response
+        else:
+            response = Response()
+            response.data = {
+                "request_validated": True,
+                "user_email": email,
+                "booking_request_token": token,
+            }
+            log.info("request_validated", user_email=email)
+            return response
 
 
 class BookingRequestSummaryView(APIView):
@@ -143,11 +151,15 @@ class BookingRequestSummaryView(APIView):
         serializer.is_valid()
 
         response = Response()
+        token = CustomJWT(
+            content=booking_request_info, expires_in=60 * 15, jti=jti
+        ).get_token()
         response.data = {
             "request_info": booking_request_info,
             "guests_per_room_selected": request.auth["rooms_selected"],
             "rooms": serializer.data,
             "price_total": reservation_price_total,
+            "booking_request_token": token,
         }
 
         log.info(
@@ -175,7 +187,6 @@ class BookingRequestSummaryView(APIView):
         ).get_token()
 
         response = Response()
-        response.delete_cookie("booking_request_token")
         response.data = {
             "rooms_selected": rooms_selected,
             "request_info": booking_request_info,
@@ -214,7 +225,8 @@ class BookingRoomsRequestView(APIView):
             expires_in=20 * 60,
             jti=jti,
         ).get_token()
-        response = Response()
+        response = Response(headers={"x-booking-token": token})
+
         response.data = {
             "rooms": serializer.data,
             "reserv_request_info": booking_request_info,
