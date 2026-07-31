@@ -59,7 +59,7 @@ function validateDate(date: string): Validation {
     hour: 4,
   });
 
-  const isValid = Temporal.PlainDateTime.compare(boundary, now) === 1;
+  const isValid = Temporal.PlainDateTime.compare(boundary, dateObj) === 1;
   if (!isValid) {
     return {
       name: "date",
