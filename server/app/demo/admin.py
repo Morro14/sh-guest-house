@@ -11,6 +11,7 @@ from .models import (
     ImageGridDemo,
     PlaceDemo,
     PlaceImageDemo,
+    ReviewDemo,
 )
 import os
 
@@ -200,3 +201,9 @@ class RoomImageInline(admin.TabularInline):
 
     preview.allow_tags = True
     preview.short_description = "Preview"
+
+
+@admin.register(ReviewDemo)
+class ReviewAmin(admin.ModelAdmin):
+    list_display = ("date", "rating", "content")
+    pass
