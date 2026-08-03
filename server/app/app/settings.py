@@ -62,7 +62,7 @@ else:
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "https://gh-demo-tr9j.onrender.com",
-    "http://192.168.11.58:5173",
+    "http://192.168.11.53:5173",
     "http://localhost:5173",
 ]
 CORS_ALLOW_HEADERS = list(default_headers) + [

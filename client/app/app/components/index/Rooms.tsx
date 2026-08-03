@@ -9,6 +9,7 @@ import { logError } from "~/utils/logging";
 import { ImageLoading } from "../ImageLoading";
 import PlaceholderParagraph from "../placeholders/PlaceholderParagraph";
 import { useFetchV3 } from "~/utils/fetchHook";
+import Dots from "../status/Dots";
 
 const MEDIA_BASE_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 const ROOMS_NUMBER_SHOW_INIT = 2;
@@ -18,20 +19,21 @@ export default function RoomsPreview() {
   const { t } = useTranslation();
   const context = useNavContextProvider();
   const [showMoreRooms, setShowMoreRooms] = useState(false);
-  const [expandContainer, setExpandContainer] = useState(false);
+  const [loadingExtraRooms, setLoadingExtraRooms] = useState(false);
   const [extraRooms, setExtraRooms] = useState<Room[] | undefined>(undefined);
   const axiosInstance = getAxiosInstance();
   const rooms = useFetchV3(`content/rooms/?limit=${ROOMS_NUMBER_SHOW_INIT}`)
     ?.fetchedData?.data?.results as Room[] | undefined;
   const handleExpandClick = async () => {
-    setExpandContainer(!expandContainer);
     setShowMoreRooms(!showMoreRooms);
+    setLoadingExtraRooms(true);
     await axiosInstance
       .get(
         `content/rooms/?limit=${ROOMS_NUMBER_SHOW_EXRA}&offset=${ROOMS_NUMBER_SHOW_INIT}`,
       )
       .then((r) => {
         setExtraRooms(r.data?.results);
+        setLoadingExtraRooms(false);
       })
       .catch((r) => logError(r));
   };
@@ -142,10 +144,16 @@ export default function RoomsPreview() {
       </div>
       <div className="flex items-center justify-center">
         <button
-          className="font-light underline cursor-pointer mt-4"
+          className="font-light underline cursor-pointer mt-4 h-6"
           onClick={handleExpandClick}
         >
-          {!showMoreRooms ? t("More rooms...") : t("Show less rooms")}
+          {loadingExtraRooms ? (
+            <Dots></Dots>
+          ) : !showMoreRooms ? (
+            t("More rooms...")
+          ) : (
+            t("Show less rooms")
+          )}
         </button>
       </div>
     </div>
