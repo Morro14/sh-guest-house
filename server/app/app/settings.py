@@ -57,7 +57,7 @@ else:
         "0.0.0.0",
         "127.0.0.1",
         "backend.test",
-        "192.168.11.58",
+        "192.168.11.53",
     ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [

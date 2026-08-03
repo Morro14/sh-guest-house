@@ -1,4 +1,6 @@
+from io import BytesIO
 from django.db import models
+from django.core.files.base import ContentFile
 from django.utils.translation import gettext_lazy as _
 from easy_thumbnails.files import get_thumbnailer
 from image_cropping import ImageRatioField
@@ -6,6 +8,7 @@ from .utils.images_util import size_to_str
 from .validators import validate_rating_value
 import os
 from django.conf import settings
+from PIL import Image as ImagePIL
 
 
 class ContentPageBase(models.Model):
@@ -68,19 +71,26 @@ def get_upload_path(instance, filename):
 
     if cat_folder_name in without_rel_fields:
         if os.environ.get("DEBUG") == "True":
-            return os.path.join("demo", cat_names[cat_folder_name], filename)
+            file_path = os.path.join("demo", cat_names[cat_folder_name], filename)
+            return file_path
         return os.path.join(cat_names[cat_folder_name], filename)
     for field in rel_fields:
         field = getattr(instance, field, None)
         if field:
             instance_folder_name = field.slug
             if os.environ.get("DEBUG") == "True":
-                return os.path.join(
+                file_path = os.path.join(
                     "demo", cat_names[cat_folder_name], instance_folder_name, filename
                 )
+                print("file_path", file_path)
+                return file_path
             return os.path.join(
                 cat_names[cat_folder_name], instance_folder_name, filename
             )
+
+
+class Test(models.Model):
+    image = models.ImageField(upload_to="test/")
 
 
 class ImageBase(models.Model):
@@ -91,9 +101,9 @@ class ImageBase(models.Model):
     alt_text = models.CharField(max_length=255, blank=True)
     order = models.PositiveBigIntegerField(default=0)
     image_full = models.ImageField(upload_to=get_upload_path)
-    cropping_main = ImageRatioField("image", size_to_str(main_res))
-    cropping_small = ImageRatioField("image", size_to_str(small_res))
-    cropping_blur = ImageRatioField("image", size_to_str(blur_res))
+    cropping_main = ImageRatioField("image_full", size_to_str(main_res))
+    cropping_small = ImageRatioField("image_full", size_to_str(small_res))
+    cropping_blur = ImageRatioField("image_full", size_to_str(blur_res))
 
     def get_variant_url(self, size, box=None, quality=80, blur=False):
         options = {
@@ -130,6 +140,38 @@ class ImageBase(models.Model):
             "original": original_pathname,
         }
         return results
+
+    def save(self, *args, **kwargs):
+        if not self.image_full or not hasattr(self.image_full, "file"):
+            print(
+                f"The field value does not exist for the image_full field of BaseImage instance #{self.pk}"
+            )
+            return
+        if self.image_full:
+            current_name = self.image_full.name
+
+            if not current_name.endswith(".webp"):
+                img = ImagePIL.open(self.image_full.file)
+                # if img.mode in ("RGBA", "P"):
+                #     img = img.convert("RGB")
+                output_buffer = BytesIO()
+                img.save(output_buffer, format="WEBP")
+                output_buffer.seek(0)
+
+                base_filename, ext = os.path.splitext(current_name)
+                if not base_filename:
+                    base_filename = "image"
+                new_file_name = f"{base_filename}.webp"
+                print("new_file_name", new_file_name)
+                import inspect
+
+                print(inspect.getfile(type(self.image_full)))
+                print(inspect.getsource(type(self.image_full).save))
+                content_file = ContentFile(output_buffer.read(), name=new_file_name)
+                # self.image_full = content_file
+                self.image_full.save(new_file_name, content_file, save=False)
+
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ["order"]

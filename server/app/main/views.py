@@ -73,6 +73,8 @@ class BookingRequestValidateView(APIView):
             context={"token_content": jwt_content},
         )
         serializer.is_valid()
+        if not serializer.is_valid():
+            return Response(exception=True, status=400)
         reservation = serializer.save()
         overlap_check = reservation.validate_no_overlap()
         token_data = request.auth
@@ -139,6 +141,8 @@ class BookingRequestSummaryView(APIView):
         serializer = RoomSerializer(data=rooms, many=True)
         serializer.is_valid()
 
+        if not serializer.is_valid():
+            return Response(exception=True, status=400)
         response = Response()
         response.data = {
             "request_info": booking_request_info,
