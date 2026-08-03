@@ -1,5 +1,5 @@
 from django.core.management import BaseCommand
-from site_content.models import Image, Test, GridImage, RoomImage, PlaceImage, WideImage
+from demo.models import GridImageDemo, RoomImageDemo, PlaceImageDemo, WideImageDemo
 from PIL import Image as ImagePIL
 from io import BytesIO
 import os
@@ -10,10 +10,10 @@ class Command(BaseCommand):
     help = "Format images"
 
     def handle(self, *args, **kwargs):
-        grid_images = GridImage.objects.all()
-        room_images = RoomImage.objects.all()
-        place_images = PlaceImage.objects.all()
-        wide_images = WideImage.objects.all()
+        grid_images = GridImageDemo.objects.all()
+        room_images = RoomImageDemo.objects.all()
+        place_images = PlaceImageDemo.objects.all()
+        wide_images = WideImageDemo.objects.all()
         all_queries = [grid_images, room_images, place_images, wide_images]
         for query in all_queries:
             for obj in query:
@@ -26,7 +26,6 @@ class Command(BaseCommand):
 
                     base, _ = os.path.splitext(obj.image_full.name)
                     filename = f"{base}.webp"
-                    print("filename", filename)
                     obj.image_full.save(
                         filename,
                         ContentFile(buffer.read()),

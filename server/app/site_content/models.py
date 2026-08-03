@@ -151,6 +151,7 @@ class ImageBase(models.Model):
             current_name = self.image_full.name
 
             if not current_name.endswith(".webp"):
+                print("save")
                 img = ImagePIL.open(self.image_full.file)
                 # if img.mode in ("RGBA", "P"):
                 #     img = img.convert("RGB")
