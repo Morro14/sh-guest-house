@@ -8,7 +8,7 @@ from .utils.images_util import size_to_str
 from .validators import validate_rating_value
 import os
 from django.conf import settings
-from PIL import Image as ImagePIL
+from PIL import Image as ImagePIL, ImageOps
 
 
 class ContentPageBase(models.Model):
@@ -107,6 +107,7 @@ class ImageBase(models.Model):
 
     def get_variant_url(self, size, box=None, quality=80, blur=False):
         options = {
+            "format": "WEBP",
             "size": size,
             "crop": False,
             "detail": True,
@@ -153,6 +154,7 @@ class ImageBase(models.Model):
             if not current_name.endswith(".webp"):
                 print("save")
                 img = ImagePIL.open(self.image_full.file)
+                img = ImageOps.exif_transpose(img)
                 # if img.mode in ("RGBA", "P"):
                 #     img = img.convert("RGB")
                 output_buffer = BytesIO()

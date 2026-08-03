@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
 from demo.models import GridImageDemo, RoomImageDemo, PlaceImageDemo, WideImageDemo
-from PIL import Image as ImagePIL
+from PIL import Image as ImagePIL, ImageOps
 from io import BytesIO
 import os
 from django.core.files.base import ContentFile
@@ -19,6 +19,7 @@ class Command(BaseCommand):
             for obj in query:
                 with obj.image_full.open("rb"):
                     img = ImagePIL.open(obj.image_full.file)
+                    img = ImageOps.exif_transpose(img)
 
                     buffer = BytesIO()
                     img.save(buffer, "WEBP")
