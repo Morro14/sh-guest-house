@@ -12,4 +12,6 @@ sh -c "mkdir -p /var/data/db &&
   python manage.py set_site &&
   python manage.py add_permissions &&
   python manage.py collectstatic --no-input &&
+  python manage.py format_images
+  python manage.py format_images_demo
   gunicorn --bind 0.0.0.0:8000 app.wsgi:application"
