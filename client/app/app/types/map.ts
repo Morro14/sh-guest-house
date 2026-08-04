@@ -27,6 +27,9 @@ export interface MapLabelOptions {
   grouped?: boolean;
   group?: string;
   importanceLevel?: number;
+  labelOrientation?: "left" | "right";
+  pinOrientation?: "normal" | "reversed";
+  interactive?: boolean;
 }
 
 export interface MapLabelPosData {

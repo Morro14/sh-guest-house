@@ -1,6 +1,12 @@
 import type { MapElements } from "~/types/map";
 import { zoomMap } from "./zoom";
-import { boundMapPos, getAnchorRatio, MAP_OPTIONS } from "./utils";
+import {
+  boundMapPos,
+  getAnchorRatio,
+  isZoomWithinLimits,
+  MAP_OPTIONS,
+  normalizeZoom,
+} from "./utils";
 
 export function getMapHandlers(elements: MapElements, context: any) {
   const { mapSurface, mapContainer, mapContent } = elements;
@@ -8,22 +14,8 @@ export function getMapHandlers(elements: MapElements, context: any) {
   let mapOffsetX: number = mapSurface.offsetLeft;
   let mapOffsetY: number = mapSurface.offsetTop;
   let isMovable = true;
-  // let currentZoom = context.zoom;
   // pinch
   const activePointers = new Map();
-  // pointer for pinch test
-  // const testPointerEvent = new PointerEvent("pointerdown", {
-  //   bubbles: true,
-  //   cancelable: true,
-  //   pointerId: 1,
-  //   pointerType: "touch",
-  //   clientX: 1000,
-  //   clientY: 800,
-  //   pressure: 0.5,
-  // });
-  // mapSurface.dispatchEvent(testPointerEvent);
-  // activePointers.set(testPointerEvent.pointerId, testPointerEvent);
-  // let lastPointer = null;
   let distanceInit = -1;
   // bound map position
   let mapSurfaceOffsetX =
@@ -42,7 +34,6 @@ export function getMapHandlers(elements: MapElements, context: any) {
   // anchor ratio relative to the map surface
   let anchorRatios = getAnchorRatio(mapContainer, mapSurface);
   let zoomCurrent = 1;
-  const mapConsole = document.getElementById("map-console");
   function handlePointerDown(e: PointerEvent) {
     // map pointer down
     e.preventDefault();
@@ -59,18 +50,9 @@ export function getMapHandlers(elements: MapElements, context: any) {
     maxY = Math.floor(mapSurfaceOffsetY + mapContent.clientHeight / 2);
     minX = Math.floor(mapSurfaceOffsetX - mapContent.clientWidth / 2);
     maxX = Math.floor(mapSurfaceOffsetX + mapContent.clientWidth / 2);
-    // anchorRatios = getAnchorRatio(mapContainer, mapSurface);
     // pinch
     if (activePointers.size < 2) {
       activePointers.set(e.pointerId, e);
-      // if (activePointers.size > 2) {
-      //   activePointers.delete(lastPointer.pointerId);
-      //   lastPointer = e;
-      // }
-      // if (activePointers.size === 1) {
-      // lastPointer = e;
-      //   return;
-      // }
       if (activePointers.size === 2) {
         const [p1, p2] = Array.from(activePointers.values());
         const dx = p2.clientX - p1.clientX;
@@ -87,7 +69,6 @@ export function getMapHandlers(elements: MapElements, context: any) {
         };
         anchorRatios = getAnchorRatio(mapContainer, mapSurface, anchor);
       }
-      // lastPointer = e;
     }
   }
 
@@ -95,7 +76,6 @@ export function getMapHandlers(elements: MapElements, context: any) {
     if (!isMovable) {
       return;
     }
-    // const [p1] = Array.from(activePointers.keys());
     if (!e.isPrimary) {
       return;
     }
@@ -121,57 +101,46 @@ export function getMapHandlers(elements: MapElements, context: any) {
   }
   function handleWheel(e: WheelEvent) {
     const wheelDir = -(e.deltaY / Math.abs(e.deltaY));
-    let newScale = context.current.zoom + 0.2 * wheelDir;
-    newScale = Math.max(
-      MAP_OPTIONS.zoomMin,
-      Math.min(MAP_OPTIONS.zoomMax, newScale),
-    );
-
+    let zoomNew = context.current.zoom + 0.2 * wheelDir;
+    if (!isZoomWithinLimits(zoomNew)) return;
+    const zoomNorm = normalizeZoom(zoomNew, mapContainer, mapSurface);
     anchor = {
       x: Math.floor(e.clientX - mapContainer.getBoundingClientRect().x),
       y: Math.floor(e.clientY - mapContainer.getBoundingClientRect().y),
     };
     anchorRatios = getAnchorRatio(mapContainer, mapSurface, anchor);
-
     zoomMap({
       mapSurface,
       mapContainer,
       mapContent,
-      zoomNew: newScale,
+      zoomNew: zoomNorm,
       anchorRatio: anchorRatios,
       anchor: anchor,
+      context: context,
     });
-    context.current.setZoom(newScale);
   }
   function handlePinchMove(e: PointerEvent) {
     activePointers.set(e.pointerId, e);
 
     if (activePointers.size === 2) {
       requestAnimationFrame(() => {
-        // mapConsole.innerHTML = String(activePointers.size);
         const [p1, p2] = Array.from(activePointers.values());
         const dx = p1.clientX - p2.clientX;
         const dy = p1.clientY - p2.clientY;
         const currentDistance = Math.sqrt(dx * dx + dy * dy);
         const distanceChange = currentDistance / distanceInit;
-        let newScale = zoomCurrent * distanceChange;
-        newScale = Math.max(
-          MAP_OPTIONS.zoomMin,
-          Math.min(MAP_OPTIONS.zoomMax, newScale),
-        );
-        // if (!frameRequested) {
-        // requestAnimationFrame(() => {
+        let zoomNew = zoomCurrent * distanceChange;
+        if (!isZoomWithinLimits(zoomNew)) return;
+        const zoomNorm = normalizeZoom(zoomNew, mapContainer, mapSurface);
         zoomMap({
           mapSurface,
           mapContainer,
           mapContent,
-          zoomNew: newScale,
+          zoomNew: zoomNorm,
           anchorRatio: anchorRatios,
           anchor: anchor,
+          context: context,
         });
-        // });
-        // }
-        context.current.setZoom(newScale);
       });
     }
   }
@@ -188,14 +157,6 @@ export function getMapHandlers(elements: MapElements, context: any) {
   }
   function handlePinchPointerUp(e: PointerEvent) {
     distanceInit = -1;
-    // zoomCurrentLocal = Number(mapSurface.style.scale);
-    // const transformX = -mapContainer.clientWidth / 2 + anchor.x;
-    // const transformY = -mapContainer.clientHeight / 2 + anchor.y;
-    // mapSurface.style.transformOrigin = `center`;
-    // if (activePointers.size > 1) {
-    //   activePointers.delete(e.pointerId);
-    //   mapSurface.releasePointerCapture(e.pointerId);
-    // }
   }
   return {
     handlePointerDown,

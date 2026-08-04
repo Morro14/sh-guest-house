@@ -1,7 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { useMapContextProvider } from "./MapContextProvider";
-import { MAP_OPTIONS, MAP_SIZE_INIT } from "./utils";
+import {
+  isZoomWithinLimits,
+  MAP_OPTIONS,
+  MAP_SIZE_INIT,
+  normalizeZoom,
+} from "./utils";
 import { zoomMap } from "./zoom";
+import { useEffect, useRef } from "react";
 
 export default function MapZoomModal() {
   const { t } = useTranslation();
@@ -10,6 +16,10 @@ export default function MapZoomModal() {
   const currentZoom = context.zoom;
   const zoomFactor = MAP_OPTIONS.zoomFactor;
   const zoomFormatted = `${Math.floor(currentZoom * 100)}%`;
+  const contextRef = useRef(context);
+  useEffect(() => {
+    contextRef.current = context;
+  }, [context]);
   return (
     <div className="absolute md:top-4 top-2 md:right-4 right-2 flex flex-col gap-2 items-center z-25 font-sans p-2 rounded-lg">
       <div className="text-center map-text-shadow">
@@ -21,9 +31,10 @@ export default function MapZoomModal() {
           className="bg-bg flex justify-center items-center rounded-lg drop-shadow md:w-8 w-10 md:h-8 h-10"
           onClick={() => {
             const zoomNew = currentZoom - zoomFactor;
-            if (zoomNew < MAP_OPTIONS.zoomMin) {
+            if (!isZoomWithinLimits(zoomNew)) {
               return;
             }
+            const zoomNorm = normalizeZoom(zoomNew, mapContainer, mapSurface);
             const anchorDefault = {
               x: mapContainer.clientWidth / 2,
               y: mapContainer.clientHeight / 2,
@@ -40,12 +51,12 @@ export default function MapZoomModal() {
               mapContainer,
               mapSurface,
               mapContent,
-              zoomNew,
+              zoomNew: zoomNorm,
               anchorRatio: anchorRatio,
               anchor: anchorDefault,
               zoomCurrent: currentZoom,
+              context: contextRef,
             });
-            context.setZoom(zoomNew);
           }}
         >
           {minusSVG}
@@ -54,9 +65,10 @@ export default function MapZoomModal() {
           className="bg-bg flex justify-center items-center rounded drop-shadow md:w-8 w-10 md:h-8 h-10"
           onClick={() => {
             const zoomNew = currentZoom + zoomFactor;
-            if (zoomNew > MAP_OPTIONS.zoomMax) {
+            if (!isZoomWithinLimits(zoomNew)) {
               return;
             }
+            const zoomNorm = normalizeZoom(zoomNew, mapContainer, mapSurface);
             const anchorDefault = {
               x: mapContainer.clientWidth / 2,
               y: mapContainer.clientHeight / 2,
@@ -73,12 +85,12 @@ export default function MapZoomModal() {
               mapContainer,
               mapSurface,
               mapContent,
-              zoomNew,
+              zoomNew: zoomNorm,
               anchorRatio: anchorRatio,
               anchor: anchorDefault,
               zoomCurrent: currentZoom,
+              context: contextRef,
             });
-            context.setZoom(zoomNew);
           }}
         >
           {plusSVG}

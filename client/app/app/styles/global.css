@@ -102,5 +102,5 @@ button {
   @apply hover:cursor-pointer
 }
 .map-text-shadow {
-  @apply text-shadow-[-1px_-1px_0px_#FFFFFF,1px_1px_0px_#FFFFFF,-1px_1px_0px_#FFFFFF,1px_-1px_0px_#FFFFFF]!
+  @apply text-shadow-[-2px_-2px_0px_#FFFFFF,2px_2px_0px_#FFFFFF,-2px_2px_0px_#FFFFFF,2px_-2px_0px_#FFFFFF]!
 }

@@ -172,7 +172,7 @@ export default function Map({ options }: { options: typeof MAP_OPTIONS }) {
               draggable="false"
               aria-disabled
               id="map-img"
-              className="object-contain select-none h-full touch-none"
+              className="object-contain select-none h-full touch-none grayscale-20 opacity-80"
               src={paths}
               ref={mapImage}
             />

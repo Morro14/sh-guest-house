@@ -20,8 +20,12 @@ export default function TownLabel({
   //   const container = document.getElementById(
   //     "map-container",
   //   ) as HTMLDivElement;
-  //   useMoveLabel(container, labelEl, "townLabel", { moveEnabled: false });
+  //   useMoveLabel(container, labelEl, "townLabel", { moveEnabled: true });
   // }, [townLabel]);
+  useEffect(() => {
+    if (!ref.current) return;
+    ref.current.style.scale = `${Math.min(1, 1 / context.zoom)}`;
+  }, [context.zoom]);
   return townLabel ? (
     <div
       ref={ref}
@@ -31,7 +35,7 @@ export default function TownLabel({
         top: townLabel.offsets.y,
         // scale: `${Math.floor((1 / context.zoom) * 100) / 100}`,
       }}
-      className="absolute text-sm italic select-none map-text-shadow z-0"
+      className="absolute text-sm italic select-none map-text-shadow z-25"
     >
       {townLabel?.name
         ? townLabel.name.slice(0, 1).toUpperCase() + townLabel.name.slice(1)

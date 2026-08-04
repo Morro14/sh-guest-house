@@ -13,17 +13,19 @@ import { isClickNotDrag } from "./utils";
 import { MAP_OPTIONS } from "./utils";
 import MapItemPosControl from "./MapItemPosControl";
 
+const MEDIA_BASE_URL = import.meta.env.VITE_MEDIA_BASE_URL;
 const defaultOptions: MapLabelOptions = {
   offsets: { x: 0, y: 0 },
   position: "absolute",
   dot: true,
   grouped: false,
+  interactive: true,
 };
 const LABELS_WITHOUT_DOT = ["sevan", "yerevan"];
 const PLACE_LABEL_STYLES = {
   fontSize: {
-    1: "14px",
-    2: "16px",
+    1: "16px",
+    2: "14px",
   },
   fill: {
     1: "black",
@@ -55,8 +57,8 @@ export default function MapPlaceComponent({
   const optionsMerged = { ...defaultOptions, ...options };
   const { t } = useTranslation();
   const context = useMapContextProvider();
-  const dotSize = { x: 12, y: 20 };
-  const [dotPos, setDotPos] = useState({ x: 0, y: 0 });
+  const dotSize = { x: 40, y: 55 };
+  // const [dotPos, setDotPos] = useState({ x: 0, y: 0 });
   // move
   // useEffect(() => {
   //   if (!place) {
@@ -69,30 +71,33 @@ export default function MapPlaceComponent({
   //   const container = document.getElementById(
   //     "map-container",
   //   ) as HTMLDivElement;
-  //   const dotEl = document.getElementById(`${place.slug}-dot`);
-  //   useMoveLabel(container, dotEl, "placeDot", { moveEnabled: true });
+  //   // const dotEl = document.getElementById(`${place.slug}-dot`);
+  //   // useMoveLabel(container, dotEl, "placeDot", { moveEnabled: true });
   //   useMoveLabel(container, labelEl, "placeLabel", { moveEnabled: true });
   // }, [place]);
   const [anchor, setAnchor] = useState({ x: 50, y: 100 });
+  // const anchor = { x: Math.floor(dotSize.x / 2), y: Math.floor(dotSize.y) };
+  if (place?.slug === "tanaat") {
+  }
   useEffect(() => {
     if (!place) {
       return;
     }
-    const dotData = placeDotsPosData.find(
-      (item) => item.name === `${place.slug}`,
-    ) as MapItemPosData;
     if (!ref.current) {
       return;
     }
     const w = ref.current.clientWidth;
     const h = ref.current.clientHeight;
     const anchor = {
-      x: Math.floor(((dotData.offsets.x + dotSize.x / 2) / w) * 100),
-      y: Math.floor(((dotData.offsets.y + dotSize.y) / h) * 100),
+      x: Math.floor((dotSize.x / 2 / w) * 100),
+      y: Math.floor((dotSize.y / h) * 100),
     };
     setAnchor(anchor);
-    setDotPos(dotData.offsets);
   }, [place]);
+  useEffect(() => {
+    if (!ref.current) return;
+    ref.current.style.scale = `${Math.min(1, 1 / context.zoom)}`;
+  }, [context.zoom]);
   const getImportanceStyles = (element: "name" | "dot" = "name") => {
     let level = optionsMerged.importanceLevel;
     if (!optionsMerged.importanceLevel) {
@@ -124,7 +129,7 @@ export default function MapPlaceComponent({
       data-slug={place.slug}
       ref={ref}
       className={`select-none ${optionsMerged.position} group text-black text-center
-          font-medium place flex flex-col z-10`}
+          font-medium place flex ${optionsMerged.labelOrientation === "left" ? "flex-row-reverse" : ""} gap-1 z-10`}
       style={{
         ...getImportanceStyles("name"),
         left: `${optionsMerged.offsets.x}px`,
@@ -139,29 +144,34 @@ export default function MapPlaceComponent({
           ref={dotRef}
           id={`${place.slug}-dot`}
           data-slug={place.slug}
-          className="absolute"
-          style={{
-            left: dotPos.x,
-            top: dotPos.y,
-          }}
+          className="relative"
         >
+          <div
+            className={`absolute z-50  w-[36px] h-[36px] rounded-[20px] left-[2px] top-[2px]`}
+            style={{
+              backgroundImage: `url(${MEDIA_BASE_URL + place.images[0]?.variants.small})`,
+              backgroundSize: "contain",
+            }}
+          />
           <svg
-            width="12"
-            height="19"
-            viewBox="0 0 12 19"
+            width="40"
+            className={`drop-shadow ${optionsMerged.pinOrientation === "reversed" ? "rotate-180" : ""}`}
+            height="55"
+            viewBox="0 0 40 55"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="group-hover:fill-primary! group-hover:stroke-primary"
-            style={{ ...getImportanceStyles("dot") }}
           >
-            <path d="M5.74707 0C8.92112 0 11.4941 2.57302 11.4941 5.74707C11.4941 8.55639 9.18953 12.4078 6.74707 17.8145C6.3821 18.6223 5.20392 18.6224 4.83691 17.8154C2.3777 12.4082 8.72326e-05 8.5566 0 5.74707C0 2.57304 2.57305 2.98799e-05 5.74707 0ZM5.75 3.12598C4.35345 3.12598 3.22075 4.25776 3.2207 5.6543C3.2207 7.05088 4.35342 8.18359 5.75 8.18359C7.14647 8.18347 8.27832 7.0508 8.27832 5.6543C8.27827 4.25783 7.14644 3.1261 5.75 3.12598Z" />
+            <path
+              d="M40 19.7753C40 30.6969 29.375 48.8202 20 55C9.375 48.8202 0 30.6969 0 19.7753C0 8.85369 8.9543 0 20 0C31.0457 0 40 8.85369 40 19.7753Z"
+              fill="white"
+            />
           </svg>
         </div>
       ) : (
         ""
       )}
       <div
-        className="text-center flex flex-col items-center"
+        className={`${optionsMerged.labelOrientation === "left" ? "text-right" : "text-left"}`}
         onPointerDown={(e) => {
           pointerPosOnMouseDown = { x: e.clientX, y: e.clientY };
         }}
@@ -176,11 +186,11 @@ export default function MapPlaceComponent({
         }}
       >
         <div
-          className={`text-base/5 hover:underline hover:cursor-pointer max-w-[154px] font-[600] map-text-shadow`}
+          className={`leading-5 font-serif bg-transparent rounded font-[600] ${optionsMerged.interactive ? "underline hover:cursor-pointer" : ""} max-w-[154px] map-text-shadow px-1 py-1`}
         >
           {place.name}
         </div>
-        <div className="text-sm">
+        <div className="text-sm font-serif bg-transparent rounded px-1">
           {t("km", { context: "distance", count: place.distance })}
         </div>
       </div>

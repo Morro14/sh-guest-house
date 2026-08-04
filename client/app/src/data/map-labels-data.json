@@ -4,9 +4,10 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 247,
-                "y": 484
-            }
+                "x": 246,
+                "y": 495
+            },
+            "labelOrientation": "left"
         }
     },
     {
@@ -24,8 +25,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 66,
-                "y": 1072
+                "x": 234,
+                "y": 1038
             }
         }
     },
@@ -34,8 +35,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 340,
-                "y": 1326
+                "x": 432,
+                "y": 1272
             }
         }
     },
@@ -44,8 +45,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 801,
-                "y": 1057
+                "x": 858,
+                "y": 950
             }
         }
     },
@@ -54,9 +55,10 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 810,
-                "y": 814
-            }
+                "x": 871,
+                "y": 818
+            },
+            "labelOrientation": "right"
         }
     },
     {
@@ -64,8 +66,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 1258,
-                "y": 688
+                "x": 1292,
+                "y": 704
             }
         }
     },
@@ -74,9 +76,10 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 1667,
+                "x": 1574,
                 "y": 577
-            }
+            },
+            "labelOrientation": "left"
         }
     },
     {
@@ -84,8 +87,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 1195,
-                "y": 724
+                "x": 1160,
+                "y": 696
             }
         }
     },
@@ -94,9 +97,10 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 1014,
-                "y": 383
-            }
+                "x": 943,
+                "y": 399
+            },
+            "labelOrientation": "left"
         }
     },
     {
@@ -104,8 +108,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 1017,
-                "y": 109
+                "x": 998,
+                "y": 142
             }
         }
     },
@@ -114,8 +118,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 960,
-                "y": -13
+                "x": 978,
+                "y": 31
             }
         }
     },
@@ -124,9 +128,10 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 540,
-                "y": 23
-            }
+                "x": 563,
+                "y": 45
+            },
+            "interactive": false
         }
     },
     {
@@ -164,8 +169,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 1,
-                "y": 1
+                "x": -3,
+                "y": 42
             }
         }
     },
@@ -174,8 +179,8 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 1058,
-                "y": 652
+                "x": 1050,
+                "y": 636
             }
         }
     },
@@ -184,10 +189,11 @@
         "type": "placeLabel",
         "options": {
             "offsets": {
-                "x": 831,
-                "y": 1190
+                "x": 775,
+                "y": 1133
             },
-            "importanceLevel": 2
+            "importanceLevel": 2,
+            "labelOrientation": "left"
         }
     }
 ]
