@@ -89,10 +89,6 @@ def get_upload_path(instance, filename):
             )
 
 
-class Test(models.Model):
-    image = models.ImageField(upload_to="test/")
-
-
 class ImageBase(models.Model):
     tiny_res = (100, 100)
     small_res = (600, 600)
