@@ -13,7 +13,7 @@ export function CarouselSimple({
 }: {
   name: string;
   images: Array<Image>;
-  imageRes: "small" | "blur" | "main" | "original";
+  imageRes: "small" | "tiny" | "main" | "original";
   border?: boolean;
 }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({

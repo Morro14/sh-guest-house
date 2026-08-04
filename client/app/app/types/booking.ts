@@ -1,7 +1,7 @@
 export interface Image {
   order: number;
   variants: {
-    blur: string;
+    tiny: string;
     small: string;
     main: string;
     original?: string;
