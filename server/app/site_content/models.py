@@ -99,7 +99,7 @@ class ImageBase(models.Model):
     image_full = models.ImageField(upload_to=get_upload_path)
     cropping_main = ImageRatioField("image_full", size_to_str(main_res))
     cropping_small = ImageRatioField("image_full", size_to_str(small_res))
-    cropping_tiny = ImageRatioField("image_full", size_to_str(tiny_res))
+    # cropping_tiny = ImageRatioField("image_full", size_to_str(tiny_res))
 
     def get_variant_url(self, size, box=None, quality=80, blur=False):
         options = {
@@ -131,7 +131,7 @@ class ImageBase(models.Model):
         else:
             original_pathname = self.image_full.url
         results = {
-            "tiny": self.get_variant_url(self.tiny_res),
+            # "tiny": self.get_variant_url(self.tiny_res),
             "small": self.get_variant_url(self.small_res),
             "main": self.get_variant_url(self.main_res),
             "original": original_pathname,
