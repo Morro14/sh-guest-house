@@ -81,7 +81,7 @@ class RoomDemo(RoomBase):
 
 class RoomImageDemo(ImageDemo):
     small_res = (700, 0)
-    tiny_res = (20, 12)
+    blur_res = (20, 12)
 
     class Meta:
         verbose_name = _("room image")

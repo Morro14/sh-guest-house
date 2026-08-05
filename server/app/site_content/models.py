@@ -89,8 +89,12 @@ def get_upload_path(instance, filename):
             )
 
 
+class Test(models.Model):
+    image = models.ImageField(upload_to="test/")
+
+
 class ImageBase(models.Model):
-    tiny_res = (100, 100)
+    blur_res = (100, 100)
     small_res = (600, 600)
     main_res = (1280, 1280)
 
@@ -99,7 +103,7 @@ class ImageBase(models.Model):
     image_full = models.ImageField(upload_to=get_upload_path)
     cropping_main = ImageRatioField("image_full", size_to_str(main_res))
     cropping_small = ImageRatioField("image_full", size_to_str(small_res))
-    cropping_tiny = ImageRatioField("image_full", size_to_str(tiny_res))
+    cropping_blur = ImageRatioField("image_full", size_to_str(blur_res))
 
     def get_variant_url(self, size, box=None, quality=80, blur=False):
         options = {
@@ -131,7 +135,7 @@ class ImageBase(models.Model):
         else:
             original_pathname = self.image_full.url
         results = {
-            "tiny": self.get_variant_url(self.tiny_res),
+            "blur": self.get_variant_url(self.blur_res, blur=True),
             "small": self.get_variant_url(self.small_res),
             "main": self.get_variant_url(self.main_res),
             "original": original_pathname,
@@ -261,6 +265,7 @@ class ImageTag(ImageTagBase):
 
 class RoomImage(Image):
     small_res = (700, 0)
+    blur_res = (20, 12)
 
     class Meta:
         verbose_name = _("room image")
