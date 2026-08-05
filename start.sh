@@ -1,5 +1,6 @@
 sh -c "mkdir -p /var/data/db &&
   cd ./server/app/ &&
+  python manage.py makemigrations &&
   python manage.py migrate &&
   python manage.py createsuperuser --no-input || true &&
   python manage.py set_site &&
